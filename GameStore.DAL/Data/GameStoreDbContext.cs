@@ -16,5 +16,29 @@ namespace GameStore.DAL.Data
            : base(connectionString)
         {
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Game>()
+                .HasMany(e1 => e1.Genres)
+                .WithMany(e2 => e2.Games)
+                .Map(m =>
+                {
+                    m.ToTable("GameGenres");
+                    m.MapLeftKey("GameId");
+                    m.MapRightKey("GenreId");
+                });
+
+            modelBuilder.Entity<Game>()
+                .HasMany(e1 => e1.PlatformTypes)
+                .WithMany(e2 => e2.Games)
+                .Map(m =>
+                {
+                    m.ToTable("GamePlatformTypes");
+                    m.MapLeftKey("GameId");
+                    m.MapRightKey("PlatformTypeId");
+                });
+        }
+
     }
 }

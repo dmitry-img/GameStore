@@ -3,6 +3,7 @@ using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace GameStore.DAL.Repositories
 {
@@ -40,6 +41,11 @@ namespace GameStore.DAL.Repositories
         public void Update(Game item)
         {
             _context.Entry(item).State = EntityState.Modified;
+        }
+
+        public Game GetByKey(string key) 
+        {
+            return _context.Games.FirstOrDefault(g => g.Key == key);
         }
     }
 }

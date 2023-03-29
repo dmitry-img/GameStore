@@ -10,14 +10,12 @@ namespace GameStore.DAL.Repositories
         private GameStoreDbContext _context;
         private GameRepository _gameRepository;
         private CommentRepository _commentRepository;
-        private GenreRepository _genreRepository;
-        private PlatformTypeRepository _platformTypeRepository;
 
         public UnitOfWork(string connectionString)
         {
             _context = new GameStoreDbContext(connectionString);
         }
-        public IRepository<Game> Games
+        public IGameRepository Games
         {
             get
             {
@@ -27,34 +25,13 @@ namespace GameStore.DAL.Repositories
             }
         }
 
-        public IRepository<Comment> Comments
+        public ICommentRepository Comments
         {
             get
             {
                 if (_commentRepository == null)
                     _commentRepository = new CommentRepository(_context);
                 return _commentRepository;
-            }
-        }
-
-        public IRepository<Genre> Genres
-        {
-            get
-            {
-                if (_genreRepository == null)
-                    _genreRepository = new GenreRepository(_context);
-                return _genreRepository = new GenreRepository(_context);
-                ;
-            }
-        }
-
-        public IRepository<PlatformType> PlatformTypes
-        {
-            get
-            {
-                if (_platformTypeRepository == null)
-                    _platformTypeRepository = new PlatformTypeRepository(_context);
-                return _platformTypeRepository;
             }
         }
 

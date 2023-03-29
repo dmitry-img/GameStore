@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace GameStore.DAL.Repositories
 {
-    public class CommentRepository : IRepository<Comment>
+    public class CommentRepository : ICommentRepository
     {
         private GameStoreDbContext _context;
 
