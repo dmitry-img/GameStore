@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutoMapper;
+using GameStore.Api.Models;
+using GameStore.BLL;
+using GameStore.BLL.Profiles;
+using GameStore.DAL;
 using System.Web.Http;
+using Unity;
 
 namespace GameStore.Api
 {
@@ -9,7 +12,13 @@ namespace GameStore.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            var container = new UnityContainer();
+
+            container.RegisterDALTypes();
+            container.RegisterBLLTypes();
+
+            config.DependencyResolver = new UnityResolver(container);
+
 
             // Web API routes
             config.MapHttpAttributeRoutes();

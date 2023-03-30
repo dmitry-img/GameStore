@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.DAL.Entities.Common;
+using System;
+using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Game
+    public class Game : BaseDeletableEntity
     {
-        public int Id { get; set; }
-        public string Key { get; set; }
+        public Guid Key { get; set; } = new Guid();
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

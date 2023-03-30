@@ -1,51 +1,25 @@
 ﻿using GameStore.DAL.Data;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
-using System.Collections.Generic;
+using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GameStore.DAL.Repositories
 {
-    public class GameRepository : IRepository<Game>
+    public class GameRepository : GenericRepository<Game>, IGameRepository
     {
         private GameStoreDbContext _context;
 
-        public GameRepository(GameStoreDbContext context)
+        public GameRepository(GameStoreDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public void Create(Game item)
+        public async Task<Game> GetByKeyAsync(Guid key) 
         {
-           _context.Games.Add(item);
-        }
-
-        public void Delete(int id)
-        {
-            var game = _context.Games.Find(id);
-            if (game != null)
-                _context.Games.Remove(game);
-        }
-
-        public Game Get(int id)
-        {
-            return _context.Games.Find(id);
-        }
-
-        public IEnumerable<Game> GetAll()
-        {
-            return _context.Games;
-        }
-
-        public void Update(Game item)
-        {
-            _context.Entry(item).State = EntityState.Modified;
-        }
-
-        public Game GetByKey(string key) 
-        {
-            return _context.Games.FirstOrDefault(g => g.Key == key);
+            return await _context.Games.FirstOrDefaultAsync(g => g.Key == key);
         }
     }
 }

@@ -1,15 +1,16 @@
 ﻿using GameStore.DAL.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace GameStore.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Game> Games { get; }
-        IRepository<Comment> Comments { get; }
-        IRepository<Genre> Genres { get; }
-        IRepository<PlatformType> PlatformTypes { get; }
+        IGameRepository Games { get; }
+        ICommentRepository Comments { get; }
+        IGameGenreRepository GameGenre { get; }
+        IGamePlatformTypeRepository GamePlatformType { get; }
         
-        void Save();
+        Task SaveAsync();
     }
 }

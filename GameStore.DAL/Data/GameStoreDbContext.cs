@@ -1,4 +1,6 @@
 ﻿using GameStore.DAL.Entities;
+using GameStore.DAL.Entities.Common;
+using System;
 using System.Data.Entity;
 
 namespace GameStore.DAL.Data
@@ -15,6 +17,23 @@ namespace GameStore.DAL.Data
         public GameStoreDbContext(string connectionString)
            : base(connectionString)
         {
+        }
+
+        public override int SaveChanges()
+        {
+            foreach(var entry in ChangeTracker.Entries())
+            {
+                if(entry is IDeletable)
+                {
+                    var deletableEnty = entry as IDeletable;
+                    if(entry.State == EntityState.Deleted) 
+                    {
+                        deletableEnty.IsDeleted = true;
+                        deletableEnty.DeletedAt = DateTime.UtcNow;
+                    }
+                }
+            }
+            return base.SaveChanges();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

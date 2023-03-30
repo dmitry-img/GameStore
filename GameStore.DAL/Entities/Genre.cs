@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GameStore.DAL.Entities.Common;
+using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Genre
+    public class Genre : BaseDeletableEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public int? ParentGenreId { get; set; }
 

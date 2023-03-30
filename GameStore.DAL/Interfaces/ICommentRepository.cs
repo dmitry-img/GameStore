@@ -2,7 +2,7 @@
 
 namespace GameStore.DAL.Interfaces
 {
-    public interface ICommentRepository : IRepository<Comment>
+    public interface ICommentRepository : IGenericRepository<Comment>
     {
     }
 }
