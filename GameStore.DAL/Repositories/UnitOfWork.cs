@@ -1,8 +1,8 @@
 ﻿using GameStore.DAL.Data;
 using GameStore.DAL.Interfaces;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Unity;
 
 namespace GameStore.DAL.Repositories
 {
@@ -14,9 +14,9 @@ namespace GameStore.DAL.Repositories
         private GameGenreRepository _gameGenreRepository;
         private GamePlatformTypeRepository _gamePlatformTypeRepository;
 
-        public UnitOfWork(IUnityContainer container)
+        public UnitOfWork(GameStoreDbContext context)
         {
-            //TODO initialize db context
+            _context = context;
         }
 
         public IGameRepository Games
@@ -61,7 +61,7 @@ namespace GameStore.DAL.Repositories
 
         public async Task SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(CancellationToken.None);
         }
 
         private bool disposed = false;

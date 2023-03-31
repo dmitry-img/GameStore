@@ -1,4 +1,5 @@
 ﻿using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Game;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +9,12 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IGameService
     {
-        Task CreateAsync(GameDTO gameDTO);
-        Task UpdateAsync(GameDTO gameDTO);
-        Task DeleteAsync(int id);
-        Task<GameDTO> GetByKeyAsync(Guid key);
-        IEnumerable<GameDTO> GetAll();
-        IEnumerable<GameDTO> GetAllByGenre(int genreId);
-        IEnumerable<GameDTO> GetAllByPlatformType(int platformTypeId);
-
+        Task CreateAsync(CreateGameDTO gameDTO);
+        Task UpdateAsync(UpdateGameDTO gameDTO);
+        Task DeleteAsync(Guid key);
+        Task<GetGameDTO> GetByKeyAsync(Guid key);
+        IEnumerable<GetGameDTO> GetAll();
+        IEnumerable<GetGameDTO> GetAllByGenre(int genreId);
+        IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
@@ -21,7 +22,7 @@ namespace GameStore.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(GameDTO gameDTO)
+        public async Task CreateAsync(CreateGameDTO gameDTO)
         {
             var game = _mapper.Map<Game>(gameDTO);
 
@@ -29,7 +30,7 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(GameDTO gameDTO)
+        public async Task UpdateAsync(UpdateGameDTO gameDTO)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(gameDTO.Key);
 
@@ -39,44 +40,44 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid key)
         {
-            var game = _unitOfWork.Games.Get(id);
+            var game = _unitOfWork.Games.GetByKeyAsync(key);
             if (game == null)
-                throw new NotFoundException(nameof(game), id);
+                throw new NotFoundException(nameof(game), key);
 
-            _unitOfWork.Games.Delete(id);
+            _unitOfWork.Games.Delete(game.Id);
             await _unitOfWork.SaveAsync();
         }
 
-        public IEnumerable<GameDTO> GetAll()
+        public IEnumerable<GetGameDTO> GetAll()
         {
             var games = _unitOfWork.Games.GetAll();
-            var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
         }
 
-        public IEnumerable<GameDTO> GetAllByGenre(int genreId)
+        public IEnumerable<GetGameDTO> GetAllByGenre(int genreId)
         {
             var games = _unitOfWork.GameGenre.GetGamesByGenre(genreId);
-            var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
         }
 
-        public IEnumerable<GameDTO> GetAllByPlatformType(int platformTypeId)
+        public IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId)
         {
             var games = _unitOfWork.GamePlatformType.GetGamesByPlatformType(platformTypeId);
-            var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
         }
 
-        public async Task<GameDTO> GetByKeyAsync(Guid key)
+        public async Task<GetGameDTO> GetByKeyAsync(Guid key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
-            var gameDTO = _mapper.Map<GameDTO>(game);
+            var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;
         }

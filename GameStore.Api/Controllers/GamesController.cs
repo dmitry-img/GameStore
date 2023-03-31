@@ -1,7 +1,7 @@
 ﻿using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -16,40 +16,46 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<GameDTO> GetAll()
+        public IHttpActionResult GetAll()
         {
-            return _gameService.GetAll();
+            return Ok(_gameService.GetAll());
         }
 
         [HttpGet]
-        public async Task<GameDTO> GetByKey(Guid key)
+        public async Task<IHttpActionResult> GetByKey(Guid key)
         {
-            return await _gameService.GetByKeyAsync(key);
+            var games = await _gameService.GetByKeyAsync(key);
+
+            return Ok(games);
         }
 
         [HttpPost]
-        public async Task Create([FromBody] GameDTO gameDTO)
+        public async Task<IHttpActionResult> Create([FromBody] CreateGameDTO gameDTO)
         {
             await _gameService.CreateAsync(gameDTO);
+
+            return Ok();
         }
 
         [HttpPut]
-        public async Task Update(Guid key, [FromBody] GameDTO gameDTO)
+        public async Task<IHttpActionResult> Update(Guid key, [FromBody] UpdateGameDTO gameDTO)
         {
             if(key != gameDTO.Key)
             {
-                //TODO handle
+                return BadRequest();
             }
 
             await _gameService.UpdateAsync(gameDTO);
+
+            return Ok();
         }
 
         [HttpDelete]
-        public async Task Delete(Guid key)
+        public async Task<IHttpActionResult> Delete(Guid key)
         {
-            var game = await _gameService.GetByKeyAsync(key);
-
-            await _gameService.DeleteAsync(game.Id);
+            await _gameService.DeleteAsync(key);
+            
+            return Ok();
         }
 
         [HttpGet]

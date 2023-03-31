@@ -1,4 +1,5 @@
 ﻿using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Comment;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace GameStore.BLL.Interfaces
 {
     public interface ICommentService
     {
-        Task CreateAsync(CommentDTO commentDTO);
-        Task<IEnumerable<CommentDTO>> GetAllByGameKeyAsync(Guid key);
+        Task CreateAsync(CreateCommentDTO commentDTO);
+        Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(Guid key);
     }
 }

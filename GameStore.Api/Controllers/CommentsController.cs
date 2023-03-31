@@ -1,7 +1,7 @@
 ﻿using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -16,15 +16,19 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpPost]
-        public async Task Create([FromBody] CommentDTO commentDTO)
+        public async Task<IHttpActionResult> Create([FromBody] CreateCommentDTO commentDTO)
         {
             await _commentService.CreateAsync(commentDTO);
+
+            return Ok();
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommentDTO>> GetAllByGame([FromUri] Guid key)
+        public async Task<IHttpActionResult> GetAllByGame([FromUri] Guid key)
         {
-            return await _commentService.GetAllByGameKeyAsync(key);
+            var comments = await _commentService.GetAllByGameKeyAsync(key);
+
+            return Ok(comments);
         }
     }
 }

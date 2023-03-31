@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GameStore.BLL.DTOs;
+using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
@@ -21,7 +22,7 @@ namespace GameStore.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(CommentDTO commentDTO)
+        public async Task CreateAsync(CreateCommentDTO commentDTO)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(commentDTO.GameKey);
 
@@ -34,15 +35,14 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<CommentDTO>> GetAllByGameKeyAsync(Guid key)
+        public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(Guid key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
 
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CommentDTO, Comment>()).CreateMapper();
-            var comments = mapper.Map<IEnumerable<Comment>, IEnumerable<CommentDTO>>(game.Comments);
+            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(game.Comments);
 
             return comments;
         }

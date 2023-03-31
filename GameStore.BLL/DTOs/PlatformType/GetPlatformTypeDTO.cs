@@ -1,6 +1,6 @@
-﻿namespace GameStore.BLL.DTOs
+﻿namespace GameStore.BLL.DTOs.PlatformType
 {
-    public class PlatformTypeDTO
+    public class GetPlatformTypeDTO
     {
         public int Id {  get; set; }
         public string Type { get; set; }

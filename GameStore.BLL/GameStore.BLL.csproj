@@ -54,10 +54,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigureRegistration.cs" />
-    <Compile Include="DTOs\CommentDTO.cs" />
-    <Compile Include="DTOs\GameDTO.cs" />
-    <Compile Include="DTOs\GenreDTO.cs" />
-    <Compile Include="DTOs\PlatformTypeDTO.cs" />
+    <Compile Include="DTOs\Comment\CreateCommentDTO.cs" />
+    <Compile Include="DTOs\Comment\GetCommentDTO.cs" />
+    <Compile Include="DTOs\Game\CreateGameDTO.cs" />
+    <Compile Include="DTOs\Game\GetGameDTO.cs" />
+    <Compile Include="DTOs\Game\UpdateGameDTO.cs" />
+    <Compile Include="DTOs\Genre\GetGenreDTO.cs" />
+    <Compile Include="DTOs\PlatformType\GetPlatformTypeDTO.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
@@ -75,5 +78,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

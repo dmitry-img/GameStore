@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using GameStore.Api.Models;
-using GameStore.BLL;
-using GameStore.BLL.Profiles;
-using GameStore.DAL;
-using System.Web.Http;
-using Unity;
+﻿using System.Web.Http;
 
 namespace GameStore.Api
 {
@@ -12,13 +6,7 @@ namespace GameStore.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            var container = new UnityContainer();
-
-            container.RegisterDALTypes();
-            container.RegisterBLLTypes();
-
-            config.DependencyResolver = new UnityResolver(container);
-
+            UnityConfig.RegisterComponents(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
