@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GameStore.BLL.DTOs;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
@@ -7,6 +6,10 @@ using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace GameStore.BLL.Services
@@ -27,12 +30,13 @@ namespace GameStore.BLL.Services
             var game = _mapper.Map<Game>(gameDTO);
 
             _unitOfWork.Games.Create(game);
+
             await _unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(UpdateGameDTO gameDTO)
         {
-            var game = await _unitOfWork.Games.GetByKeyAsync(gameDTO.Key);
+            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(gameDTO.Key);
 
             _mapper.Map(gameDTO, game);
 
@@ -42,7 +46,7 @@ namespace GameStore.BLL.Services
 
         public async Task DeleteAsync(Guid key)
         {
-            var game = _unitOfWork.Games.GetByKeyAsync(key);
+            var game = await _unitOfWork.Games.GetByKeyAsync(key);
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
@@ -80,6 +84,17 @@ namespace GameStore.BLL.Services
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;
+        }
+
+        public HttpResponseMessage Download(string path)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentType =
+                new MediaTypeHeaderValue("application/octet-stream");
+
+            return result;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace GameStore.DAL.Entities
         public int? ParentGenreId { get; set; }
 
         public Genre ParentGenre { get; set; }
-        public virtual ICollection<Genre> ChildGenres { get; set; } = new List<Genre>();
-        public virtual ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+        public ICollection<Genre> ChildGenres { get; set; } = new List<Genre>();
+        public ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
     }
 }

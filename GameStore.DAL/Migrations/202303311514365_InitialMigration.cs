@@ -46,7 +46,7 @@ namespace GameStore.DAL.Migrations
                         GenreId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.GameId, t.GenreId })
-                .ForeignKey("dbo.Genre", t => t.GameId, cascadeDelete: true)
+                .ForeignKey("dbo.Genre", t => t.GenreId, cascadeDelete: true)
                 .ForeignKey("dbo.Game", t => t.GameId, cascadeDelete: true)
                 .Index(t => t.GenreId)
                 .Index(t => t.GameId);
@@ -96,7 +96,7 @@ namespace GameStore.DAL.Migrations
             DropForeignKey("dbo.GamePlatformType", "GameId", "dbo.Game");
             DropForeignKey("dbo.GamePlatformType", "PlatformTypeId", "dbo.PlatformType");
             DropForeignKey("dbo.GameGenre", "GameId", "dbo.Game");
-            DropForeignKey("dbo.GameGenre", "GameId", "dbo.Genre");
+            DropForeignKey("dbo.GameGenre", "GenreId", "dbo.Genre");
             DropForeignKey("dbo.Genre", "ParentGenreId", "dbo.Genre");
             DropForeignKey("dbo.Comment", "GameId", "dbo.Game");
             DropForeignKey("dbo.Comment", "ParentCommentId", "dbo.Comment");

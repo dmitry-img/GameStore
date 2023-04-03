@@ -16,16 +16,25 @@ namespace GameStore.BLL.Profiles
             CreateMap<CreateGameDTO, Game>()
                 .ForMember(dest => dest.Key, opt => opt.Ignore())
                 .ForMember(dest => dest.Comments, opt => opt.Ignore())
-                .ForMember(dest => dest.GameGenres, opt => 
-                    opt.MapFrom(src => 
-                        src.GenreIds.Select(gid => 
+                .ForMember(dest => dest.GameGenres, opt =>
+                    opt.MapFrom(src =>
+                        src.GenreIds.Select(gid =>
                             new GameGenre { GenreId = gid })))
-                .ForMember(dest => dest.GamePlatformTypes, opt => 
-                    opt.MapFrom(src => 
-                        src.PlatformTypeIds.Select(ptid => 
+                .ForMember(dest => dest.GamePlatformTypes, opt =>
+                    opt.MapFrom(src =>
+                        src.PlatformTypeIds.Select(ptid =>
                             new GamePlatformType { PlatformTypeId = ptid })));
-            
-            CreateMap<UpdateGameDTO, Game>();
+
+            CreateMap<UpdateGameDTO, Game>()
+                .ForMember(dest => dest.GameGenres, opt =>
+                    opt.MapFrom(src =>
+                        src.GenreIds.Select(gid =>
+                            new GameGenre { GenreId = gid })))
+                .ForMember(dest => dest.GamePlatformTypes, opt =>
+                    opt.MapFrom(src =>
+                        src.PlatformTypeIds.Select(ptid =>
+                            new GamePlatformType { PlatformTypeId = ptid })));
+
             CreateMap<Game, GetGameDTO>();
 
             CreateMap<CreateCommentDTO, Comment>();

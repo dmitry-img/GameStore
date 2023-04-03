@@ -1,8 +1,10 @@
-﻿using GameStore.BLL.DTOs;
-using GameStore.BLL.DTOs.Game;
+﻿using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using System;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 
 namespace GameStore.Api.Controllers
@@ -18,7 +20,7 @@ namespace GameStore.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetAll()
         {
-            return Ok(_gameService.GetAll());
+            return Json(_gameService.GetAll());
         }
 
         [HttpGet]
@@ -26,7 +28,7 @@ namespace GameStore.Api.Controllers
         {
             var games = await _gameService.GetByKeyAsync(key);
 
-            return Ok(games);
+            return Json(games);
         }
 
         [HttpPost]
@@ -59,9 +61,13 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public void Download(Guid key)
+        [Route("api/Games/Download")]
+        public HttpResponseMessage Download()
         {
-
+            string appDataPath = HttpContext.Current.Server.MapPath("~/App_Data");
+            string path = Path.Combine(appDataPath, "game.bin");
+            
+            return _gameService.Download(path);
         }
     }
 }

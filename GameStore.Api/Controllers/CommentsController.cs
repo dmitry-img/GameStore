@@ -24,11 +24,11 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAllByGame([FromUri] Guid key)
+        public async Task<IHttpActionResult> GetAllByGame(Guid key)
         {
             var comments = await _commentService.GetAllByGameKeyAsync(key);
 
-            return Ok(comments);
+            return Json(comments);
         }
     }
 }

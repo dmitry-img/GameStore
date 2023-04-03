@@ -75,6 +75,7 @@
     <Compile Include="Interfaces\IGamePlatformTypeRepository.cs" />
     <Compile Include="Interfaces\IGameRepository.cs" />
     <Compile Include="Interfaces\IGenericRepository.cs" />
+    <Compile Include="Interfaces\IInstanceFactory.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\202303311514365_InitialMigration.cs" />
     <Compile Include="Migrations\202303311514365_InitialMigration.Designer.cs">

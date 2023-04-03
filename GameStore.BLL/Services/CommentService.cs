@@ -7,6 +7,7 @@ using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameStore.BLL.Services
@@ -42,7 +43,9 @@ namespace GameStore.BLL.Services
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
-            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(game.Comments);
+            var parentComments = game.Comments.Where(c => c.ParentCommentId == null);
+
+            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(parentComments);
 
             return comments;
         }

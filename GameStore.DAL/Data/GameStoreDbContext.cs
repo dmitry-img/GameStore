@@ -6,18 +6,17 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace GameStore.DAL.Data
 {
     public class GameStoreDbContext : DbContext
     {
-        public virtual DbSet<Game> Games { get; set; }
-        public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Genre> Genres { get; set; }
-        public virtual DbSet<PlatformType> PlatformTypes { get; set; }
-        public virtual DbSet<GameGenre> GameGenres { get; set; }
-        public virtual DbSet<GamePlatformType> GamePlatformTypes { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<PlatformType> PlatformTypes { get; set; }
+        public DbSet<GameGenre> GameGenres { get; set; }
+        public DbSet<GamePlatformType> GamePlatformTypes { get; set; }
 
         public GameStoreDbContext() : base("name=DefaultConnection")
         {
@@ -63,15 +62,19 @@ namespace GameStore.DAL.Data
 
         private void ApplyDeletableInformation()
         {
-            foreach (var entry in ChangeTracker.Entries())
+            var entries = ChangeTracker.Entries();
+            foreach (var entry in entries)
             {
-                if (entry is IDeletable)
+                var deletableEnty = entry.Entity as IDeletable;
+                if (deletableEnty != null)
                 {
-                    var deletableEnty = entry as IDeletable;
                     if (entry.State == EntityState.Deleted)
                     {
                         deletableEnty.IsDeleted = true;
                         deletableEnty.DeletedAt = DateTime.UtcNow;
+
+                        entry.State = EntityState.Modified;
+                        return;
                     }
                 }
             }

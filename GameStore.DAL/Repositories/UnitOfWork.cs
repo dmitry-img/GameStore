@@ -59,9 +59,9 @@ namespace GameStore.DAL.Repositories
             }
         }
 
-        public async Task SaveAsync()
+        public Task SaveAsync()
         {
-            await _context.SaveChangesAsync(CancellationToken.None);
+            return _context.SaveChangesAsync(CancellationToken.None);
         }
 
         private bool disposed = false;

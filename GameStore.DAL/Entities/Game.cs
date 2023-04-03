@@ -6,11 +6,11 @@ namespace GameStore.DAL.Entities
 {
     public class Game : BaseDeletableEntity
     {
-        public Guid Key { get; set; } = new Guid();
+        public Guid Key { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string Description { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public virtual ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
-        public virtual ICollection<GamePlatformType> GamePlatformTypes { get; set; } = new List<GamePlatformType>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+        public ICollection<GamePlatformType> GamePlatformTypes { get; set; } = new List<GamePlatformType>();
     }
 }

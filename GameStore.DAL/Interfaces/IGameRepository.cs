@@ -7,5 +7,6 @@ namespace GameStore.DAL.Interfaces
     public interface IGameRepository : IGenericRepository<Game>
     {
         Task<Game> GetByKeyAsync(Guid key);
+        Task<Game> GetByKeyWithDetailsAsync(Guid key);
     }
 }

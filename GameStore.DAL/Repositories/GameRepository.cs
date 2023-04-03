@@ -21,5 +21,13 @@ namespace GameStore.DAL.Repositories
         {
             return await _context.Games.FirstOrDefaultAsync(g => g.Key == key);
         }
+
+        public async Task<Game> GetByKeyWithDetailsAsync(Guid key)
+        {
+            return await _context.Games
+                .Include(g => g.GameGenres)
+                .Include(g => g.GamePlatformTypes)
+                .FirstOrDefaultAsync(g => g.Key == key);
+        }
     }
 }
