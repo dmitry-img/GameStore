@@ -1,10 +1,10 @@
-﻿using GameStore.BLL.DTOs.Game;
+﻿using GameStore.Api.Models;
+using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace GameStore.Api.Controllers
@@ -42,12 +42,7 @@ namespace GameStore.Api.Controllers
         [HttpPut]
         public async Task<IHttpActionResult> Update(Guid key, [FromBody] UpdateGameDTO gameDTO)
         {
-            if(key != gameDTO.Key)
-            {
-                return BadRequest();
-            }
-
-            await _gameService.UpdateAsync(gameDTO);
+            await _gameService.UpdateAsync(key, gameDTO);
 
             return Ok();
         }
@@ -64,7 +59,7 @@ namespace GameStore.Api.Controllers
         [Route("api/Games/Download")]
         public HttpResponseMessage Download()
         {
-            string appDataPath = HttpContext.Current.Server.MapPath("~/App_Data");
+            string appDataPath = ApplicationVariables.AppDataPath;
             string path = Path.Combine(appDataPath, "game.bin");
             
             return _gameService.Download(path);

@@ -70,14 +70,13 @@
     <Compile Include="Services\GameService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
-      <Project>{DF689398-A82B-4FFF-8914-EB52A935FA67}</Project>
+      <Project>{b6b91eca-7e20-4cf3-978a-3237ac13c423}</Project>
       <Name>GameStore.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

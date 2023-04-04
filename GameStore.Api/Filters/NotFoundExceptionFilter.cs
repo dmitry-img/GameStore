@@ -1,7 +1,6 @@
 ﻿using GameStore.BLL.Exceptions;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http.Results;
 using System.Web.Mvc;
 
 namespace GameStore.Api.Filters

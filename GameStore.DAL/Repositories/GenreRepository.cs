@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace GameStore.DAL.Repositories
 {
-    public class GenreRepository : IRepository<Genre>
+    public class GenreRepository : IGenericRepository<Genre>
     {
         private GameStoreDbContext _context;
 

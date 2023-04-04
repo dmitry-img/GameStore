@@ -2,7 +2,6 @@
 using GameStore.DAL.Interfaces;
 using GameStore.DAL.Repositories;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 
 namespace GameStore.DAL

@@ -1,7 +1,7 @@
-﻿using GameStore.DAL.Entities;
+﻿using System;
+using GameStore.DAL.Data.Configurations;
+using GameStore.DAL.Entities;
 using GameStore.DAL.Entities.Common;
-using GameStore.DAL.Interfaces;
-using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Threading;
@@ -20,7 +20,7 @@ namespace GameStore.DAL.Data
 
         public GameStoreDbContext() : base("name=DefaultConnection")
         {
-
+           
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
@@ -32,37 +32,17 @@ namespace GameStore.DAL.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-
-            modelBuilder.Entity<GameGenre>()
-           .HasKey(sc => new { sc.GameId, sc.GenreId });
-
-            modelBuilder.Entity<Game>()
-                .HasMany(s => s.GameGenres)
-                .WithRequired(sc => sc.Game)
-                .HasForeignKey(sc => sc.GameId);
-
-            modelBuilder.Entity<Genre>()
-                .HasMany(c => c.GameGenres)
-                .WithRequired(sc => sc.Genre)
-                .HasForeignKey(sc => sc.GenreId);
-
-            modelBuilder.Entity<GamePlatformType>()
-           .HasKey(sc => new { sc.GameId, sc.PlatformTypeId });
-
-            modelBuilder.Entity<Game>()
-                .HasMany(s => s.GamePlatformTypes)
-                .WithRequired(sc => sc.Game)
-                .HasForeignKey(sc => sc.GameId);
-
-            modelBuilder.Entity<PlatformType>()
-                .HasMany(c => c.GamePlatformTypes)
-                .WithRequired(sc => sc.PlatformType)
-                .HasForeignKey(sc => sc.PlatformTypeId);
+            modelBuilder.Configurations.Add(new GameConfiguration());
+            modelBuilder.Configurations.Add(new GenreConfiguration());
+            modelBuilder.Configurations.Add(new PlatformTypeConfiguration());
+            modelBuilder.Configurations.Add(new GameGenreConfiguration());
+            modelBuilder.Configurations.Add(new GamePlatformTypeConfiguration());
         }
 
         private void ApplyDeletableInformation()
         {
             var entries = ChangeTracker.Entries();
+
             foreach (var entry in entries)
             {
                 var deletableEnty = entry.Entity as IDeletable;
@@ -74,7 +54,6 @@ namespace GameStore.DAL.Data
                         deletableEnty.DeletedAt = DateTime.UtcNow;
 
                         entry.State = EntityState.Modified;
-                        return;
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using GameStore.DAL.Entities.Common;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.DAL.Entities
 {

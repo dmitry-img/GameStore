@@ -34,9 +34,9 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(UpdateGameDTO gameDTO)
+        public async Task UpdateAsync(Guid key, UpdateGameDTO gameDTO)
         {
-            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(gameDTO.Key);
+            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
 
             _mapper.Map(gameDTO, game);
 
@@ -81,6 +81,14 @@ namespace GameStore.BLL.Services
         public async Task<GetGameDTO> GetByKeyAsync(Guid key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
+            var gameDTO = _mapper.Map<GetGameDTO>(game);
+
+            return gameDTO;
+        }
+
+        public async Task<GetGameDTO> GetByKeyWithDetailsAsync(Guid key)
+        {
+            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;

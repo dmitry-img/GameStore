@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace GameStore.DAL.Repositories
 {
-    public class PlatformTypeRepository : IRepository<PlatformType>
+    public class PlatformTypeRepository : IGenericRepository<PlatformType>
     {
         private GameStoreDbContext _context;
 

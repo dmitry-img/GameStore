@@ -35,7 +35,15 @@ namespace GameStore.BLL.Profiles
                         src.PlatformTypeIds.Select(ptid =>
                             new GamePlatformType { PlatformTypeId = ptid })));
 
-            CreateMap<Game, GetGameDTO>();
+            CreateMap<Game, GetGameDTO>()
+                .ForMember(dest => dest.Genres, opt => 
+                    opt.MapFrom(src => 
+                        src.GameGenres.Select(gg => 
+                            gg.Genre)))
+                .ForMember(dest => dest.PlatformTypes, opt =>
+                        opt.MapFrom(src =>
+                            src.GamePlatformTypes.Select(gg =>
+                                gg.PlatformType)));
 
             CreateMap<CreateCommentDTO, Comment>();
             CreateMap<Comment, GetCommentDTO>();

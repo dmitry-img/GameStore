@@ -11,9 +11,10 @@ namespace GameStore.BLL.Interfaces
     public interface IGameService
     {
         Task CreateAsync(CreateGameDTO gameDTO);
-        Task UpdateAsync(UpdateGameDTO gameDTO);
+        Task UpdateAsync(Guid key, UpdateGameDTO gameDTO);
         Task DeleteAsync(Guid key);
         Task<GetGameDTO> GetByKeyAsync(Guid key);
+        Task<GetGameDTO> GetByKeyWithDetailsAsync(Guid key);
         IEnumerable<GetGameDTO> GetAll();
         IEnumerable<GetGameDTO> GetAllByGenre(int genreId);
         IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId);
