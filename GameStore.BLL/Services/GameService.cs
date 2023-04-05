@@ -36,11 +36,10 @@ namespace GameStore.BLL.Services
                 .Filter(pt => gameDTO.PlatformTypeIds.Contains(pt.Id)).ToList();
 
             _unitOfWork.Games.Create(game);
-
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(Guid key, UpdateGameDTO gameDTO)
+        public async Task UpdateAsync(string key, UpdateGameDTO gameDTO)
         {
             var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
 
@@ -55,7 +54,7 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task DeleteAsync(Guid key)
+        public async Task DeleteAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
             if (game == null)
@@ -89,7 +88,7 @@ namespace GameStore.BLL.Services
             return gameDTOs;
         }
 
-        public async Task<GetGameDTO> GetByKeyAsync(Guid key)
+        public async Task<GetGameDTO> GetByKeyAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
             var gameDTO = _mapper.Map<GetGameDTO>(game);
@@ -97,7 +96,7 @@ namespace GameStore.BLL.Services
             return gameDTO;
         }
 
-        public async Task<GetGameDTO> GetByKeyWithDetailsAsync(Guid key)
+        public async Task<GetGameDTO> GetByKeyWithDetailsAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
             var gameDTO = _mapper.Map<GetGameDTO>(game);

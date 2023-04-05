@@ -6,7 +6,7 @@ namespace GameStore.DAL.Entities
 {
     public class Game : BaseDeletableEntity
     {
-        public Guid Key { get; set; } = Guid.NewGuid();
+        public string Key { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; }
         public string Description { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();

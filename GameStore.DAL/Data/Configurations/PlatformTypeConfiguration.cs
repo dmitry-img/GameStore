@@ -9,9 +9,13 @@ namespace GameStore.DAL.Data.Configurations
     {
         public PlatformTypeConfiguration()
         {
-            Property(p => p.Type).HasColumnAnnotation(
-                 "Unique_Platform_Type",
-                 new IndexAnnotation(new[] { new IndexAttribute("Unique_Platform_Type") { IsUnique = true } }));
+            Property(p => p.Type)
+                .HasColumnType("varchar")
+                .HasMaxLength(255)
+                .HasColumnAnnotation(
+                 "Index",
+                 new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }))
+                .IsRequired(); ;
         }
     }
 }

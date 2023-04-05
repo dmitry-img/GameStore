@@ -9,9 +9,13 @@ namespace GameStore.DAL.Data.Configurations
     {
         public GenreConfiguration()
         {
-           Property(p => p.Name).HasColumnAnnotation(
-                "Unique_Genre_Name",
-                new IndexAnnotation(new[] { new IndexAttribute("Unique_Genre_Name") { IsUnique = true } }));
+           Property(p => p.Name)
+                .HasColumnType("varchar")
+                .HasMaxLength(255)
+                .HasColumnAnnotation(
+                "Index",
+                new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }))
+                .IsRequired();
         }
     }
 }

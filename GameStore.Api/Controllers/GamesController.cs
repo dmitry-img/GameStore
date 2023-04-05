@@ -24,7 +24,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetByKey(Guid key)
+        public async Task<IHttpActionResult> GetByKey(string key)
         {
             var games = await _gameService.GetByKeyWithDetailsAsync(key);
 
@@ -40,7 +40,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> Update(Guid key, [FromBody] UpdateGameDTO gameDTO)
+        public async Task<IHttpActionResult> Update(string key, [FromBody] UpdateGameDTO gameDTO)
         {
             await _gameService.UpdateAsync(key, gameDTO);
 
@@ -48,7 +48,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(Guid key)
+        public async Task<IHttpActionResult> Delete(string key)
         {
             await _gameService.DeleteAsync(key);
             

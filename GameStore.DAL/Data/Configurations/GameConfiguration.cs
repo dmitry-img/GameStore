@@ -15,9 +15,13 @@ namespace GameStore.DAL.Data.Configurations
             HasMany(s => s.PlatformTypes)
             .WithMany(g => g.Games);
 
-            Property(p => p.Key).HasColumnAnnotation(
-                "Game_Key_Unique",
-                new IndexAnnotation(new[] { new IndexAttribute("Game_Key_Unique") { IsUnique = true } }));
+            Property(p => p.Key)
+                .HasColumnType("varchar")
+                .HasMaxLength(255)
+                .HasColumnAnnotation(
+                "Index",
+                new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }))
+                .IsRequired(); ;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAllByGame(Guid key)
+        public async Task<IHttpActionResult> GetAllByGame(string key)
         {
             var comments = await _commentService.GetAllByGameKeyAsync(key);
 

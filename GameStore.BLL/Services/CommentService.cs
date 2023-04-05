@@ -36,7 +36,7 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(Guid key)
+        public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
 

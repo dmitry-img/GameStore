@@ -18,12 +18,12 @@ namespace GameStore.DAL.Repositories
             _context = context;
         }
 
-        public async Task<Game> GetByKeyAsync(Guid key) 
+        public async Task<Game> GetByKeyAsync(string key) 
         {
             return await _context.Games.FirstOrDefaultAsync(g => g.Key == key);
         }
 
-        public async Task<Game> GetByKeyWithDetailsAsync(Guid key)
+        public async Task<Game> GetByKeyWithDetailsAsync(string key)
         {
             return await _context.Games
                 .Include(g => g.Genres)

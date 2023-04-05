@@ -6,7 +6,7 @@ namespace GameStore.BLL.DTOs.Comment
     {
         public string Name { get; set; }
         public string Body { get; set; }
-        public Guid GameKey { get; set; }
+        public string GameKey { get; set; }
         public int? ParentCommentId { get; set; }
     }
 }
