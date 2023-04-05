@@ -9,13 +9,11 @@ namespace GameStore.DAL.Data.Configurations
     {
         public GameConfiguration()
         {
-            HasMany(s => s.GameGenres)
-            .WithRequired(sc => sc.Game)
-            .HasForeignKey(sc => sc.GameId);
+            HasMany(s => s.Genres)
+            .WithMany(g => g.Games);
 
-            HasMany(s => s.GamePlatformTypes)
-            .WithRequired(sc => sc.Game)
-            .HasForeignKey(sc => sc.GameId);
+            HasMany(s => s.PlatformTypes)
+            .WithMany(g => g.Games);
 
             Property(p => p.Key).HasColumnAnnotation(
                 "Game_Key_Unique",

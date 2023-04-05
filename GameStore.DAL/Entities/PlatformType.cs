@@ -6,6 +6,6 @@ namespace GameStore.DAL.Entities
     public class PlatformType : BaseDeletableEntity
     {
         public string Type { get; set; }
-        public ICollection<GamePlatformType> GamePlatformTypes { get; set; } = new List<GamePlatformType>();
+        public ICollection<Game> Games { get; set; } = new List<Game>();
     }
 }

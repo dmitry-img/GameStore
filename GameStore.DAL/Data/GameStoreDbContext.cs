@@ -15,8 +15,7 @@ namespace GameStore.DAL.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<PlatformType> PlatformTypes { get; set; }
-        public DbSet<GameGenre> GameGenres { get; set; }
-        public DbSet<GamePlatformType> GamePlatformTypes { get; set; }
+
 
         public GameStoreDbContext() : base("name=DefaultConnection")
         {
@@ -35,8 +34,6 @@ namespace GameStore.DAL.Data
             modelBuilder.Configurations.Add(new GameConfiguration());
             modelBuilder.Configurations.Add(new GenreConfiguration());
             modelBuilder.Configurations.Add(new PlatformTypeConfiguration());
-            modelBuilder.Configurations.Add(new GameGenreConfiguration());
-            modelBuilder.Configurations.Add(new GamePlatformTypeConfiguration());
         }
 
         private void ApplyDeletableInformation()

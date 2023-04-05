@@ -1,7 +1,10 @@
 ﻿using GameStore.DAL.Data;
 using GameStore.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace GameStore.DAL.Repositories
 {
@@ -39,6 +42,11 @@ namespace GameStore.DAL.Repositories
         public IEnumerable<T> GetAll()
         {
             return _context.Set<T>();
+        }
+
+        public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().Where(predicate).ToList();
         }
     }
 }

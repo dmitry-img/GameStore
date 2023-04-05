@@ -12,10 +12,6 @@ namespace GameStore.DAL.Data.Configurations
             Property(p => p.Type).HasColumnAnnotation(
                  "Unique_Platform_Type",
                  new IndexAnnotation(new[] { new IndexAttribute("Unique_Platform_Type") { IsUnique = true } }));
-
-            HasMany(c => c.GamePlatformTypes)
-            .WithRequired(sc => sc.PlatformType)
-            .HasForeignKey(sc => sc.PlatformTypeId);
         }
     }
 }

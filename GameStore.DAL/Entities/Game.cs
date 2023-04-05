@@ -10,7 +10,7 @@ namespace GameStore.DAL.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
-        public ICollection<GamePlatformType> GamePlatformTypes { get; set; } = new List<GamePlatformType>();
+        public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        public ICollection<PlatformType> PlatformTypes { get; set; } = new List<PlatformType>();
     }
 }

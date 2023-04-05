@@ -8,9 +8,8 @@ namespace GameStore.DAL.Interfaces
     {
         IGameRepository Games { get; }
         ICommentRepository Comments { get; }
-        IGameGenreRepository GameGenre { get; }
-        IGamePlatformTypeRepository GamePlatformType { get; }
-        
+        IGenreRepository Genres { get; }
+        IPlatformTypeRepository PlatformTypes { get; }        
         Task SaveAsync();
     }
 }

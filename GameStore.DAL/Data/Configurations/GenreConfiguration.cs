@@ -12,10 +12,6 @@ namespace GameStore.DAL.Data.Configurations
            Property(p => p.Name).HasColumnAnnotation(
                 "Unique_Genre_Name",
                 new IndexAnnotation(new[] { new IndexAttribute("Unique_Genre_Name") { IsUnique = true } }));
-
-            HasMany(c => c.GameGenres)
-            .WithRequired(sc => sc.Genre)
-            .HasForeignKey(sc => sc.GenreId);
         }
     }
 }

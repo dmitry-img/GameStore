@@ -16,34 +16,15 @@ namespace GameStore.BLL.Profiles
             CreateMap<CreateGameDTO, Game>()
                 .ForMember(dest => dest.Key, opt => opt.Ignore())
                 .ForMember(dest => dest.Comments, opt => opt.Ignore())
-                .ForMember(dest => dest.GameGenres, opt =>
-                    opt.MapFrom(src =>
-                        src.GenreIds.Select(gid =>
-                            new GameGenre { GenreId = gid })))
-                .ForMember(dest => dest.GamePlatformTypes, opt =>
-                    opt.MapFrom(src =>
-                        src.PlatformTypeIds.Select(ptid =>
-                            new GamePlatformType { PlatformTypeId = ptid })));
+                .ForMember(dest => dest.Genres, opt => opt.Ignore())
+                .ForMember(dest => dest.PlatformTypes, opt => opt.Ignore());
+
 
             CreateMap<UpdateGameDTO, Game>()
-                .ForMember(dest => dest.GameGenres, opt =>
-                    opt.MapFrom(src =>
-                        src.GenreIds.Select(gid =>
-                            new GameGenre { GenreId = gid })))
-                .ForMember(dest => dest.GamePlatformTypes, opt =>
-                    opt.MapFrom(src =>
-                        src.PlatformTypeIds.Select(ptid =>
-                            new GamePlatformType { PlatformTypeId = ptid })));
+                .ForMember(dest => dest.Genres, opt => opt.Ignore())
+                .ForMember(dest => dest.PlatformTypes, opt => opt.Ignore());
 
-            CreateMap<Game, GetGameDTO>()
-                .ForMember(dest => dest.Genres, opt => 
-                    opt.MapFrom(src => 
-                        src.GameGenres.Select(gg => 
-                            gg.Genre)))
-                .ForMember(dest => dest.PlatformTypes, opt =>
-                        opt.MapFrom(src =>
-                            src.GamePlatformTypes.Select(gg =>
-                                gg.PlatformType)));
+            CreateMap<Game, GetGameDTO>();
 
             CreateMap<CreateCommentDTO, Comment>();
             CreateMap<Comment, GetCommentDTO>();

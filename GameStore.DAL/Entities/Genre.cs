@@ -11,6 +11,6 @@ namespace GameStore.DAL.Entities
 
         public Genre ParentGenre { get; set; }
         public ICollection<Genre> ChildGenres { get; set; } = new List<Genre>();
-        public ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+        public ICollection<Game> Games { get; set; } = new List<Game>();
     }
 }

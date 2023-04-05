@@ -7,6 +7,7 @@ using GameStore.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -29,6 +30,11 @@ namespace GameStore.BLL.Services
         {
             var game = _mapper.Map<Game>(gameDTO);
 
+            game.Genres = _unitOfWork.Genres
+                .Filter(g => gameDTO.GenreIds.Contains(g.Id)).ToList();
+            game.PlatformTypes = _unitOfWork.PlatformTypes
+                .Filter(pt => gameDTO.PlatformTypeIds.Contains(pt.Id)).ToList();
+
             _unitOfWork.Games.Create(game);
 
             await _unitOfWork.SaveAsync();
@@ -39,6 +45,11 @@ namespace GameStore.BLL.Services
             var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
 
             _mapper.Map(gameDTO, game);
+
+            game.Genres = _unitOfWork.Genres
+               .Filter(g => gameDTO.GenreIds.Contains(g.Id)).ToList();
+            game.PlatformTypes = _unitOfWork.PlatformTypes
+                .Filter(pt => gameDTO.PlatformTypeIds.Contains(pt.Id)).ToList();
 
             _unitOfWork.Games.Update(game);
             await _unitOfWork.SaveAsync();
@@ -64,7 +75,7 @@ namespace GameStore.BLL.Services
 
         public IEnumerable<GetGameDTO> GetAllByGenre(int genreId)
         {
-            var games = _unitOfWork.GameGenre.GetGamesByGenre(genreId);
+            var games = _unitOfWork.Genres.Get(genreId).Games;
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -72,7 +83,7 @@ namespace GameStore.BLL.Services
 
         public IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId)
         {
-            var games = _unitOfWork.GamePlatformType.GetGamesByPlatformType(platformTypeId);
+            var games = _unitOfWork.PlatformTypes.Get(platformTypeId).Games;
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;

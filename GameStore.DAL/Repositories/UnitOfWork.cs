@@ -11,8 +11,8 @@ namespace GameStore.DAL.Repositories
         private GameStoreDbContext _context;
         private GameRepository _gameRepository;
         private CommentRepository _commentRepository;
-        private GameGenreRepository _gameGenreRepository;
-        private GamePlatformTypeRepository _gamePlatformTypeRepository;
+        private GenreRepository _genreRepository;
+        private PlatformTypeRepository _platformTypeRepository;
 
         public UnitOfWork(GameStoreDbContext context)
         {
@@ -39,23 +39,23 @@ namespace GameStore.DAL.Repositories
             }
         }
 
-        public IGameGenreRepository GameGenre
+        public IGenreRepository Genres
         {
             get
             {
-                if (_gameGenreRepository == null)
-                    _gameGenreRepository = new GameGenreRepository(_context);
-                return _gameGenreRepository;
+                if (_genreRepository == null)
+                    _genreRepository = new GenreRepository(_context);
+                return _genreRepository;
             }
         }
 
-        public IGamePlatformTypeRepository GamePlatformType
+        public IPlatformTypeRepository PlatformTypes
         {
             get
             {
-                if (_gamePlatformTypeRepository == null)
-                    _gamePlatformTypeRepository = new GamePlatformTypeRepository(_context);
-                return _gamePlatformTypeRepository;
+                if (_platformTypeRepository == null)
+                    _platformTypeRepository = new PlatformTypeRepository(_context);
+                return _platformTypeRepository;
             }
         }
 
