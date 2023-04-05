@@ -25,8 +25,9 @@ namespace GameStore.DAL.Repositories
         public async Task<Game> GetByKeyWithDetailsAsync(Guid key)
         {
             return await _context.Games
-                .Include(g => g.GameGenres)
-                .Include(g => g.GamePlatformTypes)
+                .Include(g => g.GameGenres.Select(gg => gg.Genre))
+                .Include(g => g.GamePlatformTypes.Select(gpt => gpt.PlatformType))
+                .Include(g => g.Comments)
                 .FirstOrDefaultAsync(g => g.Key == key);
         }
     }

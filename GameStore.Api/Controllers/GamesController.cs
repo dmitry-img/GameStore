@@ -26,7 +26,7 @@ namespace GameStore.Api.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> GetByKey(Guid key)
         {
-            var games = await _gameService.GetByKeyAsync(key);
+            var games = await _gameService.GetByKeyWithDetailsAsync(key);
 
             return Json(games);
         }

@@ -9,8 +9,6 @@ namespace GameStore.Api
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new NotFoundExceptionFilter());
-            filters.Add(new LogIpFilter());
-            filters.Add(new LogPerformanceFilter());
         }
     }
 }

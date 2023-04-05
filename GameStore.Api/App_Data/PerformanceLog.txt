@@ -1,4 +1,1 @@
-Date: 04.04.2023 15:37:08 - Controller: Home - Action: Index - Performance: 32 ms
-Date: 04.04.2023 15:53:38 - Controller: Home - Action: Index - Performance: 40 ms
-Date: 04.04.2023 15:57:18 - Controller: Home - Action: Index - Performance: 34 ms
-Date: 04.04.2023 16:02:48 - Controller: Home - Action: Index - Performance: 33 ms
+Date: 05.04.2023 09:03:35 - Controller: Games - Action: GetByKey - Performance: 2181 ms

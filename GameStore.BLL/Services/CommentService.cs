@@ -38,7 +38,7 @@ namespace GameStore.BLL.Services
 
         public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(Guid key)
         {
-            var game = await _unitOfWork.Games.GetByKeyAsync(key);
+            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
 
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
