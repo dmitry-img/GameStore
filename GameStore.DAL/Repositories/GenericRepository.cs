@@ -48,5 +48,10 @@ namespace GameStore.DAL.Repositories
         {
             return _context.Set<T>().Where(predicate).ToList();
         }
+
+        public IQueryable<T> GetQuery()
+        {
+            return _context.Set<T>();
+        }
     }
 }

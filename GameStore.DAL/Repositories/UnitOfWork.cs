@@ -1,4 +1,5 @@
 ﻿using GameStore.DAL.Data;
+using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System;
 using System.Threading;
@@ -9,10 +10,10 @@ namespace GameStore.DAL.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private GameStoreDbContext _context;
-        private GameRepository _gameRepository;
-        private CommentRepository _commentRepository;
-        private GenreRepository _genreRepository;
-        private PlatformTypeRepository _platformTypeRepository;
+        private Lazy<IGameRepository> _gameRepository;
+        private Lazy<IGenericRepository<Comment>> _commentRepository;
+        private Lazy<IGenericRepository<Genre>> _genreRepository;
+        private Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
 
         public UnitOfWork(GameStoreDbContext context)
         {
@@ -24,38 +25,42 @@ namespace GameStore.DAL.Repositories
             get
             {
                 if (_gameRepository == null)
-                    _gameRepository = new GameRepository(_context);
-                return _gameRepository;
+                    _gameRepository = new Lazy<IGameRepository>(() => 
+                                            new GameRepository(_context));
+                return _gameRepository.Value;
             }
         }
 
-        public ICommentRepository Comments
+        public IGenericRepository<Comment> Comments
         {
             get
             {
                 if (_commentRepository == null)
-                    _commentRepository = new CommentRepository(_context);
-                return _commentRepository;
+                    _commentRepository = new Lazy<IGenericRepository<Comment>>(() => 
+                                            new GenericRepository<Comment>(_context));
+                return _commentRepository.Value;
             }
         }
 
-        public IGenreRepository Genres
+        public IGenericRepository<Genre> Genres
         {
             get
             {
                 if (_genreRepository == null)
-                    _genreRepository = new GenreRepository(_context);
-                return _genreRepository;
+                    _genreRepository = new Lazy<IGenericRepository<Genre>>(() => 
+                                            new GenericRepository<Genre>(_context)); 
+                return _genreRepository.Value;
             }
         }
 
-        public IPlatformTypeRepository PlatformTypes
+        public IGenericRepository<PlatformType> PlatformTypes
         {
             get
             {
                 if (_platformTypeRepository == null)
-                    _platformTypeRepository = new PlatformTypeRepository(_context);
-                return _platformTypeRepository;
+                    _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() =>
+                                            new GenericRepository<PlatformType>(_context));
+                return _platformTypeRepository.Value;
             }
         }
 

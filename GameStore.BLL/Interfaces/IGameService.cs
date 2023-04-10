@@ -1,9 +1,6 @@
-﻿using GameStore.BLL.DTOs;
-using GameStore.BLL.DTOs.Game;
-using System;
-using System.Collections;
+﻿using GameStore.BLL.DTOs.Game;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GameStore.BLL.Interfaces
@@ -14,10 +11,9 @@ namespace GameStore.BLL.Interfaces
         Task UpdateAsync(string key, UpdateGameDTO gameDTO);
         Task DeleteAsync(string key);
         Task<GetGameDTO> GetByKeyAsync(string key);
-        Task<GetGameDTO> GetByKeyWithDetailsAsync(string key);
         IEnumerable<GetGameDTO> GetAll();
         IEnumerable<GetGameDTO> GetAllByGenre(int genreId);
         IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId);
-        HttpResponseMessage Download(string path);
+        Task<MemoryStream> GetGameFileAsync(string gameKey);
     }
 }

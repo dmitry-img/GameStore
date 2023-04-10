@@ -4,7 +4,7 @@ using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
 using Unity;
 
-namespace GameStore.BLL
+namespace GameStore.BLL.Infrastructure
 {
     public static class ConfigureRegistration
     {

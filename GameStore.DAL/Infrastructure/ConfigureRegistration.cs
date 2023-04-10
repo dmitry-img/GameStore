@@ -4,7 +4,7 @@ using GameStore.DAL.Repositories;
 using Unity;
 using Unity.Lifetime;
 
-namespace GameStore.DAL
+namespace GameStore.DAL.Infrastructure
 {
     public static class ConfigureRegistration
     {
@@ -12,9 +12,6 @@ namespace GameStore.DAL
         {
             container.RegisterType(typeof(IGenericRepository<>), typeof(GenericRepository<>), new HierarchicalLifetimeManager());
             container.RegisterType<IGameRepository, GameRepository>();
-            container.RegisterType<ICommentRepository, CommentRepository>();
-            container.RegisterType<IGenreRepository, GenreRepository>();
-            container.RegisterType<IPlatformTypeRepository, PlatformTypeRepository>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
 
             container.RegisterType<GameStoreDbContext>(new PerResolveLifetimeManager());

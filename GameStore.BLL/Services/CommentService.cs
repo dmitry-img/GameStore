@@ -7,6 +7,7 @@ using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,7 +39,10 @@ namespace GameStore.BLL.Services
 
         public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key)
         {
-            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
+            var game = await _unitOfWork.Games
+                .GetQuery()
+                .Include(g => g.Comments)
+                .FirstOrDefaultAsync(g => g.Key == key);
 
             if (game == null)
                 throw new NotFoundException(nameof(game), key);

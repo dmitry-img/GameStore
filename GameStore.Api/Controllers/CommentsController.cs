@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace GameStore.Api.Controllers
 {
+    [RoutePrefix("api/comments")]
     public class CommentsController : ApiController
     {
         private readonly ICommentService _commentService;
@@ -16,6 +17,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpPost]
+        [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateCommentDTO commentDTO)
         {
             await _commentService.CreateAsync(commentDTO);
@@ -24,6 +26,7 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
+        [Route("{key}")]
         public async Task<IHttpActionResult> GetAllByGame(string key)
         {
             var comments = await _commentService.GetAllByGameKeyAsync(key);

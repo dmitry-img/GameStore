@@ -42,13 +42,13 @@ namespace GameStore.DAL.Data
 
             foreach (var entry in entries)
             {
-                var deletableEnty = entry.Entity as IDeletable;
-                if (deletableEnty != null)
+                var deletableEntry = entry.Entity as IDeletable;
+                if (deletableEntry != null)
                 {
                     if (entry.State == EntityState.Deleted)
                     {
-                        deletableEnty.IsDeleted = true;
-                        deletableEnty.DeletedAt = DateTime.UtcNow;
+                        deletableEntry.IsDeleted = true;
+                        deletableEntry.DeletedAt = DateTime.UtcNow;
 
                         entry.State = EntityState.Modified;
                     }

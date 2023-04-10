@@ -4,14 +4,12 @@ using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Text;
 
 namespace GameStore.BLL.Services
 {
@@ -41,7 +39,14 @@ namespace GameStore.BLL.Services
 
         public async Task UpdateAsync(string key, UpdateGameDTO gameDTO)
         {
-            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
+            var game = await _unitOfWork.Games
+                .GetQuery()
+                .Include(g => g.Genres)
+                .Include(g => g.PlatformTypes)
+                .FirstOrDefaultAsync(g => g.Key == key && g.IsDeleted == false); ;
+
+            if (game == null)
+                throw new NotFoundException(nameof(game), key);
 
             _mapper.Map(gameDTO, game);
 
@@ -66,7 +71,12 @@ namespace GameStore.BLL.Services
 
         public IEnumerable<GetGameDTO> GetAll()
         {
-            var games = _unitOfWork.Games.GetAll();
+            var games = _unitOfWork.Games
+                .GetQuery()
+                .Include(g => g.Genres)
+                .Include(g => g.PlatformTypes)
+                .Where(g => g.IsDeleted == false);
+
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -74,7 +84,7 @@ namespace GameStore.BLL.Services
 
         public IEnumerable<GetGameDTO> GetAllByGenre(int genreId)
         {
-            var games = _unitOfWork.Genres.Get(genreId).Games;
+            var games = _unitOfWork.Games.GetGamesByGenre(genreId);
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -82,7 +92,7 @@ namespace GameStore.BLL.Services
 
         public IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId)
         {
-            var games = _unitOfWork.PlatformTypes.Get(platformTypeId).Games;
+            var games = _unitOfWork.Games.GetGamesByPlatformType(platformTypeId);
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -90,29 +100,28 @@ namespace GameStore.BLL.Services
 
         public async Task<GetGameDTO> GetByKeyAsync(string key)
         {
-            var game = await _unitOfWork.Games.GetByKeyAsync(key);
+            var game = await _unitOfWork.Games
+                .GetQuery()
+                .Include(g => g.Genres)
+                .Include(g => g.PlatformTypes)
+                .FirstOrDefaultAsync(g => g.Key == key && g.IsDeleted == false);
+
+            if (game == null)
+                throw new NotFoundException(nameof(game), key);
+
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;
         }
 
-        public async Task<GetGameDTO> GetByKeyWithDetailsAsync(string key)
+        public async Task<MemoryStream> GetGameFileAsync(string gameKey)
         {
-            var game = await _unitOfWork.Games.GetByKeyWithDetailsAsync(key);
-            var gameDTO = _mapper.Map<GetGameDTO>(game);
+            var game = await _unitOfWork.Games.GetByKeyAsync(gameKey);
 
-            return gameDTO;
-        }
+            if (game == null)
+                throw new NotFoundException(nameof(game), gameKey);
 
-        public HttpResponseMessage Download(string path)
-        {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
-            result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/octet-stream");
-
-            return result;
+            return new MemoryStream(Encoding.ASCII.GetBytes(game.Name));
         }
     }
 }

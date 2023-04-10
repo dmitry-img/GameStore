@@ -2,8 +2,8 @@ using System.Configuration;
 using System.Web.Http;
 using Unity;
 using Unity.WebApi;
-using GameStore.DAL;
-using GameStore.BLL;
+using GameStore.DAL.Infrastructure;
+using GameStore.BLL.Infrastructure;
 
 namespace GameStore.Api
 {
@@ -13,7 +13,6 @@ namespace GameStore.Api
         {
 			var container = new UnityContainer();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             container.RegisterDALTypes();
             container.RegisterBLLTypes();
 
