@@ -64,3 +64,8 @@ Date: 11.04.2023 09:16:02 - Controller: Games - Action: GetAll - Ip: ::1
 Date: 11.04.2023 09:17:54 - Controller: Games - Action: GetAll - Ip: ::1
 Date: 11.04.2023 09:18:14 - Controller: Games - Action: GetByKey - Ip: ::1
 Date: 11.04.2023 09:25:07 - Controller: Games - Action: GetAll - Ip: ::1
+Date: 11.04.2023 13:47:01 - Controller: Games - Action: GetAll - Ip: ::1
+Date: 11.04.2023 13:56:34 - Controller: Games - Action: GetAll - Ip: ::1
+Date: 11.04.2023 13:57:02 - Controller: Games - Action: GetAll - Ip: ::1
+Date: 11.04.2023 13:59:21 - Controller: Games - Action: GetAll - Ip: ::1
+Date: 11.04.2023 14:00:19 - Controller: Games - Action: GetAll - Ip: ::1

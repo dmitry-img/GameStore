@@ -56,3 +56,7 @@ Date: 11.04.2023 09:16:03 - Controller: Games - Action: GetAll - Performance: 18
 Date: 11.04.2023 09:17:56 - Controller: Games - Action: GetAll - Performance: 1981 ms
 Date: 11.04.2023 09:18:14 - Controller: Games - Action: GetByKey - Performance: 2042 ms
 Date: 11.04.2023 09:25:09 - Controller: Games - Action: GetAll - Performance: 2014 ms
+Date: 11.04.2023 13:47:02 - Controller: Games - Action: GetAll - Performance: 160 ms
+Date: 11.04.2023 13:56:37 - Controller: Games - Action: GetAll - Performance: 2439 ms
+Date: 11.04.2023 13:57:04 - Controller: Games - Action: GetAll - Performance: 1991 ms
+Date: 11.04.2023 13:59:28 - Controller: Games - Action: GetAll - Performance: 6074 ms

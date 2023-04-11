@@ -26,7 +26,7 @@ namespace GameStore.DAL.Repositories
                 .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
             
                 game.Genres = game.Genres.Where(genre =>
-                    genre.ParentGenreId == null).ToList();
+             z       genre.ParentGenreId == null).ToList();
 
             return game;
         }
