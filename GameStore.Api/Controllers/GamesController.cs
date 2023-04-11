@@ -21,9 +21,9 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetAll()
+        public async Task<IHttpActionResult> GetAll()
         {
-            return Json(_gameService.GetAll());
+            return Json(await _gameService.GetAllAsync());
         }
 
         [HttpGet]

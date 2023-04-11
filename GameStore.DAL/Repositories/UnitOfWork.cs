@@ -18,51 +18,23 @@ namespace GameStore.DAL.Repositories
         public UnitOfWork(GameStoreDbContext context)
         {
             _context = context;
-        }
+            _gameRepository = new Lazy<IGameRepository>(() =>
+                                           new GameRepository(_context));
 
-        public IGameRepository Games
-        {
-            get
-            {
-                if (_gameRepository == null)
-                    _gameRepository = new Lazy<IGameRepository>(() => 
-                                            new GameRepository(_context));
-                return _gameRepository.Value;
-            }
-        }
-
-        public IGenericRepository<Comment> Comments
-        {
-            get
-            {
-                if (_commentRepository == null)
-                    _commentRepository = new Lazy<IGenericRepository<Comment>>(() => 
+            _commentRepository = new Lazy<IGenericRepository<Comment>>(() =>
                                             new GenericRepository<Comment>(_context));
-                return _commentRepository.Value;
-            }
+            
+            _genreRepository = new Lazy<IGenericRepository<Genre>>(() =>
+                                            new GenericRepository<Genre>(_context));
+
+            _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() =>
+                                               new GenericRepository<PlatformType>(_context));
         }
 
-        public IGenericRepository<Genre> Genres
-        {
-            get
-            {
-                if (_genreRepository == null)
-                    _genreRepository = new Lazy<IGenericRepository<Genre>>(() => 
-                                            new GenericRepository<Genre>(_context)); 
-                return _genreRepository.Value;
-            }
-        }
-
-        public IGenericRepository<PlatformType> PlatformTypes
-        {
-            get
-            {
-                if (_platformTypeRepository == null)
-                    _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() =>
-                                            new GenericRepository<PlatformType>(_context));
-                return _platformTypeRepository.Value;
-            }
-        }
+        public IGameRepository Games => _gameRepository.Value;
+        public IGenericRepository<Comment> Comments => _commentRepository.Value;
+        public IGenericRepository<Genre> Genres => _genreRepository.Value;
+        public IGenericRepository<PlatformType> PlatformTypes => _platformTypeRepository.Value;
 
         public Task SaveAsync()
         {

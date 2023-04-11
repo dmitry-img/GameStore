@@ -11,7 +11,7 @@ namespace GameStore.BLL.Interfaces
         Task UpdateAsync(string key, UpdateGameDTO gameDTO);
         Task DeleteAsync(string key);
         Task<GetGameDTO> GetByKeyAsync(string key);
-        IEnumerable<GetGameDTO> GetAll();
+        Task<IEnumerable<GetGameDTO>> GetAllAsync();
         IEnumerable<GetGameDTO> GetAllByGenre(int genreId);
         IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId);
         Task<MemoryStream> GetGameFileAsync(string gameKey);

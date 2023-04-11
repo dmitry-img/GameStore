@@ -20,15 +20,22 @@ namespace GameStore.DAL.Repositories
 
         public async Task<Game> GetByKeyAsync(string key) 
         {
-            return await _context.Games
-                .FirstOrDefaultAsync(g => g.Key == key && g.IsDeleted == false);
+            var game =  await _context.Games
+                .Include(g => g.Genres)
+                .Include(g => g.PlatformTypes)
+                .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
+            
+                game.Genres = game.Genres.Where(genre =>
+                    genre.ParentGenreId == null).ToList();
+
+            return game;
         }
 
         public async Task<IEnumerable<Game>> GetGamesByGenre(int genreId)
         {
             var genre = await _context.Genres
                 .Include(g => g.Games)
-                .FirstOrDefaultAsync(g => g.Id == genreId && g.IsDeleted == false);
+                .FirstOrDefaultAsync(g => g.Id == genreId && !g.IsDeleted);
             
             return genre.Games;
         }
@@ -37,7 +44,7 @@ namespace GameStore.DAL.Repositories
         {
             var platformtype = await _context.PlatformTypes
                 .Include(pt => pt.Games)
-                .FirstOrDefaultAsync(pt => pt.Id == platformTypeId && pt.IsDeleted == false);
+                .FirstOrDefaultAsync(pt => pt.Id == platformTypeId && !pt.IsDeleted);
             return platformtype.Games;
         }
     }

@@ -43,7 +43,7 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
-                .FirstOrDefaultAsync(g => g.Key == key && g.IsDeleted == false); ;
+                .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted); ;
 
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
@@ -69,13 +69,18 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public IEnumerable<GetGameDTO> GetAll()
+        public async Task<IEnumerable<GetGameDTO>> GetAllAsync()
         {
-            var games = _unitOfWork.Games
+            var games = await _unitOfWork.Games
                 .GetQuery()
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
-                .Where(g => g.IsDeleted == false);
+                .Where(g => !g.IsDeleted)
+                .ToListAsync();
+
+            games.ForEach(game => 
+                game.Genres = game.Genres.Where(genre => 
+                    genre.ParentGenreId == null).ToList());
 
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
@@ -100,12 +105,8 @@ namespace GameStore.BLL.Services
 
         public async Task<GetGameDTO> GetByKeyAsync(string key)
         {
-            var game = await _unitOfWork.Games
-                .GetQuery()
-                .Include(g => g.Genres)
-                .Include(g => g.PlatformTypes)
-                .FirstOrDefaultAsync(g => g.Key == key && g.IsDeleted == false);
-
+            var game = await _unitOfWork.Games.GetByKeyAsync(key);
+                
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
