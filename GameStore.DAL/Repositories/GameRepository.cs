@@ -17,17 +17,17 @@ namespace GameStore.DAL.Repositories
             _context = context;
         }
 
-        public async Task<Game> GetByKeyAsync(string key) 
+        public async Task<Game> GetByKeyAsync(string key)
         {
-            var game =  await _context.Games
+            var game = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
                 .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
-            
+
             return game;
         }
 
-        public async Task<IEnumerable<Game>> GetGamesByGenre(int genreId)
+        public async Task<IEnumerable<Game>> GetGamesByGenreAsync(int genreId)
         {
             var genre = await _context.Genres
                 .Include(g => g.Games)
@@ -36,11 +36,12 @@ namespace GameStore.DAL.Repositories
             return genre.Games;
         }
 
-        public async Task<IEnumerable<Game>> GetGamesByPlatformType(int platformTypeId)
+        public async Task<IEnumerable<Game>> GetGamesByPlatformTypeAsync(int platformTypeId)
         {
             var platformtype = await _context.PlatformTypes
                 .Include(pt => pt.Games)
                 .FirstOrDefaultAsync(pt => pt.Id == platformTypeId && !pt.IsDeleted);
+            
             return platformtype.Games;
         }
     }

@@ -39,11 +39,7 @@ namespace GameStore.BLL.Services
 
         public async Task UpdateAsync(string key, UpdateGameDTO gameDTO)
         {
-            var game = await _unitOfWork.Games
-                .GetQuery()
-                .Include(g => g.Genres)
-                .Include(g => g.PlatformTypes)
-                .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted); ;
+            var game = await _unitOfWork.Games.GetByKeyAsync(key);
 
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
@@ -62,6 +58,7 @@ namespace GameStore.BLL.Services
         public async Task DeleteAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
+
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
@@ -83,17 +80,17 @@ namespace GameStore.BLL.Services
             return gameDTOs;
         }
 
-        public IEnumerable<GetGameDTO> GetAllByGenre(int genreId)
+        public async Task<IEnumerable<GetGameDTO>> GetAllByGenreAsync(int genreId)
         {
-            var games = _unitOfWork.Games.GetGamesByGenre(genreId);
+            var games = await _unitOfWork.Games.GetGamesByGenreAsync(genreId);
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
         }
 
-        public IEnumerable<GetGameDTO> GetAllByPlatformType(int platformTypeId)
+        public async Task<IEnumerable<GetGameDTO>> GetAllByPlatformTypeAsync(int platformTypeId)
         {
-            var games = _unitOfWork.Games.GetGamesByPlatformType(platformTypeId);
+            var games = await _unitOfWork.Games.GetGamesByPlatformTypeAsync(platformTypeId);
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -113,7 +110,9 @@ namespace GameStore.BLL.Services
 
         public async Task<MemoryStream> GetGameFileAsync(string gameKey)
         {
-            var game = await _unitOfWork.Games.GetByKeyAsync(gameKey);
+            var game = await _unitOfWork.Games
+                .GetQuery()
+                .FirstOrDefaultAsync(g => g.Key == gameKey);
 
             if (game == null)
                 throw new NotFoundException(nameof(game), gameKey);
