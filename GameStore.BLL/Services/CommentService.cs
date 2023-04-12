@@ -47,9 +47,7 @@ namespace GameStore.BLL.Services
             if (game == null)
                 throw new NotFoundException(nameof(game), key);
 
-            var parentComments = game.Comments.Where(c => c.ParentCommentId == null);
-
-            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(parentComments);
+            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(game.Comments);
 
             return comments;
         }

@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace GameStore.Api.Models
+namespace GameStore.Api.Infrastructure
 {
     public class ApplicationVariables
     {

@@ -1,8 +1,5 @@
-﻿using GameStore.Api.Models;
-using GameStore.BLL.DTOs.Game;
+﻿using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
-using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;

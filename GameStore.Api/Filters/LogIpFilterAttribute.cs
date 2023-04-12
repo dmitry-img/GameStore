@@ -1,4 +1,4 @@
-﻿using GameStore.Api.Models;
+﻿using GameStore.Api.Infrastructure;
 using System;
 using System.IO;
 using System.Web;

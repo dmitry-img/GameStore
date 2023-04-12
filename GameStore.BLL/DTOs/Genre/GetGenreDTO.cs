@@ -6,6 +6,6 @@ namespace GameStore.BLL.DTOs.Genre
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<GetGenreDTO> ChildGenres { get; set; }
+        public int? ParentGenreId { get; set; }
     }
 }

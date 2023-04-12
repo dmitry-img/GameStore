@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using GameStore.Api.Models;
+using GameStore.Api.Infrastructure;
 
 namespace GameStore.Api.Filters
 {

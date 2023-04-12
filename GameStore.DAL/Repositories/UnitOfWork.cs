@@ -15,20 +15,18 @@ namespace GameStore.DAL.Repositories
         private Lazy<IGenericRepository<Genre>> _genreRepository;
         private Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
 
-        public UnitOfWork(GameStoreDbContext context)
+        public UnitOfWork(GameStoreDbContext context,
+            Lazy<IGameRepository> gameRepository,
+            Lazy<IGenericRepository<Comment>> commentRepository,
+            Lazy<IGenericRepository<Genre>> genreRepository,
+            Lazy<IGenericRepository<PlatformType>> platformTypeRepository
+            )
         {
             _context = context;
-            _gameRepository = new Lazy<IGameRepository>(() =>
-                                           new GameRepository(_context));
-
-            _commentRepository = new Lazy<IGenericRepository<Comment>>(() =>
-                                            new GenericRepository<Comment>(_context));
-            
-            _genreRepository = new Lazy<IGenericRepository<Genre>>(() =>
-                                            new GenericRepository<Genre>(_context));
-
-            _platformTypeRepository = new Lazy<IGenericRepository<PlatformType>>(() =>
-                                               new GenericRepository<PlatformType>(_context));
+            _gameRepository = gameRepository;
+            _commentRepository = commentRepository;
+            _genreRepository = genreRepository;
+            _platformTypeRepository = platformTypeRepository;
         }
 
         public IGameRepository Games => _gameRepository.Value;

@@ -71,17 +71,12 @@ namespace GameStore.BLL.Services
 
         public async Task<IEnumerable<GetGameDTO>> GetAllAsync()
         {
-            var gamesQuery = _unitOfWork.Games
+            var games = await _unitOfWork.Games
                 .GetQuery()
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
-                .Where(g => !g.IsDeleted);
-                
-            await gamesQuery.ForEachAsync(game => 
-                game.Genres = game.Genres.Where(genre => 
-                    genre.ParentGenreId == null).ToList());
-
-            var games = await gamesQuery.ToListAsync();
+                .Where(g => !g.IsDeleted)
+                .ToListAsync();
 
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 

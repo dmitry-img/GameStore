@@ -10,11 +10,11 @@ namespace GameStore.DAL.Infrastructure
     {
         public static IUnityContainer RegisterDALTypes(this IUnityContainer container)
         {
-            container.RegisterType(typeof(IGenericRepository<>), typeof(GenericRepository<>), new HierarchicalLifetimeManager());
+            container.RegisterType(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             container.RegisterType<IGameRepository, GameRepository>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
 
-            container.RegisterType<GameStoreDbContext>(new PerResolveLifetimeManager());
+            container.RegisterType<GameStoreDbContext>(new HierarchicalLifetimeManager());
 
             return container;
         }

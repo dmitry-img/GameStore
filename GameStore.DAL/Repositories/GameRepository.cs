@@ -1,7 +1,6 @@
 ﻿using GameStore.DAL.Data;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -25,9 +24,6 @@ namespace GameStore.DAL.Repositories
                 .Include(g => g.PlatformTypes)
                 .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
             
-                game.Genres = game.Genres.Where(genre =>
-                    genre.ParentGenreId == null).ToList();
-
             return game;
         }
 
