@@ -9,8 +9,10 @@ namespace GameStore.Api
 {
     public static class UnityConfig
     {
-        public static void RegisterComponents(HttpConfiguration config, UnityContainer container)
+        public static void RegisterComponents(HttpConfiguration config)
         {
+            var container = new UnityContainer();
+
             container.RegisterDALTypes();
             container.RegisterBLLTypes();
             container.RegisterApiTypes();

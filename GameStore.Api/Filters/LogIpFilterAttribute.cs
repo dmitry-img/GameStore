@@ -1,6 +1,8 @@
 ﻿using GameStore.Api.Infrastructure;
+using log4net;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -11,21 +13,23 @@ namespace GameStore.Api.Filters
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
-            string appDataPath = ApplicationVariables.AppDataPath;
-            string path = Path.Combine(appDataPath, "RequestantIps.txt");
-
             var ip = HttpContext.Current.Request.UserHostAddress;
 
-            using (var writer = File.AppendText(path))
-            {
-                string text = $"Date: {DateTime.UtcNow} - " +
-                    $"Controller: {actionContext.ActionDescriptor.ControllerDescriptor.ControllerName} - " +
-                    $"Action: {actionContext.ActionDescriptor.ActionName} - " +
-                    $"Ip: {ip}";
+            var controllerName = actionContext
+               .ControllerContext
+               .ControllerDescriptor
+               .ControllerType
+               .FullName;
 
-                writer.WriteLine(text);
-                writer.Close();
-            }
+            var actionName = actionContext.ActionDescriptor.ActionName;
+
+            var message = $"{controllerName} -> {actionName} " +
+                $"IP: {ip}";
+
+            var config = actionContext.Request.GetConfiguration();
+            var logger = config.DependencyResolver.GetService(typeof(ILog)) as ILog;
+
+            logger.Debug(message);
 
             base.OnActionExecuting(actionContext);
         }

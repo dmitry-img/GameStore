@@ -9,12 +9,10 @@ namespace GameStore.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            var container = new UnityContainer();
-
-            UnityConfig.RegisterComponents(config, container);
+            UnityConfig.RegisterComponents(config);
             config.Filters.Add(new LogIpFilterAttribute());
             config.Filters.Add(new LogPerformanceFilterAttribute());
-            config.Filters.Add(new NotFoundExceptionFilterAttribute(container.Resolve<ILog>()));
+            config.Filters.Add(new GeneralExceptionFilterAttribute());
 
             // Web API routes
             config.MapHttpAttributeRoutes();
