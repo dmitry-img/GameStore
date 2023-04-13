@@ -1,4 +1,4 @@
-namespace GameStore.DAL.Migrations
+﻿namespace GameStore.DAL.Migrations
 {
     using GameStore.DAL.Entities;
     using System.Collections.Generic;
@@ -16,40 +16,40 @@ namespace GameStore.DAL.Migrations
         {
             context.Genres.AddRange(new List<Genre>()
             {
-                new Genre() 
-                { 
-                    Name = "Strategy", 
+                new Genre()
+                {
+                    Name = "Strategy",
                     ChildGenres = new List<Genre>()
                     {
-                        new Genre() { Name = "RTS"},
-                        new Genre() { Name = "TBS"},
+                        new Genre() { Name = "RTS" },
+                        new Genre() { Name = "TBS" },
                     }
                 },
-                new Genre() { Name = "RPG"},
+                new Genre() { Name = "RPG" },
                 new Genre() { Name = "Sports" },
-                new Genre() 
-                { 
+                new Genre()
+                {
                     Name = "Races",
                     ChildGenres = new List<Genre>()
                     {
-                        new Genre() { Name = "Rally"},
-                        new Genre() { Name = "Arcade"},
-                        new Genre() { Name = "Formula"},
-                        new Genre() { Name = "Off-road"},
+                        new Genre() { Name = "Rally" },
+                        new Genre() { Name = "Arcade" },
+                        new Genre() { Name = "Formula" },
+                        new Genre() { Name = "Off-road" },
                     }
                 },
-                new Genre() 
-                { 
+                new Genre()
+                {
                     Name = "Action",
                     ChildGenres = new List<Genre>()
                     {
-                        new Genre() { Name = "FPS"},
-                        new Genre() { Name = "TPS"}
+                        new Genre() { Name = "FPS" },
+                        new Genre() { Name = "TPS" }
                     }
                 },
-                new Genre() { Name = "Adventure"},
-                new Genre() { Name = "Puzzle&Skill"},
-                new Genre() { Name = "Misc"},
+                new Genre() { Name = "Adventure" },
+                new Genre() { Name = "Puzzle&Skill" },
+                new Genre() { Name = "Misc" },
             });
 
             context.PlatformTypes.AddRange(new List<PlatformType>()
@@ -69,8 +69,8 @@ namespace GameStore.DAL.Migrations
             PlatformType browser = context.PlatformTypes
                 .Single(g => g.Type == "Browser");
 
-            context.Games.AddRange(new List<Game>() 
-            { 
+            context.Games.AddRange(new List<Game>()
+            {
                 new Game()
                 {
                     Name = "Warcraft III",

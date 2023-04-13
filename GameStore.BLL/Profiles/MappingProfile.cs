@@ -19,7 +19,6 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.Genres, opt => opt.Ignore())
                 .ForMember(dest => dest.PlatformTypes, opt => opt.Ignore());
 
-
             CreateMap<UpdateGameDTO, Game>()
                 .ForMember(dest => dest.Genres, opt => opt.Ignore())
                 .ForMember(dest => dest.PlatformTypes, opt => opt.Ignore());

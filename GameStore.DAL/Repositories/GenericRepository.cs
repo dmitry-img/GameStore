@@ -31,7 +31,9 @@ namespace GameStore.DAL.Repositories
         {
             var item = _context.Set<T>().Find(id);
             if (item != null)
+            {
                 _context.Set<T>().Remove(item);
+            }
         }
 
         public T Get(int id)

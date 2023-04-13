@@ -1,5 +1,6 @@
 ﻿using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
+using log4net;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,9 +13,12 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
-        public GamesController(IGameService gameService)
+        private readonly ILog _logger;
+
+        public GamesController(IGameService gameService, ILog logger)
         {
             _gameService = gameService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -55,7 +59,7 @@ namespace GameStore.Api.Controllers
         public async Task<IHttpActionResult> Delete(string key)
         {
             await _gameService.DeleteAsync(key);
-            
+
             return Ok();
         }
 
@@ -68,12 +72,12 @@ namespace GameStore.Api.Controllers
 
             string fileName = $"{game.Name}.bin";
 
-            HttpResponseMessage result = 
+            HttpResponseMessage result =
                 new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new StreamContent(gameData);
             result.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/octet-stream");
-            result.Content.Headers.ContentDisposition = 
+            result.Content.Headers.ContentDisposition =
                 new ContentDispositionHeaderValue("attachment");
             result.Content.Headers.ContentDisposition.FileName = fileName;
             return result;

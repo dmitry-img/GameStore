@@ -10,6 +10,7 @@ namespace GameStore.BLL.Interfaces
     public interface ICommentService
     {
         Task CreateAsync(CreateCommentDTO commentDTO);
+
         Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key);
     }
 }

@@ -1,0 +1,7 @@
+{
+  "exclude": [
+    "**/bin/**",
+    "**/obj/**",
+    "$(ProjectDir)\\Areas\\**\\*"
+  ]
+}

@@ -1,15 +1,16 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Text;
+using log4net;
 
 namespace GameStore.BLL.Services
 {
@@ -17,11 +18,13 @@ namespace GameStore.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILog _logger;
 
-        public GameService(IUnitOfWork unitOfWork, IMapper mapper)
+        public GameService(IUnitOfWork unitOfWork, IMapper mapper, ILog logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task CreateAsync(CreateGameDTO gameDTO)
@@ -35,6 +38,8 @@ namespace GameStore.BLL.Services
 
             _unitOfWork.Games.Create(game);
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Game({game.Id}) was created!");
         }
 
         public async Task UpdateAsync(string key, UpdateGameDTO gameDTO)
@@ -42,7 +47,9 @@ namespace GameStore.BLL.Services
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
 
             if (game == null)
+            {
                 throw new NotFoundException(nameof(game), key);
+            }
 
             _mapper.Map(gameDTO, game);
 
@@ -53,6 +60,8 @@ namespace GameStore.BLL.Services
 
             _unitOfWork.Games.Update(game);
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Game({game.Id}) was updated!");
         }
 
         public async Task DeleteAsync(string key)
@@ -60,10 +69,14 @@ namespace GameStore.BLL.Services
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
 
             if (game == null)
+            {
                 throw new NotFoundException(nameof(game), key);
+            }
 
             _unitOfWork.Games.Delete(game.Id);
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Game({game.Id}) was deleted!");
         }
 
         public async Task<IEnumerable<GetGameDTO>> GetAllAsync()
@@ -99,9 +112,11 @@ namespace GameStore.BLL.Services
         public async Task<GetGameDTO> GetByKeyAsync(string key)
         {
             var game = await _unitOfWork.Games.GetByKeyAsync(key);
-                
+
             if (game == null)
+            {
                 throw new NotFoundException(nameof(game), key);
+            }
 
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
@@ -115,7 +130,11 @@ namespace GameStore.BLL.Services
                 .FirstOrDefaultAsync(g => g.Key == gameKey);
 
             if (game == null)
+            {
                 throw new NotFoundException(nameof(game), gameKey);
+            }
+
+            _logger.Info($"Game({game.Id}) was downloaded!");
 
             return new MemoryStream(Encoding.ASCII.GetBytes(game.Name));
         }

@@ -29,6 +29,5 @@ namespace GameStore.Api.Filters
 
             base.OnActionExecuting(actionContext);
         }
-
     }
 }

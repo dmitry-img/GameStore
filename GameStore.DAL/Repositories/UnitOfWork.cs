@@ -14,13 +14,14 @@ namespace GameStore.DAL.Repositories
         private Lazy<IGenericRepository<Comment>> _commentRepository;
         private Lazy<IGenericRepository<Genre>> _genreRepository;
         private Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
+        private bool disposed = false;
 
-        public UnitOfWork(GameStoreDbContext context,
+        public UnitOfWork(
+            GameStoreDbContext context,
             Lazy<IGameRepository> gameRepository,
             Lazy<IGenericRepository<Comment>> commentRepository,
             Lazy<IGenericRepository<Genre>> genreRepository,
-            Lazy<IGenericRepository<PlatformType>> platformTypeRepository
-            )
+            Lazy<IGenericRepository<PlatformType>> platformTypeRepository)
         {
             _context = context;
             _gameRepository = gameRepository;
@@ -30,16 +31,17 @@ namespace GameStore.DAL.Repositories
         }
 
         public IGameRepository Games => _gameRepository.Value;
+
         public IGenericRepository<Comment> Comments => _commentRepository.Value;
+
         public IGenericRepository<Genre> Genres => _genreRepository.Value;
+
         public IGenericRepository<PlatformType> PlatformTypes => _platformTypeRepository.Value;
 
         public Task SaveAsync()
         {
             return _context.SaveChangesAsync(CancellationToken.None);
         }
-
-        private bool disposed = false;
 
         public virtual void Dispose(bool disposing)
         {
@@ -49,6 +51,7 @@ namespace GameStore.DAL.Repositories
                 {
                     _context.Dispose();
                 }
+
                 disposed = true;
             }
         }

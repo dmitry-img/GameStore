@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using log4net.Config;
 
 namespace GameStore.Api
 {
@@ -14,6 +15,7 @@ namespace GameStore.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("~log4net.config")));
         }
     }
 }
