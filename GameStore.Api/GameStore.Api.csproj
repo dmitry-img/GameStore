@@ -249,6 +249,9 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="log4net.config" />
+    <Content Include="Logs\2023-04-13\debug.log.2023-04-13" />
+    <Content Include="Logs\2023-04-13\error.log.2023-04-13" />
+    <Content Include="Logs\2023-04-13\info.log.2023-04-13" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

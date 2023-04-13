@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33516.290
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.BLL", "GameStore.BLL\GameStore.BLL.csproj", "{CACE87AF-3913-4D0E-A4AA-440EF220FAE9}"
 EndProject
@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(FolderGlobals) = preProject
 		C_5_4Users_4selle_4source_4repos_4GameStore_4stylecop_1json__JsonSchema = https://raw.githubusercontent.com/EHfive/v2ray-jsonschema/main/v4-config.schema.json
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{761D5311-82C7-4BEF-AFE9-7741904C243B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BD15CE31-24D1-41B1-A1D5-976ED64220A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.BLL.UnitTests", "GameStore.BLL.UnitTests\GameStore.BLL.UnitTests.csproj", "{505777DF-EE43-4239-9F29-964D6DD72F96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,9 +42,19 @@ Global
 		{B6B91ECA-7E20-4CF3-978A-3237AC13C423}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6B91ECA-7E20-4CF3-978A-3237AC13C423}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6B91ECA-7E20-4CF3-978A-3237AC13C423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{505777DF-EE43-4239-9F29-964D6DD72F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{505777DF-EE43-4239-9F29-964D6DD72F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{505777DF-EE43-4239-9F29-964D6DD72F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{505777DF-EE43-4239-9F29-964D6DD72F96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CACE87AF-3913-4D0E-A4AA-440EF220FAE9} = {BD15CE31-24D1-41B1-A1D5-976ED64220A5}
+		{95CFC4EB-49AA-4C04-9C78-C87A3806EF51} = {BD15CE31-24D1-41B1-A1D5-976ED64220A5}
+		{B6B91ECA-7E20-4CF3-978A-3237AC13C423} = {BD15CE31-24D1-41B1-A1D5-976ED64220A5}
+		{505777DF-EE43-4239-9F29-964D6DD72F96} = {761D5311-82C7-4BEF-AFE9-7741904C243B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11C07BD1-183C-47FA-BE42-102E51791D91}
