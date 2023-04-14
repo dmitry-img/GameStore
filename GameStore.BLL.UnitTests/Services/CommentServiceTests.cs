@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Comment;
+using GameStore.BLL.Exceptions;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
 using GameStore.BLL.UnitTests.Mocks;
@@ -12,7 +12,7 @@ using Xunit;
 
 namespace GameStore.BLL.UnitTests.Services
 {
-    public class CommentServiceTests
+    public class CommentServiceTests 
     {
         private readonly Mock<IUnitOfWork> _mockUow;
         private readonly IMapper _mapper;
@@ -37,27 +37,67 @@ namespace GameStore.BLL.UnitTests.Services
 
 
         [Fact]
-        public async Task CreateAsync_ValidGameDTO_CreatesGame()
+        public async Task CreateAsync_ValidCommenteDTO_CreatesComment()
         {
             // Arrange
+            var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
+
             var commentDTO = new CreateCommentDTO
             {
                  Name = "My Test Comment",
                  Body = "My Test Body",
-                 GameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d",
-                 ParentCommentId = 1
+                 GameKey = gameKey,
             };
-
-            var expectedCommentId = 2;
-            var expectedGameId = 1;
 
             // Act
             await _commentService.CreateAsync(commentDTO);
 
             // Assert
-            Assert.Equal(2, _mockUow.Object.Comments.GetAll().Count());
-            _loggerMock.Verify(l => l.Info($"Comment({expectedCommentId}) " +
-                $"was created for game({expectedGameId})"), Times.Once);
+            Assert.Equal(2, (await _mockUow.Object.Games.GetByKeyAsync(gameKey)).Comments.Count);
+            _mockUow.Verify(uow => uow.SaveAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateAsync_GameNotFound_ThrowsNotFoundException()
+        {
+            // Arrange
+            var gameKey = "test-key";
+
+            var commentDTO = new CreateCommentDTO
+            {
+                Name = "My Test Comment",
+                Body = "My Test Body",
+                GameKey = gameKey,
+                ParentCommentId = 1
+            };
+
+            // Act& Assert
+            await Assert.ThrowsAsync<NotFoundException>(() =>
+                _commentService.CreateAsync(commentDTO));
+        }
+
+        [Fact]
+        public async Task GetAllByGameKeyAsync_ShouldReturnListOfGetGameDTOs()
+        {
+            //Arrange
+            var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
+
+            //Act
+            var comments = await _commentService.GetAllByGameKeyAsync(gameKey);
+
+            //Assert
+            Assert.NotEmpty(comments);
+        }
+
+        [Fact]
+        public async Task GetAllByGameKeyAsync_GameNotFound_ThrowsNotFoundException()
+        {
+            //Arrange
+            var gameKey = "test-key";
+
+            //Act & Assert
+            await Assert.ThrowsAsync<NotFoundException>(() =>
+                _commentService.GetAllByGameKeyAsync(gameKey));
         }
     }
 }

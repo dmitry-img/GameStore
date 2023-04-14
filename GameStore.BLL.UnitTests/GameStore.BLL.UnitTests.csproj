@@ -43,6 +43,9 @@
     <PackageReference Include="AutoMapper">
       <Version>10.1.1</Version>
     </PackageReference>
+    <PackageReference Include="EntityFramework">
+      <Version>6.4.4</Version>
+    </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.15</Version>
     </PackageReference>
@@ -59,11 +62,15 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\Common\TestDbAsyncEnumerable.cs" />
+    <Compile Include="Mocks\Common\TestDbAsyncEnumerator.cs" />
+    <Compile Include="Mocks\Common\TestDbAsyncQueryProvider.cs" />
     <Compile Include="Mocks\MockCommentRepository.cs" />
     <Compile Include="Mocks\MockGameRepository.cs" />
     <Compile Include="Mocks\MockGenreRepository.cs" />
     <Compile Include="Mocks\MockPlatformTypeRepository.cs" />
     <Compile Include="Mocks\MockUnitOfWork.cs" />
+    <Compile Include="Profiles\MappingProfileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameServiceTests.cs" />
     <Compile Include="Services\CommentServiceTests.cs" />

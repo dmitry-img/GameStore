@@ -14,7 +14,7 @@ namespace GameStore.DAL.Repositories
         private Lazy<IGenericRepository<Comment>> _commentRepository;
         private Lazy<IGenericRepository<Genre>> _genreRepository;
         private Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
-        private bool disposed = false;
+        private bool _disposed = false;
 
         public UnitOfWork(
             GameStoreDbContext context,
@@ -45,14 +45,14 @@ namespace GameStore.DAL.Repositories
 
         public virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!_disposed)
             {
                 if (disposing)
                 {
                     _context.Dispose();
                 }
 
-                disposed = true;
+                _disposed = true;
             }
         }
 

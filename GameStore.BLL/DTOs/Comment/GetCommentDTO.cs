@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace GameStore.BLL.DTOs
+﻿namespace GameStore.BLL.DTOs.Comment
 {
     public class GetCommentDTO
     {

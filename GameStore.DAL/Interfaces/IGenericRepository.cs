@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GameStore.DAL.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<IReadOnlyList<T>> GetAllAsync();
 
-        IEnumerable<T> Filter(Expression<Func<T, bool>> predicate);
+        Task<IReadOnlyList<T>> FilterAsync(Expression<Func<T, bool>> predicate);
 
-        T Get(int id);
+        Task<T> GetAsync(int id);
 
         IQueryable<T> GetQuery();
 

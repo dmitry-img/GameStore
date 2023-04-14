@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GameStore.BLL.UnitTests.Mocks.Common;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using Moq;
@@ -26,9 +24,9 @@ namespace GameStore.BLL.UnitTests.Mocks
 
             var mockRepo = new Mock<IGenericRepository<Comment>>();
 
-            mockRepo.Setup(r => r.GetAll()).Returns(comments);
+            mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(comments);
 
-            mockRepo.Setup(r => r.Get(It.IsAny<int>())).Returns((int id) =>
+            mockRepo.Setup(r => r.GetAsync(It.IsAny<int>())).ReturnsAsync((int id) =>
                 comments.FirstOrDefault(g => g.Id == id));
 
             mockRepo.Setup(r => r.Create(It.IsAny<Comment>()))
@@ -37,6 +35,8 @@ namespace GameStore.BLL.UnitTests.Mocks
                     comment.Id = comments.Count + 1;
                     comments.Add(comment);
                 });
+
+            mockRepo.Setup(x => x.GetQuery()).Returns(new TestDbAsyncEnumerable<Comment>(comments));
 
             return mockRepo;
         }

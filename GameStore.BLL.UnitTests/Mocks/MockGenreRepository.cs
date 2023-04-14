@@ -34,18 +34,21 @@ namespace GameStore.BLL.UnitTests.Mocks
 
             var mockRepo = new Mock<IGenericRepository<Genre>>();
 
-            mockRepo.Setup(r => r.GetAll()).Returns(genres);
+            mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(genres);
+
+            mockRepo.Setup(r => r.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync((int id) => genres.FirstOrDefault(g => g.Id == id));
 
             mockRepo.Setup(r => r.Create(It.IsAny<Genre>())).Callback((Genre genre) =>
             {
                 genres.Add(genre);
             });
 
-            mockRepo.Setup(r => r.Filter(It.IsAny<Expression<Func<Genre, bool>>>()))
-                .Returns((Expression<Func<Genre, bool>> expression) =>
-            {
-                return genres.Where(expression.Compile());
-            });
+            mockRepo.Setup(r => r.FilterAsync(It.IsAny<Expression<Func<Genre, bool>>>()))
+                .ReturnsAsync((Expression<Func<Genre, bool>> expression) =>
+                {
+                    return genres.Where(expression.Compile()).ToList();
+                });
 
             return mockRepo;
 

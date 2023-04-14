@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GameStore.DAL.Repositories
 {
@@ -36,19 +37,19 @@ namespace GameStore.DAL.Repositories
             }
         }
 
-        public T Get(int id)
+        public Task<T> GetAsync(int id)
         {
-            return _context.Set<T>().Find(id);
+            return _context.Set<T>().FindAsync(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IReadOnlyList<T>> GetAllAsync()
         {
-            return _context.Set<T>();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public IEnumerable<T> Filter(Expression<Func<T, bool>> predicate)
+        public async Task<IReadOnlyList<T>> FilterAsync(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().Where(predicate).ToList();
+            return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
         public IQueryable<T> GetQuery()

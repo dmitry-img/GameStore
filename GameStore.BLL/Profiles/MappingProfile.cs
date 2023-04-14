@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using GameStore.BLL.DTOs;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.DTOs.PlatformType;
 using GameStore.DAL.Entities;
-using System.Linq;
 
 namespace GameStore.BLL.Profiles
 {

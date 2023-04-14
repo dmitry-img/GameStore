@@ -22,17 +22,20 @@ namespace GameStore.BLL.UnitTests.Mocks
 
             var mockRepo = new Mock<IGenericRepository<PlatformType>>();
 
-            mockRepo.Setup(r => r.GetAll()).Returns(platformTypes);
+            mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(platformTypes);
+
+            mockRepo.Setup(r => r.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync((int id) => platformTypes.FirstOrDefault(g => g.Id == id));
 
             mockRepo.Setup(r => r.Create(It.IsAny<PlatformType>())).Callback((PlatformType leaveType) =>
             {
                 platformTypes.Add(leaveType);
             });
 
-            mockRepo.Setup(r => r.Filter(It.IsAny<Expression<Func<PlatformType, bool>>>()))
-               .Returns((Expression<Func<PlatformType, bool>> expression) =>
+            mockRepo.Setup(r => r.FilterAsync(It.IsAny<Expression<Func<PlatformType, bool>>>()))
+               .ReturnsAsync((Expression<Func<PlatformType, bool>> expression) =>
                {
-                   return platformTypes.Where(expression.Compile());
+                   return platformTypes.Where(expression.Compile()).ToList();
                });
 
             return mockRepo;

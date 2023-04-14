@@ -31,10 +31,10 @@ namespace GameStore.BLL.Services
         {
             var game = _mapper.Map<Game>(gameDTO);
 
-            game.Genres = _unitOfWork.Genres
-                .Filter(g => gameDTO.GenreIds.Contains(g.Id)).ToList();
-            game.PlatformTypes = _unitOfWork.PlatformTypes
-                .Filter(pt => gameDTO.PlatformTypeIds.Contains(pt.Id)).ToList();
+            game.Genres = (await _unitOfWork.Genres
+                .FilterAsync(g => gameDTO.GenreIds.Contains(g.Id))).ToList();
+            game.PlatformTypes = (await _unitOfWork.PlatformTypes
+                .FilterAsync(pt => gameDTO.PlatformTypeIds.Contains(pt.Id))).ToList();
 
             _unitOfWork.Games.Create(game);
             await _unitOfWork.SaveAsync();
@@ -53,10 +53,10 @@ namespace GameStore.BLL.Services
 
             _mapper.Map(gameDTO, game);
 
-            game.Genres = _unitOfWork.Genres
-               .Filter(g => gameDTO.GenreIds.Contains(g.Id)).ToList();
-            game.PlatformTypes = _unitOfWork.PlatformTypes
-                .Filter(pt => gameDTO.PlatformTypeIds.Contains(pt.Id)).ToList();
+            game.Genres = (await _unitOfWork.Genres
+               .FilterAsync(g => gameDTO.GenreIds.Contains(g.Id))).ToList();
+            game.PlatformTypes = (await _unitOfWork.PlatformTypes
+                .FilterAsync(pt => gameDTO.PlatformTypeIds.Contains(pt.Id))).ToList();
 
             _unitOfWork.Games.Update(game);
             await _unitOfWork.SaveAsync();
@@ -95,7 +95,15 @@ namespace GameStore.BLL.Services
 
         public async Task<IEnumerable<GetGameDTO>> GetAllByGenreAsync(int genreId)
         {
+            var genre = await _unitOfWork.Genres.GetAsync(genreId);
+
+            if (genre == null)
+            {
+                throw new NotFoundException(nameof(genre), genreId);
+            }
+
             var games = await _unitOfWork.Games.GetGamesByGenreAsync(genreId);
+
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
@@ -103,7 +111,15 @@ namespace GameStore.BLL.Services
 
         public async Task<IEnumerable<GetGameDTO>> GetAllByPlatformTypeAsync(int platformTypeId)
         {
+            var platformType = await _unitOfWork.PlatformTypes.GetAsync(platformTypeId);
+
+            if (platformType == null)
+            {
+                throw new NotFoundException(nameof(platformType), platformTypeId);
+            }
+
             var games = await _unitOfWork.Games.GetGamesByPlatformTypeAsync(platformTypeId);
+
             var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
 
             return gameDTOs;
