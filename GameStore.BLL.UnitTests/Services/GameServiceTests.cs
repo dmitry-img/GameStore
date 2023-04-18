@@ -45,7 +45,7 @@ namespace GameStore.BLL.UnitTests.Services
             // Act
             var result = await _gameService.GetAllAsync();
 
-            //Assert
+            // Assert
             Assert.NotNull(result);
             Assert.IsAssignableFrom<IEnumerable<GetGameDTO>>(result);
             Assert.Single(result);
@@ -87,7 +87,7 @@ namespace GameStore.BLL.UnitTests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => 
+            await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.UpdateAsync(key, gameDTO));
         }
 
@@ -107,10 +107,12 @@ namespace GameStore.BLL.UnitTests.Services
             // Act
             await _gameService.UpdateAsync(key, gameDTO);
 
-            //Assert
-            Assert.Equal("Updated Test Game", 
+            // Assert
+            Assert.Equal(
+                "Updated Test Game",
                 (await _mockUow.Object.Games.GetByKeyAsync(key)).Name);
-            Assert.Equal("Updated Test Description", 
+            Assert.Equal(
+                "Updated Test Description",
                 (await _mockUow.Object.Games.GetByKeyAsync(key)).Description);
             Assert.Single((await _mockUow.Object.Games.GetByKeyAsync(key)).Genres);
             Assert.Single((await _mockUow.Object.Games.GetByKeyAsync(key)).PlatformTypes);
@@ -123,7 +125,7 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var key = "test-key";
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.DeleteAsync(key));
         }
@@ -134,10 +136,10 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var key = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
 
-            //Act
+            // Act
             await _gameService.DeleteAsync(key);
 
-            //Assert
+            // Assert
             _mockUow.Verify(g => g.Games.Delete(It.IsAny<int>()), Times.Once);
             _mockUow.Verify(g => g.SaveAsync(), Times.Once);
         }
@@ -148,7 +150,7 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var key = "test-key";
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.GetByKeyAsync(key));
         }
@@ -159,10 +161,10 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var key = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
 
-            //Act
+            // Act
             var game = await _gameService.GetByKeyAsync(key);
 
-            //Assert
+            // Assert
             Assert.NotNull(game);
             Assert.IsAssignableFrom<GetGameDTO>(game);
             Assert.Equal(key, game.Key);
@@ -174,10 +176,10 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var platformTypeId = 4;
 
-            //Act
+            // Act
             var games = await _gameService.GetAllByPlatformTypeAsync(platformTypeId);
 
-            //Assert
+            // Assert
             Assert.Equal(2, games.Count());
         }
 
@@ -187,7 +189,7 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var platformTypeId = -1;
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.GetAllByPlatformTypeAsync(platformTypeId));
         }
@@ -198,13 +200,12 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var genreId = 2;
 
-            //Act
+            // Act
             var games = await _gameService.GetAllByGenreAsync(genreId);
 
-            //Assert
+            // Assert
             Assert.Single(games);
         }
-
 
         [Fact]
         public async Task GetAllByGenreAsync_GameNotFound_ThrowsNotFoundException()
@@ -212,7 +213,7 @@ namespace GameStore.BLL.UnitTests.Services
             // Arrange
             var platformTypeId = -1;
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.GetAllByGenreAsync(platformTypeId));
         }
@@ -220,24 +221,24 @@ namespace GameStore.BLL.UnitTests.Services
         [Fact]
         public async Task GetGameFileAsync_WithValidGameKey_ReturnsMemoryStreamWithGameName()
         {
-            //Arrange
+            // Arrange
             var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
             var expectedBytes = Encoding.ASCII.GetBytes("Warcraft III");
 
-            //Act
+            // Act
             var gottenBytes = await _gameService.GetGameFileAsync(gameKey);
 
-            //Assert
+            // Assert
             Assert.Equal(expectedBytes, gottenBytes.ToArray());
         }
 
         [Fact]
         public async Task GetGameFileAsync_GameNotFound_ThrowsNotFoundException()
         {
-            //Arrange
+            // Arrange
             var gameKey = "test-key";
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.GetGameFileAsync(gameKey));
         }

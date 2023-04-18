@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="Data\Configurations\GameConfiguration.cs" />
     <Compile Include="Data\Configurations\GenreConfiguration.cs" />

@@ -9,8 +9,9 @@ namespace GameStore.Api.Tests.Controllers
 {
     public class CommentsControllerTests
     {
-        private Mock<ICommentService> _commentServiceMock;
-        private CommentsController _commentsController;
+        private const string TestKey = "test-key";
+        private readonly Mock<ICommentService> _commentServiceMock;
+        private readonly CommentsController _commentsController;
 
         public CommentsControllerTests()
         {
@@ -22,9 +23,9 @@ namespace GameStore.Api.Tests.Controllers
         public async Task CreateAsync_ShouldInvoke_CreateAsync()
         {
             // Arrange
-            var commentDTO = new CreateCommentDTO 
-            { 
-                GameKey = "test-key", 
+            var commentDTO = new CreateCommentDTO
+            {
+                GameKey = TestKey,
                 Name = "test-name",
                 Body = "test-body"
             };
@@ -39,14 +40,11 @@ namespace GameStore.Api.Tests.Controllers
         [Fact]
         public async Task GetAllByGame_ShouldInvoke_GetAllByGameKeyAsync()
         {
-            // Arrange
-            var key = "test_key";
-
             // Act
-            var result = await _commentsController.GetAllByGame(key);
+            var result = await _commentsController.GetAllByGame(TestKey);
 
             // Assert
-            _commentServiceMock.Verify(x => x.GetAllByGameKeyAsync(key), Times.Once);
+            _commentServiceMock.Verify(x => x.GetAllByGameKeyAsync(TestKey), Times.Once);
         }
     }
 }

@@ -12,7 +12,7 @@ using Xunit;
 
 namespace GameStore.BLL.UnitTests.Services
 {
-    public class CommentServiceTests 
+    public class CommentServiceTests
     {
         private readonly Mock<IUnitOfWork> _mockUow;
         private readonly IMapper _mapper;
@@ -34,7 +34,6 @@ namespace GameStore.BLL.UnitTests.Services
 
             _commentService = new CommentService(_mockUow.Object, _mapper, _loggerMock.Object);
         }
-
 
         [Fact]
         public async Task CreateAsync_ValidCommenteDTO_CreatesComment()
@@ -79,23 +78,23 @@ namespace GameStore.BLL.UnitTests.Services
         [Fact]
         public async Task GetAllByGameKeyAsync_ShouldReturnListOfGetGameDTOs()
         {
-            //Arrange
+            // Arrange
             var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
 
-            //Act
+            // Act
             var comments = await _commentService.GetAllByGameKeyAsync(gameKey);
 
-            //Assert
+            // Assert
             Assert.NotEmpty(comments);
         }
 
         [Fact]
         public async Task GetAllByGameKeyAsync_GameNotFound_ThrowsNotFoundException()
         {
-            //Arrange
+            // Arrange
             var gameKey = "test-key";
 
-            //Act & Assert
+            // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _commentService.GetAllByGameKeyAsync(gameKey));
         }

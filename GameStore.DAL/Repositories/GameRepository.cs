@@ -9,7 +9,7 @@ namespace GameStore.DAL.Repositories
 {
     public class GameRepository : GenericRepository<Game>, IGameRepository
     {
-        private GameStoreDbContext _context;
+        private readonly GameStoreDbContext _context;
 
         public GameRepository(GameStoreDbContext context) : base(context)
         {

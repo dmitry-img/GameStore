@@ -7,7 +7,7 @@ using Moq;
 
 namespace GameStore.BLL.UnitTests.Mocks
 {
-    class MockGameRepository
+    internal class MockGameRepository
     {
         public static Mock<IGameRepository> GetRepository()
         {
@@ -47,8 +47,8 @@ namespace GameStore.BLL.UnitTests.Mocks
                         }
                     }
                 },
-                 new Game()
-                 {
+                new Game()
+                {
                     Id = 2,
                     Name = "Warcraft IV",
                     Key = "78cc36g4-16b0-4eec-8c27-39b54e67664d",
@@ -73,7 +73,7 @@ namespace GameStore.BLL.UnitTests.Mocks
 
             mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(games);
 
-            mockRepo.Setup(r => r.GetAsync(It.IsAny<int>())).ReturnsAsync((int id) => 
+            mockRepo.Setup(r => r.GetAsync(It.IsAny<int>())).ReturnsAsync((int id) =>
                 games.FirstOrDefault(g => g.Id == id));
 
             mockRepo.Setup(r => r.Create(It.IsAny<Game>())).Callback((Game game) =>
@@ -88,7 +88,7 @@ namespace GameStore.BLL.UnitTests.Mocks
             mockRepo.Setup(g => g.GetQuery()).Returns(new TestDbAsyncEnumerable<Game>(games));
 
             mockRepo.Setup(g => g.GetGamesByGenreAsync(It.IsAny<int>()))
-                .ReturnsAsync((int id) => games.Where(g => 
+                .ReturnsAsync((int id) => games.Where(g =>
                     g.Genres.Select(genre => genre.Id).Contains(id)));
 
             mockRepo.Setup(g => g.GetGamesByPlatformTypeAsync(It.IsAny<int>()))

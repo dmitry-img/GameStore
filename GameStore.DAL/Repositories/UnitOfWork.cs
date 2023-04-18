@@ -9,11 +9,11 @@ namespace GameStore.DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private GameStoreDbContext _context;
-        private Lazy<IGameRepository> _gameRepository;
-        private Lazy<IGenericRepository<Comment>> _commentRepository;
-        private Lazy<IGenericRepository<Genre>> _genreRepository;
-        private Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
+        private readonly GameStoreDbContext _context;
+        private readonly Lazy<IGameRepository> _gameRepository;
+        private readonly Lazy<IGenericRepository<Comment>> _commentRepository;
+        private readonly Lazy<IGenericRepository<Genre>> _genreRepository;
+        private readonly Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
         private bool _disposed = false;
 
         public UnitOfWork(

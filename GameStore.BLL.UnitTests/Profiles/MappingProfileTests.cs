@@ -48,7 +48,9 @@ namespace GameStore.BLL.UnitTests.Profiles
         private object GetInstanceOf(Type type)
         {
             if (type.GetConstructor(Type.EmptyTypes) != null)
+            {
                 return Activator.CreateInstance(type);
+            }
 
             return FormatterServices.GetUninitializedObject(type);
         }

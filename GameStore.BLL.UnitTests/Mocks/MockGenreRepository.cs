@@ -8,7 +8,7 @@ using Moq;
 
 namespace GameStore.BLL.UnitTests.Mocks
 {
-    class MockGenreRepository
+    internal class MockGenreRepository
     {
         public static Mock<IGenericRepository<Genre>> GetRepository()
         {
@@ -16,10 +16,10 @@ namespace GameStore.BLL.UnitTests.Mocks
             {
                 new Genre() { Id = 1, Name = "Strategy" },
                 new Genre() { Id = 2, Name = "RTS", ParentGenreId = 1 },
-                new Genre() { Id = 3, Name = "TBS", ParentGenreId = 1  },
+                new Genre() { Id = 3, Name = "TBS", ParentGenreId = 1 },
                 new Genre() { Id = 4, Name = "RPG" },
                 new Genre() { Id = 5, Name = "Sports" },
-                new Genre() { Id = 6, Name = "Races"},
+                new Genre() { Id = 6, Name = "Races" },
                 new Genre() { Id = 7, Name = "Rally", ParentGenreId = 6 },
                 new Genre() { Id = 8, Name = "Arcade", ParentGenreId = 6 },
                 new Genre() { Id = 9, Name = "Formula", ParentGenreId = 6 },
@@ -51,7 +51,6 @@ namespace GameStore.BLL.UnitTests.Mocks
                 });
 
             return mockRepo;
-
         }
     }
 }

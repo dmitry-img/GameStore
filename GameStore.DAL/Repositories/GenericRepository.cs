@@ -11,7 +11,7 @@ namespace GameStore.DAL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private GameStoreDbContext _context;
+        private readonly GameStoreDbContext _context;
 
         public GenericRepository(GameStoreDbContext context)
         {

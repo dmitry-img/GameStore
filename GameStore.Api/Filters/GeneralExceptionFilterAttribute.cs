@@ -28,7 +28,6 @@ namespace GameStore.Api.Filters
             var message = $"{controllerName} -> {actionName} " +
                 $"message: {actionExecutedContext.Exception.Message}";
 
-
             var config = actionExecutedContext.Request.GetConfiguration();
 
             var logger = config.DependencyResolver.GetService(typeof(ILog)) as ILog;

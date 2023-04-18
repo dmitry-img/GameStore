@@ -3,7 +3,7 @@ using Moq;
 
 namespace GameStore.BLL.UnitTests.Mocks
 {
-    class MockUnitOfWork
+    internal class MockUnitOfWork
     {
         public static Mock<IUnitOfWork> Get()
         {

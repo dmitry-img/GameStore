@@ -2,7 +2,6 @@
 using Unity;
 using Unity.Extension;
 
-
 namespace GameStore.Api.Infrastructure.Extensions
 {
     public class Log4NetExtension : UnityContainerExtension

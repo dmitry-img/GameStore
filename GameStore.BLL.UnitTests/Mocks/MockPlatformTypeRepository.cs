@@ -8,7 +8,7 @@ using Moq;
 
 namespace GameStore.BLL.UnitTests.Mocks
 {
-    class MockPlatformTypeRepository
+    internal class MockPlatformTypeRepository
     {
         public static Mock<IGenericRepository<PlatformType>> GetRepository()
         {

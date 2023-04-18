@@ -14,16 +14,6 @@ namespace GameStore.BLL.UnitTests.Mocks.Common
             _inner = inner;
         }
 
-        public void Dispose()
-        {
-            _inner.Dispose();
-        }
-
-        public Task<bool> MoveNextAsync(CancellationToken cancellationToken)
-        {
-            return Task.FromResult(_inner.MoveNext());
-        }
-
         public T Current
         {
             get { return _inner.Current; }
@@ -32,6 +22,16 @@ namespace GameStore.BLL.UnitTests.Mocks.Common
         object IDbAsyncEnumerator.Current
         {
             get { return Current; }
+        }
+
+        public Task<bool> MoveNextAsync(CancellationToken cancellationToken)
+        {
+            return Task.FromResult(_inner.MoveNext());
+        }
+
+        public void Dispose()
+        {
+            _inner.Dispose();
         }
     }
 }

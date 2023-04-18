@@ -7,7 +7,7 @@ using Moq;
 
 namespace GameStore.BLL.UnitTests.Mocks
 {
-    class MockCommentRepository
+    internal class MockCommentRepository
     {
         public static Mock<IGenericRepository<Comment>> GetRepository()
         {
@@ -18,7 +18,7 @@ namespace GameStore.BLL.UnitTests.Mocks
                     Id = 1,
                     Name = "Test Name",
                     Body = "Test Body",
-                    GameId = 1, 
+                    GameId = 1,
                 }
             };
 
