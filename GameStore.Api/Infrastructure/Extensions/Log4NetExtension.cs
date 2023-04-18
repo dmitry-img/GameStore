@@ -1,10 +1,7 @@
-﻿
-
-using log4net;
-using System.ComponentModel;
+﻿using log4net;
 using Unity;
 using Unity.Extension;
-using Unity.Injection;
+
 
 namespace GameStore.Api.Infrastructure.Extensions
 {

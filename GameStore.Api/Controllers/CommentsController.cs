@@ -1,7 +1,5 @@
-﻿using GameStore.BLL.DTOs;
-using GameStore.BLL.DTOs.Comment;
+﻿using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
-using System;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -11,6 +9,7 @@ namespace GameStore.Api.Controllers
     public class CommentsController : ApiController
     {
         private readonly ICommentService _commentService;
+
         public CommentsController(ICommentService commentService)
         {
             _commentService = commentService;

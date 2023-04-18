@@ -1,6 +1,5 @@
 ﻿using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
-using log4net;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,12 +12,10 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
-        private readonly ILog _logger;
 
-        public GamesController(IGameService gameService, ILog logger)
+        public GamesController(IGameService gameService)
         {
             _gameService = gameService;
-            _logger = logger;
         }
 
         [HttpGet]

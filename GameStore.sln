@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BD15CE31-24D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.BLL.UnitTests", "GameStore.BLL.UnitTests\GameStore.BLL.UnitTests.csproj", "{505777DF-EE43-4239-9F29-964D6DD72F96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameStore.Api.Tests", "GameStore.Api.Tests\GameStore.Api.Tests.csproj", "{2BCEF094-C51D-478B-8442-3D8B72F22F1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{505777DF-EE43-4239-9F29-964D6DD72F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{505777DF-EE43-4239-9F29-964D6DD72F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{505777DF-EE43-4239-9F29-964D6DD72F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCEF094-C51D-478B-8442-3D8B72F22F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCEF094-C51D-478B-8442-3D8B72F22F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCEF094-C51D-478B-8442-3D8B72F22F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCEF094-C51D-478B-8442-3D8B72F22F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{95CFC4EB-49AA-4C04-9C78-C87A3806EF51} = {BD15CE31-24D1-41B1-A1D5-976ED64220A5}
 		{B6B91ECA-7E20-4CF3-978A-3237AC13C423} = {BD15CE31-24D1-41B1-A1D5-976ED64220A5}
 		{505777DF-EE43-4239-9F29-964D6DD72F96} = {761D5311-82C7-4BEF-AFE9-7741904C243B}
+		{2BCEF094-C51D-478B-8442-3D8B72F22F1F} = {761D5311-82C7-4BEF-AFE9-7741904C243B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11C07BD1-183C-47FA-BE42-102E51791D91}

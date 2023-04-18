@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GameStore.BLL.DTOs.Comment
+﻿namespace GameStore.BLL.DTOs.Comment
 {
     public class CreateCommentDTO
     {

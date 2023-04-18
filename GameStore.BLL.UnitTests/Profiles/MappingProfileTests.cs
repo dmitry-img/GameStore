@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.DTOs.Game;
@@ -54,7 +50,6 @@ namespace GameStore.BLL.UnitTests.Profiles
             if (type.GetConstructor(Type.EmptyTypes) != null)
                 return Activator.CreateInstance(type);
 
-            // Type without parameterless constructor
             return FormatterServices.GetUninitializedObject(type);
         }
     }
