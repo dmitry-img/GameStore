@@ -5,7 +5,7 @@ using GameStore.BLL.Interfaces;
 using Moq;
 using Xunit;
 
-namespace GameStore.Api.Tests.Controllers
+namespace GameStore.Api.UnitTests.Controllers
 {
     public class CommentsControllerTests
     {
