@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Http.Results;
 using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
@@ -40,10 +42,17 @@ namespace GameStore.Api.UnitTests.Controllers
         [Fact]
         public async Task GetAllByGame_ShouldInvoke_GetAllByGameKeyAsync()
         {
+            // Arrange
+            var expectedGame = new List<GetCommentDTO> { new GetCommentDTO(), new GetCommentDTO() };
+            var key = "test-key";
+            _commentServiceMock.Setup(x => x.GetAllByGameKeyAsync(key)).ReturnsAsync(expectedGame);
+
             // Act
             var result = await _commentsController.GetAllByGame(TestKey);
 
             // Assert
+            Assert.NotNull(result);
+            Assert.IsType<JsonResult<IEnumerable<GetCommentDTO>>>(result);
             _commentServiceMock.Verify(x => x.GetAllByGameKeyAsync(TestKey), Times.Once);
         }
     }

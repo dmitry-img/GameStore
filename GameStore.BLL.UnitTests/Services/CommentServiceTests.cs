@@ -4,35 +4,21 @@ using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
-using GameStore.BLL.UnitTests.Mocks;
-using GameStore.DAL.Interfaces;
+using GameStore.BLL.UnitTests.Common;
+using GameStore.DAL.Entities;
 using log4net;
 using Moq;
 using Xunit;
 
 namespace GameStore.BLL.UnitTests.Services
 {
-    public class CommentServiceTests
+    public class CommentServiceTests : BaseTest
     {
-        private readonly Mock<IUnitOfWork> _mockUow;
-        private readonly IMapper _mapper;
-        private readonly Mock<ILog> _loggerMock;
         private readonly CommentService _commentService;
 
         public CommentServiceTests()
         {
-            _mockUow = MockUnitOfWork.Get();
-
-            var mapperConfig = new MapperConfiguration(c =>
-            {
-                c.AddProfile<MappingProfile>();
-            });
-
-            _mapper = mapperConfig.CreateMapper();
-
-            _loggerMock = new Mock<ILog>();
-
-            _commentService = new CommentService(_mockUow.Object, _mapper, _loggerMock.Object);
+            _commentService = new CommentService(MockUow.Object, Mapper, MockLogger.Object);
         }
 
         [Fact]
@@ -48,27 +34,26 @@ namespace GameStore.BLL.UnitTests.Services
                  GameKey = gameKey,
             };
 
+            MockUow.Setup(r => r.Comments.Create(It.IsAny<Comment>()))
+                .Callback((Comment comment) =>
+                {
+                    comment.Id = Comments.Count + 1;
+                    Comments.Add(comment);
+                });
+
             // Act
             await _commentService.CreateAsync(commentDTO);
 
             // Assert
-            Assert.Equal(2, (await _mockUow.Object.Games.GetByKeyAsync(gameKey)).Comments.Count);
-            _mockUow.Verify(uow => uow.SaveAsync(), Times.Once);
+            Assert.Equal(2, (await MockUow.Object.Games.GetByKeyAsync(gameKey)).Comments.Count);
+            MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
         }
 
         [Fact]
         public async Task CreateAsync_GameNotFound_ThrowsNotFoundException()
         {
             // Arrange
-            var gameKey = "test-key";
-
-            var commentDTO = new CreateCommentDTO
-            {
-                Name = "My Test Comment",
-                Body = "My Test Body",
-                GameKey = gameKey,
-                ParentCommentId = 1
-            };
+            var commentDTO = new CreateCommentDTO();
 
             // Act& Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>

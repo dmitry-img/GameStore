@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.Results;
 using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
@@ -27,20 +29,33 @@ namespace GameStore.Api.UnitTests.Controllers
         [Fact]
         public async Task GetAll_ShouldInvoke_GetAllAsync()
         {
+            // Arrange
+            var expectedGames = new List<GetGameDTO> { new GetGameDTO(), new GetGameDTO() };
+            _gameServiceMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expectedGames);
+
             // Act
             var result = await _gamesController.GetAll();
 
             // Assert
-            _gameServiceMock.Verify(x => x.GetAllAsync(), Times.Once);
+            Assert.NotNull(result);
+            Assert.IsType<JsonResult<IEnumerable<GetGameDTO>>>(result);
+            _gameServiceMock.Verify(s => s.GetAllAsync(), Times.Once);
         }
 
         [Fact]
         public async Task GetByKey_ShouldInvoke_GetByKeyAsync()
         {
+            // Arrange
+            var expectedGame = new GetGameDTO();
+            var key = "test-key";
+            _gameServiceMock.Setup(x => x.GetByKeyAsync(key)).ReturnsAsync(expectedGame);
+
             // Act
             var result = await _gamesController.GetByKey(TestKey);
 
             // Assert
+            Assert.NotNull(result);
+            Assert.IsType<JsonResult<GetGameDTO>>(result);
             _gameServiceMock.Verify(x => x.GetByKeyAsync(TestKey), Times.Once);
         }
 

@@ -1,42 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Exceptions;
-using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
-using GameStore.BLL.UnitTests.Mocks;
-using GameStore.DAL.Interfaces;
-using log4net;
+using GameStore.BLL.UnitTests.Common;
+using GameStore.DAL.Entities;
 using Moq;
 using Xunit;
 
 namespace GameStore.BLL.UnitTests.Services
 {
-    public class GameServiceTests
+    public class GameServiceTests : BaseTest
     {
-        private readonly Mock<IUnitOfWork> _mockUow;
-        private readonly IMapper _mapper;
-        private readonly Mock<ILog> _loggerMock;
         private readonly GameService _gameService;
 
         public GameServiceTests()
         {
-            _mockUow = MockUnitOfWork.Get();
-
-            var mapperConfig = new MapperConfiguration(c =>
-            {
-                c.AddProfile<MappingProfile>();
-            });
-
-            _mapper = mapperConfig.CreateMapper();
-
-            _loggerMock = new Mock<ILog>();
-
-            _gameService = new GameService(_mockUow.Object, _mapper, _loggerMock.Object);
+            _gameService = new GameService(MockUow.Object, Mapper, MockLogger.Object);
         }
 
         [Fact]
@@ -47,8 +29,8 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<IEnumerable<GetGameDTO>>(result);
             Assert.Single(result);
+            Assert.IsAssignableFrom<IEnumerable<GetGameDTO>>(result);
         }
 
         [Fact]
@@ -63,14 +45,21 @@ namespace GameStore.BLL.UnitTests.Services
                 PlatformTypeIds = new List<int> { 1, 2 },
             };
 
+            MockUow.Setup(r => r.Games.Create(It.IsAny<Game>())).Callback((Game game) =>
+            {
+                game.Id = Games.Count + 1;
+                Games.Add(game);
+            });
+
             // Act
             await _gameService.CreateAsync(gameDTO);
 
             // Assert
-            Assert.Equal(3, (await _mockUow.Object.Games.GetAllAsync()).Count());
-            Assert.Equal(2, (await _mockUow.Object.Games.GetAllAsync()).Last().Genres.Count);
-            Assert.Equal(2, (await _mockUow.Object.Games.GetAllAsync()).Last().PlatformTypes.Count);
-            _mockUow.Verify(uow => uow.SaveAsync(), Times.Once);
+            var allGames = await MockUow.Object.Games.GetAllAsync();
+            Assert.Equal(3, allGames.Count());
+            Assert.Equal(2, allGames.Last().Genres.Count);
+            Assert.Equal(2, allGames.Last().PlatformTypes.Count);
+            MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
         }
 
         [Fact]
@@ -78,13 +67,7 @@ namespace GameStore.BLL.UnitTests.Services
         {
             // Arrange
             var key = "test-key";
-            var gameDTO = new UpdateGameDTO
-            {
-                Name = "Updated Test Game",
-                Description = "Updated Test Description",
-                GenreIds = new List<int> { 1, 2 },
-                PlatformTypeIds = new List<int> { 1, 2 }
-            };
+            var gameDTO = new UpdateGameDTO();
 
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
@@ -108,15 +91,12 @@ namespace GameStore.BLL.UnitTests.Services
             await _gameService.UpdateAsync(key, gameDTO);
 
             // Assert
-            Assert.Equal(
-                "Updated Test Game",
-                (await _mockUow.Object.Games.GetByKeyAsync(key)).Name);
-            Assert.Equal(
-                "Updated Test Description",
-                (await _mockUow.Object.Games.GetByKeyAsync(key)).Description);
-            Assert.Single((await _mockUow.Object.Games.GetByKeyAsync(key)).Genres);
-            Assert.Single((await _mockUow.Object.Games.GetByKeyAsync(key)).PlatformTypes);
-            _mockUow.Verify(uow => uow.SaveAsync(), Times.Once);
+            var updatedGame = await MockUow.Object.Games.GetByKeyAsync(key);
+            Assert.Equal("Updated Test Game", updatedGame.Name);
+            Assert.Equal("Updated Test Description", updatedGame.Description);
+            Assert.Single(updatedGame.Genres);
+            Assert.Single(updatedGame.PlatformTypes);
+            MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
         }
 
         [Fact]
@@ -140,8 +120,8 @@ namespace GameStore.BLL.UnitTests.Services
             await _gameService.DeleteAsync(key);
 
             // Assert
-            _mockUow.Verify(g => g.Games.Delete(It.IsAny<int>()), Times.Once);
-            _mockUow.Verify(g => g.SaveAsync(), Times.Once);
+            MockUow.Verify(g => g.Games.Delete(It.IsAny<int>()), Times.Once);
+            MockUow.Verify(g => g.SaveAsync(), Times.Once);
         }
 
         [Fact]
@@ -174,6 +154,13 @@ namespace GameStore.BLL.UnitTests.Services
         public async Task GetAllByPlatformTypeAsync_WithValidPlatformTypeId_ReturnsListOfGetGameDTOs()
         {
             // Arrange
+            MockUow.Setup(r => r.PlatformTypes.GetAsync(It.IsAny<int>()))
+                .ReturnsAsync((int id) => PlatformTypes.FirstOrDefault(g => g.Id == id));
+
+            MockUow.Setup(g => g.Games.GetGamesByPlatformTypeAsync(It.IsAny<int>()))
+                .ReturnsAsync((int id) => Games.Where(g =>
+                    g.PlatformTypes.Select(pt => pt.Id).Contains(id)));
+
             var platformTypeId = 4;
 
             // Act
@@ -198,6 +185,13 @@ namespace GameStore.BLL.UnitTests.Services
         public async Task GetAllByGenreAsync_WithValidGenreId_ReturnsListOfGetGameDTOs()
         {
             // Arrange
+            MockUow.Setup(r => r.Genres.GetAsync(It.IsAny<int>()))
+               .ReturnsAsync((int id) => Genres.FirstOrDefault(g => g.Id == id));
+
+            MockUow.Setup(g => g.Games.GetGamesByGenreAsync(It.IsAny<int>()))
+               .ReturnsAsync((int id) => Games.Where(g =>
+                   g.Genres.Select(genre => genre.Id).Contains(id)));
+
             var genreId = 2;
 
             // Act
