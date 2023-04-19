@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using GameStore.Api.Infrastructure;
+using log4net;
 
 namespace GameStore.Api.Filters
 {
@@ -21,19 +23,22 @@ namespace GameStore.Api.Filters
         {
             _stopwatch.Stop();
 
-            string appDataPath = ApplicationVariables.AppDataPath;
-            string path = Path.Combine(appDataPath, "PerformanceLog.txt");
+            var controllerName = actionExecutedContext
+               .ActionContext
+               .ControllerContext
+               .ControllerDescriptor
+               .ControllerType
+               .FullName;
 
-            using (var writer = File.AppendText(path))
-            {
-                string text = $"Date: {DateTime.UtcNow} - " +
-               $"Controller: {actionExecutedContext.ActionContext.ControllerContext.ControllerDescriptor.ControllerName} - " +
-               $"Action: {actionExecutedContext.ActionContext.ActionDescriptor.ActionName} - " +
-               $"Performance: {_stopwatch.ElapsedMilliseconds} ms";
-                writer.WriteLine(text);
+            var actionName = actionExecutedContext.ActionContext.ActionDescriptor.ActionName;
 
-                writer.Close();
-            }
+            var message = $"{controllerName} -> {actionName} " +
+                $"Performance: {_stopwatch.ElapsedMilliseconds} ms";
+
+            var config = actionExecutedContext.Request.GetConfiguration();
+            var logger = config.DependencyResolver.GetService(typeof(ILog)) as ILog;
+
+            logger.Debug(message);
 
             base.OnActionExecuted(actionExecutedContext);
         }

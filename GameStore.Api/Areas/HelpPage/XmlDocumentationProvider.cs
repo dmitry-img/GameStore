@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -147,8 +147,9 @@ namespace GameStore.Api.Areas.HelpPage
                 // Trim the generic parameter counts from the name
                 genericTypeName = genericTypeName.Substring(0, genericTypeName.IndexOf('`'));
                 string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
-                name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
+                name = string.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
             }
+
             if (type.IsNested)
             {
                 // Changing the nested type name from OuterType+InnerType to OuterType.InnerType to match the XML documentation syntax.

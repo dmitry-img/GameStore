@@ -11,16 +11,17 @@ namespace GameStore.DAL.Data
 {
     public class GameStoreDbContext : DbContext
     {
-        public DbSet<Game> Games { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<PlatformType> PlatformTypes { get; set; }
-
-
         public GameStoreDbContext() : base("name=DefaultConnection")
         {
-           
         }
+
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Genre> Genres { get; set; }
+
+        public DbSet<PlatformType> PlatformTypes { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {

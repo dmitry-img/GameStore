@@ -1,8 +1,7 @@
 ﻿namespace GameStore.DAL.Migrations
 {
     using System;
-    using System.Data.Entity.Migrations;
-    
+    using System.Data.Entity.Migrations;    
     public partial class ChangeConnections : DbMigration
     {
         public override void Up()

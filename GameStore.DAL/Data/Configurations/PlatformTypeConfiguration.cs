@@ -15,7 +15,7 @@ namespace GameStore.DAL.Data.Configurations
                 .HasColumnAnnotation(
                  "Index",
                  new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }))
-                .IsRequired(); ;
+                .IsRequired();
         }
     }
 }

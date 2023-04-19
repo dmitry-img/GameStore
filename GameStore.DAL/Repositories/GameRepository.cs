@@ -3,14 +3,13 @@ using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameStore.DAL.Repositories
 {
     public class GameRepository : GenericRepository<Game>, IGameRepository
     {
-        private GameStoreDbContext _context;
+        private readonly GameStoreDbContext _context;
 
         public GameRepository(GameStoreDbContext context) : base(context)
         {
@@ -32,7 +31,7 @@ namespace GameStore.DAL.Repositories
             var genre = await _context.Genres
                 .Include(g => g.Games)
                 .FirstOrDefaultAsync(g => g.Id == genreId && !g.IsDeleted);
-            
+
             return genre.Games;
         }
 
@@ -41,7 +40,7 @@ namespace GameStore.DAL.Repositories
             var platformtype = await _context.PlatformTypes
                 .Include(pt => pt.Games)
                 .FirstOrDefaultAsync(pt => pt.Id == platformTypeId && !pt.IsDeleted);
-            
+
             return platformtype.Games;
         }
     }

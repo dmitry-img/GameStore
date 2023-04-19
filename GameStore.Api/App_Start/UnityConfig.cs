@@ -1,9 +1,9 @@
-using System.Configuration;
-using System.Web.Http;
+﻿using System.Web.Http;
+using GameStore.Api.Infrastructure;
+using GameStore.BLL.Infrastructure;
+using GameStore.DAL.Infrastructure;
 using Unity;
 using Unity.WebApi;
-using GameStore.DAL.Infrastructure;
-using GameStore.BLL.Infrastructure;
 
 namespace GameStore.Api
 {
@@ -11,10 +11,11 @@ namespace GameStore.Api
     {
         public static void RegisterComponents(HttpConfiguration config)
         {
-			var container = new UnityContainer();
+            var container = new UnityContainer();
 
             container.RegisterDALTypes();
             container.RegisterBLLTypes();
+            container.RegisterApiTypes();
 
             config.DependencyResolver = new UnityDependencyResolver(container);
         }

@@ -12,6 +12,7 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
+
         public GamesController(IGameService gameService)
         {
             _gameService = gameService;
@@ -55,7 +56,7 @@ namespace GameStore.Api.Controllers
         public async Task<IHttpActionResult> Delete(string key)
         {
             await _gameService.DeleteAsync(key);
-            
+
             return Ok();
         }
 
@@ -68,14 +69,18 @@ namespace GameStore.Api.Controllers
 
             string fileName = $"{game.Name}.bin";
 
-            HttpResponseMessage result = 
-                new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new StreamContent(gameData);
+            HttpResponseMessage result =
+                new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StreamContent(gameData)
+                };
             result.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/octet-stream");
-            result.Content.Headers.ContentDisposition = 
-                new ContentDispositionHeaderValue("attachment");
-            result.Content.Headers.ContentDisposition.FileName = fileName;
+            result.Content.Headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = fileName
+                };
             return result;
         }
     }
