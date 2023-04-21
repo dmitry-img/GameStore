@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>{{game.Name}}</h1>
+  <p>{{game.Description}}</p>
+  <h3>Genres</h3>
+  <ul>
+    <li *ngFor="let genre of parentGenres">
+      {{genre.Name}}
+      <ul>
+        <li *ngFor="let subGenre of getSubGenres(genre)">
+          {{subGenre.Name}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Platforms</h3>
+  <ul>
+    <li *ngFor="let platformType of game.PlatformTypes">
+      {{platformType.Type}}
+    </li>
+  </ul>
+</div>
