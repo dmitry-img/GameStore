@@ -1,5 +1,7 @@
 ﻿using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Validators;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -37,6 +39,15 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateGameDTO gameDTO)
         {
+            var validator = new CreateGameDTOValidator();
+            var result = validator.Validate(gameDTO);
+
+            if (!result.IsValid)
+            {
+                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(string.Join(", ", errors));
+            }
+
             await _gameService.CreateAsync(gameDTO);
 
             return Ok();
@@ -46,6 +57,15 @@ namespace GameStore.Api.Controllers
         [Route("update/{key}")]
         public async Task<IHttpActionResult> Update(string key, [FromBody] UpdateGameDTO gameDTO)
         {
+            var validator = new UpdateGameDTOValidator();
+            var result = validator.Validate(gameDTO);
+
+            if (!result.IsValid)
+            {
+                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(string.Join(", ", errors));
+            }
+
             await _gameService.UpdateAsync(key, gameDTO);
 
             return Ok();

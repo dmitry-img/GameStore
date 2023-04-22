@@ -8,7 +8,10 @@ import { GameListPageComponent } from './pages/game-list-page/game-list-page.com
 import { GameDetailsPageComponent } from './pages/game-details-page/game-details-page.component';
 import { CreateGamePageComponent } from './pages/create-game-page/create-game-page.component';
 import {RouterLink} from "@angular/router";
-import { CommentListItemComponent } from './components/comment-list/comment-list-item/comment-list-item.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { CreateCommentComponent } from './components/create-comment/create-comment.component';
 
 
 
@@ -21,11 +24,15 @@ import { CommentListItemComponent } from './components/comment-list/comment-list
     GameListPageComponent,
     GameDetailsPageComponent,
     CreateGamePageComponent,
-    CommentListItemComponent
+    CreateCommentComponent
   ],
   imports: [
     CommonModule,
     RouterLink,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    FormsModule,
   ],
   exports:[
     GameListPageComponent,

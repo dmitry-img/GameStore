@@ -19,6 +19,8 @@ namespace GameStore.BLL.Infrastructure
 
             container.RegisterType<IGameService, GameService>();
             container.RegisterType<ICommentService, CommentService>();
+            container.RegisterType<IGenreService, GenreService>();
+            container.RegisterType<IPlatformTypeService, PlatformTypeService>();
 
             return container;
         }

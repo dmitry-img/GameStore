@@ -1,1 +1,81 @@
-<p>create-game works!</p>
+<div class="container">
+  <h1>Create Game</h1>
+  <form [formGroup]="createGameForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" formControlName="Name" class="form-control" id="name">
+      <span
+        *ngIf="!createGameForm.get('Name')?.valid && createGameForm.get('Name')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('Name')?.errors?.['required']">
+          This field is required!
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea formControlName="Description" class="form-control" id="description"></textarea>
+      <span
+        *ngIf="!createGameForm.get('Description')?.valid && createGameForm.get('Description')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('Description')?.errors?.['minlength']">
+          The minimal length of the description is 50 characters!
+        </span>
+        <span *ngIf="createGameForm.get('Description')?.errors?.['required']">
+          This field is required!
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label>Genres:</label>
+      <ul class="genres">
+        <ng-container *ngFor="let genre of genres">
+          <li class="list-group-item" *ngIf="genre.ParentGenreId == null">
+            <div class="form-check">
+              <input (change)="onCheckBoxChange($event, genre.Id, 'GenreIds')" class="form-check-input" type="checkbox" [value]="genre.Id" id="genre-{{genre.Id}}">
+              <label class="form-check-label" for="genre-{{genre.Id}}">{{ genre.Name }}</label>
+            </div>
+            <ul>
+              <ng-container *ngFor="let childGenre of genres">
+                <li class="list-group-item" *ngIf="childGenre.ParentGenreId === genre.Id">
+                  <div class="form-check">
+                    <input (change)="onCheckBoxChange($event, childGenre.Id, 'GenreIds')" class="form-check-input" type="checkbox" [value]="childGenre.Id" id="genre-{{childGenre.Id}}">
+                    <label class="form-check-label" for="genre-{{childGenre.Id}}">{{ childGenre.Name }}</label>
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+      <span
+        *ngIf="!createGameForm.get('GenreIds')?.valid && createGameForm.get('GenreIds')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('GenreIds')?.errors?.['required']">
+          Pick at least one genre!
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label>Platforms:</label>
+      <div *ngFor="let platformType of platformTypes" class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [id]="'platform-' + platformType.Id"
+          [value]="platformType.Id"
+          (change)="onCheckBoxChange($event, platformType.Id,'PlatformTypeIds')">
+        <label class="form-check-label" [for]="'platform-' + platformType.Id">{{ platformType.Type }}</label>
+      </div>
+      <span
+        *ngIf="!createGameForm.get('PlatformTypeIds')?.valid && createGameForm.get('PlatformTypeIds')?.touched"
+        class="help-block">
+      <span *ngIf="createGameForm.get('PlatformTypeIds')?.errors?.['required']">
+        Pick at least one platform!
+      </span>
+  </span>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
+  </form>
+</div>
+

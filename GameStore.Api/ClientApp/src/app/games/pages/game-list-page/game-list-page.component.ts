@@ -17,7 +17,7 @@ export class GameListPageComponent {
   }
 
   getGames() {
-    this.gameService.getGameList().subscribe({
+    this.gameService.getAllGames().subscribe({
       next: (games: GetGameResponse[]) => {
         this.games = games;
       },

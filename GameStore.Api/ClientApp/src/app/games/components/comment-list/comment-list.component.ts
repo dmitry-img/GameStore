@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
 
 @Component({
   selector: 'app-comment-list',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent {
-
+  @Input() comments!: GetCommentResponse[]
 }

@@ -35,8 +35,6 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.GameId, opt => opt.Ignore())
                 .ForMember(dest => dest.Game, opt => opt.Ignore())
-                .ForMember(dest => dest.ParentComment, opt => opt.Ignore())
-                .ForMember(dest => dest.ChildComments, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore());
 

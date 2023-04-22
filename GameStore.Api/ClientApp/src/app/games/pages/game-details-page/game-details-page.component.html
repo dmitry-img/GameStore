@@ -1,1 +1,7 @@
-<app-game-details *ngIf="game! && comments!" [game]="game" [comments]="comments"/>
+<app-game-details
+  *ngIf="game! && comments!"
+  [game]="game"
+  [comments]="comments"
+  (downloadGame)="onDownloadGame()"
+/>
+

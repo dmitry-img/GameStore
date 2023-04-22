@@ -19,4 +19,12 @@
       {{platformType.Type}}
     </li>
   </ul>
+
+  <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
+
+  <div class="comments">
+    <h3 class="comments__title">Comments</h3>
+    <app-create-comment></app-create-comment>
+    <app-comment-list [comments]="comments"></app-comment-list>
+  </div>
 </div>

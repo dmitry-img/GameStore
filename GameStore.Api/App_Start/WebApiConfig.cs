@@ -1,4 +1,5 @@
-﻿using GameStore.Api.Filters;
+﻿using FluentValidation.WebApi;
+using GameStore.Api.Filters;
 using log4net;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -20,6 +21,9 @@ namespace GameStore.Api
             // Cors
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
+
+            // Fluent Validation
+            FluentValidationModelValidatorProvider.Configure(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

@@ -12,7 +12,7 @@ export class GameService {
   private baseUrl = '/api/games/';
   constructor(private http: HttpClient) { }
 
-  getGameList() : Observable<GetGameResponse[]>{
+  getAllGames() : Observable<GetGameResponse[]>{
     return this.http.get<GetGameResponse[]>(this.baseUrl)
   }
 
@@ -26,5 +26,17 @@ export class GameService {
 
   updateGame(key: string, game: UpdateGameRequest) : Observable<void>{
     return this.http.post<void>(`${this.baseUrl}/update/${key}`, game)
+  }
+
+  downloadGame(key: string, name: string){
+    this.http.get(`${this.baseUrl}/download/${key}`, { responseType: 'blob' })
+      .subscribe((response: any) => {
+        const blob = new Blob([response], { type: response.type });
+        const downloadUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = name;
+        link.click();
+      });
   }
 }

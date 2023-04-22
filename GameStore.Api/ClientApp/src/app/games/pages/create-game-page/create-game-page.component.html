@@ -1,1 +1,5 @@
-<p>create-game-page works!</p>
+<app-create-game
+  [genres]="genres"
+  [platformTypes]="platformTypes"
+  (gameCreated)="onGameCreated($event)"
+/>
