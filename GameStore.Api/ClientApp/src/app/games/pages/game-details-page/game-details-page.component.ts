@@ -1,13 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GameService} from "../../services/game.service";
-import {CommentService} from "../../services/comment.service";
+import {GameService} from "../../../core/services/game.service";
+import {CommentService} from "../../../core/services/comment.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
 import {CreateCommentRequest} from "../../../core/models/CreateCommentRequest";
 import {ToastrService} from "ngx-toastr";
 import {Subscription} from "rxjs";
+import {CommentNode} from "../../models/CommentNode";
 
 @Component({
   selector: 'app-game-details-page',
@@ -16,7 +17,7 @@ import {Subscription} from "rxjs";
 })
 export class GameDetailsPageComponent implements OnInit, OnDestroy{
   game!: GetGameResponse
-  comments!: GetCommentResponse[]
+  commentNodes!: CommentNode[]
   newCommentSubscription!: Subscription;
   constructor(
     private route: ActivatedRoute,
@@ -26,40 +27,52 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      this.gameService.getGameByKey(data['key']).subscribe({
-        next: (games: GetGameResponse) => {
-          this.game = games;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      })
-
-      this.commentService.getCommentList(data['key']).subscribe({
-        next: (comments: GetCommentResponse[]) => {
-          this.comments = comments;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      })
+      this.updateGame(data['key'])
+      this.updateCommentListArray(data['key'])
     });
-
     this.onCommentCreated()
+  }
 
-    this.commentService.getEmittedComment().subscribe((comment: CreateCommentRequest) =>{
-      this.route.params.subscribe(data => {
-        this.commentService.getCommentList(data['key']).subscribe({
-          next: (comments: GetCommentResponse[]) => {
-            this.comments = comments;
-            console.log(this.comments)
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        })
-      });
+  private buildCommentTree(comments: GetCommentResponse[]): CommentNode[] {
+    const commentMap = new Map<number, CommentNode>();
+    const roots: CommentNode[] = [];
+
+    comments.forEach(comment => {
+      const node: CommentNode = { comment };
+      commentMap.set(comment.Id, node);
+      const parent = commentMap.get(comment.ParentCommentId);
+      if (parent) {
+        if (!parent.children) {
+          parent.children = [];
+        }
+        parent.children.unshift(node);
+      } else {
+        roots.unshift(node);
+      }
     });
+    return roots;
+  }
+
+  private updateCommentListArray(gameKey: string){
+    this.commentService.getCommentList(gameKey).subscribe({
+      next: (comments: GetCommentResponse[]) => {
+        this.commentNodes = this.buildCommentTree(comments);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  private updateGame(key: string){
+    this.gameService.getGameByKey(key).subscribe({
+      next: (games: GetGameResponse) => {
+        this.game = games;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 
   onDownloadGame(){
@@ -70,10 +83,9 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy{
 
   onCommentCreated(){
     this.newCommentSubscription = this.commentService.getEmittedComment().subscribe((newComment: CreateCommentRequest) => {
-      console.log("+")
       this.commentService.createComment(newComment).subscribe({
         next: () => {
-          this.toaster.success("The comment has been added successfully!")
+          this.updateCommentListArray(newComment.GameKey)
         },
         error: (error) =>{
           const errorArray = error.error.Message.split(',');

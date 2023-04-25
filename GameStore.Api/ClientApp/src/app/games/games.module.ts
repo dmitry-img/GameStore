@@ -12,6 +12,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CreateCommentComponent } from './components/create-comment/create-comment.component';
+import { CommentListItemComponent } from './components/comment-list/comment-list-item/comment-list-item.component';
 
 
 
@@ -24,7 +25,8 @@ import { CreateCommentComponent } from './components/create-comment/create-comme
     GameListPageComponent,
     GameDetailsPageComponent,
     CreateGamePageComponent,
-    CreateCommentComponent
+    CreateCommentComponent,
+    CommentListItemComponent
   ],
   imports: [
     CommonModule,

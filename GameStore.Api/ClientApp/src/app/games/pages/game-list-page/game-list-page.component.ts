@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GameService} from "../../services/game.service";
+import {GameService} from "../../../core/services/game.service";
 
 @Component({
   selector: 'app-game-list-page',

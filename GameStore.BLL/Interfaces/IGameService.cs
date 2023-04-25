@@ -15,6 +15,8 @@ namespace GameStore.BLL.Interfaces
 
         Task<GetGameDTO> GetByKeyAsync(string key);
 
+        int GetCount();
+
         Task<IEnumerable<GetGameDTO>> GetAllAsync();
 
         Task<IEnumerable<GetGameDTO>> GetAllByGenreAsync(int genreId);

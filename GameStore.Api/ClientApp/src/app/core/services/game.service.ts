@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {GetGameResponse} from "../../core/models/GetGameResponse";
+import {GetGameResponse} from "../models/GetGameResponse";
 import {Observable} from "rxjs";
-import {CreateGameRequest} from "../../core/models/CreateGameRequest";
-import {UpdateGameRequest} from "../../core/models/UpdateGameRequest";
+import {CreateGameRequest} from "../models/CreateGameRequest";
+import {UpdateGameRequest} from "../models/UpdateGameRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +38,9 @@ export class GameService {
         link.download = name;
         link.click();
       });
+  }
+
+  getCount() : Observable<number>{
+    return this.http.get<number>(`${this.baseUrl}/count`)
   }
 }

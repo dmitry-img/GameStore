@@ -1,0 +1,22 @@
+<div class="comment">
+  <div class="comment__parent" id="comment-{{commentNode.comment.Id}}">
+    <div class="comment__content">
+      <h6 class="comment__body">{{ commentNode.comment.Name }}</h6>
+      <div class="comment__body">
+        <span *ngIf="parentNode">
+          <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">[{{parentNode.comment.Name}}]</a>
+        </span>
+        {{ commentNode.comment.Body }}
+      </div>
+    </div>
+    <div class="comment__actions">
+      <button class="comment_reply" type="button" (click)="clickedReply = !clickedReply">Reply</button>
+    </div>
+    <div class="comment__form" *ngIf="clickedReply">
+      <app-create-comment [parentComment]="commentNode.comment"></app-create-comment>
+    </div>
+  </div>
+  <div class="comment__children">
+    <app-comment-list-item [commentNode]="child" [parentNode]="commentNode" *ngFor="let child of commentNode.children"></app-comment-list-item>
+  </div>
+</div>

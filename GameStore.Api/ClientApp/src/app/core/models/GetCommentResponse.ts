@@ -3,4 +3,5 @@ export interface GetCommentResponse {
   Name: string,
   Body: string,
   GameKey: string,
+  ParentCommentId: number
 }

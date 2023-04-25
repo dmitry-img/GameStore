@@ -1,0 +1,26 @@
+.comment__parent{
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.comment_reply{
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  color: #0D6EFD;
+}
+
+.comment__actions{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment__children{
+  padding-left: 40px;
+  border-left: 1px solid black;
+}
+
+.comment__link{
+  text-decoration: none;
+  cursor: pointer;
+}

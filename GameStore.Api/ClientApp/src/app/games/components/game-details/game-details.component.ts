@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GetGameResponse} from "../../../core/models/GetGameResponse";
 import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
 import {Genre} from "../../../core/models/Genre";
+import {CommentNode} from "../../models/CommentNode";
 
 @Component({
   selector: 'app-game-details',
@@ -10,7 +11,7 @@ import {Genre} from "../../../core/models/Genre";
 })
 export class GameDetailsComponent implements OnInit{
   @Input() game!: GetGameResponse
-  @Input() comments!: GetCommentResponse[]
+  @Input() commentNodes!: CommentNode[]
   @Output() downloadGame = new EventEmitter<File>();
   parentGenres!: Genre[]
 

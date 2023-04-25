@@ -1,7 +1,3 @@
-<div class="comment" *ngFor="let comment of comments">
-  <div class="comment__content">
-    <h6>{{comment.Name}}</h6>
-    <p>{{comment.Body}}</p>
-  </div>
-  <button class="comment_reply" type="button">Reply</button>
-</div>
+<ng-container *ngFor="let commentNode of commentNodes">
+  <app-comment-list-item [commentNode]="commentNode"></app-comment-list-item>
+</ng-container>

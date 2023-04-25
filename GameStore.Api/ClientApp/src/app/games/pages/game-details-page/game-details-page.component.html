@@ -1,7 +1,7 @@
 <app-game-details
-  *ngIf="game! && comments!"
+  *ngIf="game! && commentNodes!"
   [game]="game"
-  [comments]="comments"
+  [commentNodes]="commentNodes"
   (downloadGame)="onDownloadGame()"
 />
 

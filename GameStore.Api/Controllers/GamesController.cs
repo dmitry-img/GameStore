@@ -21,6 +21,14 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
+        [Route("count")]
+        [System.Web.Mvc.OutputCache(Duration = 60)]
+        public IHttpActionResult GetGamesCount()
+        {
+            return Ok(_gameService.GetCount());
+        }
+
+        [HttpGet]
         public async Task<IHttpActionResult> GetAll()
         {
             return Json(await _gameService.GetAllAsync());

@@ -154,5 +154,10 @@ namespace GameStore.BLL.Services
 
             return new MemoryStream(Encoding.ASCII.GetBytes(game.Name));
         }
+
+        public int GetCount()
+        {
+            return _unitOfWork.Games.GetQuery().Count();
+        }
     }
 }
