@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 import {GamesModule} from "./games/games.module";
+import {PublishersModule} from "./publishers/publishers.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {GamesModule} from "./games/games.module";
         AppRoutingModule,
         HttpClientModule,
         SharedModule,
-        GamesModule
+        GamesModule,
+        PublishersModule
     ],
   providers: [],
   bootstrap: [AppComponent]

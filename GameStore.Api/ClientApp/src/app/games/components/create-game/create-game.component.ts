@@ -3,6 +3,7 @@ import {CreateGameRequest} from "../../../core/models/CreateGameRequest";
 import {CheckboxControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Genre} from "../../../core/models/Genre";
 import {PlatformType} from "../../../core/models/PlatformType";
+import {GetPublisherBriefResponse} from "../../../core/models/GetPublisherBriefResponse";
 
 @Component({
   selector: 'app-create-game',
@@ -13,6 +14,7 @@ export class CreateGameComponent implements OnInit{
   @ViewChild("parentGenreRef") parentGenreRef!:  ElementRef<HTMLInputElement>;
   @Input() genres!: Genre[];
   @Input() platformTypes!: PlatformType[];
+  @Input() publishers!: GetPublisherBriefResponse[];
   @Output() gameCreated = new EventEmitter<CreateGameRequest>();
   createGameForm!: FormGroup
 
@@ -22,7 +24,8 @@ export class CreateGameComponent implements OnInit{
       Name: ['', Validators.required],
       Description: ['', [Validators.required, Validators.minLength(50)]],
       GenreIds: [[], Validators.required],
-      PlatformTypeIds: [[], Validators.required]
+      PlatformTypeIds: [[], Validators.required],
+      PublisherId:['',Validators.required]
     });
   }
 

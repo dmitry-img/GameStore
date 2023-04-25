@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {CommentService} from "../../../core/services/comment.service";
+import {CommentService} from "../../services/comment.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
@@ -22,7 +22,7 @@ export class CreateCommentComponent implements OnInit{
       Name: ['', Validators.required],
       Body: ['', Validators.required],
       GameKey: [''],
-      ParentCommentId: ['']
+      ParentCommentId: [''],
     });
   }
 

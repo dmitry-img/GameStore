@@ -22,7 +22,6 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("count")]
-        [System.Web.Mvc.OutputCache(Duration = 60)]
         public IHttpActionResult GetGamesCount()
         {
             return Ok(_gameService.GetCount());

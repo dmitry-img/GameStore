@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Publisher.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="Data\Configurations\GameConfiguration.cs" />
@@ -95,6 +96,10 @@
     <Compile Include="Migrations\202304051522093_ChangeGameKeyTypeToString.designer.cs">
       <DependentUpon>202304051522093_ChangeGameKeyTypeToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202304251332309_AddPublisherAndGameCommercialColumns.cs" />
+    <Compile Include="Migrations\202304251332309_AddPublisherAndGameCommercialColumns.designer.cs">
+      <DependentUpon>202304251332309_AddPublisherAndGameCommercialColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
@@ -117,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304051522093_ChangeGameKeyTypeToString.resx">
       <DependentUpon>202304051522093_ChangeGameKeyTypeToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202304251332309_AddPublisherAndGameCommercialColumns.resx">
+      <DependentUpon>202304251332309_AddPublisherAndGameCommercialColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

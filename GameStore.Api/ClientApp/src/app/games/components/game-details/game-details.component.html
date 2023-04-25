@@ -20,6 +20,11 @@
     </li>
   </ul>
 
+  <div>
+    <h3>Publisher</h3>
+    <a [routerLink]="['/publisher',game.PublisherCompanyName]">{{game.PublisherCompanyName}}</a>
+  </div>
+
   <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
 
   <div class="comments">

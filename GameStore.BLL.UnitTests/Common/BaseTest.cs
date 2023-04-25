@@ -14,10 +14,6 @@ namespace GameStore.BLL.UnitTests.Common
 {
     public class BaseTest
     {
-        protected IMapper Mapper { get; }
-
-        protected Mock<ILog> MockLogger { get; }
-
         public BaseTest()
         {
             var mapperConfig = new MapperConfiguration(c =>
@@ -47,6 +43,10 @@ namespace GameStore.BLL.UnitTests.Common
                     return Genres.Where(expression.Compile()).ToList();
                 });
         }
+
+        protected IMapper Mapper { get; }
+
+        protected Mock<ILog> MockLogger { get; }
 
         protected Mock<IUnitOfWork> MockUow { get; set; }
 

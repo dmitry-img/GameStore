@@ -60,6 +60,28 @@
                 new PlatformType() { Type = "Console" },
             });
 
+            context.Publishers.AddRange(new List<Publisher> 
+            {
+                new Publisher()
+                {
+                    CompanyName = "Blizzard Entertainment",
+                    Description = "Blizzard description...",
+                    HomePage = "https://www.blizzard.com/"
+                },
+                new Publisher()
+                {
+                    CompanyName = "Rockstar",
+                    Description = "Rockstar description...",
+                    HomePage = "https://www.rockstargames.com/"
+                },
+                new Publisher()
+                {
+                    CompanyName = "Electronic Arts",
+                    Description = "Electronic Arts description...",
+                    HomePage = "https://www.ea.com/"
+                }
+            });
+
             context.SaveChanges();
 
             PlatformType desktop = context.PlatformTypes
@@ -85,7 +107,11 @@
                     {
                         desktop,
                         console
-                    }
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Blizzard Entertainment"),
+                    Price = 100,
+                    UnitsInStock = 5,
+                    Discontinued = false
                 },
                 new Game()
                 {
@@ -102,7 +128,11 @@
                     {
                         desktop,
                         console
-                    }
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Electronic Arts"),
+                    Price = 50,
+                    UnitsInStock = 30,
+                    Discontinued = true
                 },
                 new Game()
                 {
@@ -116,7 +146,11 @@
                     PlatformTypes = new List<PlatformType>()
                     {
                         browser
-                    }
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
+                    Price = 15,
+                    UnitsInStock = 80,
+                    Discontinued = false
                 }
             });
         }

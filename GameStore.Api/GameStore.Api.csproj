@@ -214,6 +214,7 @@
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlatformTypesController.cs" />
+    <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Filters\LogIpFilterAttribute.cs" />
     <Compile Include="Filters\GeneralExceptionFilterAttribute.cs" />
     <Compile Include="Filters\LogPerformanceFilterAttribute.cs" />

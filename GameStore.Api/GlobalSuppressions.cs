@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1649", Justification = "Not needed for this namespace", Scope = "Namespace", Target = "GameStore.Api")]
+[assembly: SuppressMessage("StyleCop.CSharp.NamingRules", "SA1649", Justification = "Not needed for this namespace", Scope = "Namespace", Target = "~N:GameStore.Api")]
 
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1121", Justification = "Not needed for this folder", Scope = "NamespaceAndDescendants", Target = "~N:GameStore.Api.Areas")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1500", Justification = "Not needed for this folder", Scope = "NamespaceAndDescendants", Target = "~N:GameStore.Api.Areas")]

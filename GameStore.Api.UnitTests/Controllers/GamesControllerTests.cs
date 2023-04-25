@@ -63,7 +63,14 @@ namespace GameStore.Api.UnitTests.Controllers
         public async Task Create_ShouldInvoke_CreateAsync()
         {
             // Arrange
-            var gameDTO = new CreateGameDTO();
+            var gameDTO = new CreateGameDTO()
+            {
+                Name = "Test",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
+                "elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                GenreIds = new List<int> { 1 },
+                PlatformTypeIds = new List<int> { 1 },
+            };
 
             // Act
             var result = await _gamesController.Create(gameDTO);
@@ -76,7 +83,14 @@ namespace GameStore.Api.UnitTests.Controllers
         public async Task Update_ShouldInvoke_UpdateAsync()
         {
             // Arrange
-            var gameDTO = new UpdateGameDTO();
+            var gameDTO = new UpdateGameDTO()
+            {
+                Name = "Test",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
+                "elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                GenreIds = new List<int> { 1 },
+                PlatformTypeIds = new List<int> { 1 },
+            };
 
             // Act
             var result = await _gamesController.Update(TestKey, gameDTO);

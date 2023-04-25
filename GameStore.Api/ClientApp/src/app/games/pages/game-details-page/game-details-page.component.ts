@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GameService} from "../../../core/services/game.service";
-import {CommentService} from "../../../core/services/comment.service";
+import {GameService} from "../../../core/service/game.service";
+import {CommentService} from "../../services/comment.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
 import {CreateCommentRequest} from "../../../core/models/CreateCommentRequest";

@@ -1,12 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Genre} from "../../../core/models/Genre";
 import {PlatformType} from "../../../core/models/PlatformType";
-import {GenreService} from "../../../core/services/genre.service";
-import {PlatformTypeService} from "../../../core/services/platform-type.service";
-import {GameService} from "../../../core/services/game.service";
+import {GenreService} from "../../services/genre.service";
+import {PlatformTypeService} from "../../services/platform-type.service";
+import {GameService} from "../../../core/service/game.service";
 import {CreateGameRequest} from "../../../core/models/CreateGameRequest";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {GetPublisherBriefResponse} from "../../../core/models/GetPublisherBriefResponse";
+import {PublisherService} from "../../../core/service/publisher.service";
 
 @Component({
   selector: 'app-create-game-page',
@@ -16,10 +18,12 @@ import {ToastrService} from "ngx-toastr";
 export class CreateGamePageComponent implements OnInit{
   genres!: Genre[];
   platformTypes!: PlatformType[];
+  publishers!: GetPublisherBriefResponse[];
   constructor(
     private gameService: GameService,
     private genreService: GenreService,
     private platformTypeService: PlatformTypeService,
+    private publisherService: PublisherService,
     private router: Router,
     private toaster: ToastrService) { }
 
@@ -31,6 +35,10 @@ export class CreateGamePageComponent implements OnInit{
     this.platformTypeService.getAllPlatformTypes().subscribe((platformTypes: PlatformType[]) =>{
       this.platformTypes = platformTypes;
     });
+
+    this.publisherService.getAllPublishersBrief().subscribe((publishers:GetPublisherBriefResponse[]) =>{
+      this.publishers = publishers;
+    })
   }
 
   onGameCreated(newGame: CreateGameRequest) {

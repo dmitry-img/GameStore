@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\Publisher\CreatePublisherDTO.cs" />
+    <Compile Include="DTOs\Publisher\GetPublisherBriefDTO.cs" />
+    <Compile Include="DTOs\Publisher\GetPublisherDTO.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="DTOs\Comment\CreateCommentDTO.cs" />
     <Compile Include="DTOs\Comment\GetCommentDTO.cs" />
@@ -103,14 +106,17 @@
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGenreService.cs" />
     <Compile Include="Interfaces\IPlatformTypeService.cs" />
+    <Compile Include="Interfaces\IPublisherService.cs" />
     <Compile Include="Profiles\MappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\GenreService.cs" />
     <Compile Include="Services\PlatformTypeService.cs" />
+    <Compile Include="Services\PublisherService.cs" />
     <Compile Include="Validators\CreateCommentDTOValidator.cs" />
     <Compile Include="Validators\CreateGameDTOValidator.cs" />
+    <Compile Include="Validators\CreatePublisherDTOValidator.cs" />
     <Compile Include="Validators\UpdateGameDTOValidator.cs" />
   </ItemGroup>
   <ItemGroup>

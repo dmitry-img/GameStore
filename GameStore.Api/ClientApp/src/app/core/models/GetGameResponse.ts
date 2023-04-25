@@ -7,4 +7,8 @@ export interface GetGameResponse {
   Description: string,
   Genres: Genre[],
   PlatformTypes: PlatformType[]
+  Price: number
+  UnitsInStock: number
+  Discontinued: boolean
+  PublisherCompanyName: string
 }

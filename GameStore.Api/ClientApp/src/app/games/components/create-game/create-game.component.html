@@ -70,10 +70,22 @@
       <span
         *ngIf="!createGameForm.get('PlatformTypeIds')?.valid && createGameForm.get('PlatformTypeIds')?.touched"
         class="help-block">
-      <span *ngIf="createGameForm.get('PlatformTypeIds')?.errors?.['required']">
-        Pick at least one platform!
+        <span *ngIf="createGameForm.get('PlatformTypeIds')?.errors?.['required']">
+          Pick at least one platform!
+        </span>
       </span>
-  </span>
+    </div>
+    <div class="form-group">
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="PublisherId">
+        <option *ngFor="let publisher of publishers" value="{{publisher.Id}}">{{publisher.CompanyName}}</option>
+      </select>
+      <span
+        *ngIf="!createGameForm.get('PublisherId')?.valid && createGameForm.get('PublisherId')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('PublisherId')?.errors?.['required']">
+          The publisher should be picked!
+        </span>
+      </span>
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
   </form>
