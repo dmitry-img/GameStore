@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="CacheEntities\ShoppingCart.cs" />
     <Compile Include="CacheEntities\ShoppingCartItem.cs" />
+    <Compile Include="Data\Configurations\OrderDetailConfiguration.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\Publisher.cs" />
@@ -142,9 +143,9 @@
     <Compile Include="Migrations\202304251332309_AddPublisherAndGameCommercialColumns.designer.cs">
       <DependentUpon>202304251332309_AddPublisherAndGameCommercialColumns.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202304261808383_AddOrders.cs" />
-    <Compile Include="Migrations\202304261808383_AddOrders.designer.cs">
-      <DependentUpon>202304261808383_AddOrders.cs</DependentUpon>
+    <Compile Include="Migrations\202304271223101_AddOrders.cs" />
+    <Compile Include="Migrations\202304271223101_AddOrders.designer.cs">
+      <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,8 +174,8 @@
     <EmbeddedResource Include="Migrations\202304251332309_AddPublisherAndGameCommercialColumns.resx">
       <DependentUpon>202304251332309_AddPublisherAndGameCommercialColumns.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202304261808383_AddOrders.resx">
-      <DependentUpon>202304261808383_AddOrders.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202304271223101_AddOrders.resx">
+      <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

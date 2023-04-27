@@ -13,9 +13,9 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         GameId = c.Int(nullable: false),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Price = c.Decimal(nullable: false, storeType: "money"),
                         Quantity = c.Short(nullable: false),
-                        Discount = c.Double(nullable: false),
+                        Discount = c.Single(nullable: false),
                         OrderId = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         DeletedAt = c.DateTime(),
@@ -38,6 +38,7 @@
                     })
                 .PrimaryKey(t => t.Id);
             
+            AlterColumn("dbo.Game", "Price", c => c.Decimal(nullable: false, storeType: "money"));
         }
         
         public override void Down()
@@ -46,6 +47,7 @@
             DropForeignKey("dbo.OrderDetail", "GameId", "dbo.Game");
             DropIndex("dbo.OrderDetail", new[] { "OrderId" });
             DropIndex("dbo.OrderDetail", new[] { "GameId" });
+            AlterColumn("dbo.Game", "Price", c => c.Decimal(nullable: false, precision: 18, scale: 2));
             DropTable("dbo.Order");
             DropTable("dbo.OrderDetail");
         }

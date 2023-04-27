@@ -10,7 +10,7 @@ namespace GameStore.DAL.Entities
 
         public short Quantity { get; set; }
 
-        public double Discount { get; set; }
+        public float Discount { get; set; }
 
         public int OrderId { get; set; }
 

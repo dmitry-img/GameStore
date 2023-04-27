@@ -22,6 +22,9 @@ namespace GameStore.DAL.Data.Configurations
                 "Index",
                 new IndexAnnotation(new[] { new IndexAttribute("Index") { IsUnique = true } }))
                 .IsRequired();
+
+            Property(i => i.Price)
+            .HasColumnType("money");
         }
     }
 }

@@ -41,6 +41,7 @@ namespace GameStore.DAL.Data
             modelBuilder.Configurations.Add(new GameConfiguration());
             modelBuilder.Configurations.Add(new GenreConfiguration());
             modelBuilder.Configurations.Add(new PlatformTypeConfiguration());
+            modelBuilder.Configurations.Add(new OrderDetailConfiguration());
         }
 
         private void ApplyDeletableInformation()
