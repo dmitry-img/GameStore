@@ -7,6 +7,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 import {GamesModule} from "./games/games.module";
 import {PublishersModule} from "./publishers/publishers.module";
+import {
+  ShoppingCartDetailsPageComponent
+} from "./shopping-carts/pages/shopping-cart-details-page/shopping-cart-details-page.component";
+import {ShoppingCartsModule} from "./shopping-carts/shopping-carts.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +22,8 @@ import {PublishersModule} from "./publishers/publishers.module";
         HttpClientModule,
         SharedModule,
         GamesModule,
-        PublishersModule
+        PublishersModule,
+        ShoppingCartsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

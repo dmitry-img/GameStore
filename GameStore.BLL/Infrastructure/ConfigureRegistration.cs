@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Configuration;
+using AutoMapper;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
+using StackExchange.Redis;
 using Unity;
 
 namespace GameStore.BLL.Infrastructure
@@ -22,6 +24,7 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IGenreService, GenreService>();
             container.RegisterType<IPlatformTypeService, PlatformTypeService>();
             container.RegisterType<IPublisherService, PublisherService>();
+            container.RegisterType<IShoppingCartService, ShoppingCartService>();
 
             return container;
         }

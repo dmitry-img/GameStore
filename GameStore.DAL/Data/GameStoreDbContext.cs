@@ -25,6 +25,10 @@ namespace GameStore.DAL.Data
 
         public DbSet<Publisher> Publishers { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             ApplyDeletableInformation();

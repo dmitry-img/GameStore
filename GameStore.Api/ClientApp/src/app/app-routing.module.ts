@@ -8,6 +8,12 @@ import {
   PublisherDetailsPageComponent
 } from "./publishers/pages/publisher-details-page/publisher-details-page.component";
 import {CreatePublisherPageComponent} from "./publishers/pages/create-publisher-page/create-publisher-page.component";
+import {
+  ShoppingCartDetailsComponent
+} from "./shopping-carts/components/shopping-cart-details/shopping-cart-details.component";
+import {
+  ShoppingCartDetailsPageComponent
+} from "./shopping-carts/pages/shopping-cart-details-page/shopping-cart-details-page.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/game/list', pathMatch: 'full' },
@@ -16,6 +22,7 @@ const routes: Routes = [
   { path: 'game/:key', component: GameDetailsPageComponent },
   { path: 'publisher/create', component: CreatePublisherPageComponent },
   { path: 'publisher/:companyName', component: PublisherDetailsPageComponent },
+  { path: 'shopping-cart', component: ShoppingCartDetailsPageComponent },
 ];
 
 @NgModule({

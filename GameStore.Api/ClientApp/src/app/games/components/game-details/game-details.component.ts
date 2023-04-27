@@ -13,6 +13,7 @@ export class GameDetailsComponent implements OnInit{
   @Input() game!: GetGameResponse
   @Input() commentNodes!: CommentNode[]
   @Output() downloadGame = new EventEmitter<File>();
+  @Output() buyGame = new EventEmitter<GetGameResponse>();
   parentGenres!: Genre[]
 
   ngOnInit(): void {
@@ -24,5 +25,9 @@ export class GameDetailsComponent implements OnInit{
 
   onDownload() {
     this.downloadGame.emit();
+  }
+
+  onBuy() {
+    this.buyGame.emit(this.game);
   }
 }

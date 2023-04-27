@@ -4,6 +4,8 @@ using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.DTOs.PlatformType;
 using GameStore.BLL.DTOs.Publisher;
+using GameStore.BLL.DTOs.ShoppingCart;
+using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Entities;
 
 namespace GameStore.BLL.Profiles
@@ -36,6 +38,8 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.PublisherCompanyName, opt =>
                     opt.MapFrom(src => src.Publisher.CompanyName));
 
+            CreateMap<Game, GetGameBriefDTO>();
+
             CreateMap<CreateCommentDTO, Comment>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.GameId, opt => opt.Ignore())
@@ -60,6 +64,10 @@ namespace GameStore.BLL.Profiles
             CreateMap<Publisher, GetPublisherDTO>();
 
             CreateMap<Publisher, GetPublisherBriefDTO>();
+
+            CreateMap<CreateShoppingCartItemDTO, ShoppingCartItem>();
+
+            CreateMap<ShoppingCartItem, GetShoppingCartItemDTO>();
         }
     }
 }

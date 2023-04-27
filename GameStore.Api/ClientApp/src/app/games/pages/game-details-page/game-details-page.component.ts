@@ -9,6 +9,9 @@ import {CreateCommentRequest} from "../../../core/models/CreateCommentRequest";
 import {ToastrService} from "ngx-toastr";
 import {Subscription} from "rxjs";
 import {CommentNode} from "../../models/CommentNode";
+import {GetShoppingCartItemResponse} from "../../../core/models/GetShoppingCartItemResponse";
+import {ShoppingCartService} from "../../../core/service/shopping-cart.service";
+import {CreateShoppingCartItemRequest} from "../../../core/models/CreateShoppingCartItemRequest";
 
 @Component({
   selector: 'app-game-details-page',
@@ -23,6 +26,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private gameService: GameService,
     private commentService: CommentService,
+    private shoppingCartService: ShoppingCartService,
     private toaster: ToastrService) { }
 
   ngOnInit(): void {
@@ -79,6 +83,23 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy{
     this.route.params.subscribe(data => {
         this.gameService.downloadGame(data['key'], this.game.Name);
     });
+  }
+
+  onBuyGame(game: GetGameResponse) {
+    const cartItem: CreateShoppingCartItemRequest = {
+      GameKey: game.Key,
+      GameName: game.Name,
+      GamePrice: game.Price,
+      Quantity: 1
+    }
+    this.shoppingCartService.addItem(cartItem).subscribe({
+      next: () => {
+        this.toaster.success(`${game.Name} has been added to shopping cart!`)
+      },
+      error: (error) =>{
+       console.log(error);
+      }
+    })
   }
 
   onCommentCreated(){

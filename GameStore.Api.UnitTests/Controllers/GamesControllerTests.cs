@@ -30,7 +30,7 @@ namespace GameStore.Api.UnitTests.Controllers
         public async Task GetAll_ShouldInvoke_GetAllAsync()
         {
             // Arrange
-            var expectedGames = new List<GetGameDTO> { new GetGameDTO(), new GetGameDTO() };
+            var expectedGames = new List<GetGameBriefDTO> { new GetGameBriefDTO(), new GetGameBriefDTO() };
             _gameServiceMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expectedGames);
 
             // Act
