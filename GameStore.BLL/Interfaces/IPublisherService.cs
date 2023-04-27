@@ -8,7 +8,7 @@ namespace GameStore.BLL.Interfaces
     {
         Task<GetPublisherDTO> GetByCompanyNameAsync(string companyName);
 
-        Task<List<GetPublisherBriefDTO>> GetAllBriefAsync();
+        Task<IEnumerable<GetPublisherBriefDTO>> GetAllBriefAsync();
 
         Task CreateAsync(CreatePublisherDTO publisherDTO);
     }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
@@ -22,7 +19,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("{companyName}")]
-        public async Task<IHttpActionResult> Create(string companyName)
+        public async Task<IHttpActionResult> GetByCompanyName(string companyName)
         {
             var publisher = await _publisherService.GetByCompanyNameAsync(companyName);
 

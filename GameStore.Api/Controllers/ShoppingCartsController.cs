@@ -26,7 +26,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("add-item")]
-        public async Task<IHttpActionResult> Create([FromBody] CreateShoppingCartItemDTO itemDTO)
+        public async Task<IHttpActionResult> AddItem([FromBody] CreateShoppingCartItemDTO itemDTO)
         {
             await _shoppingCartService.AddItemAsync(itemDTO);
 
@@ -35,9 +35,9 @@ namespace GameStore.Api.Controllers
 
         [HttpDelete]
         [Route("delete-item/{gameKey}")]
-        public async Task<IHttpActionResult> Delete(string gameKey)
+        public async Task<IHttpActionResult> DeleteItem(string gameKey)
         {
-            await _shoppingCartService.DeleteItem(gameKey);
+            await _shoppingCartService.DeleteItemAsync(gameKey);
 
             return Ok();
         }

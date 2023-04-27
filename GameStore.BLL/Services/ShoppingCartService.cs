@@ -8,6 +8,8 @@ using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Interfaces;
+using log4net;
+using log4net.Core;
 
 namespace GameStore.BLL.Services
 {
@@ -15,11 +17,13 @@ namespace GameStore.BLL.Services
     {
         private readonly IDistributedCache<ShoppingCart> _distributedCache;
         private readonly IMapper _mapper;
+        private readonly ILog _logger;
 
-        public ShoppingCartService(IDistributedCache<ShoppingCart> distributedCache, IMapper mapper)
+        public ShoppingCartService(IDistributedCache<ShoppingCart> distributedCache, IMapper mapper, ILog logger)
         {
             _distributedCache = distributedCache;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task AddItemAsync(CreateShoppingCartItemDTO cartItemDTO)
@@ -29,12 +33,14 @@ namespace GameStore.BLL.Services
             var cacheKey = "cart";
 
             var shoppingCart = await _distributedCache.GetAsync(cacheKey);
+
             if (shoppingCart == null)
             {
                 shoppingCart = new ShoppingCart { Items = new List<ShoppingCartItem>() };
             }
 
             var item = shoppingCart.Items.FirstOrDefault(i => i.GameKey == newItem.GameKey);
+
             if (item != null)
             {
                 item.Quantity++;
@@ -45,9 +51,10 @@ namespace GameStore.BLL.Services
             }
 
             await _distributedCache.SetAsync(cacheKey, shoppingCart);
+            _logger.Info($"{cartItemDTO.GameName} was added to shopping cart!");
         }
 
-        public async Task DeleteItem(string gameKey)
+        public async Task DeleteItemAsync(string gameKey)
         {
             var cacheKey = $"cart";
 
@@ -68,9 +75,10 @@ namespace GameStore.BLL.Services
             }
 
             await _distributedCache.SetAsync(cacheKey, shoppingCart);
+            _logger.Info($"{item.GameName} was deleted from shopping cart!");
         }
 
-        public async Task<List<GetShoppingCartItemDTO>> GetAllItemsAsync()
+        public async Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync()
         {
             var cacheKey = $"cart";
 

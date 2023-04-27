@@ -8,8 +8,8 @@ namespace GameStore.BLL.Interfaces
     {
         Task AddItemAsync(CreateShoppingCartItemDTO cartItemDTO);
 
-        Task<List<GetShoppingCartItemDTO>> GetAllItemsAsync();
+        Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync();
 
-        Task DeleteItem(string gameKey);
+        Task DeleteItemAsync(string gameKey);
     }
 }

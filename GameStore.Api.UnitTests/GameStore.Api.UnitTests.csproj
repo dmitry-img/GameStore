@@ -90,6 +90,8 @@
   <ItemGroup>
     <Compile Include="Controllers\CommentsControllerTests.cs" />
     <Compile Include="Controllers\GamesControllerTests.cs" />
+    <Compile Include="Controllers\PublishersControllerTests.cs" />
+    <Compile Include="Controllers\ShoppingCartsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

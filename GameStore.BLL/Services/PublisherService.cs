@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Publisher;
+using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
@@ -34,7 +35,7 @@ namespace GameStore.BLL.Services
             _logger.Info($"Publisher({publisher.Id}) was created!");
         }
 
-        public async Task<List<GetPublisherBriefDTO>> GetAllBriefAsync()
+        public async Task<IEnumerable<GetPublisherBriefDTO>> GetAllBriefAsync()
         {
             var publishers = await _unitOfWork.Publishers.GetAllAsync();
 
@@ -46,6 +47,11 @@ namespace GameStore.BLL.Services
             var publisher = await _unitOfWork.Publishers
                 .GetQuery()
                 .FirstOrDefaultAsync(p => p.CompanyName == companyName);
+
+            if (publisher == null)
+            {
+                throw new NotFoundException(nameof(publisher), companyName);
+            }
 
             return _mapper.Map<GetPublisherDTO>(publisher);
         }
