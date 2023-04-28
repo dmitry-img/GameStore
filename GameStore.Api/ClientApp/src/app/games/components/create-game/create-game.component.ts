@@ -25,7 +25,9 @@ export class CreateGameComponent implements OnInit{
       Description: ['', [Validators.required, Validators.minLength(50)]],
       GenreIds: [[], Validators.required],
       PlatformTypeIds: [[], Validators.required],
-      PublisherId:['',Validators.required]
+      PublisherId:['',Validators.required],
+      Price: ['', [Validators.required, Validators.min(0.01)]],
+      UnitsInStock: ['', [Validators.required, Validators.min(1)]]
     });
   }
 

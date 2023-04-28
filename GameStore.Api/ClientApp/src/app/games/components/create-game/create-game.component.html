@@ -27,6 +27,34 @@
       </span>
     </div>
     <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="text" formControlName="Price" class="form-control" id="price">
+      <span
+        *ngIf="!createGameForm.get('Price')?.valid && createGameForm.get('Price')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('Price')?.errors?.['required']">
+          This field is required!
+        </span>
+         <span *ngIf="createGameForm.get('Price')?.errors?.['min']">
+          The minimal price is should be higher than 0.01!
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
+      <label for="unitsIntStock">Units in Stock:</label>
+      <input type="text" formControlName="UnitsInStock" class="form-control" id="unitsIntStock">
+      <span
+        *ngIf="!createGameForm.get('UnitsInStock')?.valid && createGameForm.get('UnitsInStock')?.touched"
+        class="help-block">
+        <span *ngIf="createGameForm.get('UnitsInStock')?.errors?.['required']">
+          This field is required!
+        </span>
+         <span *ngIf="createGameForm.get('UnitsInStock')?.errors?.['min']">
+          The minimal number of units in stock is 1!
+        </span>
+      </span>
+    </div>
+    <div class="form-group">
       <label>Genres:</label>
       <ul class="genres">
         <ng-container *ngFor="let genre of genres">

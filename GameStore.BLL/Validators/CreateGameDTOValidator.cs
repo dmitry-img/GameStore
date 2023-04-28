@@ -16,6 +16,12 @@ namespace GameStore.BLL.Validators
                 .NotEmpty().WithMessage("At least one genre must be picked!");
             RuleFor(g => g.PlatformTypeIds)
                 .NotEmpty().WithMessage("At least one platform must be picked!");
+            RuleFor(g => g.Price)
+                .NotNull().WithMessage("Price is required!")
+                .GreaterThan(0.01m).WithMessage("The minimal price is 0.01!");
+            RuleFor(g => g.UnitsInStock)
+                .NotNull().WithMessage("Units in stock is required!")
+                .GreaterThan((short)1).WithMessage("The minimal  number of units in stock is 1!");
         }
     }
 }
