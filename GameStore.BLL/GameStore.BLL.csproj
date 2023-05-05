@@ -123,10 +123,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\Comment\BaseCommentDto.cs" />
+    <Compile Include="DTOs\Game\BaseGameDTO.cs" />
     <Compile Include="DTOs\Game\GetGameBriefDTO.cs" />
+    <Compile Include="DTOs\Publisher\BasePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\CreatePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\GetPublisherBriefDTO.cs" />
     <Compile Include="DTOs\Publisher\GetPublisherDTO.cs" />
+    <Compile Include="DTOs\ShoppingCart\BaseShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\CreateShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\GetShoppingCartItemDTO.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />

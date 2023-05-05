@@ -13,6 +13,8 @@ import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CreateCommentComponent } from './components/create-comment/create-comment.component';
 import { CommentListItemComponent } from './components/comment-list/comment-list-item/comment-list-item.component';
+import {SharedModule} from "../shared/shared.module";
+import { SubGenresPipe } from './pipes/sub-genres.pipe';
 
 
 
@@ -26,16 +28,18 @@ import { CommentListItemComponent } from './components/comment-list/comment-list
     GameDetailsPageComponent,
     CreateGamePageComponent,
     CreateCommentComponent,
-    CommentListItemComponent
+    CommentListItemComponent,
+    SubGenresPipe
   ],
-  imports: [
-    CommonModule,
-    RouterLink,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot(),
-    FormsModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterLink,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        FormsModule,
+        SharedModule,
+    ],
   exports:[
     GameListPageComponent,
     GameDetailsPageComponent,

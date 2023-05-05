@@ -1,3 +1,7 @@
-<ng-container *ngFor="let commentNode of commentNodes">
-  <app-comment-list-item [commentNode]="commentNode"></app-comment-list-item>
+<ng-container *ngFor="let commentNode of commentNodes" >
+    <app-comment-list-item
+        [gameKey]="gameKey"
+        [commentNode]="commentNode"
+        [parentNode]="parentNode">
+    </app-comment-list-item>
 </ng-container>

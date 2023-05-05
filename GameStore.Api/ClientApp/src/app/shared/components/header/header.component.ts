@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from "../../../core/service/game.service";
+import {GameService} from "../../../core/services/game.service";
 
 @Component({
   selector: 'app-header',
@@ -8,9 +8,14 @@ import {GameService} from "../../../core/service/game.service";
 })
 export class HeaderComponent implements  OnInit{
   gamesCount!: number;
+
   constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
+    this.getCount();
+  }
+
+  private getCount(): void {
     this.gameService.getCount().subscribe(count => {
       this.gamesCount = count;
     })

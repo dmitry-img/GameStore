@@ -143,7 +143,7 @@ namespace GameStore.BLL.UnitTests.Common
                 {
                     new PlatformType() { Id = 4, Type = "Console" },
                 },
-                IsDeleted = true,
+                IsDeleted = false,
                 Price = 100,
                 PublisherId = 2,
             }

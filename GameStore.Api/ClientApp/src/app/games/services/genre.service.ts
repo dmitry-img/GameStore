@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {Genre} from "../../core/models/Genre";
+import {Genre} from "../models/Genre";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -8,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class GenreService {
   private baseUrl = '/api/genres/';
+
   constructor(private http: HttpClient) { }
 
   getAllGenres() : Observable<Genre[]>{

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
-import {Genre} from "../../../core/models/Genre";
+import {GetGameResponse} from "../../models/GetGameResponse";
+import {GetCommentResponse} from "../../models/GetCommentResponse";
+import {Genre} from "../../models/Genre";
 import {CommentNode} from "../../models/CommentNode";
 
 @Component({
@@ -11,23 +11,23 @@ import {CommentNode} from "../../models/CommentNode";
 })
 export class GameDetailsComponent implements OnInit{
   @Input() game!: GetGameResponse
-  @Input() commentNodes!: CommentNode[]
   @Output() downloadGame = new EventEmitter<File>();
   @Output() buyGame = new EventEmitter<GetGameResponse>();
   parentGenres!: Genre[]
 
   ngOnInit(): void {
-    this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId == null);
-  }
-  getSubGenres(parent: Genre) : Genre[]{
-    return this.game.Genres.filter(genre => genre.ParentGenreId == parent.Id);
+    this.getParentGenres();
   }
 
-  onDownload() {
+  onDownload(): void{
     this.downloadGame.emit();
   }
 
-  onBuy() {
+  onBuy(): void {
     this.buyGame.emit(this.game);
+  }
+
+  private getParentGenres(){
+    this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId === null);
   }
 }

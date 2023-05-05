@@ -1,0 +1,11 @@
+<div class="form-group">
+  <label [for]="labelText | lowercase">
+    {{labelText}}<span *ngIf="isRequired" class="required">*</span>
+  </label>
+  <input
+    [type]="type"
+    [formControl]="control"
+    class="form-control"
+    [id]="labelText | lowercase">
+  <ng-content></ng-content>
+</div>

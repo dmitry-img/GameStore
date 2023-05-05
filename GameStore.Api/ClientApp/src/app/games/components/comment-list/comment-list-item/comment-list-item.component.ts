@@ -1,7 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GetCommentResponse} from "../../../../core/models/GetCommentResponse";
 import {CommentNode} from "../../../models/CommentNode";
-import {ActivatedRoute, NavigationExtras, Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-comment-list-item',
@@ -11,17 +9,13 @@ import {ActivatedRoute, NavigationExtras, Route, Router} from "@angular/router";
 export class CommentListItemComponent{
   @Input() commentNode!: CommentNode;
   @Input() parentNode: CommentNode | null = null;
+  @Input() gameKey!: string;
   clickedReply: boolean = false;
 
-  constructor(private router: Router) {
-  }
-
-  navigateToParent(id: number) {
-    this.router.navigate([], { fragment: `comment-${id}` }).then(() => {
-      const element = document.getElementById(`comment-${id}`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+  navigateToParent(id: number): void {
+    const element = document.getElementById(`comment-${id}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 }

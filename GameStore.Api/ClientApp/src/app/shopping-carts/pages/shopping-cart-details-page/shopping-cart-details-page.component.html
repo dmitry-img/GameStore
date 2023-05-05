@@ -1,6 +1,6 @@
 <app-shopping-cart-details
-  (deleteItem)="onDeleteItem($event)"
   *ngIf="items != null && items.length != 0; else noContent"
+  (deleteItem)="onDeleteItem($event)"
   [items]="items">
 </app-shopping-cart-details>
 <ng-template #noContent><h1 class="title">Nothing in the shopping cart!</h1></ng-template>

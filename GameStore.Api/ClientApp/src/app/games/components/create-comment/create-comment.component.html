@@ -1,25 +1,25 @@
 <form [formGroup]="createCommentForm" (ngSubmit)="onSubmit()" class="form">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input id="name" type="text" formControlName="Name" class="form-control" placeholder="Enter name">
-    <span
-      *ngIf="!createCommentForm.get('Name')?.valid && createCommentForm.get('Name')?.touched"
-      class="help-block">
-        <span *ngIf="createCommentForm.get('Name')?.errors?.['required']">
-          This field is required!
-        </span>
-    </span>
-  </div>
-  <div class="form-group">
-    <label for="body">Body</label>
-    <textarea id="body" formControlName="Body" class="form-control" rows="3" placeholder="Enter body"></textarea>
-    <span
-      *ngIf="!createCommentForm.get('Body')?.valid && createCommentForm.get('Body')?.touched"
-      class="help-block">
-        <span *ngIf="createCommentForm.get('Body')?.errors?.['required']">
-          This field is required!
-        </span>
-    </span>
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!createCommentForm.valid">Submit</button>
+  <app-input-field
+    [control]="createCommentForm | formControl:'Name'"
+    [isRequired]="true"
+    labelText="Name"
+  ></app-input-field>
+  <app-validation-message
+    [control]="createCommentForm | formControl:'Name'"
+    [errorMessages]="{
+    'required': 'This field is required!'
+  }"></app-validation-message>
+
+  <app-text-area-field
+    [control]="createCommentForm | formControl:'Body'"
+    [isRequired]="true"
+    labelText="Body"
+  ></app-text-area-field>
+  <app-validation-message
+    [control]="createCommentForm | formControl: 'Body'"
+    [errorMessages]="{
+      'required': 'This field is required!'
+    }"></app-validation-message>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>

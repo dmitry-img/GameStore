@@ -1,4 +1,5 @@
-﻿using GameStore.BLL.DTOs.Game;
+﻿using FluentValidation;
+using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Validators;
 using System.Linq;
@@ -14,10 +15,17 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
+        private readonly IValidator<CreateGameDTO> _createGameValidator;
+        private readonly IValidator<UpdateGameDTO> _updateGameValidator;
 
-        public GamesController(IGameService gameService)
+        public GamesController(
+            IGameService gameService,
+            IValidator<CreateGameDTO> createGameValidator,
+            IValidator<UpdateGameDTO> updateGameValidator)
         {
             _gameService = gameService;
+            _createGameValidator = createGameValidator;
+            _updateGameValidator = updateGameValidator;
         }
 
         [HttpGet]
@@ -46,8 +54,7 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateGameDTO gameDTO)
         {
-            var validator = new CreateGameDTOValidator();
-            var result = validator.Validate(gameDTO);
+            var result = _createGameValidator.Validate(gameDTO);
 
             if (!result.IsValid)
             {
@@ -64,8 +71,7 @@ namespace GameStore.Api.Controllers
         [Route("update/{key}")]
         public async Task<IHttpActionResult> Update(string key, [FromBody] UpdateGameDTO gameDTO)
         {
-            var validator = new UpdateGameDTOValidator();
-            var result = validator.Validate(gameDTO);
+            var result = _updateGameValidator.Validate(gameDTO);
 
             if (!result.IsValid)
             {

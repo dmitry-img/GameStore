@@ -29,7 +29,7 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Single(result);
+            Assert.Equal(2, result.Count());
             Assert.IsAssignableFrom<IEnumerable<GetGameBriefDTO>>(result);
         }
 
@@ -244,7 +244,7 @@ namespace GameStore.BLL.UnitTests.Services
             var count = _gameService.GetCount();
 
             // Assert
-            Assert.Equal(Games.Count, count);
+            Assert.Equal(2, count);
         }
     }
 }

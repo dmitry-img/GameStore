@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
-import {GetCommentResponse} from "../../core/models/GetCommentResponse";
-import {CreateCommentRequest} from "../../core/models/CreateCommentRequest";
+import {GetCommentResponse} from "../models/GetCommentResponse";
+import {CreateCommentRequest} from "../models/CreateCommentRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-  private baseUrl = '/api/comments/';
-  private newCommentSubject = new Subject<CreateCommentRequest>();
+  private baseUrl = '/api/comments';
+  private newCommentSubject = new Subject<boolean>();
+
   constructor(private http: HttpClient) { }
 
   getCommentList(gameKey: string) : Observable<GetCommentResponse[]>{
@@ -20,11 +21,11 @@ export class CommentService {
     return this.http.post<void>(`${this.baseUrl}/create`, newComment);
   }
 
-  emitComment(comment: CreateCommentRequest) {
-    this.newCommentSubject.next(comment);
+  emitComment(value: boolean): void {
+    this.newCommentSubject.next(value);
   }
 
-  getEmittedComment(): Observable<CreateCommentRequest> {
+  getEmittedComment$(): Observable<boolean> {
     return this.newCommentSubject.asObservable();
   }
 }

@@ -14,7 +14,7 @@ namespace GameStore.DAL.Infrastructure
         {
             container.RegisterType(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             container.RegisterType<IGameRepository, GameRepository>();
-            container.RegisterType(typeof(IDistributedCache<>), typeof(RedisCacheRepository<>));
+            container.RegisterType(typeof(IDistributedCache<>), typeof(RedisCacheRepository<>), new HierarchicalLifetimeManager());
             container.RegisterType<IUnitOfWork, UnitOfWork>();
 
             container.RegisterType<GameStoreDbContext>(new HierarchicalLifetimeManager());

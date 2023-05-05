@@ -6,9 +6,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using FluentValidation;
 using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Validators;
 using Moq;
 using Xunit;
 
@@ -19,11 +21,19 @@ namespace GameStore.Api.UnitTests.Controllers
         private const string TestKey = "test-key";
         private readonly Mock<IGameService> _gameServiceMock;
         private readonly GamesController _gamesController;
+        private readonly IValidator<CreateGameDTO> _createGameValidator;
+        private readonly IValidator<UpdateGameDTO> _updateGameValidator;
 
         public GamesControllerTests()
         {
             _gameServiceMock = new Mock<IGameService>();
-            _gamesController = new GamesController(_gameServiceMock.Object);
+            _createGameValidator = new CreateGameDTOValidator();
+            _updateGameValidator = new UpdateGameDTOValidator();
+
+            _gamesController = new GamesController(
+                _gameServiceMock.Object,
+                _createGameValidator,
+                _updateGameValidator);
         }
 
         [Fact]
@@ -70,6 +80,8 @@ namespace GameStore.Api.UnitTests.Controllers
                 "elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 GenreIds = new List<int> { 1 },
                 PlatformTypeIds = new List<int> { 1 },
+                Price = 10,
+                UnitsInStock = 10
             };
 
             // Act

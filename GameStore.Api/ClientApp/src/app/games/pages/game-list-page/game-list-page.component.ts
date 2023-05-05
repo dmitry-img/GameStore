@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GameService} from "../../../core/service/game.service";
+import {GetGameResponse} from "../../models/GetGameResponse";
+import {GameService} from "../../../core/services/game.service";
 
 @Component({
   selector: 'app-game-list-page',
@@ -12,18 +12,13 @@ export class GameListPageComponent {
 
   constructor(private gameService: GameService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getGames();
   }
 
-  getGames() {
-    this.gameService.getAllGames().subscribe({
-      next: (games: GetGameResponse[]) => {
+  private getGames(): void {
+    this.gameService.getAllGames().subscribe((games: GetGameResponse[]) => {
         this.games = games;
-      },
-      error: (error) => {
-        console.log(error);
-      }
     });
   }
 }

@@ -15,6 +15,7 @@ namespace GameStore.BLL.Services
 {
     public class ShoppingCartService : IShoppingCartService
     {
+        private const string BaseCartName = "cart";
         private readonly IDistributedCache<ShoppingCart> _distributedCache;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
@@ -30,9 +31,7 @@ namespace GameStore.BLL.Services
         {
             var newItem = _mapper.Map<ShoppingCartItem>(cartItemDTO);
 
-            var cacheKey = "cart";
-
-            var shoppingCart = await _distributedCache.GetAsync(cacheKey);
+            var shoppingCart = await _distributedCache.GetAsync(BaseCartName);
 
             if (shoppingCart == null)
             {
@@ -50,19 +49,17 @@ namespace GameStore.BLL.Services
                 shoppingCart.Items.Add(newItem);
             }
 
-            await _distributedCache.SetAsync(cacheKey, shoppingCart);
+            await _distributedCache.SetAsync(BaseCartName, shoppingCart);
             _logger.Info($"{cartItemDTO.GameName} was added to shopping cart!");
         }
 
         public async Task DeleteItemAsync(string gameKey)
         {
-            var cacheKey = $"cart";
-
-            var shoppingCart = await _distributedCache.GetAsync(cacheKey);
+            var shoppingCart = await _distributedCache.GetAsync(BaseCartName);
 
             if (shoppingCart == null)
             {
-                throw new NotFoundException(nameof(shoppingCart), cacheKey);
+                throw new NotFoundException(nameof(shoppingCart), BaseCartName);
             }
 
             var item = shoppingCart.Items.FirstOrDefault(i => i.GameKey == gameKey);
@@ -74,19 +71,17 @@ namespace GameStore.BLL.Services
                 shoppingCart.Items.Remove(item);
             }
 
-            await _distributedCache.SetAsync(cacheKey, shoppingCart);
+            await _distributedCache.SetAsync(BaseCartName, shoppingCart);
             _logger.Info($"{item.GameName} was deleted from shopping cart!");
         }
 
         public async Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync()
         {
-            var cacheKey = $"cart";
-
-            var shoppingCart = await _distributedCache.GetAsync(cacheKey);
+            var shoppingCart = await _distributedCache.GetAsync(BaseCartName);
 
             if (shoppingCart == null)
             {
-                throw new NotFoundException(nameof(shoppingCart), cacheKey);
+                throw new NotFoundException(nameof(shoppingCart), BaseCartName);
             }
 
             return _mapper.Map<List<GetShoppingCartItemDTO>>(shoppingCart.Items);

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
+import {GetCommentResponse} from "../../models/GetCommentResponse";
 import {CommentNode} from "../../models/CommentNode";
 
 @Component({
@@ -7,16 +7,8 @@ import {CommentNode} from "../../models/CommentNode";
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss']
 })
-export class CommentListComponent implements OnInit{
+export class CommentListComponent{
   @Input() commentNodes!: CommentNode[]
-
-
-
-  replyClicked(comments: any) {
-
-  }
-
-  ngOnInit(): void {
-
-  }
+  @Input() gameKey!: string;
+  @Input() parentNode: CommentNode | null = null;
 }

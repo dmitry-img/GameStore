@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using FluentValidation;
 using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Validators;
 using GameStore.DAL.Entities;
 using Moq;
 using Xunit;
@@ -17,12 +19,16 @@ namespace GameStore.Api.Tests.Controllers
     public class PublishersControllerTests
     {
         private readonly Mock<IPublisherService> _publisherServiceMock;
-        private readonly Api.Controllers.PublishersController _publishersController;
+        private readonly PublishersController _publishersController;
+        private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
 
         public PublishersControllerTests()
         {
             _publisherServiceMock = new Mock<IPublisherService>();
-            _publishersController = new Api.Controllers.PublishersController(_publisherServiceMock.Object);
+            _createPublisherValidator = new CreatePublisherDTOValidator();
+            _publishersController = new PublishersController(
+                _publisherServiceMock.Object,
+                _createPublisherValidator);
         }
 
         [Fact]

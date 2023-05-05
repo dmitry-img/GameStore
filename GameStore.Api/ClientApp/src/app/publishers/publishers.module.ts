@@ -5,6 +5,7 @@ import { PublisherDetailsPageComponent } from './pages/publisher-details-page/pu
 import { PublisherDetailsComponent } from './components/publisher-details/publisher-details.component';
 import { CreatePublisherComponent } from './components/create-publisher/create-publisher.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../shared/shared.module";
 
 
 
@@ -17,7 +18,8 @@ import {ReactiveFormsModule} from "@angular/forms";
   ],
     imports: [
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SharedModule
     ]
 })
 export class PublishersModule { }

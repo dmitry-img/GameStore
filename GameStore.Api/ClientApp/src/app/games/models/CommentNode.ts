@@ -1,4 +1,4 @@
-import {GetCommentResponse} from "../../core/models/GetCommentResponse";
+import {GetCommentResponse} from "./GetCommentResponse";
 
 export interface CommentNode {
   comment: GetCommentResponse;

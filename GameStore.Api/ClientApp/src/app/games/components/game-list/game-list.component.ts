@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GetGameResponse} from "../../../core/models/GetGameResponse";
+import {GetGameResponse} from "../../models/GetGameResponse";
 
 @Component({
   selector: 'app-game-list',
@@ -8,7 +8,4 @@ import {GetGameResponse} from "../../../core/models/GetGameResponse";
 })
 export class GameListComponent{
   @Input() games!: GetGameResponse[];
-  constructor() {
-    console.log(this.games)
-  }
 }

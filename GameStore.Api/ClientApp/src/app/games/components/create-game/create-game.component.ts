@@ -1,9 +1,11 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {CreateGameRequest} from "../../../core/models/CreateGameRequest";
-import {CheckboxControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Genre} from "../../../core/models/Genre";
-import {PlatformType} from "../../../core/models/PlatformType";
-import {GetPublisherBriefResponse} from "../../../core/models/GetPublisherBriefResponse";
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
+import {DropDownItem} from "../../../shared/models/DropDownItem";
+import {GameService} from "../../../core/services/game.service";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
+import {ErrorHandlerService} from "../../../core/services/error-handler.service";
 
 @Component({
   selector: 'app-create-game',
@@ -12,13 +14,19 @@ import {GetPublisherBriefResponse} from "../../../core/models/GetPublisherBriefR
 })
 export class CreateGameComponent implements OnInit{
   @ViewChild("parentGenreRef") parentGenreRef!:  ElementRef<HTMLInputElement>;
-  @Input() genres!: Genre[];
-  @Input() platformTypes!: PlatformType[];
-  @Input() publishers!: GetPublisherBriefResponse[];
-  @Output() gameCreated = new EventEmitter<CreateGameRequest>();
+  @Input() genres!: CheckboxListItem[];
+  @Input() platformTypes!: CheckboxListItem[];
+  @Input() publishers!: DropDownItem[];
   createGameForm!: FormGroup
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private gameService: GameService,
+    private toaster: ToastrService,
+    private router: Router,
+    private errorHandlerService: ErrorHandlerService
+  ) {}
+
   ngOnInit(): void {
     this.createGameForm = this.fb.group({
       Name: ['', Validators.required],
@@ -31,19 +39,19 @@ export class CreateGameComponent implements OnInit{
     });
   }
 
-  onSubmit() {
-    this.gameCreated.emit(this.createGameForm.value);
-  }
-
-  onCheckBoxChange(event: any, id: number, formControlName: string){
-    const entityIds = this.createGameForm.get(formControlName) as FormControl;
-    let updatedGenreIds = [];
-    if(event.target.checked){
-      updatedGenreIds = [...entityIds.value, id];
-    }else {
-      updatedGenreIds = entityIds.value.filter((x: number) => x !== id);
+  onSubmit(): void {
+    if(this.createGameForm.invalid){
+      return;
     }
-    entityIds.setValue(updatedGenreIds);
-    entityIds.markAsTouched();
+
+    this.gameService.createGame(this.createGameForm.value).subscribe({
+      next: () => {
+        this.toaster.success("The game has been created successfully!")
+        this.router.navigate(['/'])
+      },
+      error: (error)=>{
+        this.errorHandlerService.handleApiError(error);
+      }
+    });
   }
 }

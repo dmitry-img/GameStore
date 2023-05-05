@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {GetPublisherResponse} from "../../../core/models/GetPublisherResponse";
+import {GetPublisherResponse} from "../../models/GetPublisherResponse";
 
 @Component({
   selector: 'app-publisher-details',

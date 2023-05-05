@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ShoppingCartService} from "../../../core/service/shopping-cart.service";
-import {GetShoppingCartItemResponse} from "../../../core/models/GetShoppingCartItemResponse";
-import {ToastrService} from "ngx-toastr";
+import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
+import {GetShoppingCartItemResponse} from "../../models/GetShoppingCartItemResponse";
 
 @Component({
   selector: 'app-shopping-cart-details-page',
@@ -10,19 +9,20 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ShoppingCartDetailsPageComponent implements OnInit{
   items!: GetShoppingCartItemResponse[];
-  constructor(private shoppingCartService: ShoppingCartService,
-  private toaster: ToastrService) { }
+
+  constructor(private shoppingCartService: ShoppingCartService) { }
 
   ngOnInit(): void {
-    this.updateItems();
+    this.getItems();
   }
-  onDeleteItem(gameKey: string) {
+
+  onDeleteItem(gameKey: string): void {
     this.shoppingCartService.deleteItem(gameKey).subscribe(() => {
-      this.updateItems();
+      this.getItems();
     });
   }
 
-  private updateItems(){
+  private getItems(): void{
     this.shoppingCartService.getAllItems().subscribe((items: GetShoppingCartItemResponse[]) =>{
       this.items = items;
     })

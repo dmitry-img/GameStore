@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GetPublisherResponse} from "../../../core/models/GetPublisherResponse";
-import {PublisherService} from "../../../core/service/publisher.service";
+import {GetPublisherResponse} from "../../models/GetPublisherResponse";
+import {PublisherService} from "../../../core/services/publisher.service";
 import {ActivatedRoute} from "@angular/router";
-import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
+import {GetCommentResponse} from "../../../games/models/GetCommentResponse";
 
 @Component({
   selector: 'app-publisher-details-page',
@@ -11,21 +11,23 @@ import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
 })
 export class PublisherDetailsPageComponent implements OnInit{
   publisher!: GetPublisherResponse;
-  constructor(private publisherService: PublisherService,
-              private route: ActivatedRoute) { }
+
+  constructor(
+    private publisherService: PublisherService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    this.getPublisher();
+  }
+
+  private getPublisher(): void {
     this.route.params.subscribe(data =>{
-      this.publisherService.getPublisherByCompanyName(data['companyName']).subscribe({
-        next: (publisher: GetPublisherResponse) =>{
-          this.publisher = publisher;
-        },
-        error: (error) =>{
-          console.log(error);
-        }
-      })
-    })
-
-
+      this.publisherService.getPublisherByCompanyName(data['companyName'])
+        .subscribe((publisher: GetPublisherResponse) =>{
+            this.publisher = publisher;
+          }
+        )
+    });
   }
 }

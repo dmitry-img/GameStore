@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {GetShoppingCartItemResponse} from "../../../core/models/GetShoppingCartItemResponse";
+import {GetShoppingCartItemResponse} from "../../models/GetShoppingCartItemResponse";
 
 @Component({
   selector: 'app-shopping-cart-details',
@@ -12,17 +12,18 @@ export class ShoppingCartDetailsComponent implements OnInit, OnChanges {
   totalPrice: number = 0;
 
   ngOnInit(): void {
-    this.updateTotalPrice()
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.updateTotalPrice()
+    this.getTotalPrice()
   }
 
-  onDelete(gameKey: string) {
+  ngOnChanges(): void {
+    this.getTotalPrice()
+  }
+
+  onDelete(gameKey: string): void {
     this.deleteItem.emit(gameKey);
   }
 
-  private updateTotalPrice(){
+  private getTotalPrice(): void{
     this.totalPrice = 0;
     this.items.forEach(i => this.totalPrice += i.GamePrice * i.Quantity);
   }

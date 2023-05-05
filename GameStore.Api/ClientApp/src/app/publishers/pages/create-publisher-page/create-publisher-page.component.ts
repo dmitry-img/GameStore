@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CreatePublisherRequest} from "../../../core/models/CreatePublisherRequest";
-import {CreateGameRequest} from "../../../core/models/CreateGameRequest";
-import {PublisherService} from "../../../core/service/publisher.service";
+import {CreatePublisherRequest} from "../../models/CreatePublisherRequest";
+import {CreateGameRequest} from "../../../games/models/CreateGameRequest";
+import {PublisherService} from "../../../core/services/publisher.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 
@@ -12,22 +12,4 @@ import {Router} from "@angular/router";
   styleUrls: ['./create-publisher-page.component.scss']
 })
 export class CreatePublisherPageComponent {
-  constructor(private publisherService: PublisherService,
-              private toaster: ToastrService,
-              private router: Router) { }
-
-  onPublisherCreated(newPublisher: CreatePublisherRequest) {
-    this.publisherService.createPublisher(newPublisher).subscribe({
-      next: () =>{
-        this.toaster.success("The publisher has been created successfully!")
-        this.router.navigate(['/'])
-      },
-      error: (error)=>{
-        const errorArray = error.error.Message.split(',');
-        errorArray.forEach((message: string) => {
-          this.toaster.error(message);
-        })
-      }
-    });
-  }
 }

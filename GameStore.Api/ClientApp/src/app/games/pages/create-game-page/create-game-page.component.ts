@@ -1,14 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Genre} from "../../../core/models/Genre";
-import {PlatformType} from "../../../core/models/PlatformType";
+import {Genre} from "../../models/Genre";
+import {PlatformType} from "../../models/PlatformType";
 import {GenreService} from "../../services/genre.service";
 import {PlatformTypeService} from "../../services/platform-type.service";
-import {GameService} from "../../../core/service/game.service";
-import {CreateGameRequest} from "../../../core/models/CreateGameRequest";
+import {GameService} from "../../../core/services/game.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {GetPublisherBriefResponse} from "../../../core/models/GetPublisherBriefResponse";
-import {PublisherService} from "../../../core/service/publisher.service";
+import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisherBriefResponse";
+import {PublisherService} from "../../../core/services/publisher.service";
+import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
+import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
+import {DropDownItem} from "../../../shared/models/DropDownItem";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-create-game-page',
@@ -16,43 +19,52 @@ import {PublisherService} from "../../../core/service/publisher.service";
   styleUrls: ['./create-game-page.component.scss']
 })
 export class CreateGamePageComponent implements OnInit{
-  genres!: Genre[];
-  platformTypes!: PlatformType[];
-  publishers!: GetPublisherBriefResponse[];
+  genres!: CheckboxListItem[];
+  platformTypes!: CheckboxListItem[];
+  publishers!: DropDownItem[];
+
   constructor(
     private gameService: GameService,
     private genreService: GenreService,
     private platformTypeService: PlatformTypeService,
     private publisherService: PublisherService,
     private router: Router,
-    private toaster: ToastrService) { }
+    private toaster: ToastrService,
+    private hierarchicalDataService: HierarchicalDataService
+  ) { }
 
   ngOnInit(): void {
-    this.genreService.getAllGenres().subscribe((genres: Genre[]) =>{
-      this.genres = genres;
-    });
-
-    this.platformTypeService.getAllPlatformTypes().subscribe((platformTypes: PlatformType[]) =>{
-      this.platformTypes = platformTypes;
-    });
-
-    this.publisherService.getAllPublishersBrief().subscribe((publishers:GetPublisherBriefResponse[]) =>{
-      this.publishers = publishers;
-    })
+    this.getData();
   }
 
-  onGameCreated(newGame: CreateGameRequest) {
-    this.gameService.createGame(newGame).subscribe({
-      next: () =>{
-        this.toaster.success("The game has been created successfully!")
-        this.router.navigate(['/'])
-      },
-      error: (error)=>{
-        const errorArray = error.error.Message.split(',');
-        errorArray.forEach((message: string) => {
-          this.toaster.error(message);
+  private getData(): void{
+    forkJoin([
+      this.genreService.getAllGenres(),
+      this.platformTypeService.getAllPlatformTypes(),
+      this.publisherService.getAllPublishersBrief()
+    ]).subscribe(([genres, platformTypes, publishers]: [Genre[], PlatformType[], GetPublisherBriefResponse[]]) => {
+      this.genres = this.hierarchicalDataService.convertToTreeStructure<Genre, CheckboxListItem>(
+        genres,
+        'Id',
+        'ParentGenreId',
+        (genre) => ({
+          id: genre.Id,
+          label: genre.Name,
+          checked: false,
+          parentId: genre.ParentGenreId
         })
-      }
+      );
+
+      this.platformTypes = platformTypes.map((type: PlatformType) => ({
+        id: type.Id,
+        label: type.Type,
+        checked: false,
+      }));
+
+      this.publishers = publishers.map((publisher: GetPublisherBriefResponse) => ({
+        id: publisher.Id,
+        value: publisher.CompanyName
+      }));
     });
   }
 }

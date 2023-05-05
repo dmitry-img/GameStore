@@ -1,4 +1,5 @@
-﻿using GameStore.BLL.DTOs.Comment;
+﻿using FluentValidation;
+using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Validators;
 using System.Linq;
@@ -11,18 +12,19 @@ namespace GameStore.Api.Controllers
     public class CommentsController : ApiController
     {
         private readonly ICommentService _commentService;
+        private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
-        public CommentsController(ICommentService commentService)
+        public CommentsController(ICommentService commentService, IValidator<CreateCommentDTO> createCommentValidator)
         {
             _commentService = commentService;
+            _createCommentValidator = createCommentValidator;
         }
 
         [HttpPost]
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateCommentDTO commentDTO)
         {
-            var validator = new CreateCommentDTOValidator();
-            var result = validator.Validate(commentDTO);
+            var result = _createCommentValidator.Validate(commentDTO);
 
             if (!result.IsValid)
             {

@@ -1,17 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {GetGameResponse} from "../../../core/models/GetGameResponse";
-import {GameService} from "../../../core/service/game.service";
+import {GetGameResponse} from "../../models/GetGameResponse";
+import {GameService} from "../../../core/services/game.service";
 import {CommentService} from "../../services/comment.service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
-import {GetCommentResponse} from "../../../core/models/GetCommentResponse";
-import {CreateCommentRequest} from "../../../core/models/CreateCommentRequest";
+import {GetCommentResponse} from "../../models/GetCommentResponse";
 import {ToastrService} from "ngx-toastr";
 import {Subscription} from "rxjs";
 import {CommentNode} from "../../models/CommentNode";
-import {GetShoppingCartItemResponse} from "../../../core/models/GetShoppingCartItemResponse";
-import {ShoppingCartService} from "../../../core/service/shopping-cart.service";
-import {CreateShoppingCartItemRequest} from "../../../core/models/CreateShoppingCartItemRequest";
+import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
+import {CreateShoppingCartItemRequest} from "../../../shopping-carts/models/CreateShoppingCartItemRequest";
+import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
 
 @Component({
   selector: 'app-game-details-page',
@@ -22,103 +20,67 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy{
   game!: GetGameResponse
   commentNodes!: CommentNode[]
   newCommentSubscription!: Subscription;
+  gameKey!: string;
+
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
     private commentService: CommentService,
     private shoppingCartService: ShoppingCartService,
-    private toaster: ToastrService) { }
+    private toaster: ToastrService,
+    private hierarchicalDataService: HierarchicalDataService
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      this.updateGame(data['key'])
-      this.updateCommentListArray(data['key'])
+      this.getGame(data['key'])
+      this.getCommentListArray(data['key'])
+      this.gameKey = data['key'];
     });
     this.onCommentCreated()
   }
 
-  private buildCommentTree(comments: GetCommentResponse[]): CommentNode[] {
-    const commentMap = new Map<number, CommentNode>();
-    const roots: CommentNode[] = [];
-
-    comments.forEach(comment => {
-      const node: CommentNode = { comment };
-      commentMap.set(comment.Id, node);
-      const parent = commentMap.get(comment.ParentCommentId);
-      if (parent) {
-        if (!parent.children) {
-          parent.children = [];
-        }
-        parent.children.unshift(node);
-      } else {
-        roots.unshift(node);
-      }
-    });
-    return roots;
+  onDownloadGame(): void{
+    this.gameService.downloadGame(this.gameKey, this.game.Name);
   }
 
-  private updateCommentListArray(gameKey: string){
-    this.commentService.getCommentList(gameKey).subscribe({
-      next: (comments: GetCommentResponse[]) => {
-        this.commentNodes = this.buildCommentTree(comments);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
-
-  private updateGame(key: string){
-    this.gameService.getGameByKey(key).subscribe({
-      next: (games: GetGameResponse) => {
-        this.game = games;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
-
-  onDownloadGame(){
-    this.route.params.subscribe(data => {
-        this.gameService.downloadGame(data['key'], this.game.Name);
-    });
-  }
-
-  onBuyGame(game: GetGameResponse) {
+  onBuyGame(game: GetGameResponse): void {
     const cartItem: CreateShoppingCartItemRequest = {
       GameKey: game.Key,
       GameName: game.Name,
       GamePrice: game.Price,
       Quantity: 1
     }
-    this.shoppingCartService.addItem(cartItem).subscribe({
-      next: () => {
+    this.shoppingCartService.addItem(cartItem).subscribe(() => {
         this.toaster.success(`${game.Name} has been added to shopping cart!`)
-      },
-      error: (error) =>{
-       console.log(error);
-      }
-    })
+    });
   }
 
-  onCommentCreated(){
-    this.newCommentSubscription = this.commentService.getEmittedComment().subscribe((newComment: CreateCommentRequest) => {
-      this.commentService.createComment(newComment).subscribe({
-        next: () => {
-          this.updateCommentListArray(newComment.GameKey)
-        },
-        error: (error) =>{
-          const errorArray = error.error.Message.split(',');
-          errorArray.forEach((message: string) => {
-            this.toaster.error(message);
-          });
-        }
-      });
-    })
+  onCommentCreated(): void{
+    this.newCommentSubscription = this.commentService.getEmittedComment$().subscribe(() => {
+      this.getCommentListArray(this.game.Key);
+    });
   }
 
   ngOnDestroy(): void {
     this.newCommentSubscription.unsubscribe();
+  }
+
+  private getCommentListArray(gameKey: string): void{
+    this.commentService.getCommentList(gameKey).subscribe((comments: GetCommentResponse[]) => {
+      this.commentNodes = this.hierarchicalDataService.convertToTreeStructure<GetCommentResponse, CommentNode>(
+        comments,
+        'Id',
+        'ParentCommentId',
+        (comment) => ({ comment })
+      );
+    });
+  }
+
+  private getGame(key: string): void{
+    this.gameService.getGameByKey(key).subscribe((game: GetGameResponse) => {
+        this.game = game;
+      }
+    )
   }
 }

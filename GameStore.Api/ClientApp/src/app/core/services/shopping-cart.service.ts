@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {GetGameResponse} from "../models/GetGameResponse";
-import {GetShoppingCartItemResponse} from "../models/GetShoppingCartItemResponse";
-import {CreateShoppingCartItemRequest} from "../models/CreateShoppingCartItemRequest";
+import {GetGameResponse} from "../../games/models/GetGameResponse";
+import {GetShoppingCartItemResponse} from "../../shopping-carts/models/GetShoppingCartItemResponse";
+import {CreateShoppingCartItemRequest} from "../../shopping-carts/models/CreateShoppingCartItemRequest";
 
 @Injectable({
   providedIn: 'root'

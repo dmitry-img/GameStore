@@ -155,7 +155,10 @@ namespace GameStore.BLL.Services
 
         public int GetCount()
         {
-            return _unitOfWork.Games.GetQuery().Count();
+            return _unitOfWork.Games
+                .GetQuery()
+                .Where(g => !g.IsDeleted)
+                .Count();
         }
     }
 }
