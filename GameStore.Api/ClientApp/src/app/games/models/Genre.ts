@@ -1,5 +1,5 @@
-export interface Genre{
-  Id: number,
-  Name: string,
-  ParentGenreId: number
+export interface Genre {
+    Id: number,
+    Name: string,
+    ParentGenreId: number
 }

@@ -1,26 +1,26 @@
 <div class="comment">
-  <div class="comment__parent" id="comment-{{commentNode.comment.Id}}">
-    <div class="comment__content">
-      <h6 class="comment__name">{{ commentNode.comment.Name }}</h6>
-      <div class="comment__body">
+    <div class="comment__parent" id="comment-{{commentNode.comment.Id}}">
+        <div class="comment__content">
+            <h6 class="comment__name">{{ commentNode.comment.Name }}</h6>
+            <div class="comment__body">
         <span *ngIf="parentNode">
           <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">[{{parentNode.comment.Name}}]</a>
         </span>
-        {{ commentNode.comment.Body }}
-      </div>
+                {{ commentNode.comment.Body }}
+            </div>
+        </div>
+        <div class="comment__actions">
+            <button class="comment_reply" type="button" (click)="clickedReply = !clickedReply">Reply</button>
+        </div>
+        <div class="comment__form" *ngIf="clickedReply">
+            <app-create-comment [gameKey]="gameKey" [parentComment]="commentNode.comment"></app-create-comment>
+        </div>
     </div>
-    <div class="comment__actions">
-      <button class="comment_reply" type="button" (click)="clickedReply = !clickedReply">Reply</button>
+    <div class="comment__children">
+        <app-comment-list
+            *ngIf="commentNode.children!"
+            [gameKey]="gameKey"
+            [commentNodes]="commentNode.children"
+            [parentNode]="commentNode"></app-comment-list>
     </div>
-    <div class="comment__form" *ngIf="clickedReply">
-      <app-create-comment [gameKey]="gameKey" [parentComment]="commentNode.comment"></app-create-comment>
-    </div>
-  </div>
-  <div class="comment__children">
-    <app-comment-list
-      *ngIf="commentNode.children!"
-      [gameKey]="gameKey"
-      [commentNodes]="commentNode.children"
-      [parentNode]="commentNode"></app-comment-list>
-  </div>
 </div>

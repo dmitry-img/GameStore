@@ -1,25 +1,27 @@
 <div class="container">
-  <table>
-    <thead>
-    <tr>
-      <th>Game</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let item of items">
-      <td><a [routerLink]="['/game', item.GameKey]">{{item.GameName}}</a></td>
-      <td>{{item.Quantity}}</td>
-      <td>{{item.Quantity * item.GamePrice}}</td>
-      <td><button (click)="onDelete(item.GameKey)" class="btn btn-danger" type="button">Delete</button></td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr>
-      <td>Total: {{totalPrice}}</td>
-    </tr>
-    </tfoot>
-  </table>
+    <table>
+        <thead>
+        <tr>
+            <th>Game</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of items">
+            <td><a [routerLink]="['/game', item.GameKey]">{{item.GameName}}</a></td>
+            <td>{{item.Quantity}}</td>
+            <td>{{item.Quantity * item.GamePrice}}</td>
+            <td>
+                <button (click)="onDelete(item.GameKey)" class="btn btn-danger" type="button">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>Total: {{totalPrice}}</td>
+        </tr>
+        </tfoot>
+    </table>
 </div>

@@ -1,24 +1,24 @@
 <div class="form-group">
-  <label *ngIf="labelText" [for]="labelText | lowercase">
-    {{labelText}}<span *ngIf="isRequired" class="required">*</span>
-  </label>
-  <ul class="checkbox-list" [ngClass]="{'nested': parentItems}">
-    <li class="list-group-item" *ngFor="let item of items">
-      <input
-          class="form-check-input"
-          [id]="uniqueInstanceId + '-item-' + item.id"
-          type="checkbox"
-          [checked]="item.checked"
-          (change)="onCheckboxChange($event, item.id)" />
-      <label class="form-check-label" [for]="uniqueInstanceId + '-item-' + item.id">{{ item.label }}</label>
-      <app-checkbox-list
-        *ngIf="item.children"
-        [items]="item.children"
-        [parentItems]="parentItems ? parentItems : items"
-        [control]="control"
-        ></app-checkbox-list>
-    </li>
-  </ul>
+    <label *ngIf="labelText" [for]="labelText | lowercase">
+        {{labelText}}<span *ngIf="isRequired" class="required">*</span>
+    </label>
+    <ul class="checkbox-list" [ngClass]="{'nested': parentItems}">
+        <li class="list-group-item" *ngFor="let item of items">
+            <input
+                class="form-check-input"
+                [id]="uniqueInstanceId + '-item-' + item.id"
+                type="checkbox"
+                [checked]="item.checked"
+                (change)="onCheckboxChange($event, item.id)"/>
+            <label class="form-check-label" [for]="uniqueInstanceId + '-item-' + item.id">{{ item.label }}</label>
+            <app-checkbox-list
+                *ngIf="item.children"
+                [items]="item.children"
+                [parentItems]="parentItems ? parentItems : items"
+                [control]="control"
+            ></app-checkbox-list>
+        </li>
+    </ul>
 </div>
 
 

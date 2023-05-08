@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GetGameResponse} from "../../games/models/GetGameResponse";
@@ -7,22 +7,24 @@ import {GetPublisherResponse} from "../../publishers/models/GetPublisherResponse
 import {CreatePublisherRequest} from "../../publishers/models/CreatePublisherRequest";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PublisherService {
 
-  private baseUrl = '/api/publishers';
-  constructor(private http: HttpClient) { }
+    private baseUrl = '/api/publishers';
 
-  getAllPublishersBrief() : Observable<GetPublisherBriefResponse[]>{
-    return this.http.get<GetPublisherBriefResponse[]>(`${this.baseUrl}/brief`)
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  getPublisherByCompanyName(companyName: string): Observable<GetPublisherResponse>{
-    return this.http.get<GetPublisherResponse>(`${this.baseUrl}/${companyName}`)
-  }
+    getAllPublishersBrief(): Observable<GetPublisherBriefResponse[]> {
+        return this.http.get<GetPublisherBriefResponse[]>(`${this.baseUrl}/brief`)
+    }
 
-  createPublisher(newPublisher: CreatePublisherRequest): Observable<void>{
-    return this.http.post<void>(`${this.baseUrl}/create`, newPublisher)
-  }
+    getPublisherByCompanyName(companyName: string): Observable<GetPublisherResponse> {
+        return this.http.get<GetPublisherResponse>(`${this.baseUrl}/${companyName}`)
+    }
+
+    createPublisher(newPublisher: CreatePublisherRequest): Observable<void> {
+        return this.http.post<void>(`${this.baseUrl}/create`, newPublisher)
+    }
 }

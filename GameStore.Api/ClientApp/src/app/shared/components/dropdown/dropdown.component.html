@@ -1,10 +1,10 @@
 <div class="form-group">
-  <label>{{labelText}}</label>
-  <select
-    class="form-select form-select-lg mb-1"
-    aria-label=".form-select-lg example"
-    [formControl]="control">
-    <option value="" disabled selected>{{placeholder}}</option>
-    <option *ngFor="let item of items" value="{{item.id}}">{{item.value}}</option>
-  </select>
+    <label>{{labelText}}</label>
+    <select
+        class="form-select form-select-lg mb-1"
+        aria-label=".form-select-lg example"
+        [formControl]="control">
+        <option value="" disabled selected>{{placeholder}}</option>
+        <option *ngFor="let item of items" value="{{item.id}}">{{item.value}}</option>
+    </select>
 </div>

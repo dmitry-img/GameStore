@@ -1,95 +1,95 @@
 <div class="container">
-  <h1>Create Game</h1>
-  <form [formGroup]="createGameForm" (ngSubmit)="onSubmit()">
-    <app-input-field
-      [control]="createGameForm | formControl:'Name'"
-      [isRequired]="true"
-      labelText="Name">
-    </app-input-field>
-    <app-validation-message
-      [control]="createGameForm | formControl:'Name'"
-      [errorMessages]="{
+    <h1>Create Game</h1>
+    <form [formGroup]="createGameForm" (ngSubmit)="onSubmit()">
+        <app-input-field
+            [control]="createGameForm | formControl:'Name'"
+            [isRequired]="true"
+            labelText="Name">
+        </app-input-field>
+        <app-validation-message
+            [control]="createGameForm | formControl:'Name'"
+            [errorMessages]="{
           'required': 'This field is required!'
        }">
-    </app-validation-message>
+        </app-validation-message>
 
-    <app-text-area-field
-      [control]="createGameForm | formControl:'Description'"
-      [isRequired]="true"
-      labelText="Description">
-    </app-text-area-field>
-    <app-validation-message
-      [control]="createGameForm | formControl:'Description'"
-      [errorMessages]="{
+        <app-text-area-field
+            [control]="createGameForm | formControl:'Description'"
+            [isRequired]="true"
+            labelText="Description">
+        </app-text-area-field>
+        <app-validation-message
+            [control]="createGameForm | formControl:'Description'"
+            [errorMessages]="{
           'required': 'This field is required!',
           'minlength': 'The minimal length of the description is 50 characters!'
       }">
-    </app-validation-message>
+        </app-validation-message>
 
-    <app-input-field
-      [control]="createGameForm | formControl:'Price'"
-      [isRequired]="true"
-      labelText="Price"
-      type="number">
-    </app-input-field>
-    <app-validation-message
-      [control]="createGameForm | formControl:'Price'"
-      [errorMessages]="{
+        <app-input-field
+            [control]="createGameForm | formControl:'Price'"
+            [isRequired]="true"
+            labelText="Price"
+            type="number">
+        </app-input-field>
+        <app-validation-message
+            [control]="createGameForm | formControl:'Price'"
+            [errorMessages]="{
           'required': 'This field is required!',
           'min': ' The minimal price is should be higher than 0.01!'
       }">
-    </app-validation-message>
+        </app-validation-message>
 
-    <app-input-field
-      [control]="createGameForm | formControl:'UnitsInStock'"
-      [isRequired]="true"
-      labelText="Units in Stock"
-      type="number">
-    </app-input-field>
-    <app-validation-message
-      [control]="createGameForm | formControl:'UnitsInStock'"
-      [errorMessages]="{
+        <app-input-field
+            [control]="createGameForm | formControl:'UnitsInStock'"
+            [isRequired]="true"
+            labelText="Units in Stock"
+            type="number">
+        </app-input-field>
+        <app-validation-message
+            [control]="createGameForm | formControl:'UnitsInStock'"
+            [errorMessages]="{
           'required': 'This field is required!',
           'min': ' The minimal number of units in stock is 1!'
       }">
-    </app-validation-message>
+        </app-validation-message>
 
-    <app-checkbox-list
-      *ngIf="genres!"
-      [items]="genres"
-      [control]="createGameForm | formArray:'GenreIds'"
-      labelText="Genres"
-      [isRequired]="true"></app-checkbox-list>
-    <app-validation-message
-      [control]="createGameForm | formArray:'GenreIds'"
-      [errorMessages]="{
+        <app-checkbox-list
+            *ngIf="genres!"
+            [items]="genres"
+            [control]="createGameForm | formArray:'GenreIds'"
+            labelText="Genres"
+            [isRequired]="true"></app-checkbox-list>
+        <app-validation-message
+            [control]="createGameForm | formArray:'GenreIds'"
+            [errorMessages]="{
         'required': 'Pick at least one genre!',
     }"></app-validation-message>
 
-    <app-checkbox-list
-      *ngIf="platformTypes!"
-      [items]="platformTypes"
-      [control]="createGameForm | formArray:'PlatformTypeIds'"
-      labelText="Platforms"
-      [isRequired]="true"></app-checkbox-list>
-    <app-validation-message
-      [control]="createGameForm | formArray:'PlatformTypeIds'"
-      [errorMessages]="{
+        <app-checkbox-list
+            *ngIf="platformTypes!"
+            [items]="platformTypes"
+            [control]="createGameForm | formArray:'PlatformTypeIds'"
+            labelText="Platforms"
+            [isRequired]="true"></app-checkbox-list>
+        <app-validation-message
+            [control]="createGameForm | formArray:'PlatformTypeIds'"
+            [errorMessages]="{
         'required': 'Pick at least one platform!',
     }"></app-validation-message>
 
-    <app-dropdown
-      [control]="createGameForm | formControl:'PublisherId'"
-      [items]="publishers"
-      labelText="Publisher"
-      placeholder="Select a publisher"
-    ></app-dropdown>
-    <app-validation-message
-      [control]="createGameForm | formArray:'PublisherId'"
-      [errorMessages]="{
+        <app-dropdown
+            [control]="createGameForm | formControl:'PublisherId'"
+            [items]="publishers"
+            labelText="Publisher"
+            placeholder="Select a publisher"
+        ></app-dropdown>
+        <app-validation-message
+            [control]="createGameForm | formArray:'PublisherId'"
+            [errorMessages]="{
         'required': 'The publisher is required to be picked!',
     }"></app-validation-message>
-    <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
-  </form>
+        <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
+    </form>
 </div>
 

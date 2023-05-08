@@ -5,29 +5,29 @@ import {Genre} from "../../models/Genre";
 import {CommentNode} from "../../models/CommentNode";
 
 @Component({
-  selector: 'app-game-details',
-  templateUrl: './game-details.component.html',
-  styleUrls: ['./game-details.component.scss']
+    selector: 'app-game-details',
+    templateUrl: './game-details.component.html',
+    styleUrls: ['./game-details.component.scss']
 })
-export class GameDetailsComponent implements OnInit{
-  @Input() game!: GetGameResponse
-  @Output() downloadGame = new EventEmitter<File>();
-  @Output() buyGame = new EventEmitter<GetGameResponse>();
-  parentGenres!: Genre[]
+export class GameDetailsComponent implements OnInit {
+    @Input() game!: GetGameResponse
+    @Output() downloadGame = new EventEmitter<File>();
+    @Output() buyGame = new EventEmitter<GetGameResponse>();
+    parentGenres!: Genre[]
 
-  ngOnInit(): void {
-    this.getParentGenres();
-  }
+    ngOnInit(): void {
+        this.getParentGenres();
+    }
 
-  onDownload(): void{
-    this.downloadGame.emit();
-  }
+    onDownload(): void {
+        this.downloadGame.emit();
+    }
 
-  onBuy(): void {
-    this.buyGame.emit(this.game);
-  }
+    onBuy(): void {
+        this.buyGame.emit(this.game);
+    }
 
-  private getParentGenres(){
-    this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId === null);
-  }
+    private getParentGenres() {
+        this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId === null);
+    }
 }

@@ -2,33 +2,33 @@
 <p>{{game.Description}}</p>
 <h3>Genres</h3>
 <ul>
-  <li *ngFor="let genre of parentGenres">
-    {{genre.Name}}
-    <ul>
-      <li *ngFor="let subGenre of game.Genres | subGenres:genre">
-        {{subGenre.Name}}
-      </li>
-    </ul>
-  </li>
+    <li *ngFor="let genre of parentGenres">
+        {{genre.Name}}
+        <ul>
+            <li *ngFor="let subGenre of game.Genres | subGenres:genre">
+                {{subGenre.Name}}
+            </li>
+        </ul>
+    </li>
 </ul>
 
 <h3>Platforms</h3>
 <ul>
-  <li *ngFor="let platformType of game.PlatformTypes">
-    {{platformType.Type}}
-  </li>
+    <li *ngFor="let platformType of game.PlatformTypes">
+        {{platformType.Type}}
+    </li>
 </ul>
 
 <div>
-  <h3>Publisher</h3>
-  <a [routerLink]="['/publisher',game.PublisherCompanyName]">{{game.PublisherCompanyName}}</a>
+    <h3>Publisher</h3>
+    <a [routerLink]="['/publisher',game.PublisherCompanyName]">{{game.PublisherCompanyName}}</a>
 </div>
 
 <div *ngIf="!game.Discontinued; else discontinued">
-  <p>Units in stock: {{game.UnitsInStock}}</p>
-  <p>Price: {{game.Price}}</p>
-  <button class="btn btn-primary" type="button" (click)="onBuy()">Buy</button>
-  <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
+    <p>Units in stock: {{game.UnitsInStock}}</p>
+    <p>Price: {{game.Price}}</p>
+    <button class="btn btn-primary" type="button" (click)="onBuy()">Buy</button>
+    <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
 </div>
 
 <ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>

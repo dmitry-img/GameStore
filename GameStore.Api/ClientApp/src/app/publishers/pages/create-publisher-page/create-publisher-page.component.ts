@@ -7,9 +7,9 @@ import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-create-publisher-page',
-  templateUrl: './create-publisher-page.component.html',
-  styleUrls: ['./create-publisher-page.component.scss']
+    selector: 'app-create-publisher-page',
+    templateUrl: './create-publisher-page.component.html',
+    styleUrls: ['./create-publisher-page.component.scss']
 })
 export class CreatePublisherPageComponent {
 }

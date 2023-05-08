@@ -1,8 +1,8 @@
 export interface CreateShoppingCartItemRequest {
-  GameKey: string
+    GameKey: string
 
-  GameName: string
+    GameName: string
 
-  GamePrice: number
-  Quantity: number
+    GamePrice: number
+    Quantity: number
 }

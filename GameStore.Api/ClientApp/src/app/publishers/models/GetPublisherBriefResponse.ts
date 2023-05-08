@@ -1,4 +1,4 @@
 export interface GetPublisherBriefResponse {
-  Id: number
-  CompanyName: string,
+    Id: number
+    CompanyName: string,
 }

@@ -1,4 +1,4 @@
-export interface PlatformType{
-  Id: number,
-  Type: string
+export interface PlatformType {
+    Id: number,
+    Type: string
 }

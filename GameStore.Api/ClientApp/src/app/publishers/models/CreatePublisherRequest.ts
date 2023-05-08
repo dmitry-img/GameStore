@@ -1,7 +1,7 @@
 export interface CreatePublisherRequest {
-  CompanyName: string
+    CompanyName: string
 
-  Description: string
+    Description: string
 
-  HomePage: string
+    HomePage: string
 }

@@ -1,13 +1,13 @@
 <div class="form-group">
-  <label [for]="labelText | lowercase">
-    {{labelText}}<span *ngIf="isRequired" class="required">*</span>
-  </label>
-  <textarea
-    class="form-control"
-    [formControl]="control"
-    [id]="labelText | lowercase">
+    <label [for]="labelText | lowercase">
+        {{labelText}}<span *ngIf="isRequired" class="required">*</span>
+    </label>
+    <textarea
+        class="form-control"
+        [formControl]="control"
+        [id]="labelText | lowercase">
   </textarea>
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 </div>
 
 

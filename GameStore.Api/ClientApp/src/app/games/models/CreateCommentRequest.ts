@@ -1,6 +1,6 @@
-export interface CreateCommentRequest{
-  Name: string,
-  Body: string,
-  GameKey: string,
-  ParentCommentId: number
+export interface CreateCommentRequest {
+    Name: string,
+    Body: string,
+    GameKey: string,
+    ParentCommentId: number
 }

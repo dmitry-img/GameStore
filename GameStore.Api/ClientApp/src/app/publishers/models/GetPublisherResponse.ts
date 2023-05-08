@@ -1,7 +1,7 @@
 export interface GetPublisherResponse {
-  Id: number
-  CompanyName: string,
-  Description: string
+    Id: number
+    CompanyName: string,
+    Description: string
 
-  HomePage: string
+    HomePage: string
 }
