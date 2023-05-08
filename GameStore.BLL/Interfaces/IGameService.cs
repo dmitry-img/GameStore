@@ -15,11 +15,13 @@ namespace GameStore.BLL.Interfaces
 
         Task<GetGameDTO> GetByKeyAsync(string key);
 
-        Task<IEnumerable<GetGameDTO>> GetAllAsync();
+        int GetCount();
 
-        Task<IEnumerable<GetGameDTO>> GetAllByGenreAsync(int genreId);
+        Task<IEnumerable<GetGameBriefDTO>> GetAllAsync();
 
-        Task<IEnumerable<GetGameDTO>> GetAllByPlatformTypeAsync(int platformTypeId);
+        Task<IEnumerable<GetGameBriefDTO>> GetAllByGenreAsync(int genreId);
+
+        Task<IEnumerable<GetGameBriefDTO>> GetAllByPlatformTypeAsync(int platformTypeId);
 
         Task<MemoryStream> GetGameFileAsync(string gameKey);
     }

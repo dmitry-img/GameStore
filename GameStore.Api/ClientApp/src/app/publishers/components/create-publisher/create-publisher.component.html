@@ -1,0 +1,45 @@
+<div class="container">
+    <h1>Create Publisher</h1>
+    <form [formGroup]="createPublisherForm" (ngSubmit)="onSubmit()">
+
+        <app-input-field
+            [control]="createPublisherForm | formControl:'CompanyName'"
+            [isRequired]="true"
+            labelText="Company Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createPublisherForm | formControl:'CompanyName'"
+            [errorMessages]="{
+      'required': 'This field is required!',
+      'maxlength': 'The company name should be up to 40 characters!'
+    }"
+        ></app-validation-message>
+
+        <app-input-field
+            [control]="createPublisherForm | formControl:'Description'"
+            [isRequired]="true"
+            labelText="Description"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createPublisherForm | formControl:'Description'"
+            [errorMessages]="{
+      'required': 'This field is required!',
+    }"
+        ></app-validation-message>
+
+        <app-input-field
+            [control]="createPublisherForm | formControl:'HomePage'"
+            [isRequired]="true"
+            labelText="Home Page"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createPublisherForm | formControl:'HomePage'"
+            [errorMessages]="{
+      'required': 'This field is required!',
+      'pattern': 'Enter a valid link!'
+    }"
+        ></app-validation-message>
+        <button type="submit" class="btn btn-primary" [disabled]="createPublisherForm.invalid">Submit</button>
+    </form>
+</div>
+

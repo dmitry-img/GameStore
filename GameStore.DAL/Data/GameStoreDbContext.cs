@@ -23,6 +23,12 @@ namespace GameStore.DAL.Data
 
         public DbSet<PlatformType> PlatformTypes { get; set; }
 
+        public DbSet<Publisher> Publishers { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             ApplyDeletableInformation();
@@ -35,6 +41,7 @@ namespace GameStore.DAL.Data
             modelBuilder.Configurations.Add(new GameConfiguration());
             modelBuilder.Configurations.Add(new GenreConfiguration());
             modelBuilder.Configurations.Add(new PlatformTypeConfiguration());
+            modelBuilder.Configurations.Add(new OrderDetailConfiguration());
         }
 
         private void ApplyDeletableInformation()
@@ -43,8 +50,7 @@ namespace GameStore.DAL.Data
 
             foreach (var entry in entries)
             {
-                var deletableEntry = entry.Entity as IDeletable;
-                if (deletableEntry != null)
+                if (entry.Entity is IDeletable deletableEntry)
                 {
                     if (entry.State == EntityState.Deleted)
                     {

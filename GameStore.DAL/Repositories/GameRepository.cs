@@ -21,6 +21,7 @@ namespace GameStore.DAL.Repositories
             var game = await _context.Games
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
+                .Include(g => g.Publisher)
                 .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
 
             return game;

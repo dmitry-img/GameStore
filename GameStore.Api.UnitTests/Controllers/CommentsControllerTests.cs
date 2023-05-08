@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using FluentValidation;
 using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Validators;
 using Moq;
 using Xunit;
 
@@ -14,11 +16,15 @@ namespace GameStore.Api.UnitTests.Controllers
         private const string TestKey = "test-key";
         private readonly Mock<ICommentService> _commentServiceMock;
         private readonly CommentsController _commentsController;
+        private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
         public CommentsControllerTests()
         {
             _commentServiceMock = new Mock<ICommentService>();
-            _commentsController = new CommentsController(_commentServiceMock.Object);
+            _createCommentValidator = new CreateCommentDTOValidator();
+            _commentsController = new CommentsController(
+                _commentServiceMock.Object,
+                _createCommentValidator);
         }
 
         [Fact]

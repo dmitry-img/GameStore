@@ -14,6 +14,8 @@ namespace GameStore.DAL.Interfaces
 
         IGenericRepository<PlatformType> PlatformTypes { get; }
 
+        IGenericRepository<Publisher> Publishers { get; }
+
         Task SaveAsync();
     }
 }

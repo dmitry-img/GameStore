@@ -29,8 +29,8 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Single(result);
-            Assert.IsAssignableFrom<IEnumerable<GetGameDTO>>(result);
+            Assert.Equal(2, result.Count());
+            Assert.IsAssignableFrom<IEnumerable<GetGameBriefDTO>>(result);
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             var allGames = await MockUow.Object.Games.GetAllAsync();
-            Assert.Equal(3, allGames.Count());
+            Assert.Equal(4, allGames.Count());
             Assert.Equal(2, allGames.Last().Genres.Count);
             Assert.Equal(2, allGames.Last().PlatformTypes.Count);
             MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
@@ -167,7 +167,7 @@ namespace GameStore.BLL.UnitTests.Services
             var games = await _gameService.GetAllByPlatformTypeAsync(platformTypeId);
 
             // Assert
-            Assert.Equal(2, games.Count());
+            Assert.Equal(3, games.Count());
         }
 
         [Fact]
@@ -235,6 +235,16 @@ namespace GameStore.BLL.UnitTests.Services
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _gameService.GetGameFileAsync(gameKey));
+        }
+
+        [Fact]
+        public void GetCount_ShouldReturnCount()
+        {
+            // Act
+            var count = _gameService.GetCount();
+
+            // Assert
+            Assert.Equal(2, count);
         }
     }
 }

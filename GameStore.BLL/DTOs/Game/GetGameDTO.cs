@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 namespace GameStore.BLL.DTOs.Game
 {
-    public class GetGameDTO
+    public class GetGameDTO : BaseGameDTO
     {
         public string Key { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
+        public string PublisherCompanyName { get; set; }
 
         public ICollection<GetGenreDTO> Genres { get; set; }
 

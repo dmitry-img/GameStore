@@ -1,6 +1,8 @@
-﻿using GameStore.Api.Filters;
+﻿using FluentValidation.WebApi;
+using GameStore.Api.Filters;
 using log4net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Unity;
 
 namespace GameStore.Api
@@ -10,9 +12,18 @@ namespace GameStore.Api
         public static void Register(HttpConfiguration config)
         {
             UnityConfig.RegisterComponents(config);
+
+            // Global Attributes
             config.Filters.Add(new LogIpFilterAttribute());
             config.Filters.Add(new LogPerformanceFilterAttribute());
             config.Filters.Add(new GeneralExceptionFilterAttribute());
+
+            // Cors
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
+            // Fluent Validation
+            FluentValidationModelValidatorProvider.Configure(config);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

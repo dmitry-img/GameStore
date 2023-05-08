@@ -79,21 +79,19 @@ namespace GameStore.BLL.Services
             _logger.Info($"Game({game.Id}) was deleted!");
         }
 
-        public async Task<IEnumerable<GetGameDTO>> GetAllAsync()
+        public async Task<IEnumerable<GetGameBriefDTO>> GetAllAsync()
         {
             var games = await _unitOfWork.Games
                 .GetQuery()
-                .Include(g => g.Genres)
-                .Include(g => g.PlatformTypes)
                 .Where(g => !g.IsDeleted)
                 .ToListAsync();
 
-            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games);
 
             return gameDTOs;
         }
 
-        public async Task<IEnumerable<GetGameDTO>> GetAllByGenreAsync(int genreId)
+        public async Task<IEnumerable<GetGameBriefDTO>> GetAllByGenreAsync(int genreId)
         {
             var genre = await _unitOfWork.Genres.GetAsync(genreId);
 
@@ -104,12 +102,12 @@ namespace GameStore.BLL.Services
 
             var games = await _unitOfWork.Games.GetGamesByGenreAsync(genreId);
 
-            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games);
 
             return gameDTOs;
         }
 
-        public async Task<IEnumerable<GetGameDTO>> GetAllByPlatformTypeAsync(int platformTypeId)
+        public async Task<IEnumerable<GetGameBriefDTO>> GetAllByPlatformTypeAsync(int platformTypeId)
         {
             var platformType = await _unitOfWork.PlatformTypes.GetAsync(platformTypeId);
 
@@ -120,7 +118,7 @@ namespace GameStore.BLL.Services
 
             var games = await _unitOfWork.Games.GetGamesByPlatformTypeAsync(platformTypeId);
 
-            var gameDTOs = _mapper.Map<IEnumerable<GetGameDTO>>(games);
+            var gameDTOs = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games);
 
             return gameDTOs;
         }
@@ -153,6 +151,14 @@ namespace GameStore.BLL.Services
             _logger.Info($"Game({game.Id}) was downloaded!");
 
             return new MemoryStream(Encoding.ASCII.GetBytes(game.Name));
+        }
+
+        public int GetCount()
+        {
+            return _unitOfWork.Games
+                .GetQuery()
+                .Where(g => !g.IsDeleted)
+                .Count();
         }
     }
 }

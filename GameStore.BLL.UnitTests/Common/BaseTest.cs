@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using AutoMapper;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.UnitTests.Mocks.Common;
+using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
@@ -14,10 +15,6 @@ namespace GameStore.BLL.UnitTests.Common
 {
     public class BaseTest
     {
-        protected IMapper Mapper { get; }
-
-        protected Mock<ILog> MockLogger { get; }
-
         public BaseTest()
         {
             var mapperConfig = new MapperConfiguration(c =>
@@ -28,6 +25,14 @@ namespace GameStore.BLL.UnitTests.Common
             Mapper = mapperConfig.CreateMapper();
 
             MockLogger = new Mock<ILog>();
+
+            MockShoppingCartCash = new Mock<IDistributedCache<ShoppingCart>>();
+            MockShoppingCartCash.Setup(sc => sc.GetAsync(It.IsAny<string>())).ReturnsAsync(ShoppingCart);
+            MockShoppingCartCash.Setup(r => r.SetAsync(It.IsAny<string>(), It.IsAny<ShoppingCart>()))
+                .Callback((string key, ShoppingCart modifiedShoppingCart) =>
+                {
+                    ShoppingCart.Items = modifiedShoppingCart.Items;
+                });
 
             MockUow = new Mock<IUnitOfWork>();
             MockUow.Setup(u => u.Games.GetAllAsync()).ReturnsAsync(Games);
@@ -46,9 +51,18 @@ namespace GameStore.BLL.UnitTests.Common
                 {
                     return Genres.Where(expression.Compile()).ToList();
                 });
+
+            MockUow.Setup(r => r.Publishers.GetAllAsync()).ReturnsAsync(Publishers);
+            MockUow.Setup(u => u.Publishers.GetQuery()).Returns(new TestDbAsyncEnumerable<Publisher>(Publishers));
         }
 
+        protected IMapper Mapper { get; }
+
+        protected Mock<ILog> MockLogger { get; }
+
         protected Mock<IUnitOfWork> MockUow { get; set; }
+
+        protected Mock<IDistributedCache<ShoppingCart>> MockShoppingCartCash { get; set; }
 
         protected List<Game> Games { get; set; } = new List<Game>()
         {
@@ -84,7 +98,10 @@ namespace GameStore.BLL.UnitTests.Common
                         Name = "Test Name",
                         Body = "Test Body",
                     }
-                }
+                },
+                Price = 50,
+                Discontinued = false,
+                PublisherId = 1,
             },
             new Game()
             {
@@ -104,7 +121,31 @@ namespace GameStore.BLL.UnitTests.Common
                 {
                     new PlatformType() { Id = 4, Type = "Console" },
                 },
-                IsDeleted = true
+                IsDeleted = true,
+                Price = 10,
+                PublisherId = 2,
+            },
+            new Game()
+            {
+                Id = 3,
+                Name = "GTA V",
+                Key = "55aa36g4-16b0-4eec-8c27-39b54e67664d",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                Genres = new List<Genre>
+                {
+                    new Genre()
+                    {
+                        Id = 1,
+                        Name = "Strategy",
+                    },
+                },
+                PlatformTypes = new List<PlatformType>()
+                {
+                    new PlatformType() { Id = 4, Type = "Console" },
+                },
+                IsDeleted = false,
+                Price = 100,
+                PublisherId = 2,
             }
         };
 
@@ -146,5 +187,48 @@ namespace GameStore.BLL.UnitTests.Common
                 GameId = 1,
             }
         };
+
+        protected ShoppingCart ShoppingCart { get; set; } = new ShoppingCart()
+        {
+            Items = new List<ShoppingCartItem>()
+            {
+                new ShoppingCartItem
+                {
+                    GameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d",
+                    GameName = "Warcraft III",
+                    GamePrice = 1,
+                    Quantity = 1
+                },
+                new ShoppingCartItem
+                {
+                    GameKey = "55aa36g4-16b0-4eec-8c27-39b54e67664d",
+                    GameName = "GTA V",
+                    GamePrice = 100,
+                    Quantity = 2
+                }
+            }
+        };
+
+        protected List<Publisher> Publishers { get; set; } = new List<Publisher>
+            {
+                new Publisher()
+                {
+                    CompanyName = "Blizzard Entertainment",
+                    Description = "Blizzard description...",
+                    HomePage = "https://www.blizzard.com/"
+                },
+                new Publisher()
+                {
+                    CompanyName = "Rockstar",
+                    Description = "Rockstar description...",
+                    HomePage = "https://www.rockstargames.com/"
+                },
+                new Publisher()
+                {
+                    CompanyName = "Electronic Arts",
+                    Description = "Electronic Arts description...",
+                    HomePage = "https://www.ea.com/"
+                }
+            };
     }
 }
