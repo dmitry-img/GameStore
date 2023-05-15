@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Comment : BaseDeletableEntity
+    public class Comment : BaseAuditableEntity
     {
         public string Name { get; set; }
 

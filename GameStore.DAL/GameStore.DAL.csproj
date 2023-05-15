@@ -113,9 +113,9 @@
     <Compile Include="Data\Configurations\PlatformTypeConfiguration.cs" />
     <Compile Include="Data\GameStoreDbContext.cs" />
     <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\Common\BaseDeletableEntity.cs" />
+    <Compile Include="Entities\Common\BaseAuditableEntity.cs" />
     <Compile Include="Entities\Common\BaseEntity.cs" />
-    <Compile Include="Entities\Common\IDeletable.cs" />
+    <Compile Include="Entities\Common\IAuditableEntity.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\PlatformType.cs" />

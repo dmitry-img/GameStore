@@ -11,8 +11,10 @@ using GameStore.BLL.Interfaces;
 using GameStore.BLL.Pipelines;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
-using GameStore.BLL.Strategies;
+using GameStore.BLL.Strategies.Payment;
+using GameStore.BLL.Strategies.Sorting;
 using GameStore.BLL.Validators;
+using GameStore.DAL.Entities;
 using StackExchange.Redis;
 using Unity;
 
@@ -42,6 +44,13 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IPaymentStrategy<MemoryStream>, BankPaymentStrategy>(PaymentType.Bank.ToString());
             container.RegisterType<IPaymentStrategy<int>, IBoxPaymentStrategy>(PaymentType.IBox.ToString());
             container.RegisterType<IPaymentStrategy<int>, VisaPaymentStrategy>(PaymentType.Visa.ToString());
+            container.RegisterType<ISortStrategyFactory, SortStrategyFactory>();
+            container.RegisterType<ISortStrategy<Game>, MostViewedSortStrategy>(SortOption.MostViewed.ToString());
+            container.RegisterType<ISortStrategy<Game>, MostCommentedSortStrategy>(SortOption.MostCommented.ToString());
+            container.RegisterType<ISortStrategy<Game>, PriceAscSortStrategy>(SortOption.PriceAsc.ToString());
+            container.RegisterType<ISortStrategy<Game>, PriceDescSortStrategy>(SortOption.PriceDesc.ToString());
+            container.RegisterType<ISortStrategy<Game>, NewSortStrategy>(SortOption.New.ToString());
+
 
             container.RegisterType<IGameFilterOperations, GameFilterOperations>();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 
-namespace GameStore.BLL.Strategies
+namespace GameStore.BLL.Strategies.Payment
 {
     public class BankPaymentStrategy : IPaymentStrategy<MemoryStream>
     {

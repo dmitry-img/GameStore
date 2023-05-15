@@ -2,7 +2,7 @@
 
 namespace GameStore.DAL.Entities
 {
-    public class OrderDetail : BaseDeletableEntity
+    public class OrderDetail : BaseAuditableEntity
     {
         public int GameId { get; set; }
 

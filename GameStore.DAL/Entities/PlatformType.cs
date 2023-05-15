@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class PlatformType : BaseDeletableEntity
+    public class PlatformType : BaseAuditableEntity
     {
         public string Type { get; set; }
 

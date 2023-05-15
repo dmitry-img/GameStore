@@ -2,9 +2,9 @@
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 
-namespace GameStore.BLL.Strategies
+namespace GameStore.BLL.Strategies.Payment
 {
-    public class IBoxPaymentStrategy : IPaymentStrategy<int>
+    public class VisaPaymentStrategy : IPaymentStrategy<int>
     {
         public int Pay(Order order)
         {

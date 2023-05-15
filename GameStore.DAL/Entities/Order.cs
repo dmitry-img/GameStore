@@ -4,7 +4,7 @@ using GameStore.DAL.Entities.Common;
 
 namespace GameStore.DAL.Entities
 {
-    public class Order : BaseDeletableEntity
+    public class Order : BaseAuditableEntity
     {
         public int CustomerId { get; set; }
 

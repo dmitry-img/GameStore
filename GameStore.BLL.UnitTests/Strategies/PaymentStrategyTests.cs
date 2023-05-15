@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GameStore.BLL.Strategies;
+using GameStore.BLL.Strategies.Payment;
 using GameStore.DAL.Entities;
 using Xunit;
 

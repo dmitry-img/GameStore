@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Game;
+using GameStore.BLL.Enums;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Pipelines;
@@ -19,6 +20,7 @@ namespace GameStore.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGameFilterOperations _gameFilterOperations;
+        private readonly ISortStrategyFactory _sortStrategyFactory;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
@@ -26,12 +28,14 @@ namespace GameStore.BLL.Services
             IUnitOfWork unitOfWork,
             IMapper mapper,
             ILog logger,
-            IGameFilterOperations gameFilterOperations)
+            IGameFilterOperations gameFilterOperations,
+            ISortStrategyFactory sortStrategyFactory)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
             _gameFilterOperations = gameFilterOperations;
+            _sortStrategyFactory = sortStrategyFactory;
         }
 
         public async Task CreateAsync(CreateGameDTO gameDTO)
@@ -173,12 +177,23 @@ namespace GameStore.BLL.Services
             var query = _unitOfWork.Games.GetQuery();
 
             var pipeline = new Pipeline<IQueryable<Game>>();
+            pipeline.Register(_gameFilterOperations.CreateNameOperation(filter.NameFragment));
             pipeline.Register(_gameFilterOperations.CreateGenreOperation(filter.GenreIds));
             pipeline.Register(_gameFilterOperations.CreatePlatformOperation(filter.PlatformIds));
             pipeline.Register(_gameFilterOperations.CreatePublisherOperation(filter.PublisherIds));
             pipeline.Register(_gameFilterOperations.CreatePriceOperation(filter.PriceFrom, filter.PriceTo));
+            if (filter.DateFilterOption != DateFilterOption.None)
+            {
+                pipeline.Register(_gameFilterOperations.CreateDateFilterOperation(filter.DateFilterOption));
+            }
 
             query = pipeline.Invoke(query);
+
+            if (filter.SortOption != SortOption.None)
+            {
+                var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
+                query = sortStrategy.Sort(query);
+            }
 
             var games = await query.ToListAsync();
 
