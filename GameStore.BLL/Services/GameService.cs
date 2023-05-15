@@ -8,6 +8,7 @@ using AutoMapper;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Pipelines;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
@@ -17,14 +18,20 @@ namespace GameStore.BLL.Services
     public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGameFilterOperations _gameFilterOperations;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
-        public GameService(IUnitOfWork unitOfWork, IMapper mapper, ILog logger)
+        public GameService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILog logger,
+            IGameFilterOperations gameFilterOperations)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _gameFilterOperations = gameFilterOperations;
         }
 
         public async Task CreateAsync(CreateGameDTO gameDTO)
@@ -159,6 +166,23 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .Where(g => !g.IsDeleted)
                 .Count();
+        }
+
+        public async Task<IEnumerable<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
+        {
+            var query = _unitOfWork.Games.GetQuery();
+
+            var pipeline = new Pipeline<IQueryable<Game>>();
+            pipeline.Register(_gameFilterOperations.CreateGenreOperation(filter.GenreIds));
+            pipeline.Register(_gameFilterOperations.CreatePlatformOperation(filter.PlatformIds));
+            pipeline.Register(_gameFilterOperations.CreatePublisherOperation(filter.PublisherIds));
+            pipeline.Register(_gameFilterOperations.CreatePriceOperation(filter.PriceFrom, filter.PriceTo));
+
+            query = pipeline.Invoke(query);
+
+            var games = await query.ToListAsync();
+
+            return _mapper.Map<IEnumerable<GetGameBriefDTO>>(games);
         }
     }
 }

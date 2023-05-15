@@ -9,7 +9,6 @@ using GameStore.BLL.Interfaces;
 using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Interfaces;
 using log4net;
-using log4net.Core;
 
 namespace GameStore.BLL.Services
 {

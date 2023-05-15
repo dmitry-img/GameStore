@@ -19,6 +19,8 @@ namespace GameStore.BLL.Interfaces
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllAsync();
 
+        Task<IEnumerable<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter);
+
         Task<IEnumerable<GetGameBriefDTO>> GetAllByGenreAsync(int genreId);
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllByPlatformTypeAsync(int platformTypeId);

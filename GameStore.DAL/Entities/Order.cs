@@ -10,6 +10,8 @@ namespace GameStore.DAL.Entities
 
         public DateTime OrderDate { get; set; }
 
+        public bool Paid { get; set; }
+
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

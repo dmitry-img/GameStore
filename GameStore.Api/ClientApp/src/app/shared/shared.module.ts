@@ -11,6 +11,10 @@ import {TextAreaFieldComponent} from './components/text-area-field/text-area-fie
 import {CheckboxListComponent} from './components/checkbox-list/checkbox-list.component';
 import {FormArrayPipe} from './pipes/form-array.pipe';
 import {DropdownComponent} from './components/dropdown/dropdown.component';
+import {GamesTableComponent} from './components/games-table/games-table.component';
+import {ModalModule} from "ngx-bootstrap/modal";
+import {InfoModalComponent} from './components/info-modal/info-modal.component';
+import { CollapseComponent } from './components/collapse/collapse.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +27,9 @@ import {DropdownComponent} from './components/dropdown/dropdown.component';
         CheckboxListComponent,
         FormArrayPipe,
         DropdownComponent,
+        GamesTableComponent,
+        InfoModalComponent,
+        CollapseComponent,
     ],
     exports: [
         HeaderComponent,
@@ -33,12 +40,15 @@ import {DropdownComponent} from './components/dropdown/dropdown.component';
         TextAreaFieldComponent,
         CheckboxListComponent,
         FormArrayPipe,
-        DropdownComponent
+        DropdownComponent,
+        GamesTableComponent,
+        InfoModalComponent
     ],
     imports: [
         CommonModule,
         RouterLink,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ModalModule.forRoot()
     ]
 })
 export class SharedModule {

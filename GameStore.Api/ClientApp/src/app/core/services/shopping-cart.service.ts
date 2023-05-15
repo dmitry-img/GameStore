@@ -11,8 +11,7 @@ import {CreateShoppingCartItemRequest} from "../../shopping-carts/models/CreateS
 export class ShoppingCartService {
     private baseUrl = '/api/shopping-carts';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllItems(): Observable<GetShoppingCartItemResponse[]> {
         return this.http.get<GetShoppingCartItemResponse[]>(`${this.baseUrl}/items`);

@@ -13,8 +13,7 @@ export class PublisherService {
 
     private baseUrl = '/api/publishers';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllPublishersBrief(): Observable<GetPublisherBriefResponse[]> {
         return this.http.get<GetPublisherBriefResponse[]>(`${this.baseUrl}/brief`)

@@ -11,8 +11,7 @@ import {UpdateGameRequest} from "../../games/models/UpdateGameRequest";
 export class GameService {
     private baseUrl = '/api/games';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllGames(): Observable<GetGameResponse[]> {
         return this.http.get<GetGameResponse[]>(this.baseUrl)

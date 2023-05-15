@@ -44,6 +44,14 @@ namespace GameStore.Api.Filters
                     ReasonPhrase = "NotFoundException"
                 };
             }
+            else if (actionExecutedContext.Exception is BadRequestException)
+            {
+                response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(actionExecutedContext.Exception.Message),
+                    ReasonPhrase = "BadRequestException"
+                };
+            }
             else
             {
                 response = new HttpResponseMessage(HttpStatusCode.InternalServerError)

@@ -68,6 +68,9 @@ namespace GameStore.BLL.Profiles
             CreateMap<CreateShoppingCartItemDTO, ShoppingCartItem>();
 
             CreateMap<ShoppingCartItem, GetShoppingCartItemDTO>();
+
+            CreateMap<ShoppingCartItem, OrderDetail>()
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.GamePrice));
         }
     }
 }

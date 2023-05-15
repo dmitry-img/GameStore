@@ -147,6 +147,10 @@
     <Compile Include="Migrations\202304271223101_AddOrders.designer.cs">
       <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305151003410_AddPaidFieldToOrder.cs" />
+    <Compile Include="Migrations\202305151003410_AddPaidFieldToOrder.designer.cs">
+      <DependentUpon>202305151003410_AddPaidFieldToOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RedisCacheRepository.cs" />
@@ -176,6 +180,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304271223101_AddOrders.resx">
       <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305151003410_AddPaidFieldToOrder.resx">
+      <DependentUpon>202305151003410_AddPaidFieldToOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -10,8 +10,7 @@ import {GameService} from "../../../core/services/game.service";
 export class GameListPageComponent {
     games!: GetGameResponse[];
 
-    constructor(private gameService: GameService) {
-    }
+    constructor(private gameService: GameService) { }
 
     ngOnInit(): void {
         this.getGames();

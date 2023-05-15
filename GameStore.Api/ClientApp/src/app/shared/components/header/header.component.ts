@@ -9,8 +9,7 @@ import {GameService} from "../../../core/services/game.service";
 export class HeaderComponent implements OnInit {
     gamesCount!: number;
 
-    constructor(private gameService: GameService) {
-    }
+    constructor(private gameService: GameService) { }
 
     ngOnInit(): void {
         this.getCount();

@@ -11,6 +11,8 @@ import {
     ShoppingCartDetailsPageComponent
 } from "./shopping-carts/pages/shopping-cart-details-page/shopping-cart-details-page.component";
 import {ShoppingCartsModule} from "./shopping-carts/shopping-carts.module";
+import {OrdersModule} from "./orders/orders.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -23,7 +25,9 @@ import {ShoppingCartsModule} from "./shopping-carts/shopping-carts.module";
         SharedModule,
         GamesModule,
         PublishersModule,
-        ShoppingCartsModule
+        ShoppingCartsModule,
+        OrdersModule,
+        BrowserAnimationsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

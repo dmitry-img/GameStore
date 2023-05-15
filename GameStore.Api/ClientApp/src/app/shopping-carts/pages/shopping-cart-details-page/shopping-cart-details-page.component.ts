@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
 import {GetShoppingCartItemResponse} from "../../models/GetShoppingCartItemResponse";
+import {GamesTableItem} from "../../../shared/models/GamesTableItem";
 
 @Component({
     selector: 'app-shopping-cart-details-page',
@@ -8,10 +9,9 @@ import {GetShoppingCartItemResponse} from "../../models/GetShoppingCartItemRespo
     styleUrls: ['./shopping-cart-details-page.component.scss']
 })
 export class ShoppingCartDetailsPageComponent implements OnInit {
-    items!: GetShoppingCartItemResponse[];
+    items!: GamesTableItem[];
 
-    constructor(private shoppingCartService: ShoppingCartService) {
-    }
+    constructor(private shoppingCartService: ShoppingCartService) { }
 
     ngOnInit(): void {
         this.getItems();
@@ -24,7 +24,7 @@ export class ShoppingCartDetailsPageComponent implements OnInit {
     }
 
     private getItems(): void {
-        this.shoppingCartService.getAllItems().subscribe((items: GetShoppingCartItemResponse[]) => {
+        this.shoppingCartService.getAllItems().subscribe((items: GamesTableItem[]) => {
             this.items = items;
         })
     }

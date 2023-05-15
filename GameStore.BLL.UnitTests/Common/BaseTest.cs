@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
+using GameStore.BLL.Interfaces;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.UnitTests.Mocks.Common;
 using GameStore.DAL.CacheEntities;
@@ -25,6 +26,8 @@ namespace GameStore.BLL.UnitTests.Common
             Mapper = mapperConfig.CreateMapper();
 
             MockLogger = new Mock<ILog>();
+
+            MockGameFilterOperation = new Mock<IGameFilterOperations>();
 
             MockShoppingCartCash = new Mock<IDistributedCache<ShoppingCart>>();
             MockShoppingCartCash.Setup(sc => sc.GetAsync(It.IsAny<string>())).ReturnsAsync(ShoppingCart);
@@ -63,6 +66,8 @@ namespace GameStore.BLL.UnitTests.Common
         protected Mock<IUnitOfWork> MockUow { get; set; }
 
         protected Mock<IDistributedCache<ShoppingCart>> MockShoppingCartCash { get; set; }
+
+        protected Mock<IGameFilterOperations> MockGameFilterOperation { get; set; }
 
         protected List<Game> Games { get; set; } = new List<Game>()
         {

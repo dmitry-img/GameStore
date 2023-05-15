@@ -16,6 +16,8 @@ namespace GameStore.DAL.Interfaces
 
         IGenericRepository<Publisher> Publishers { get; }
 
+        IGenericRepository<Order> Orders { get; }
+
         Task SaveAsync();
     }
 }

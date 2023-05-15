@@ -15,8 +15,7 @@ export class PublisherDetailsPageComponent implements OnInit {
     constructor(
         private publisherService: PublisherService,
         private route: ActivatedRoute
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.getPublisher();

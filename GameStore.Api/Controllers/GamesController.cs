@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
-using GameStore.BLL.Validators;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -30,7 +29,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("count")]
-        public IHttpActionResult GetGamesCount()
+        public IHttpActionResult GetCount()
         {
             return Ok(_gameService.GetCount());
         }
@@ -39,6 +38,14 @@ namespace GameStore.Api.Controllers
         public async Task<IHttpActionResult> GetAll()
         {
             return Json(await _gameService.GetAllAsync());
+        }
+
+        [HttpPost]
+        [Route("filtered")]
+        public async Task<IHttpActionResult> GetGames([FromBody] FilterGameDTO filter)
+        {
+            var games = await _gameService.GetFilteredAsync(filter);
+            return Ok(games);
         }
 
         [HttpGet]

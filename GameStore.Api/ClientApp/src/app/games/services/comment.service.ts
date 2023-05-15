@@ -11,8 +11,7 @@ export class CommentService {
     private baseUrl = '/api/comments';
     private newCommentSubject = new Subject<boolean>();
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getCommentList(gameKey: string): Observable<GetCommentResponse[]> {
         return this.http.get<GetCommentResponse[]>(`${this.baseUrl}/${gameKey}`);

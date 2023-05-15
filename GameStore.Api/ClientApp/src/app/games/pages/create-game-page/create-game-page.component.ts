@@ -28,8 +28,7 @@ export class CreateGamePageComponent implements OnInit {
         private platformTypeService: PlatformTypeService,
         private publisherService: PublisherService,
         private hierarchicalDataService: HierarchicalDataService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.getData();

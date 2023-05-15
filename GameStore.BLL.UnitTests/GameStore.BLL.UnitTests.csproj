@@ -78,6 +78,7 @@
     <Compile Include="Services\CommentServiceTests.cs" />
     <Compile Include="Services\PublisherServiceServiceTests.cs" />
     <Compile Include="Services\ShoppingCartServiceTests.cs" />
+    <Compile Include="Strategies\PaymentStrategyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.BLL\GameStore.BLL.csproj">

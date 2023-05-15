@@ -25,8 +25,7 @@ export class CreateGameComponent implements OnInit {
         private toaster: ToastrService,
         private router: Router,
         private errorHandlerService: ErrorHandlerService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.createGameForm = this.fb.group({

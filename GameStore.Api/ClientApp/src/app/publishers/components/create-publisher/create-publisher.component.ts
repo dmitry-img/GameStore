@@ -20,8 +20,7 @@ export class CreatePublisherComponent implements OnInit {
         private router: Router,
         private toaster: ToastrService,
         private errorHandlerService: ErrorHandlerService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.createPublisherForm = this.fb.group({

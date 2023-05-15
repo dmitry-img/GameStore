@@ -5,6 +5,7 @@ import {
 } from './pages/shopping-cart-details-page/shopping-cart-details-page.component';
 import {ShoppingCartDetailsComponent} from './components/shopping-cart-details/shopping-cart-details.component';
 import {RouterLink} from "@angular/router";
+import {SharedModule} from "../shared/shared.module";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {RouterLink} from "@angular/router";
     ],
     imports: [
         CommonModule,
-        RouterLink
+        RouterLink,
+        SharedModule
     ]
 })
 export class ShoppingCartsModule {

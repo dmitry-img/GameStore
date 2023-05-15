@@ -29,8 +29,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
         private shoppingCartService: ShoppingCartService,
         private toaster: ToastrService,
         private hierarchicalDataService: HierarchicalDataService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.route.params.subscribe(data => {

@@ -18,7 +18,7 @@ namespace GameStore.BLL.UnitTests.Services
 
         public GameServiceTests()
         {
-            _gameService = new GameService(MockUow.Object, Mapper, MockLogger.Object);
+            _gameService = new GameService(MockUow.Object, Mapper, MockLogger.Object, MockGameFilterOperation.Object);
         }
 
         [Fact]

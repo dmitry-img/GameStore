@@ -17,8 +17,7 @@ export class CreateCommentComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private commentService: CommentService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.createCommentForm = this.fb.group({
