@@ -11,5 +11,6 @@ export class DropdownComponent {
     @Input() items!: DropDownItem[];
     @Input() labelText!: string;
     @Input() control!: FormControl;
-    @Input() placeholder = 'Select an option'
+    @Input() placeholder: string = 'Select an option'
+    @Input() showPlaceholder: boolean = true;
 }

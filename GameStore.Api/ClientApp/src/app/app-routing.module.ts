@@ -20,8 +20,8 @@ import {VisaPaymentPageComponent} from "./orders/pages/visa-payment-page/visa-pa
 import {BankPaymentPageComponent} from "./orders/pages/bank-payment-page/bank-payment-page.component";
 
 const routes: Routes = [
-    {path: '', redirectTo: '/game/list', pathMatch: 'full'},
-    {path: 'game/list', component: GameListPageComponent},
+    {path: '', redirectTo: '/game/list/1', pathMatch: 'full'},
+    {path: 'game/list/:page', component: GameListPageComponent},
     {path: 'game/create', component: CreateGamePageComponent},
     {path: 'game/:key', component: GameDetailsPageComponent},
     {path: 'publisher/create', component: CreatePublisherPageComponent},

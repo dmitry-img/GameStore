@@ -9,13 +9,13 @@ namespace GameStore.BLL.Pipelines
 {
     public class GameFilterOperations : IGameFilterOperations
     {
-        private readonly Dictionary<DateFilterOption, Func<DateTime, bool>> _dateFilters = new Dictionary<DateFilterOption, Func<DateTime, bool>>
+        private readonly Dictionary<DateFilterOption, DateTime?> _dateFilters = new Dictionary<DateFilterOption, DateTime?>
         {
-            { DateFilterOption.LastWeek, date => date >= DateTime.UtcNow.AddDays(-7) },
-            { DateFilterOption.LastMonth, date => date >= DateTime.UtcNow.AddMonths(-1) },
-            { DateFilterOption.LastYear, date => date >= DateTime.UtcNow.AddYears(-1) },
-            { DateFilterOption.TwoYears, date => date >= DateTime.UtcNow.AddYears(-2) },
-            { DateFilterOption.ThreeYears, date => date >= DateTime.UtcNow.AddYears(-3) }
+            { DateFilterOption.LastWeek, DateTime.UtcNow.AddDays(-7) },
+            { DateFilterOption.LastMonth, DateTime.UtcNow.AddMonths(-1) },
+            { DateFilterOption.LastYear, DateTime.UtcNow.AddYears(-1) },
+            { DateFilterOption.TwoYears, DateTime.UtcNow.AddYears(-2) },
+            { DateFilterOption.ThreeYears, DateTime.UtcNow.AddYears(-3) }
         };
 
         public IOperation<IQueryable<Game>> CreateNameOperation(string nameFragment)
@@ -24,7 +24,7 @@ namespace GameStore.BLL.Pipelines
             {
                 if (!string.IsNullOrEmpty(nameFragment) && nameFragment.Length >= 3)
                 {
-                    return games.Where(game => game.Name.Contains(nameFragment));
+                    return games.Where(game => game.Name.ToLower().Contains(nameFragment.ToLower()));
                 }
 
                 return games;
@@ -69,9 +69,9 @@ namespace GameStore.BLL.Pipelines
 
         public IOperation<IQueryable<Game>> CreateDateFilterOperation(DateFilterOption dateFilterOption)
         {
-            if (_dateFilters.TryGetValue(dateFilterOption, out var filter))
+            if (_dateFilters.TryGetValue(dateFilterOption, out var date))
             {
-                return new Operation<IQueryable<Game>>(games => games.Where(game => filter(game.CreatedAt)));
+                return new Operation<IQueryable<Game>>(games => games.Where(game => game.CreatedAt >= date));
             }
 
             return new Operation<IQueryable<Game>>(games => games);

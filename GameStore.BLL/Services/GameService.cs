@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Enums;
 using GameStore.BLL.Exceptions;
@@ -143,6 +144,10 @@ namespace GameStore.BLL.Services
                 throw new NotFoundException(nameof(game), key);
             }
 
+            game.Views++;
+
+            await _unitOfWork.SaveAsync();
+
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;
@@ -172,14 +177,14 @@ namespace GameStore.BLL.Services
                 .Count();
         }
 
-        public async Task<IEnumerable<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
+        public async Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
         {
             var query = _unitOfWork.Games.GetQuery();
 
             var pipeline = new Pipeline<IQueryable<Game>>();
             pipeline.Register(_gameFilterOperations.CreateNameOperation(filter.NameFragment));
             pipeline.Register(_gameFilterOperations.CreateGenreOperation(filter.GenreIds));
-            pipeline.Register(_gameFilterOperations.CreatePlatformOperation(filter.PlatformIds));
+            pipeline.Register(_gameFilterOperations.CreatePlatformOperation(filter.PlatformTypeIds));
             pipeline.Register(_gameFilterOperations.CreatePublisherOperation(filter.PublisherIds));
             pipeline.Register(_gameFilterOperations.CreatePriceOperation(filter.PriceFrom, filter.PriceTo));
             if (filter.DateFilterOption != DateFilterOption.None)
@@ -189,15 +194,27 @@ namespace GameStore.BLL.Services
 
             query = pipeline.Invoke(query);
 
-            if (filter.SortOption != SortOption.None)
+            var totalItems = await query.CountAsync();
+
+            var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
+            query = sortStrategy.Sort(query);
+
+            if (filter.PageSize != -1 && filter.PageNumber > 0 && filter.PageSize > 0)
             {
-                var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
-                query = sortStrategy.Sort(query);
+                query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
             }
 
             var games = await query.ToListAsync();
 
-            return _mapper.Map<IEnumerable<GetGameBriefDTO>>(games);
+            var result = new PaginationResult<GetGameBriefDTO>
+            {
+                Items = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
+                TotalItems = totalItems,
+                PageSize = filter.PageSize,
+                CurrentPage = filter.PageNumber
+            };
+
+            return result;
         }
     }
 }

@@ -2,11 +2,10 @@
 {
     public enum SortOption
     {
-        None,
         MostViewed,
         MostCommented,
-        PriceAsc,
-        PriceDesc,
+        PriceAscending,
+        PriceDescending,
         New
     }
 }

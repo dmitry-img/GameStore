@@ -10,7 +10,8 @@ export class CheckboxListService {
         event: any,
         id: number,
         items: CheckboxListItem[],
-        control: FormArray
+        control: FormArray,
+        isForHierarchicalFiltration: boolean
     ): void {
         const checked = event.target.checked;
 
@@ -35,7 +36,7 @@ export class CheckboxListService {
             }
         }
 
-        const checkedIds = this.getCheckedItemIds(items);
+        const checkedIds = this.getCheckedItemIds(items, isForHierarchicalFiltration);
         control.setValue(checkedIds);
         control.markAsTouched();
     }
@@ -55,14 +56,16 @@ export class CheckboxListService {
         return null;
     }
 
-    private getCheckedItemIds(items: CheckboxListItem[]): number[] {
+    private getCheckedItemIds(items: CheckboxListItem[], isForHierarchicalFiltration: boolean): number[] {
         let checkedIds: number[] = [];
         items.forEach((item) => {
             if (item.checked) {
-                checkedIds.push(item.id);
+                if(!item.children || isForHierarchicalFiltration){
+                    checkedIds.push(item.id);
+                }
             }
             if (item.children) {
-                checkedIds = [...checkedIds, ...this.getCheckedItemIds(item.children)];
+                checkedIds = [...checkedIds, ...this.getCheckedItemIds(item.children, isForHierarchicalFiltration)];
             }
         });
         return checkedIds;

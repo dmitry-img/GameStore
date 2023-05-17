@@ -14,6 +14,7 @@ export class CheckboxListComponent {
     @Input() control!: FormArray;
     @Input() labelText?: string;
     @Input() isRequired?: boolean;
+    @Input() isForHierarchicalFiltration!: boolean
     uniqueInstanceId!: string;
 
     constructor(private checkboxListService: CheckboxListService) {
@@ -22,6 +23,6 @@ export class CheckboxListComponent {
 
     onCheckboxChange(event: Event, id: number): void {
         const items = this.parentItems ?? this.items;
-        this.checkboxListService.onCheckBoxChange(event, id, items, this.control);
+        this.checkboxListService.onCheckBoxChange(event, id, items, this.control, this.isForHierarchicalFiltration);
     }
 }

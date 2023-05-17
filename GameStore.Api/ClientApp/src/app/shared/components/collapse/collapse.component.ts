@@ -6,5 +6,6 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./collapse.component.scss']
 })
 export class CollapseComponent {
-    @Input() buttonText!: string;
+    @Input() title: string = '';
+    isCollapsed: boolean = true;
 }

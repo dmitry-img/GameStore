@@ -52,7 +52,7 @@ namespace GameStore.DAL.Data
             {
                 if (entry.Entity is IAuditableEntity auditableEntity)
                 {
-                    if (entry.State == EntityState.Added)
+                    if (entry.State == EntityState.Added && auditableEntity.CreatedAt == null)
                     {
                         auditableEntity.CreatedAt = DateTime.UtcNow;
                     }

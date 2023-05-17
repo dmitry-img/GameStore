@@ -47,10 +47,9 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<ISortStrategyFactory, SortStrategyFactory>();
             container.RegisterType<ISortStrategy<Game>, MostViewedSortStrategy>(SortOption.MostViewed.ToString());
             container.RegisterType<ISortStrategy<Game>, MostCommentedSortStrategy>(SortOption.MostCommented.ToString());
-            container.RegisterType<ISortStrategy<Game>, PriceAscSortStrategy>(SortOption.PriceAsc.ToString());
-            container.RegisterType<ISortStrategy<Game>, PriceDescSortStrategy>(SortOption.PriceDesc.ToString());
+            container.RegisterType<ISortStrategy<Game>, PriceAscSortStrategy>(SortOption.PriceAscending.ToString());
+            container.RegisterType<ISortStrategy<Game>, PriceDescSortStrategy>(SortOption.PriceDescending.ToString());
             container.RegisterType<ISortStrategy<Game>, NewSortStrategy>(SortOption.New.ToString());
-
 
             container.RegisterType<IGameFilterOperations, GameFilterOperations>();
 

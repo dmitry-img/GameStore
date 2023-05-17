@@ -35,17 +35,11 @@ namespace GameStore.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAll()
-        {
-            return Json(await _gameService.GetAllAsync());
-        }
-
-        [HttpPost]
-        [Route("filtered")]
-        public async Task<IHttpActionResult> GetGames([FromBody] FilterGameDTO filter)
+        [Route("list")]
+        public async Task<IHttpActionResult> GetList([FromUri]FilterGameDTO filter)
         {
             var games = await _gameService.GetFilteredAsync(filter);
-            return Ok(games);
+            return Json(games);
         }
 
         [HttpGet]

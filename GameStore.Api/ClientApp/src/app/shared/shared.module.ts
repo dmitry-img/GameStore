@@ -15,6 +15,8 @@ import {GamesTableComponent} from './components/games-table/games-table.componen
 import {ModalModule} from "ngx-bootstrap/modal";
 import {InfoModalComponent} from './components/info-modal/info-modal.component';
 import { CollapseComponent } from './components/collapse/collapse.component';
+import {CollapseModule} from "ngx-bootstrap/collapse";
+import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +32,7 @@ import { CollapseComponent } from './components/collapse/collapse.component';
         GamesTableComponent,
         InfoModalComponent,
         CollapseComponent,
+        PaginationNavComponent,
     ],
     exports: [
         HeaderComponent,
@@ -42,13 +45,16 @@ import { CollapseComponent } from './components/collapse/collapse.component';
         FormArrayPipe,
         DropdownComponent,
         GamesTableComponent,
-        InfoModalComponent
+        InfoModalComponent,
+        CollapseComponent,
+        PaginationNavComponent
     ],
     imports: [
         CommonModule,
         RouterLink,
         ReactiveFormsModule,
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
+        CollapseModule.forRoot()
     ]
 })
 export class SharedModule {

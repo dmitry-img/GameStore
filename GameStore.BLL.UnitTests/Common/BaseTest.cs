@@ -25,6 +25,8 @@ namespace GameStore.BLL.UnitTests.Common
 
             Mapper = mapperConfig.CreateMapper();
 
+            MockSortStrategyFactory = new Mock<ISortStrategyFactory>();
+
             MockLogger = new Mock<ILog>();
 
             MockGameFilterOperation = new Mock<IGameFilterOperations>();
@@ -68,6 +70,8 @@ namespace GameStore.BLL.UnitTests.Common
         protected Mock<IDistributedCache<ShoppingCart>> MockShoppingCartCash { get; set; }
 
         protected Mock<IGameFilterOperations> MockGameFilterOperation { get; set; }
+
+        protected Mock<ISortStrategyFactory> MockSortStrategyFactory { get; set; }
 
         protected List<Game> Games { get; set; } = new List<Game>()
         {

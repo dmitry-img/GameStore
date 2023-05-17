@@ -124,9 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\Comment\BaseCommentDto.cs" />
+    <Compile Include="DTOs\Common\PaginationResult.cs" />
     <Compile Include="DTOs\Game\BaseGameDTO.cs" />
     <Compile Include="DTOs\Game\FilterGameDTO.cs" />
     <Compile Include="DTOs\Game\GetGameBriefDTO.cs" />
+    <Compile Include="DTOs\Genre\FiltrationGenreDTO.cs" />
     <Compile Include="DTOs\Order\GetOrderDTO.cs" />
     <Compile Include="DTOs\Publisher\BasePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\CreatePublisherDTO.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Strategies\Payment\BankPaymentStrategy.cs" />
     <Compile Include="Strategies\Payment\IBoxPaymentStrategy.cs" />
     <Compile Include="Strategies\Payment\VisaPaymentStrategy.cs" />
+    <Compile Include="Strategies\Sorting\DefaultSortStrategy.cs" />
     <Compile Include="Strategies\Sorting\MostCommentedSortStrategy.cs" />
     <Compile Include="Strategies\Sorting\MostViewedSortStrategy.cs" />
     <Compile Include="Strategies\Sorting\NewSortStrategy.cs" />

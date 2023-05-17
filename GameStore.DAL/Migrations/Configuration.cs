@@ -1,6 +1,7 @@
 ﻿namespace GameStore.DAL.Migrations
 {
     using GameStore.DAL.Entities;
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -111,7 +112,8 @@
                     Publisher = context.Publishers.Single(p => p.CompanyName == "Blizzard Entertainment"),
                     Price = 100,
                     UnitsInStock = 5,
-                    Discontinued = false
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow
                 },
                 new Game()
                 {
@@ -132,7 +134,8 @@
                     Publisher = context.Publishers.Single(p => p.CompanyName == "Electronic Arts"),
                     Price = 50,
                     UnitsInStock = 30,
-                    Discontinued = true
+                    Discontinued = true,
+                    CreatedAt = DateTime.UtcNow.AddDays(-7)
                 },
                 new Game()
                 {
@@ -150,7 +153,8 @@
                     Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
                     Price = 15,
                     UnitsInStock = 80,
-                    Discontinued = false
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-2)
                 }
             });
         }
