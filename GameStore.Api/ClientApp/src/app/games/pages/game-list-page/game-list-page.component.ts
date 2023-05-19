@@ -110,6 +110,10 @@ export class GameListPageComponent {
 
     onFilter(filer: FilterGameRequest): void {
         const mergedFilters = {...this.filterGameRequest, ...filer};
+        if(JSON.stringify(this.filterGameRequest) === JSON.stringify(mergedFilters)){
+            this.navigateToFirstPage();
+            return;
+        }
         Object.assign(this.filterGameRequest, mergedFilters);
         this.navigateToFirstPage();
         this.getGames()

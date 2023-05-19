@@ -179,7 +179,8 @@ namespace GameStore.BLL.Services
 
         public async Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
         {
-            var query = _unitOfWork.Games.GetQuery();
+            var query = _unitOfWork.Games.GetQuery()
+                .Include(game => game.Genres);
 
             var pipeline = new Pipeline<IQueryable<Game>>();
             pipeline.Register(_gameFilterOperations.CreateNameOperation(filter.NameFragment));

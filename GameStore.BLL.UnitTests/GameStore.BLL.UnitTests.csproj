@@ -47,6 +47,9 @@
     <PackageReference Include="EntityFramework">
       <Version>6.4.4</Version>
     </PackageReference>
+    <PackageReference Include="FluentValidation">
+      <Version>8.6.1</Version>
+    </PackageReference>
     <PackageReference Include="log4net">
       <Version>2.0.15</Version>
     </PackageReference>
@@ -72,13 +75,19 @@
     <Compile Include="Common\TestDbAsyncEnumerable.cs" />
     <Compile Include="Common\TestDbAsyncEnumerator.cs" />
     <Compile Include="Common\TestDbAsyncQueryProvider.cs" />
+    <Compile Include="Pipelines\GameFilterOperationsTests.cs" />
     <Compile Include="Profiles\MappingProfileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BanServiceTests.cs" />
     <Compile Include="Services\GameServiceTests.cs" />
     <Compile Include="Services\CommentServiceTests.cs" />
+    <Compile Include="Services\OrderServiceTests.cs" />
+    <Compile Include="Services\PaymentServiceTests.cs" />
     <Compile Include="Services\PublisherServiceServiceTests.cs" />
     <Compile Include="Services\ShoppingCartServiceTests.cs" />
+    <Compile Include="Services\ValidationServiceTests.cs" />
     <Compile Include="Strategies\PaymentStrategyTests.cs" />
+    <Compile Include="Strategies\SortingStrategyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.BLL\GameStore.BLL.csproj">

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using System.Linq;
@@ -14,17 +15,23 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
+        private readonly IValidationService _validationService;
         private readonly IValidator<CreateGameDTO> _createGameValidator;
         private readonly IValidator<UpdateGameDTO> _updateGameValidator;
+        private readonly IValidator<FilterGameDTO> _filterGameValidator;
 
         public GamesController(
             IGameService gameService,
+            IValidationService validationService,
             IValidator<CreateGameDTO> createGameValidator,
-            IValidator<UpdateGameDTO> updateGameValidator)
+            IValidator<UpdateGameDTO> updateGameValidator,
+            IValidator<FilterGameDTO> filterGameValidator)
         {
             _gameService = gameService;
+            _validationService = validationService;
             _createGameValidator = createGameValidator;
             _updateGameValidator = updateGameValidator;
+            _filterGameValidator = filterGameValidator;
         }
 
         [HttpGet]
@@ -38,6 +45,8 @@ namespace GameStore.Api.Controllers
         [Route("list")]
         public async Task<IHttpActionResult> GetList([FromUri]FilterGameDTO filter)
         {
+            _validationService.Validate(filter, _filterGameValidator);
+
             var games = await _gameService.GetFilteredAsync(filter);
             return Json(games);
         }
@@ -55,13 +64,7 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateGameDTO gameDTO)
         {
-            var result = _createGameValidator.Validate(gameDTO);
-
-            if (!result.IsValid)
-            {
-                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(string.Join(", ", errors));
-            }
+            _validationService.Validate(gameDTO, _createGameValidator);
 
             await _gameService.CreateAsync(gameDTO);
 
@@ -72,13 +75,7 @@ namespace GameStore.Api.Controllers
         [Route("update/{key}")]
         public async Task<IHttpActionResult> Update(string key, [FromBody] UpdateGameDTO gameDTO)
         {
-            var result = _updateGameValidator.Validate(gameDTO);
-
-            if (!result.IsValid)
-            {
-                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(string.Join(", ", errors));
-            }
+            _validationService.Validate(gameDTO, _updateGameValidator);
 
             await _gameService.UpdateAsync(key, gameDTO);
 

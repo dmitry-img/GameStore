@@ -33,9 +33,21 @@ namespace GameStore.BLL.Pipelines
 
         public IOperation<IQueryable<Game>> CreateGenreOperation(List<int> genres)
         {
-            return new Operation<IQueryable<Game>>(games => genres != null && genres.Any() ? games.Where(game =>
-                game.Genres.Any(g => genres.Contains(g.Id))) : games);
+            return new Operation<IQueryable<Game>>(games =>
+            {
+                if (genres == null || !genres.Any())
+                {
+                    return games;
+                }
+
+                List<int> filterIds = genres
+                    .Where(id => games.SelectMany(g => g.Genres).Any(g => g.Id == id && (g.ParentGenre != null || !g.ChildGenres.Any())))
+                    .ToList();
+
+                return games.Where(game => game.Genres.Any(g => filterIds.Contains(g.Id)));
+            });
         }
+
 
         public IOperation<IQueryable<Game>> CreatePlatformOperation(List<int> platforms)
         {

@@ -9,6 +9,8 @@ namespace GameStore.DAL.Entities
 
         public string Body { get; set; }
 
+        public bool HasQuote { get; set; }
+
         public int GameId { get; set; }
 
         public int? ParentCommentId { get; set; }

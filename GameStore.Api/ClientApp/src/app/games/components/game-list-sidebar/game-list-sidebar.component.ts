@@ -13,7 +13,6 @@ import {DropDownItem} from "../../../shared/models/DropDownItem";
   styleUrls: ['./game-list-sidebar.component.scss']
 })
 export class GameListSidebarComponent implements OnInit{
-    private _filterGameRequest!: FilterGameRequest;
     filterGameForm!: FormGroup;
     @Input() genres!: CheckboxListItem[];
     @Input() platformTypes!: CheckboxListItem[];

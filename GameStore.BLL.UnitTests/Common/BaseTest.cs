@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Pipelines;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.UnitTests.Mocks.Common;
 using GameStore.DAL.CacheEntities;
@@ -27,16 +28,18 @@ namespace GameStore.BLL.UnitTests.Common
 
             MockSortStrategyFactory = new Mock<ISortStrategyFactory>();
 
+            MockPaymentStrategyFactory = new Mock<IPaymentStrategyFactory>();
+
             MockLogger = new Mock<ILog>();
 
-            MockGameFilterOperation = new Mock<IGameFilterOperations>();
+            GameFilterOperation = new GameFilterOperations();
 
             MockShoppingCartCash = new Mock<IDistributedCache<ShoppingCart>>();
             MockShoppingCartCash.Setup(sc => sc.GetAsync(It.IsAny<string>())).ReturnsAsync(ShoppingCart);
             MockShoppingCartCash.Setup(r => r.SetAsync(It.IsAny<string>(), It.IsAny<ShoppingCart>()))
                 .Callback((string key, ShoppingCart modifiedShoppingCart) =>
                 {
-                    ShoppingCart.Items = modifiedShoppingCart.Items;
+                    ShoppingCart = modifiedShoppingCart;
                 });
 
             MockUow = new Mock<IUnitOfWork>();
@@ -59,6 +62,10 @@ namespace GameStore.BLL.UnitTests.Common
 
             MockUow.Setup(r => r.Publishers.GetAllAsync()).ReturnsAsync(Publishers);
             MockUow.Setup(u => u.Publishers.GetQuery()).Returns(new TestDbAsyncEnumerable<Publisher>(Publishers));
+
+            MockUow.Setup(u => u.Comments.GetQuery()).Returns(new TestDbAsyncEnumerable<Comment>(Comments));
+
+            MockUow.Setup(u => u.Orders.GetQuery()).Returns(new TestDbAsyncEnumerable<Order>(Orders));
         }
 
         protected IMapper Mapper { get; }
@@ -69,9 +76,11 @@ namespace GameStore.BLL.UnitTests.Common
 
         protected Mock<IDistributedCache<ShoppingCart>> MockShoppingCartCash { get; set; }
 
-        protected Mock<IGameFilterOperations> MockGameFilterOperation { get; set; }
+        protected IGameFilterOperations GameFilterOperation { get; set; }
 
         protected Mock<ISortStrategyFactory> MockSortStrategyFactory { get; set; }
+
+        protected Mock<IPaymentStrategyFactory> MockPaymentStrategyFactory { get; set; }
 
         protected List<Game> Games { get; set; } = new List<Game>()
         {
@@ -111,6 +120,7 @@ namespace GameStore.BLL.UnitTests.Common
                 Price = 50,
                 Discontinued = false,
                 PublisherId = 1,
+                UnitsInStock = 50
             },
             new Game()
             {
@@ -133,6 +143,7 @@ namespace GameStore.BLL.UnitTests.Common
                 IsDeleted = true,
                 Price = 10,
                 PublisherId = 2,
+                UnitsInStock = 50
             },
             new Game()
             {
@@ -155,6 +166,30 @@ namespace GameStore.BLL.UnitTests.Common
                 IsDeleted = false,
                 Price = 100,
                 PublisherId = 2,
+                UnitsInStock = 50
+            },
+            new Game()
+            {
+                Id = 4,
+                Name = "Age of Empires II",
+                Key = "33bb26e3-16b0-4eec-8c27-39b54e67664d",
+                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                Genres = new List<Genre>
+                {
+                    new Genre()
+                    {
+                        Id = 1,
+                        Name = "Strategy",
+                    },
+                },
+                PlatformTypes = new List<PlatformType>()
+                {
+                    new PlatformType() { Id = 3, Type = "Desktop" },
+                },
+                IsDeleted = false,
+                Price = 30,
+                PublisherId = 2,
+                UnitsInStock = 50
             }
         };
 
@@ -194,7 +229,26 @@ namespace GameStore.BLL.UnitTests.Common
                 Name = "Test Name",
                 Body = "Test Body",
                 GameId = 1,
-            }
+                ChildComments = new List<Comment>()
+                {
+                    new Comment
+                    {
+                        Id = 2,
+                        Name = "Test Name Child1",
+                        Body = "Test Body  Child1",
+                        GameId = 1,
+                        ParentCommentId = 1
+                    },
+                    new Comment
+                    {
+                        Id = 3,
+                        Name = "Test Name Child2",
+                        Body = "Test Body Child2",
+                        GameId = 1,
+                        ParentCommentId = 1
+                    }
+                }
+            },
         };
 
         protected ShoppingCart ShoppingCart { get; set; } = new ShoppingCart()
@@ -219,25 +273,67 @@ namespace GameStore.BLL.UnitTests.Common
         };
 
         protected List<Publisher> Publishers { get; set; } = new List<Publisher>
+        {
+            new Publisher()
             {
-                new Publisher()
+                CompanyName = "Blizzard Entertainment",
+                Description = "Blizzard description...",
+                HomePage = "https://www.blizzard.com/"
+            },
+            new Publisher()
+            {
+                CompanyName = "Rockstar",
+                Description = "Rockstar description...",
+                HomePage = "https://www.rockstargames.com/"
+            },
+            new Publisher()
+            {
+                CompanyName = "Electronic Arts",
+                Description = "Electronic Arts description...",
+                HomePage = "https://www.ea.com/"
+            }
+        };
+
+        protected List<Order> Orders { get; set; } = new List<Order>()
+        {
+            new Order()
+            {
+                Id = 1,
+                OrderDetails = new List<OrderDetail>()
                 {
-                    CompanyName = "Blizzard Entertainment",
-                    Description = "Blizzard description...",
-                    HomePage = "https://www.blizzard.com/"
-                },
-                new Publisher()
-                {
-                    CompanyName = "Rockstar",
-                    Description = "Rockstar description...",
-                    HomePage = "https://www.rockstargames.com/"
-                },
-                new Publisher()
-                {
-                    CompanyName = "Electronic Arts",
-                    Description = "Electronic Arts description...",
-                    HomePage = "https://www.ea.com/"
+                    new OrderDetail()
+                    {
+                        Price = 500,
+                        Quantity = 2,
+                        Game = new Game { UnitsInStock = 5 }
+                    },
+                    new OrderDetail()
+                    {
+                        Price = 100,
+                        Quantity = 5,
+                        Game = new Game { UnitsInStock = 50 }
+                    }
                 }
-            };
+            },
+            new Order()
+            {
+                Id = 2,
+                OrderDetails = new List<OrderDetail>()
+                {
+                    new OrderDetail()
+                    {
+                        Price = 50,
+                        Quantity = 1,
+                        Game = new Game { UnitsInStock = 100 }
+                    },
+                    new OrderDetail()
+                    {
+                        Price = 100,
+                        Quantity = 1,
+                        Game = new Game { UnitsInStock = 100 }
+                    }
+                }
+            }
+        };
     }
 }

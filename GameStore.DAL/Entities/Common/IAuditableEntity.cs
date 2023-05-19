@@ -14,7 +14,7 @@ namespace GameStore.DAL.Entities.Common
 
         DateTime? DeletedAt { get; set; }
 
-        string DeteledBy { get; set; }
+        string DeletedBy { get; set; }
 
         bool IsDeleted { get; set; }
     }

@@ -1,0 +1,11 @@
+<form [formGroup]="banForm" (ngSubmit)="onBan()">
+    <app-dropdown
+        [control]="banForm | formControl:'banDuration'"
+        labelText="Ban Duration"
+        [showPlaceholder]="false"
+        [items]="banDurations">
+    </app-dropdown>
+    <button class="btn btn-danger">Ban</button>
+</form>
+
+

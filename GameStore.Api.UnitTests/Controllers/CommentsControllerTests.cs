@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Comment;
+using GameStore.BLL.Enums;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Services;
 using GameStore.BLL.Validators;
 using Moq;
 using Xunit;
@@ -15,15 +18,21 @@ namespace GameStore.Api.UnitTests.Controllers
     {
         private const string TestKey = "test-key";
         private readonly Mock<ICommentService> _commentServiceMock;
+        private readonly Mock<IBanService> _banServiceMock;
+        private readonly IValidationService _validationService;
         private readonly CommentsController _commentsController;
         private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
         public CommentsControllerTests()
         {
             _commentServiceMock = new Mock<ICommentService>();
+            _banServiceMock = new Mock<IBanService>();
             _createCommentValidator = new CreateCommentDTOValidator();
+            _validationService = new ValidationService();
             _commentsController = new CommentsController(
                 _commentServiceMock.Object,
+                _validationService,
+                _banServiceMock.Object,
                 _createCommentValidator);
         }
 
@@ -60,6 +69,40 @@ namespace GameStore.Api.UnitTests.Controllers
             Assert.NotNull(result);
             Assert.IsType<JsonResult<IEnumerable<GetCommentDTO>>>(result);
             _commentServiceMock.Verify(x => x.GetAllByGameKeyAsync(TestKey), Times.Once);
+        }
+
+        [Fact]
+        public async Task Ban_ShouldInvoke_BanServiceWithCorrectDto()
+        {
+            // Arrange
+            var banDto = new BanDTO();
+
+            _banServiceMock
+                .Setup(service => service.BanAsync(It.IsAny<BanDTO>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _commentsController.Ban(banDto);
+
+            // Assert
+            _banServiceMock.Verify(service => service.BanAsync(banDto), Times.Once);
+        }
+
+        [Fact]
+        public async Task Delete_ShouldInvoke_CommentServiceWithCorrectId()
+        {
+            // Arrange
+            var id = 1;
+
+            _commentServiceMock
+                .Setup(service => service.DeleteAsync(It.IsAny<int>()))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _commentsController.Delete(id);
+
+            // Assert
+            _commentServiceMock.Verify(service => service.DeleteAsync(id), Times.Once);
         }
     }
 }

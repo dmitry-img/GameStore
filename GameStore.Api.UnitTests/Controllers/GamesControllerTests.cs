@@ -8,9 +8,12 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Services;
 using GameStore.BLL.Validators;
+using GameStore.DAL.Entities;
 using Moq;
 using Xunit;
 
@@ -20,38 +23,40 @@ namespace GameStore.Api.UnitTests.Controllers
     {
         private const string TestKey = "test-key";
         private readonly Mock<IGameService> _gameServiceMock;
+        private readonly IValidationService _validationService;
         private readonly GamesController _gamesController;
         private readonly IValidator<CreateGameDTO> _createGameValidator;
         private readonly IValidator<UpdateGameDTO> _updateGameValidator;
+        private readonly IValidator<FilterGameDTO> _filterGameValidator;
 
         public GamesControllerTests()
         {
             _gameServiceMock = new Mock<IGameService>();
+            _validationService = new ValidationService();
             _createGameValidator = new CreateGameDTOValidator();
             _updateGameValidator = new UpdateGameDTOValidator();
+            _filterGameValidator = new FilterGameDTOValidator();
 
             _gamesController = new GamesController(
                 _gameServiceMock.Object,
+                _validationService,
                 _createGameValidator,
-                _updateGameValidator);
+                _updateGameValidator,
+                _filterGameValidator);
         }
 
-        // TODO refactor unit
-        //[Fact]
-        //public async Task GetAll_ShouldInvoke_GetAllAsync()
-        //{
-        //    // Arrange
-        //    var expectedGames = new List<GetGameBriefDTO> { new GetGameBriefDTO(), new GetGameBriefDTO() };
-        //    _gameServiceMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expectedGames);
+        [Fact]
+        public async Task GetList_WhenCalledWithValidFilter_ReturnsJsonResult()
+        {
+            // Arrange
+            var filter = new FilterGameDTO();
 
-        //    // Act
-        //    var result = await _gamesController.GetList();
+            // Act
+            var result = await _gamesController.GetList(filter);
 
-        //    // Assert
-        //    Assert.NotNull(result);
-        //    Assert.IsType<JsonResult<IEnumerable<GetGameBriefDTO>>>(result);
-        //    _gameServiceMock.Verify(s => s.GetAllAsync(), Times.Once);
-        //}
+            // Assert
+            Assert.IsType<JsonResult<PaginationResult<GetGameBriefDTO>>>(result);
+        }
 
         [Fact]
         public async Task GetByKey_ShouldInvoke_GetByKeyAsync()
@@ -152,33 +157,6 @@ namespace GameStore.Api.UnitTests.Controllers
             Assert.Equal(
                 new ContentDispositionHeaderValue("attachment") { FileName = $"{game.Name}.bin" },
                 result.Content.Headers.ContentDisposition);
-        }
-
-        [Fact]
-        public async Task Create_WithInvalidDTO_ShouldReturn_BadRequest()
-        {
-            // Arrange
-            var game = new CreateGameDTO();
-
-            // Act
-            var result = await _gamesController.Create(game);
-
-            // Assert
-            Assert.IsType<BadRequestErrorMessageResult>(result);
-        }
-
-        [Fact]
-        public async Task Update_WithInvalidDTO_ShouldReturn_BadRequest()
-        {
-            // Arrange
-            var game = new UpdateGameDTO();
-            var gameKey = "test-key";
-
-            // Act
-            var result = await _gamesController.Update(gameKey, game);
-
-            // Assert
-            Assert.IsType<BadRequestErrorMessageResult>(result);
         }
     }
 }

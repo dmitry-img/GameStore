@@ -3,17 +3,23 @@
         <div class="comment__content">
             <h6 class="comment__name">{{ commentNode.comment.Name }}</h6>
             <div class="comment__body">
-        <span *ngIf="parentNode">
-          <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">[{{parentNode.comment.Name}}]</a>
-        </span>
+                <ng-container *ngIf="parentNode">
+                    <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">[{{parentNode.comment.Name}}]</a>
+                    <app-quote *ngIf="commentNode.comment.HasQuote">
+                        {{parentNode.comment.Body}}
+                    </app-quote>
+                </ng-container>
                 {{ commentNode.comment.Body }}
             </div>
         </div>
         <div class="comment__actions">
-            <button class="comment_reply" type="button" (click)="clickedReply = !clickedReply">Reply</button>
+            <button class="comment__action comment__reply" type="button" (click)="onReply()">Reply</button>
+            <button class="comment__action comment__quote" type="button" (click)="onQuote()">Quote</button>
+            <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">Delete</button>
+            <a class="comment__action btn btn-danger" type="button" [routerLink]="['/ban',commentNode.comment.Id]">Ban</a>
         </div>
-        <div class="comment__form" *ngIf="clickedReply">
-            <app-create-comment [gameKey]="gameKey" [parentComment]="commentNode.comment"></app-create-comment>
+        <div class="comment__form" *ngIf="clickedReply || clickedQuote">
+            <app-create-comment [gameKey]="gameKey" [parentComment]="commentNode.comment" [hasQuote]="clickedQuote"></app-create-comment>
         </div>
     </div>
     <div class="comment__children">

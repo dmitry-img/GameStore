@@ -17,11 +17,11 @@
             'minlength': 'The minimal length of the fragment is 3 characters!',
         }"></app-validation-message>
         <app-collapse title="Genres">
-            <app-checkbox-list title="Genres"
-                               *ngIf="genres!"
-                               [items]="genres"
-                               [control]="filterGameForm | formArray:'GenreIds'"
-                               [isForHierarchicalFiltration]="true">
+            <app-checkbox-list
+                title="Genres"
+               *ngIf="genres!"
+               [items]="genres"
+               [control]="filterGameForm | formArray:'GenreIds'">
             </app-checkbox-list>
         </app-collapse>
         <app-collapse title="Platforms">

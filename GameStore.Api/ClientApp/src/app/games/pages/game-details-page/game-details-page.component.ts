@@ -20,6 +20,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     game!: GetGameResponse
     commentNodes!: CommentNode[]
     newCommentSubscription!: Subscription;
+    deleteCommentSubscription!: Subscription;
     gameKey!: string;
 
     constructor(
@@ -37,7 +38,8 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             this.getCommentListArray(data['key'])
             this.gameKey = data['key'];
         });
-        this.onCommentCreated()
+        this.onCommentCreated();
+        this.onCommentDeleted();
     }
 
     onDownloadGame(): void {
@@ -57,9 +59,15 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     }
 
     onCommentCreated(): void {
-        this.newCommentSubscription = this.commentService.getEmittedComment$().subscribe(() => {
+        this.newCommentSubscription = this.commentService.getEmittedNewComment$().subscribe(() => {
             this.getCommentListArray(this.game.Key);
         });
+    }
+
+    private onCommentDeleted(): void {
+        this.deleteCommentSubscription = this.commentService.getEmittedDeleteComment$().subscribe(() =>{
+            this.getCommentListArray(this.game.Key);
+        })
     }
 
     ngOnDestroy(): void {

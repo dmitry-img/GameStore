@@ -17,6 +17,8 @@ import {InfoModalComponent} from './components/info-modal/info-modal.component';
 import { CollapseComponent } from './components/collapse/collapse.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
+import { QuoteComponent } from './components/quote/quote.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +35,8 @@ import { PaginationNavComponent } from './components/pagination-nav/pagination-n
         InfoModalComponent,
         CollapseComponent,
         PaginationNavComponent,
+        QuoteComponent,
+        ConfirmationModalComponent,
     ],
     exports: [
         HeaderComponent,
@@ -47,7 +51,8 @@ import { PaginationNavComponent } from './components/pagination-nav/pagination-n
         GamesTableComponent,
         InfoModalComponent,
         CollapseComponent,
-        PaginationNavComponent
+        PaginationNavComponent,
+        QuoteComponent
     ],
     imports: [
         CommonModule,

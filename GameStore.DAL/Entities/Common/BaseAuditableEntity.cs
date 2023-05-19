@@ -20,6 +20,6 @@ namespace GameStore.DAL.Entities.Common
 
         public string ModifiedBy { get; set; }
 
-        public string DeteledBy { get; set; }
+        public string DeletedBy { get; set; }
     }
 }

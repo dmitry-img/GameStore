@@ -10,6 +10,7 @@ import {CreateCommentRequest} from "../models/CreateCommentRequest";
 export class CommentService {
     private baseUrl = '/api/comments';
     private newCommentSubject = new Subject<boolean>();
+    private deleteCommentSubject = new Subject<boolean>();
 
     constructor(private http: HttpClient) { }
 
@@ -21,11 +22,23 @@ export class CommentService {
         return this.http.post<void>(`${this.baseUrl}/create`, newComment);
     }
 
-    emitComment(value: boolean): void {
+    deleteComment(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    }
+
+    emitNewComment(value: boolean): void {
         this.newCommentSubject.next(value);
     }
 
-    getEmittedComment$(): Observable<boolean> {
+    getEmittedNewComment$(): Observable<boolean> {
+        return this.newCommentSubject.asObservable();
+    }
+
+    emitDeletedComment(value: boolean): void {
+        this.newCommentSubject.next(value);
+    }
+
+    getEmittedDeleteComment$(): Observable<boolean> {
         return this.newCommentSubject.asObservable();
     }
 }

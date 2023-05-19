@@ -18,6 +18,7 @@ import {MakeOrderPageComponent} from "./orders/pages/make-order-page/make-order-
 import {IboxPaymentPageComponent} from "./orders/pages/ibox-payment-page/ibox-payment-page.component";
 import {VisaPaymentPageComponent} from "./orders/pages/visa-payment-page/visa-payment-page.component";
 import {BankPaymentPageComponent} from "./orders/pages/bank-payment-page/bank-payment-page.component";
+import {BanPageComponent} from "./games/pages/ban-page/ban-page.component";
 
 const routes: Routes = [
     {path: '', redirectTo: '/game/list/1', pathMatch: 'full'},
@@ -30,7 +31,8 @@ const routes: Routes = [
     {path: 'make-order', component: MakeOrderPageComponent},
     {path: 'bank-payment', component: BankPaymentPageComponent},
     {path: 'ibox-payment', component: IboxPaymentPageComponent},
-    {path: 'visa-payment', component: VisaPaymentPageComponent}
+    {path: 'visa-payment', component: VisaPaymentPageComponent},
+    {path: 'ban/:commentId', component: BanPageComponent}
 ];
 
 @NgModule({

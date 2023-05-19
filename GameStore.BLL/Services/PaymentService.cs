@@ -11,6 +11,7 @@ namespace GameStore.BLL.Services
 {
     public class PaymentService : IPaymentService
     {
+        private const string Cart = "cart";
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDistributedCache<ShoppingCart> _distributedCache;
         private readonly IPaymentStrategyFactory _paymentStrategyFactory;
@@ -58,7 +59,7 @@ namespace GameStore.BLL.Services
                 game.UnitsInStock -= orderDetail.Quantity;
             }
 
-            await _distributedCache.SetAsync("cart", null);
+            await _distributedCache.SetAsync(Cart, null);
             await _unitOfWork.SaveAsync();
 
             return result;

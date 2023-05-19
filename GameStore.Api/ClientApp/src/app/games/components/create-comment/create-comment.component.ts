@@ -12,6 +12,7 @@ import {GetCommentResponse} from "../../models/GetCommentResponse";
 export class CreateCommentComponent implements OnInit {
     @Input() parentComment: GetCommentResponse | null = null
     @Input() gameKey!: string
+    @Input() hasQuote: boolean = false
     createCommentForm!: FormGroup;
 
     constructor(
@@ -23,6 +24,7 @@ export class CreateCommentComponent implements OnInit {
         this.createCommentForm = this.fb.group({
             Name: ['', Validators.required],
             Body: ['', Validators.required],
+            HasQuote: [false],
             GameKey: [''],
             ParentCommentId: [''],
         });
@@ -35,8 +37,9 @@ export class CreateCommentComponent implements OnInit {
 
         this.createCommentForm.get("GameKey")?.setValue(this.gameKey);
         this.createCommentForm.get("ParentCommentId")?.setValue(this.parentComment?.Id);
+        this.createCommentForm.get("HasQuote")?.setValue(this.hasQuote)
         this.commentService.createComment(this.createCommentForm.value).subscribe(() => {
-            this.commentService.emitComment(true);
+            this.commentService.emitNewComment(true);
         });
         this.createCommentForm.reset();
     }
