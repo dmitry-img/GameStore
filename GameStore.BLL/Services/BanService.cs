@@ -7,7 +7,7 @@ namespace GameStore.BLL.Services
 {
     public class BanService : IBanService
     {
-        private ILog _logger;
+        private readonly ILog _logger;
 
         public BanService(ILog logger)
         {

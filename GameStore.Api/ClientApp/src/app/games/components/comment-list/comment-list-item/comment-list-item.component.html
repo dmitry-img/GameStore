@@ -4,7 +4,9 @@
             <h6 class="comment__name">{{ commentNode.comment.Name }}</h6>
             <div class="comment__body">
                 <ng-container *ngIf="parentNode">
-                    <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">[{{parentNode.comment.Name}}]</a>
+                    <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">
+                        [{{parentNode.comment.Name}}]
+                    </a>
                     <app-quote *ngIf="commentNode.comment.HasQuote">
                         {{parentNode.comment.Body}}
                     </app-quote>
@@ -13,9 +15,15 @@
             </div>
         </div>
         <div class="comment__actions">
-            <button class="comment__action comment__reply" type="button" (click)="onReply()">Reply</button>
-            <button class="comment__action comment__quote" type="button" (click)="onQuote()">Quote</button>
-            <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">Delete</button>
+            <button class="comment__action comment__reply" type="button" (click)="onReply()">
+                Reply
+            </button>
+            <button class="comment__action comment__quote" type="button" (click)="onQuote()">
+                Quote
+            </button>
+            <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">
+                Delete
+            </button>
             <a class="comment__action btn btn-danger" type="button" [routerLink]="['/ban',commentNode.comment.Id]">Ban</a>
         </div>
         <div class="comment__form" *ngIf="clickedReply || clickedQuote">

@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {BanDuration} from "../../models/BanDuration";
+import {CommentService} from "../../services/comment.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-ban-page',
@@ -11,7 +13,12 @@ import {BanDuration} from "../../models/BanDuration";
 export class BanPageComponent implements OnInit{
     commentId!: number;
     banDurations!: DropDownItem[]
-    constructor(private route: ActivatedRoute) { }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private commentService: CommentService,
+        private toaster: ToastrService
+    ) { }
 
     ngOnInit(): void {
        this.getData();
@@ -30,7 +37,13 @@ export class BanPageComponent implements OnInit{
         ]
     }
 
-    onBan() {
-
+    onBan(banDuration: BanDuration) {
+        this.commentService.ban({
+            BanDuration: banDuration,
+            CommentId: this.commentId
+        }).subscribe(() => {
+            this.toaster.success("User has been successfully banned!");
+            this.router.navigate(['/']);
+        });
     }
 }

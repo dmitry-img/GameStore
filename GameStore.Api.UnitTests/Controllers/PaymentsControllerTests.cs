@@ -28,7 +28,7 @@ namespace GameStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task ProcessBankPayment_CallsPaymentServiceWithCorrectParameters()
+        public async Task ProcessBankPayment_ShouldInvoke_PaymentServiceWithCorrectParameters()
         {
             // Arrange
             var orderId = 1;
@@ -44,7 +44,7 @@ namespace GameStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task ProcessIboxPayment_CallsPaymentServiceWithCorrectParameters()
+        public async Task ProcessIboxPayment_ShouldInvoke_PaymentServiceWithCorrectParameters()
         {
             // Arrange
             var orderId = 1;
@@ -60,7 +60,7 @@ namespace GameStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task PocessVisaPayment_CallsPaymentServiceWithCorrectParameters()
+        public async Task PocessVisaPayment_ShoultInvoke_PaymentServiceWithCorrectParameters()
         {
             // Arrange
             var orderId = 1;

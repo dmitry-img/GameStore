@@ -14,7 +14,6 @@ export class CommentListItemComponent {
     clickedReply: boolean = false;
     clickedQuote: boolean = false;
 
-
     navigateToParent(id: number): void {
         const element = document.getElementById(`comment-${id}`);
         if (element) {
@@ -39,8 +38,6 @@ export class CommentListItemComponent {
         this.clickedReply = false;
         this.clickedQuote = true;
     }
-
-
 
     onDelete(id: number): void {
         this.delete.emit(id);

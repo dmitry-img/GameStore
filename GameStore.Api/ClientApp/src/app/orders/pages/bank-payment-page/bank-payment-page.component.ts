@@ -36,5 +36,4 @@ export class BankPaymentPageComponent implements OnInit{
             }
         });
     }
-
 }

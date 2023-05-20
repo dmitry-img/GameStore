@@ -9,5 +9,4 @@ import {PaginationResult} from "../../../shared/models/PaginationResult";
 })
 export class GameListComponent {
     @Input() paginatedGames!: PaginationResult<GetGameResponse>;
-
 }

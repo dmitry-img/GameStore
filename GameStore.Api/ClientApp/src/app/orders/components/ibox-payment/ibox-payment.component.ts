@@ -17,6 +17,7 @@ export class IboxPaymentComponent implements OnInit {
         private paymentService: PaymentService,
         private modalService: ModalService
     ) { }
+
     ngOnInit(): void {
         this.orderService.createOrder().subscribe((response: GetOrderResponse) =>{
             this.order = response;

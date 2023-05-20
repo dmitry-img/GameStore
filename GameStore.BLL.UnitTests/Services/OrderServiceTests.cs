@@ -14,7 +14,7 @@ namespace GameStore.BLL.UnitTests.Services
 {
     public class OrderServiceTests : BaseTest
     {
-        private OrderService _orderService;
+        private readonly OrderService _orderService;
 
         public OrderServiceTests()
         {

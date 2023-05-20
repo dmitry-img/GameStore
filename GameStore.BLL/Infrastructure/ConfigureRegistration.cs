@@ -58,6 +58,7 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IValidator<UpdateGameDTO>, UpdateGameDTOValidator>();
             container.RegisterType<IValidator<CreateCommentDTO>, CreateCommentDTOValidator>();
             container.RegisterType<IValidator<CreatePublisherDTO>, CreatePublisherDTOValidator>();
+            container.RegisterType<IValidator<FilterGameDTO>, FilterGameDTOValidator>();
 
             container.RegisterType<IValidationService, ValidationService>();
 

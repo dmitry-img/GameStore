@@ -20,6 +20,7 @@ export class VisaPaymentComponent implements OnInit{
         private modalService: ModalService,
         private toaster: ToastrService
     ) { }
+
     ngOnInit() {
         this.paymentForm = new FormGroup({
             'cardHolderName': new FormControl(null, Validators.required),

@@ -11,8 +11,8 @@ namespace GameStore.BLL.UnitTests.Services
 {
     public class PaymentServiceTests : BaseTest
     {
-        private PaymentService _paymentService;
-        private int _orderId = 1;
+        private readonly PaymentService _paymentService;
+        private readonly int _orderId = 1;
 
         public PaymentServiceTests()
         {

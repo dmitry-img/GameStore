@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {GetCommentResponse} from "../models/GetCommentResponse";
 import {CreateCommentRequest} from "../models/CreateCommentRequest";
+import {BanRequest} from "../models/BanRequest";
 
 @Injectable({
     providedIn: 'root'
@@ -20,6 +21,10 @@ export class CommentService {
 
     createComment(newComment: CreateCommentRequest): Observable<void> {
         return this.http.post<void>(`${this.baseUrl}/create`, newComment);
+    }
+
+    ban(banRequest: BanRequest): Observable<void>{
+        return this.http.post<void>(`${this.baseUrl}/ban`, banRequest);
     }
 
     deleteComment(id: number): Observable<void> {

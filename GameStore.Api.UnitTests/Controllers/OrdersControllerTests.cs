@@ -20,7 +20,7 @@ namespace GameStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task Create_CallsOrderServiceWithCorrectParametersAndReturnsOrder()
+        public async Task Create_ShouldInvoke_OrderService_WithCorrectParametersAndReturnOrder()
         {
             // Arrange
             var customerId = 1;

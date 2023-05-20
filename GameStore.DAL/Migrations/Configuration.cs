@@ -91,6 +91,8 @@
                 .Single(g => g.Type == "Console");
             PlatformType browser = context.PlatformTypes
                 .Single(g => g.Type == "Browser");
+            PlatformType mobile = context.PlatformTypes
+                .Single(g => g.Type == "Mobile");
 
             context.Games.AddRange(new List<Game>()
             {
@@ -155,6 +157,210 @@
                     UnitsInStock = 80,
                     Discontinued = false,
                     CreatedAt = DateTime.UtcNow.AddMonths(-2)
+                },
+                 new Game()
+                {
+                    Name = "Eternal Conquest",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "An epic RPG game set in a fantasy realm, where players will fight powerful foes and make vital alliances.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "RPG"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Blizzard Entertainment"),
+                    Price = 80,
+                    UnitsInStock = 25,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow
+                },
+                new Game()
+                {
+                    Name = "Track Titans",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "An adrenaline-filled racing game that puts players in the driver's seat of the world's fastest cars.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Races"),
+                        context.Genres.Single(g => g.Name == "Rally"),
+                        context.Genres.Single(g => g.Name == "Formula")
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Electronic Arts"),
+                    Price = 60,
+                    UnitsInStock = 35,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddDays(-14)
+                },
+                new Game()
+                {
+                    Name = "Mystery Mansion",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "A puzzle game where players solve mysteries to escape a haunted mansion.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Puzzle&Skill"),
+                        context.Genres.Single(g => g.Name == "Adventure")
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        browser
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
+                    Price = 20,
+                    UnitsInStock = 40,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddDays(-21)
+                },
+                new Game()
+                {
+                    Name = "Space Siege",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "A strategy game where players command a space fleet to defend against alien invasions.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Strategy"),
+                        context.Genres.Single(g => g.Name == "RTS"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Blizzard Entertainment"),
+                    Price = 70,
+                    UnitsInStock = 30,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddDays(-28)
+                },
+                new Game()
+                {
+                    Name = "Gladiator's Triumph",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "Action game where players become a legendary gladiator, fighting for glory in epic battles.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Action"),
+                        context.Genres.Single(g => g.Name == "TPS"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
+                    Price = 50,
+                    UnitsInStock = 20,
+                    Discontinued = true,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-1)
+                },
+                new Game()
+                {
+                    Name = "Viking's Raid",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "Adventure game set in the Viking era. Conquer new lands, build your clan, and make your legend.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Adventure"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Electronic Arts"),
+                    Price = 65,
+                    UnitsInStock = 10,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-3)
+                },
+                new Game()
+                {
+                    Name = "Football Fantasy",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "Become the greatest football manager in this exciting sports game. Manage your team and lead them to victory!",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Sports"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        mobile
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Electronic Arts"),
+                    Price = 45,
+                    UnitsInStock = 30,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-2)
+                },
+                new Game()
+                {
+                    Name = "Island Survival",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "Adventure survival game where players must gather resources, build shelters, and survive on a deserted island.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Adventure"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        mobile,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
+                    Price = 35,
+                    UnitsInStock = 50,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddDays(-60)
+                },
+                new Game()
+                {
+                    Name = "Candy Castle",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "A fun and colorful puzzle game where players match candies to complete the levels and progress.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Puzzle&Skill"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        browser,
+                        mobile
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Blizzard Entertainment"),
+                    Price = 10,
+                    UnitsInStock = 100,
+                    Discontinued = false,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-6)
+                },
+                new Game()
+                {
+                    Name = "Cybernetic Showdown",
+                    Key = Guid.NewGuid().ToString(),
+                    Description = "In a future where machines rule, join the resistance in this action-packed FPS game.",
+                    Genres = new List<Genre>
+                    {
+                        context.Genres.Single(g => g.Name == "Action"),
+                        context.Genres.Single(g => g.Name == "FPS"),
+                    },
+                    PlatformTypes = new List<PlatformType>()
+                    {
+                        desktop,
+                        console
+                    },
+                    Publisher = context.Publishers.Single(p => p.CompanyName == "Rockstar"),
+                    Price = 55,
+                    UnitsInStock = 20,
+                    Discontinued = true,
+                    CreatedAt = DateTime.UtcNow.AddMonths(-8)
                 }
             });
         }
