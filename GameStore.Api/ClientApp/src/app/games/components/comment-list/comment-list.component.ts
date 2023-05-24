@@ -18,7 +18,7 @@ export class CommentListComponent {
 
     constructor(private commentService: CommentService, private modalService: BsModalService) { }
 
-    onDelete(id: number) {
+    onDelete(id: number): void {
         const initialState = {
             title: 'Are you sure?',
             message: 'The comment will be deleted!',

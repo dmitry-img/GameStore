@@ -52,8 +52,6 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<ISortStrategy<Game>, PriceDescSortStrategy>(SortOption.PriceDescending.ToString());
             container.RegisterType<ISortStrategy<Game>, NewSortStrategy>(SortOption.New.ToString());
 
-            container.RegisterType<IGameFilterOperations, GameFilterOperations>();
-
             container.RegisterType<IValidator<CreateGameDTO>, CreateGameDTOValidator>();
             container.RegisterType<IValidator<UpdateGameDTO>, UpdateGameDTOValidator>();
             container.RegisterType<IValidator<CreateCommentDTO>, CreateCommentDTOValidator>();

@@ -48,17 +48,6 @@ namespace GameStore.BLL.Services
 
             order.Paid = true;
 
-            foreach (var orderDetail in order.OrderDetails)
-            {
-                var game = orderDetail.Game;
-                if (orderDetail.Quantity > game.UnitsInStock)
-                {
-                    throw new BadRequestException($"Not enought '{game.UnitsInStock}' in stock");
-                }
-
-                game.UnitsInStock -= orderDetail.Quantity;
-            }
-
             await _distributedCache.SetAsync(Cart, null);
             await _unitOfWork.SaveAsync();
 

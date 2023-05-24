@@ -22,7 +22,7 @@ export class GameListSidebarComponent implements OnInit{
     @Input() pageSizes!: DropDownItem[]
     @Output() filter = new EventEmitter<FilterGameRequest>();
 
-    constructor(private fb: FormBuilder,) { }
+    constructor(private fb: FormBuilder) { }
 
     ngOnInit(): void {
         this.filterGameForm = this.fb.group({

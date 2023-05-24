@@ -15,11 +15,11 @@ export class GamesTableComponent implements OnInit{
     ngOnInit(): void {
         this.totalPrice = this.getTotalPrice();
     }
-    getTotalPrice() {
+    getTotalPrice(): number {
         return this.items.reduce((total, item) => total + item.Quantity * item.GamePrice, 0);
     }
 
-    deleteItem(itemKey: any) {
+    deleteItem(itemKey: any): void {
         this.onDelete.emit(itemKey);
     }
 }

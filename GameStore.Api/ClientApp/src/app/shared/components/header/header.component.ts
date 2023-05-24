@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from "../../../core/services/game.service";
+import {GameService} from "../../../games/services/game.service";
 
 @Component({
     selector: 'app-header',

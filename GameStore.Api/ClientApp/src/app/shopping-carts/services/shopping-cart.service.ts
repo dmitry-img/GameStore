@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {GetGameResponse} from "../../games/models/GetGameResponse";
-import {GetShoppingCartItemResponse} from "../../shopping-carts/models/GetShoppingCartItemResponse";
-import {CreateShoppingCartItemRequest} from "../../shopping-carts/models/CreateShoppingCartItemRequest";
+import {GetShoppingCartItemResponse} from "../models/GetShoppingCartItemResponse";
+import {CreateShoppingCartItemRequest} from "../models/CreateShoppingCartItemRequest";
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +14,10 @@ export class ShoppingCartService {
 
     getAllItems(): Observable<GetShoppingCartItemResponse[]> {
         return this.http.get<GetShoppingCartItemResponse[]>(`${this.baseUrl}/items`);
+    }
+
+    getQuantity(gameKey: string): Observable<number> {
+        return this.http.get<number>(`${this.baseUrl}/quantity/${gameKey}`);
     }
 
     addItem(newItem: CreateShoppingCartItemRequest): Observable<void> {

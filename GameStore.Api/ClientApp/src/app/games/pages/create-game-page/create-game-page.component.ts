@@ -1,13 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Genre} from "../../models/Genre";
 import {PlatformType} from "../../models/PlatformType";
 import {GenreService} from "../../services/genre.service";
 import {PlatformTypeService} from "../../services/platform-type.service";
-import {GameService} from "../../../core/services/game.service";
-import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
 import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisherBriefResponse";
-import {PublisherService} from "../../../core/services/publisher.service";
+import {PublisherService} from "../../../publishers/services/publisher.service";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {DropDownItem} from "../../../shared/models/DropDownItem";

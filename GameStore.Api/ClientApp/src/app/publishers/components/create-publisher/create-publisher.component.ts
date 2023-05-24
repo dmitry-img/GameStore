@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CreatePublisherRequest} from "../../models/CreatePublisherRequest";
-import {PublisherService} from "../../../core/services/publisher.service";
+import {PublisherService} from "../../services/publisher.service";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {ErrorHandlerService} from "../../../core/services/error-handler.service";

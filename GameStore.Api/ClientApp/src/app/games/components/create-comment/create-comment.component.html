@@ -7,12 +7,13 @@
     <app-validation-message
         [control]="createCommentForm | formControl:'Name'"
         [errorMessages]="{
-    'required': 'This field is required!'
-  }"></app-validation-message>
+        'required': 'This field is required!'
+    }"></app-validation-message>
 
     <app-text-area-field
         [control]="createCommentForm | formControl:'Body'"
         [isRequired]="true"
+        [immutableText]="hasQuote ? parentComment!.Body : ''"
         labelText="Body"
     ></app-text-area-field>
     <app-validation-message

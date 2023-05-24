@@ -27,7 +27,7 @@ export class GameDetailsComponent implements OnInit {
         this.buyGame.emit(this.game);
     }
 
-    private getParentGenres() {
+    private getParentGenres(): void {
         this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId === null);
     }
 }

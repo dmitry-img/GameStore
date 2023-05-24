@@ -11,6 +11,7 @@ using GameStore.BLL.Enums;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Pipelines;
+using GameStore.BLL.Pipelines.GameOperations;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
@@ -20,7 +21,6 @@ namespace GameStore.BLL.Services
     public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGameFilterOperations _gameFilterOperations;
         private readonly ISortStrategyFactory _sortStrategyFactory;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
@@ -29,13 +29,11 @@ namespace GameStore.BLL.Services
             IUnitOfWork unitOfWork,
             IMapper mapper,
             ILog logger,
-            IGameFilterOperations gameFilterOperations,
             ISortStrategyFactory sortStrategyFactory)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
-            _gameFilterOperations = gameFilterOperations;
             _sortStrategyFactory = sortStrategyFactory;
         }
 
@@ -183,14 +181,14 @@ namespace GameStore.BLL.Services
                 .Include(game => game.Genres);
 
             var pipeline = new Pipeline<IQueryable<Game>>();
-            pipeline.Register(_gameFilterOperations.CreateNameOperation(filter.NameFragment));
-            pipeline.Register(_gameFilterOperations.CreateGenreOperation(filter.GenreIds));
-            pipeline.Register(_gameFilterOperations.CreatePlatformOperation(filter.PlatformTypeIds));
-            pipeline.Register(_gameFilterOperations.CreatePublisherOperation(filter.PublisherIds));
-            pipeline.Register(_gameFilterOperations.CreatePriceOperation(filter.PriceFrom, filter.PriceTo));
+            pipeline.Register(new NameOperation(filter.NameFragment));
+            pipeline.Register(new GenreOperation(filter.GenreIds));
+            pipeline.Register(new PlatformOperation(filter.PlatformTypeIds));
+            pipeline.Register(new PublisherOperation(filter.PublisherIds));
+            pipeline.Register(new PriceOperation(filter.PriceFrom, filter.PriceTo));
             if (filter.DateFilterOption != DateFilterOption.None)
             {
-                pipeline.Register(_gameFilterOperations.CreateDateFilterOperation(filter.DateFilterOption));
+                pipeline.Register(new DateFilterOperation(filter.DateFilterOption));
             }
 
             query = pipeline.Invoke(query);

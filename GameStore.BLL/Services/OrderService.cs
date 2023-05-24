@@ -62,6 +62,8 @@ namespace GameStore.BLL.Services
                     throw new BadRequestException($"Not enought '{game.Name}' in stock");
                 }
 
+                game.UnitsInStock -= item.Quantity;
+
                 var orderDetail = _mapper.Map<OrderDetail>(item);
                 orderDetail.GameId = game.Id;
                 orderDetails.Add(orderDetail);

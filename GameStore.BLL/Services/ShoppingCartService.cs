@@ -85,5 +85,19 @@ namespace GameStore.BLL.Services
 
             return _mapper.Map<List<GetShoppingCartItemDTO>>(shoppingCart.Items);
         }
+
+        public async Task<int> GetGameQuantityByKeyAsync(string gameKey)
+        {
+            var shoppingCart = await _distributedCache.GetAsync(BaseCartName);
+
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart { Items = new List<ShoppingCartItem>() };
+            }
+
+            var item = shoppingCart.Items.FirstOrDefault(i => i.GameKey == gameKey);
+
+            return item != null ? item.Quantity : 0;
+        }
     }
 }

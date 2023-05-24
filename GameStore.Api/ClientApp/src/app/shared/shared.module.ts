@@ -17,7 +17,6 @@ import {InfoModalComponent} from './components/info-modal/info-modal.component';
 import { CollapseComponent } from './components/collapse/collapse.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
-import { QuoteComponent } from './components/quote/quote.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
         InfoModalComponent,
         CollapseComponent,
         PaginationNavComponent,
-        QuoteComponent,
         ConfirmationModalComponent,
     ],
     exports: [
@@ -52,7 +50,6 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
         InfoModalComponent,
         CollapseComponent,
         PaginationNavComponent,
-        QuoteComponent
     ],
     imports: [
         CommonModule,

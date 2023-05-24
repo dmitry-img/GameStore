@@ -14,13 +14,8 @@ import {GetOrderResponse} from "../../models/GetOrderResponse";
 })
 export class PaymentMethodsComponent {
     @Input() paymentMethods!: PaymentMethod[];
-    constructor(
-        private router: Router,
-        private orderService: OrderService,
-        private paymentService: PaymentService,
-        private toaster: ToastrService,
-        private modalService: ModalService
-    ) { }
+
+    constructor(private router: Router) { }
 
     selectPaymentMethod(method: string): void {
         switch (method) {

@@ -2,10 +2,10 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
-import {GameService} from "../../../core/services/game.service";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
 import {ErrorHandlerService} from "../../../core/services/error-handler.service";
+import {GameService} from "../../services/game.service";
 
 @Component({
     selector: 'app-create-game',

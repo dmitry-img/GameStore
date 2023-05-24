@@ -3,11 +3,10 @@
         {{labelText}}<span *ngIf="isRequired" class="required">*</span>
     </label>
     <textarea
+        #inputTextArea
         class="form-control"
-        [formControl]="control"
-        [id]="labelText | lowercase">
-  </textarea>
-    <ng-content></ng-content>
+        [id]="labelText | lowercase"
+        (keydown)="onKeydown($event)"
+        (input)="onInput($event)">
+    </textarea>
 </div>
-
-

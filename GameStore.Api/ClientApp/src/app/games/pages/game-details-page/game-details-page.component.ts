@@ -1,15 +1,15 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GetGameResponse} from "../../models/GetGameResponse";
-import {GameService} from "../../../core/services/game.service";
 import {CommentService} from "../../services/comment.service";
 import {GetCommentResponse} from "../../models/GetCommentResponse";
 import {ToastrService} from "ngx-toastr";
 import {Subscription} from "rxjs";
 import {CommentNode} from "../../models/CommentNode";
-import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
+import {ShoppingCartService} from "../../../shopping-carts/services/shopping-cart.service";
 import {CreateShoppingCartItemRequest} from "../../../shopping-carts/models/CreateShoppingCartItemRequest";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
+import {GameService} from "../../services/game.service";
 
 @Component({
     selector: 'app-game-details-page',
@@ -53,8 +53,15 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             GamePrice: game.Price,
             Quantity: 1
         }
-        this.shoppingCartService.addItem(cartItem).subscribe(() => {
-            this.toaster.success(`${game.Name} has been added to shopping cart!`)
+
+        this.shoppingCartService.getQuantity(game.Key).subscribe((quantity) =>{
+            if(quantity + 1 > game.UnitsInStock){
+                this.toaster.error("There are not enough games in the stock!")
+            } else {
+                this.shoppingCartService.addItem(cartItem).subscribe(() => {
+                    this.toaster.success(`${game.Name} has been added to shopping cart!`)
+                });
+            }
         });
     }
 

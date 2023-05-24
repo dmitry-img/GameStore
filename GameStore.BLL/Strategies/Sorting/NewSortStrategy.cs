@@ -8,7 +8,7 @@ namespace GameStore.BLL.Strategies.Sorting
     {
         public IQueryable<Game> Sort(IQueryable<Game> query)
         {
-            return query.OrderByDescending(game => game.DeletedAt);
+            return query.OrderByDescending(game => game.CreatedAt);
         }
     }
 }

@@ -13,11 +13,11 @@ export class InfoModalComponent implements OnDestroy{
 
     constructor(public modalRef: BsModalRef) { }
 
-    onHide(){
+    onHide(): void {
         this.hideEvent.next();
     }
 
-    ngOnDestroy(){
-        this.hideEvent.next(); // modal is closed without any data.
+    ngOnDestroy(): void{
+        this.hideEvent.next();
     }
 }

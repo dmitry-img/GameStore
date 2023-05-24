@@ -25,7 +25,7 @@ export class PaymentService {
                 const downloadUrl = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = downloadUrl;
-                link.download = `GameStoreInvoice${orderId}.txt`; // assuming it's a PDF file
+                link.download = `GameStoreInvoice${orderId}.txt`;
                 link.click();
             });
     }

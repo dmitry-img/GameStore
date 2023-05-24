@@ -37,7 +37,7 @@ export class BanPageComponent implements OnInit{
         ]
     }
 
-    onBan(banDuration: BanDuration) {
+    onBan(banDuration: BanDuration): void {
         this.commentService.ban({
             BanDuration: banDuration,
             CommentId: this.commentId

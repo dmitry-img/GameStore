@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
-import {GetShoppingCartItemResponse} from "../../models/GetShoppingCartItemResponse";
+import {ShoppingCartService} from "../../services/shopping-cart.service";
 import {GamesTableItem} from "../../../shared/models/GamesTableItem";
 
 @Component({

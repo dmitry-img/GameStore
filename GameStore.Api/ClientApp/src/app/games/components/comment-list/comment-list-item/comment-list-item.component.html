@@ -7,9 +7,9 @@
                     <a class="comment__link" (click)="navigateToParent(parentNode.comment.Id)">
                         [{{parentNode.comment.Name}}]
                     </a>
-                    <app-quote *ngIf="commentNode.comment.HasQuote">
+                    <q *ngIf="commentNode.comment.HasQuote">
                         {{parentNode.comment.Body}}
-                    </app-quote>
+                    </q>
                 </ng-container>
                 {{ commentNode.comment.Body }}
             </div>

@@ -16,7 +16,7 @@ export class ConfirmationModalComponent {
 
     constructor(public modalRef: BsModalRef) { }
 
-    confirmAndClose() {
+    confirmAndClose(): void {
         this.confirm.emit();
         this.modalRef.hide();
     }

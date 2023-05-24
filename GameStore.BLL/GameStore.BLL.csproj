@@ -156,7 +156,6 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Interfaces\IBanService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
-    <Compile Include="Interfaces\IGameFilterOperations.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGenreService.cs" />
     <Compile Include="Interfaces\IOperation.cs" />
@@ -170,8 +169,12 @@
     <Compile Include="Interfaces\ISortStrategy.cs" />
     <Compile Include="Interfaces\ISortStrategyFactory.cs" />
     <Compile Include="Interfaces\IValidationService.cs" />
-    <Compile Include="Pipelines\GameFilterOperations.cs" />
-    <Compile Include="Pipelines\Operation.cs" />
+    <Compile Include="Pipelines\GameOperations\DateFilterOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\GenreOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\NameOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PlatformOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PriceOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PublisherOperation.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Profiles\MappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

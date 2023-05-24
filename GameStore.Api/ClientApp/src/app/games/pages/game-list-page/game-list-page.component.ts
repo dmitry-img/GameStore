@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {GetGameResponse} from "../../models/GetGameResponse";
-import {GameService} from "../../../core/services/game.service";
 import {FilterGameRequest} from "../../models/FilterGameRequest";
 import {forkJoin, switchMap, tap} from "rxjs";
 import {Genre} from "../../models/Genre";
@@ -9,13 +8,14 @@ import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisher
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {GenreService} from "../../services/genre.service";
 import {PlatformTypeService} from "../../services/platform-type.service";
-import {PublisherService} from "../../../core/services/publisher.service";
+import {PublisherService} from "../../../publishers/services/publisher.service";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {PaginationResult} from "../../../shared/models/PaginationResult";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SortOption} from "../../models/SortOption";
 import {DateFilterOption} from "../../models/DateFilterOption";
+import {GameService} from "../../services/game.service";
 
 @Component({
     selector: 'app-game-list-page',
@@ -108,8 +108,8 @@ export class GameListPageComponent {
         this.onPageChanged();
     }
 
-    onFilter(filer: FilterGameRequest): void {
-        const mergedFilters = {...this.filterGameRequest, ...filer};
+    onFilter(filter: FilterGameRequest): void {
+        const mergedFilters = {...this.filterGameRequest, ...filter};
         if(JSON.stringify(this.filterGameRequest) === JSON.stringify(mergedFilters)){
             this.navigateToFirstPage();
             return;
@@ -148,5 +148,4 @@ export class GameListPageComponent {
     private navigateToFirstPage(): void{
         this.router.navigate(['/game/list/1']);
     }
-
 }

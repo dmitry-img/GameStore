@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {GetShoppingCartItemResponse} from "../../../shopping-carts/models/GetShoppingCartItemResponse";
-import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
+import {ShoppingCartService} from "../../../shopping-carts/services/shopping-cart.service";
 import {GamesTableItem} from "../../../shared/models/GamesTableItem";
 import {PaymentMethod} from "../../models/PaymentMethod";
 
