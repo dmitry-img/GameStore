@@ -8,7 +8,7 @@ namespace GameStore.BLL.Strategies.Sorting
     {
         public IQueryable<Game> Sort(IQueryable<Game> query)
         {
-            return query.OrderByDescending(game => game.Comments.Count);
+            return query.OrderByDescending(game => game.Comments.Count(comment => !comment.IsDeleted));
         }
     }
 }
