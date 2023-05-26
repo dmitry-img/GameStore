@@ -83,7 +83,7 @@ export class TextAreaFieldComponent implements OnInit, AfterViewInit, OnChanges,
         }
     }
 
-    onFocusout() {
+    onFocusout(): void {
         this.control.markAsTouched();
     }
 

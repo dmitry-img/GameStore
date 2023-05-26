@@ -12,7 +12,7 @@ export class GamesTableComponent implements OnChanges{
     @Output() onDelete: EventEmitter<any> = new EventEmitter();
     totalPrice!: number;
 
-    ngOnChanges(changes: SimpleChanges): void {
+    ngOnChanges(): void {
         this.totalPrice = this.getTotalPrice();
     }
 

@@ -34,11 +34,11 @@ export class CommentListComponent {
         });
     }
 
-    onReply(parentComment: GetCommentResponse) {
+    onReply(parentComment: GetCommentResponse): void {
         this.commentService.emitReply(parentComment)
     }
 
-    onQuote(parentComment: GetCommentResponse) {
+    onQuote(parentComment: GetCommentResponse): void {
         this.commentService.emitQuote(parentComment)
     }
 }

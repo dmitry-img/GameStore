@@ -48,11 +48,11 @@ export class CommentService {
         return this.newCommentSubject.asObservable();
     }
 
-    emitReply(parentComment: GetCommentResponse){
+    emitReply(parentComment: GetCommentResponse): void{
         this.replySubject.next(parentComment);
     }
 
-    emitQuote(parentComment: GetCommentResponse){
+    emitQuote(parentComment: GetCommentResponse): void{
         this.quoteSubject.next(parentComment);
     }
 
