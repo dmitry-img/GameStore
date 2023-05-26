@@ -50,12 +50,20 @@ namespace GameStore.DAL.Data
 
             foreach (var entry in entries)
             {
-                if (entry.Entity is IDeletable deletableEntry)
+                if (entry.Entity is IAuditableEntity auditableEntity)
                 {
-                    if (entry.State == EntityState.Deleted)
+                    if (entry.State == EntityState.Added && auditableEntity.CreatedAt == null)
                     {
-                        deletableEntry.IsDeleted = true;
-                        deletableEntry.DeletedAt = DateTime.UtcNow;
+                        auditableEntity.CreatedAt = DateTime.UtcNow;
+                    }
+                    else if (entry.State == EntityState.Modified)
+                    {
+                        auditableEntity.ModifiedAt = DateTime.UtcNow;
+                    }
+                    else if (entry.State == EntityState.Deleted)
+                    {
+                        auditableEntity.IsDeleted = true;
+                        auditableEntity.DeletedAt = DateTime.UtcNow;
 
                         entry.State = EntityState.Modified;
                     }

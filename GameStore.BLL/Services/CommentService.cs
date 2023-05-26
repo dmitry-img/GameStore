@@ -44,6 +44,30 @@ namespace GameStore.BLL.Services
             _logger.Info($"Comment({comment.Id}) was created for game({comment.GameId})");
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var comment = await _unitOfWork.Comments
+                .GetQuery()
+                .Include(c => c.ChildComments)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (comment == null)
+            {
+                throw new NotFoundException(nameof(comment), id);
+            }
+
+            var childCommentIds = comment.ChildComments.Select(cc => cc.Id).ToList();
+
+            foreach (var childCommentId in childCommentIds)
+            {
+                _unitOfWork.Comments.Delete(childCommentId);
+            }
+
+            _unitOfWork.Comments.Delete(comment.Id);
+
+            await _unitOfWork.SaveAsync();
+        }
+
         public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key)
         {
             var game = await _unitOfWork.Games
@@ -56,7 +80,9 @@ namespace GameStore.BLL.Services
                 throw new NotFoundException(nameof(game), key);
             }
 
-            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(game.Comments);
+            var existingComments = game.Comments.Where(c => c.IsDeleted == false);
+
+            var comments = _mapper.Map<IEnumerable<GetCommentDTO>>(existingComments);
 
             return comments;
         }

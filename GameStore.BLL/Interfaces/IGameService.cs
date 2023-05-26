@@ -1,4 +1,5 @@
-﻿using GameStore.BLL.DTOs.Game;
+﻿using GameStore.BLL.DTOs.Common;
+using GameStore.BLL.DTOs.Game;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace GameStore.BLL.Interfaces
         int GetCount();
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllAsync();
+
+        Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter);
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllByGenreAsync(int genreId);
 

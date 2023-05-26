@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GetGameResponse} from "../../games/models/GetGameResponse";
-import {GetPublisherBriefResponse} from "../../publishers/models/GetPublisherBriefResponse";
-import {GetPublisherResponse} from "../../publishers/models/GetPublisherResponse";
-import {CreatePublisherRequest} from "../../publishers/models/CreatePublisherRequest";
+import {GetPublisherBriefResponse} from "../models/GetPublisherBriefResponse";
+import {GetPublisherResponse} from "../models/GetPublisherResponse";
+import {CreatePublisherRequest} from "../models/CreatePublisherRequest";
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +13,7 @@ export class PublisherService {
 
     private baseUrl = '/api/publishers';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllPublishersBrief(): Observable<GetPublisherBriefResponse[]> {
         return this.http.get<GetPublisherBriefResponse[]>(`${this.baseUrl}/brief`)

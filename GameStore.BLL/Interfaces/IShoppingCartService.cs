@@ -11,5 +11,7 @@ namespace GameStore.BLL.Interfaces
         Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync();
 
         Task DeleteItemAsync(string gameKey);
+
+        Task<int> GetGameQuantityByKeyAsync(string gameKey);
     }
 }

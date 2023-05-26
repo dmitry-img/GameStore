@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
+using GameStore.BLL.Enums;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Services;
+using GameStore.BLL.Strategies.Sorting;
 using GameStore.BLL.UnitTests.Common;
 using GameStore.DAL.Entities;
 using Moq;
@@ -18,7 +21,11 @@ namespace GameStore.BLL.UnitTests.Services
 
         public GameServiceTests()
         {
-            _gameService = new GameService(MockUow.Object, Mapper, MockLogger.Object);
+            _gameService = new GameService(
+                MockUow.Object,
+                Mapper,
+                MockLogger.Object,
+                MockSortStrategyFactory.Object);
         }
 
         [Fact]
@@ -29,7 +36,7 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(2, result.Count());
+            Assert.Equal(3, result.Count());
             Assert.IsAssignableFrom<IEnumerable<GetGameBriefDTO>>(result);
         }
 
@@ -56,7 +63,7 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Assert
             var allGames = await MockUow.Object.Games.GetAllAsync();
-            Assert.Equal(4, allGames.Count());
+            Assert.Equal(5, allGames.Count());
             Assert.Equal(2, allGames.Last().Genres.Count);
             Assert.Equal(2, allGames.Last().PlatformTypes.Count);
             MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
@@ -244,7 +251,39 @@ namespace GameStore.BLL.UnitTests.Services
             var count = _gameService.GetCount();
 
             // Assert
-            Assert.Equal(2, count);
+            Assert.Equal(3, count);
+        }
+
+        [Fact]
+        public async Task GetFilteredAsync_ShouldReturnPaginationResult()
+        {
+            // Arrange
+            var filter = new FilterGameDTO
+            {
+                NameFragment = "Warcraft",
+                GenreIds = new List<int> { 1 },
+                PlatformTypeIds = new List<int> { 3 },
+                PublisherIds = new List<int> { 1 },
+                PriceFrom = 0,
+                PriceTo = 100,
+                DateFilterOption = DateFilterOption.None,
+                SortOption = SortOption.New,
+                PageSize = 1,
+                PageNumber = 1
+            };
+
+            MockSortStrategyFactory.Setup(f => f.GetSortStrategy(It.IsAny<SortOption>()))
+                .Returns(new NewSortStrategy());
+
+            // Act
+            var result = await _gameService.GetFilteredAsync(filter);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<PaginationResult<GetGameBriefDTO>>(result);
+            Assert.Single(result.Items);
+            Assert.Equal(1, result.CurrentPage);
+            Assert.Equal(1, result.PageSize);
         }
     }
 }

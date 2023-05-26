@@ -1,0 +1,5 @@
+<div class="container d-flex justify-content-between">
+    <app-games-table *ngIf="shoppingCartItems!" [items]="shoppingCartItems"></app-games-table>
+    <app-payment-methods [paymentMethods]="paymentMethods"></app-payment-methods>
+</div>
+

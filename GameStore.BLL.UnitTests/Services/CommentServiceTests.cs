@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Exceptions;
@@ -82,6 +84,32 @@ namespace GameStore.BLL.UnitTests.Services
             // Act & Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
                 _commentService.GetAllByGameKeyAsync(gameKey));
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ShouldDeleteCommentAndChildComments()
+        {
+            // Arrange
+            var commentId = 1;
+            var childCommentIds = new List<int> { 2, 3 };
+
+            var comment = new Comment
+            {
+                Id = commentId,
+                ChildComments = childCommentIds.Select(id => new Comment { Id = id }).ToList()
+            };
+
+            // Act
+            await _commentService.DeleteAsync(commentId);
+
+            // Assert
+            foreach (var childCommentId in childCommentIds)
+            {
+                MockUow.Verify(u => u.Comments.Delete(childCommentId), Times.Once);
+            }
+
+            MockUow.Verify(u => u.Comments.Delete(commentId), Times.Once);
+            MockUow.Verify(u => u.SaveAsync(), Times.Once);
         }
     }
 }

@@ -10,7 +10,8 @@ import {CommentNode} from "../../models/CommentNode";
     styleUrls: ['./game-details.component.scss']
 })
 export class GameDetailsComponent implements OnInit {
-    @Input() game!: GetGameResponse
+    @Input() game!: GetGameResponse;
+    @Input() isBuyButtonDisabled: boolean = false
     @Output() downloadGame = new EventEmitter<File>();
     @Output() buyGame = new EventEmitter<GetGameResponse>();
     parentGenres!: Genre[]
@@ -27,7 +28,7 @@ export class GameDetailsComponent implements OnInit {
         this.buyGame.emit(this.game);
     }
 
-    private getParentGenres() {
+    private getParentGenres(): void {
         this.parentGenres = this.game.Genres.filter(genre => genre.ParentGenreId === null);
     }
 }

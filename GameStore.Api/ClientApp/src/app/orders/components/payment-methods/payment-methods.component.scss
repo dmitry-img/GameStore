@@ -1,0 +1,25 @@
+.payment-methods{
+    padding: 20px;
+    background-color: #eee;
+    border-radius: 10px;
+}
+
+.payment-method{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.payment-method__action{
+    margin-left: auto;
+}
+
+.payment-method__content{
+    margin: 0 10px
+}
+
+.payment-method__image{
+    width: 60px;
+}
+
+

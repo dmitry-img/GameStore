@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.DAL.Entities
 {
-    public class Genre : BaseDeletableEntity
+    public class Genre : BaseAuditableEntity
     {
         public string Name { get; set; }
 

@@ -1,0 +1,85 @@
+<div class="game-list-sidebar">
+    <form [formGroup]="filterGameForm" (ngSubmit)="onSubmit()">
+        <app-dropdown
+            [control]="filterGameForm | formControl:'PageSize'"
+            [items]="pageSizes"
+            labelText="Page Size"
+            [showPlaceholder]="false"
+            (change)="onChangePageSize()"
+        ></app-dropdown>
+        <app-input-field
+            [control]="filterGameForm | formControl:'NameFragment'"
+            labelText="Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="filterGameForm | formArray:'NameFragment'"
+            [errorMessages]="{
+            'minlength': 'The minimal length of the fragment is 3 characters!',
+        }"></app-validation-message>
+        <app-collapse title="Genres">
+            <app-checkbox-list
+                title="Genres"
+               *ngIf="genres!"
+               [items]="genres"
+               [control]="filterGameForm | formArray:'GenreIds'">
+            </app-checkbox-list>
+        </app-collapse>
+        <app-collapse title="Platforms">
+            <app-checkbox-list
+                *ngIf="platformTypes!"
+                [items]="platformTypes"
+                [control]="filterGameForm | formArray:'PlatformTypeIds'">
+            </app-checkbox-list>
+        </app-collapse>
+        <app-collapse title="Publishers">
+            <app-checkbox-list
+                *ngIf="publishers!"
+                [items]="publishers"
+                [control]="filterGameForm | formArray:'PublisherIds'">
+            </app-checkbox-list>
+        </app-collapse>
+        <app-collapse title="Price">
+            <app-input-field
+                [control]="filterGameForm | formControl: 'PriceFrom'"
+                labelText="Min"
+                type="number"
+            ></app-input-field>
+            <app-validation-message
+                [control]="filterGameForm | formControl: 'PriceFrom'"
+                [errorMessages]="{
+                'min': 'Min value is 1',
+            }"></app-validation-message>
+            <app-input-field
+                [control]="filterGameForm | formControl: 'PriceTo'"
+                labelText="Max"
+                type="number"
+            ></app-input-field>
+            <app-validation-message
+                [control]="filterGameForm | formControl: 'PriceTo'"
+                [errorMessages]="{
+                'min': 'Min value is 1',
+            }"></app-validation-message>
+            <app-validation-message
+                [control]="filterGameForm"
+                [errorMessages]="{
+                'comparisonInvalid': 'Max price must be greater than min price!',
+            }"></app-validation-message>
+        </app-collapse>
+        <app-dropdown
+            [control]="filterGameForm | formControl:'DateFilterOption'"
+            [items]="dateFilterOption"
+            labelText="Release Date"
+            [showPlaceholder]="false"
+        ></app-dropdown>
+        <app-dropdown
+            [control]="filterGameForm | formControl:'SortOption'"
+            [items]="sortOptions"
+            labelText="Sort"
+            [showPlaceholder]="false"
+        ></app-dropdown>
+        <button class="btn btn-primary" type="submit" [disabled]="!filterGameForm.valid">Filter</button>
+    </form>
+
+</div>
+
+

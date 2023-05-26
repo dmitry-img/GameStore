@@ -4,7 +4,6 @@ using System.Web.Http;
 using FluentValidation;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
-using GameStore.BLL.Validators;
 
 namespace GameStore.Api.Controllers
 {
@@ -12,13 +11,16 @@ namespace GameStore.Api.Controllers
     public class PublishersController : ApiController
     {
         private readonly IPublisherService _publisherService;
+        private readonly IValidationService _validationService;
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
 
         public PublishersController(
             IPublisherService publisherService,
+            IValidationService validationService,
             IValidator<CreatePublisherDTO> createPublisherValidator)
         {
             _publisherService = publisherService;
+            _validationService = validationService;
             _createPublisherValidator = createPublisherValidator;
         }
 
@@ -35,13 +37,7 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreatePublisherDTO publisherDTO)
         {
-            var result = _createPublisherValidator.Validate(publisherDTO);
-
-            if (!result.IsValid)
-            {
-                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(string.Join(", ", errors));
-            }
+            _validationService.Validate(publisherDTO, _createPublisherValidator);
 
             await _publisherService.CreateAsync(publisherDTO);
 

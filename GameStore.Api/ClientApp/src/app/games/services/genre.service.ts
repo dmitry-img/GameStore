@@ -9,8 +9,7 @@ import {HttpClient} from "@angular/common/http";
 export class GenreService {
     private baseUrl = '/api/genres/';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllGenres(): Observable<Genre[]> {
         return this.http.get<Genre[]>(this.baseUrl);

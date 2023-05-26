@@ -14,15 +14,25 @@ import {
 import {
     ShoppingCartDetailsPageComponent
 } from "./shopping-carts/pages/shopping-cart-details-page/shopping-cart-details-page.component";
+import {MakeOrderPageComponent} from "./orders/pages/make-order-page/make-order-page.component";
+import {IboxPaymentPageComponent} from "./orders/pages/ibox-payment-page/ibox-payment-page.component";
+import {VisaPaymentPageComponent} from "./orders/pages/visa-payment-page/visa-payment-page.component";
+import {BankPaymentPageComponent} from "./orders/pages/bank-payment-page/bank-payment-page.component";
+import {BanPageComponent} from "./games/pages/ban-page/ban-page.component";
 
 const routes: Routes = [
-    {path: '', redirectTo: '/game/list', pathMatch: 'full'},
-    {path: 'game/list', component: GameListPageComponent},
+    {path: '', redirectTo: '/game/list/1', pathMatch: 'full'},
+    {path: 'game/list/:page', component: GameListPageComponent},
     {path: 'game/create', component: CreateGamePageComponent},
     {path: 'game/:key', component: GameDetailsPageComponent},
     {path: 'publisher/create', component: CreatePublisherPageComponent},
     {path: 'publisher/:companyName', component: PublisherDetailsPageComponent},
     {path: 'shopping-cart', component: ShoppingCartDetailsPageComponent},
+    {path: 'make-order', component: MakeOrderPageComponent},
+    {path: 'bank-payment', component: BankPaymentPageComponent},
+    {path: 'ibox-payment', component: IboxPaymentPageComponent},
+    {path: 'visa-payment', component: VisaPaymentPageComponent},
+    {path: 'ban/:commentId', component: BanPageComponent}
 ];
 
 @NgModule({

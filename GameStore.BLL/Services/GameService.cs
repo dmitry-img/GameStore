@@ -5,9 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
+using GameStore.BLL.Enums;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Pipelines;
+using GameStore.BLL.Pipelines.GameOperations;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
@@ -17,14 +21,20 @@ namespace GameStore.BLL.Services
     public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ISortStrategyFactory _sortStrategyFactory;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
-        public GameService(IUnitOfWork unitOfWork, IMapper mapper, ILog logger)
+        public GameService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILog logger,
+            ISortStrategyFactory sortStrategyFactory)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _sortStrategyFactory = sortStrategyFactory;
         }
 
         public async Task CreateAsync(CreateGameDTO gameDTO)
@@ -132,6 +142,10 @@ namespace GameStore.BLL.Services
                 throw new NotFoundException(nameof(game), key);
             }
 
+            game.Views++;
+
+            await _unitOfWork.SaveAsync();
+
             var gameDTO = _mapper.Map<GetGameDTO>(game);
 
             return gameDTO;
@@ -159,6 +173,47 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .Where(g => !g.IsDeleted)
                 .Count();
+        }
+
+        public async Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
+        {
+            var query = _unitOfWork.Games.GetQuery()
+                .Include(game => game.Genres);
+
+            var pipeline = new Pipeline<IQueryable<Game>>();
+            pipeline.Register(new NameOperation(filter.NameFragment));
+            pipeline.Register(new GenreOperation(filter.GenreIds));
+            pipeline.Register(new PlatformOperation(filter.PlatformTypeIds));
+            pipeline.Register(new PublisherOperation(filter.PublisherIds));
+            pipeline.Register(new PriceOperation(filter.PriceFrom, filter.PriceTo));
+            if (filter.DateFilterOption != DateFilterOption.None)
+            {
+                pipeline.Register(new DateFilterOperation(filter.DateFilterOption));
+            }
+
+            query = pipeline.Invoke(query);
+
+            var totalItems = await query.CountAsync();
+
+            var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
+            query = sortStrategy.Sort(query);
+
+            if (filter.PageSize != -1 && filter.PageNumber > 0 && filter.PageSize > 0)
+            {
+                query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
+            }
+
+            var games = await query.ToListAsync();
+
+            var result = new PaginationResult<GetGameBriefDTO>
+            {
+                Items = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
+                TotalItems = totalItems,
+                PageSize = filter.PageSize,
+                CurrentPage = filter.PageNumber
+            };
+
+            return result;
         }
     }
 }

@@ -15,6 +15,9 @@ import {CreateCommentComponent} from './components/create-comment/create-comment
 import {CommentListItemComponent} from './components/comment-list/comment-list-item/comment-list-item.component';
 import {SharedModule} from "../shared/shared.module";
 import {SubGenresPipe} from './pipes/sub-genres.pipe';
+import { GameListSidebarComponent } from './components/game-list-sidebar/game-list-sidebar.component';
+import { BanPageComponent } from './pages/ban-page/ban-page.component';
+import { BanComponent } from './components/ban/ban.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import {SubGenresPipe} from './pipes/sub-genres.pipe';
         CreateGamePageComponent,
         CreateCommentComponent,
         CommentListItemComponent,
-        SubGenresPipe
+        SubGenresPipe,
+        GameListSidebarComponent,
+        BanPageComponent,
+        BanComponent
     ],
     imports: [
         CommonModule,

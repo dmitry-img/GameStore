@@ -6,8 +6,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ErrorHandlerService {
 
-    constructor(private toaster: ToastrService) {
-    }
+    constructor(private toaster: ToastrService) { }
 
     handleApiError(error: any): void {
         if (error.status === 400) {

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GetPublisherResponse} from "../../models/GetPublisherResponse";
-import {PublisherService} from "../../../core/services/publisher.service";
+import {PublisherService} from "../../services/publisher.service";
 import {ActivatedRoute} from "@angular/router";
 import {GetCommentResponse} from "../../../games/models/GetCommentResponse";
 
@@ -15,8 +15,7 @@ export class PublisherDetailsPageComponent implements OnInit {
     constructor(
         private publisherService: PublisherService,
         private route: ActivatedRoute
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.getPublisher();

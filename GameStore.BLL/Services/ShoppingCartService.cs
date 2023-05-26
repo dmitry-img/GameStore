@@ -9,7 +9,6 @@ using GameStore.BLL.Interfaces;
 using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Interfaces;
 using log4net;
-using log4net.Core;
 
 namespace GameStore.BLL.Services
 {
@@ -85,6 +84,20 @@ namespace GameStore.BLL.Services
             }
 
             return _mapper.Map<List<GetShoppingCartItemDTO>>(shoppingCart.Items);
+        }
+
+        public async Task<int> GetGameQuantityByKeyAsync(string gameKey)
+        {
+            var shoppingCart = await _distributedCache.GetAsync(BaseCartName);
+
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart { Items = new List<ShoppingCartItem>() };
+            }
+
+            var item = shoppingCart.Items.FirstOrDefault(i => i.GameKey == gameKey);
+
+            return item != null ? item.Quantity : 0;
         }
     }
 }

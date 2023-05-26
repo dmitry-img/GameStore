@@ -4,7 +4,7 @@ using GameStore.DAL.Entities.Common;
 
 namespace GameStore.DAL.Entities
 {
-    public class Publisher : BaseDeletableEntity
+    public class Publisher : BaseAuditableEntity
     {
         [StringLength(40)]
         public string CompanyName { get; set; }

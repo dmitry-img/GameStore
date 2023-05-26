@@ -59,7 +59,7 @@ export class CheckboxListService {
         let checkedIds: number[] = [];
         items.forEach((item) => {
             if (item.checked) {
-                checkedIds.push(item.id);
+                    checkedIds.push(item.id);
             }
             if (item.children) {
                 checkedIds = [...checkedIds, ...this.getCheckedItemIds(item.children)];

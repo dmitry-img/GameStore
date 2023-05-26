@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Validators;
@@ -12,11 +13,19 @@ namespace GameStore.Api.Controllers
     public class CommentsController : ApiController
     {
         private readonly ICommentService _commentService;
+        private readonly IValidationService _validationService;
+        private readonly IBanService _banService;
         private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
-        public CommentsController(ICommentService commentService, IValidator<CreateCommentDTO> createCommentValidator)
+        public CommentsController(
+            ICommentService commentService,
+            IValidationService validationService,
+            IBanService banService,
+            IValidator<CreateCommentDTO> createCommentValidator)
         {
             _commentService = commentService;
+            _validationService = validationService;
+            _banService = banService;
             _createCommentValidator = createCommentValidator;
         }
 
@@ -24,15 +33,18 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create([FromBody] CreateCommentDTO commentDTO)
         {
-            var result = _createCommentValidator.Validate(commentDTO);
-
-            if (!result.IsValid)
-            {
-                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-                return BadRequest(string.Join(", ", errors));
-            }
+            _validationService.Validate(commentDTO, _createCommentValidator);
 
             await _commentService.CreateAsync(commentDTO);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            await _commentService.DeleteAsync(id);
 
             return Ok();
         }
@@ -44,6 +56,15 @@ namespace GameStore.Api.Controllers
             var comments = await _commentService.GetAllByGameKeyAsync(key);
 
             return Json(comments);
+        }
+
+        [HttpPost]
+        [Route("ban")]
+        public async Task<IHttpActionResult> Ban(BanDTO banDTO)
+        {
+            await _banService.BanAsync(banDTO);
+
+            return Ok();
         }
     }
 }

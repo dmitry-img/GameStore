@@ -22,7 +22,13 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.PlatformTypes, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.Publisher, opt => opt.Ignore());
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Publisher, opt => opt.Ignore())
+                .ForMember(dest => dest.Views, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
             CreateMap<UpdateGameDTO, Game>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -32,7 +38,13 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.Comments, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.Publisher, opt => opt.Ignore());
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Publisher, opt => opt.Ignore())
+                .ForMember(dest => dest.Views, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
             CreateMap<Game, GetGameDTO>()
                 .ForMember(dest => dest.PublisherCompanyName, opt =>
@@ -46,8 +58,13 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.Game, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.ParentComment, opt => opt.Ignore())
-                .ForMember(dest => dest.ChildComments, opt => opt.Ignore());
+                .ForMember(dest => dest.ChildComments, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
             CreateMap<Comment, GetCommentDTO>();
 
@@ -59,7 +76,12 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.Games, opt => opt.Ignore());
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Games, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
             CreateMap<Publisher, GetPublisherDTO>();
 
@@ -68,6 +90,22 @@ namespace GameStore.BLL.Profiles
             CreateMap<CreateShoppingCartItemDTO, ShoppingCartItem>();
 
             CreateMap<ShoppingCartItem, GetShoppingCartItemDTO>();
+
+            CreateMap<ShoppingCartItem, OrderDetail>()
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.GamePrice))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.GameId, opt => opt.Ignore())
+                .ForMember(dest => dest.Discount, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderId, opt => opt.Ignore())
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.Game, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
         }
     }
 }

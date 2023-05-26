@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {GetGameResponse} from "../../games/models/GetGameResponse";
 import {Observable} from "rxjs";
 import {CreateGameRequest} from "../../games/models/CreateGameRequest";
 import {UpdateGameRequest} from "../../games/models/UpdateGameRequest";
+import {FilterGameRequest} from "../../games/models/FilterGameRequest";
+import {PaginationResult} from "../../shared/models/PaginationResult";
 
 @Injectable({
     providedIn: 'root'
@@ -11,11 +13,25 @@ import {UpdateGameRequest} from "../../games/models/UpdateGameRequest";
 export class GameService {
     private baseUrl = '/api/games';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
-    getAllGames(): Observable<GetGameResponse[]> {
-        return this.http.get<GetGameResponse[]>(this.baseUrl)
+    getGames(filter: FilterGameRequest): Observable<PaginationResult<GetGameResponse>> {
+        let params = new HttpParams();
+
+        Object.keys(filter).forEach((key) => {
+            const value = filter[key as keyof FilterGameRequest];
+            if (value !== null) {
+                if (Array.isArray(value)) {
+                    value.forEach(item => {
+                        params = params.append(key, item.toString());
+                    });
+                } else {
+                    params = params.set(key, value.toString());
+                }
+            }
+        });
+
+        return this.http.get<PaginationResult<GetGameResponse>>(`${this.baseUrl}/list`, { params });
     }
 
     getGameByKey(key: string): Observable<GetGameResponse> {

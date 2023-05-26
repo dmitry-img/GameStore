@@ -9,6 +9,7 @@ using GameStore.Api.Controllers;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Services;
 using GameStore.BLL.Validators;
 using GameStore.DAL.Entities;
 using Moq;
@@ -19,15 +20,18 @@ namespace GameStore.Api.Tests.Controllers
     public class PublishersControllerTests
     {
         private readonly Mock<IPublisherService> _publisherServiceMock;
+        private readonly IValidationService _validationService;
         private readonly PublishersController _publishersController;
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
 
         public PublishersControllerTests()
         {
             _publisherServiceMock = new Mock<IPublisherService>();
+            _validationService = new ValidationService();
             _createPublisherValidator = new CreatePublisherDTOValidator();
             _publishersController = new PublishersController(
                 _publisherServiceMock.Object,
+                _validationService,
                 _createPublisherValidator);
         }
 
@@ -69,19 +73,6 @@ namespace GameStore.Api.Tests.Controllers
 
             // Assert
             _publisherServiceMock.Verify(s => s.CreateAsync(It.IsAny<CreatePublisherDTO>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task Create_WithIvalidDTO_ShouldRetun_BadRequest()
-        {
-            // Arrange
-            var newPublisher = new CreatePublisherDTO();
-
-            // Act
-            var result = await _publishersController.Create(newPublisher);
-
-            // Assert
-            Assert.IsType<BadRequestErrorMessageResult>(result);
         }
 
         [Fact]

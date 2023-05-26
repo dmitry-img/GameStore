@@ -1,15 +1,15 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GetGameResponse} from "../../models/GetGameResponse";
-import {GameService} from "../../../core/services/game.service";
 import {CommentService} from "../../services/comment.service";
 import {GetCommentResponse} from "../../models/GetCommentResponse";
 import {ToastrService} from "ngx-toastr";
 import {Subscription} from "rxjs";
 import {CommentNode} from "../../models/CommentNode";
-import {ShoppingCartService} from "../../../core/services/shopping-cart.service";
+import {ShoppingCartService} from "../../../shopping-carts/services/shopping-cart.service";
 import {CreateShoppingCartItemRequest} from "../../../shopping-carts/models/CreateShoppingCartItemRequest";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
+import {GameService} from "../../services/game.service";
 
 @Component({
     selector: 'app-game-details-page',
@@ -20,7 +20,9 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     game!: GetGameResponse
     commentNodes!: CommentNode[]
     newCommentSubscription!: Subscription;
+    deleteCommentSubscription!: Subscription;
     gameKey!: string;
+    isBuyButtonDisabled = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,8 +31,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
         private shoppingCartService: ShoppingCartService,
         private toaster: ToastrService,
         private hierarchicalDataService: HierarchicalDataService
-    ) {
-    }
+    ) { }
 
     ngOnInit(): void {
         this.route.params.subscribe(data => {
@@ -38,7 +39,8 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             this.getCommentListArray(data['key'])
             this.gameKey = data['key'];
         });
-        this.onCommentCreated()
+        this.onCommentCreated();
+        this.onCommentDeleted();
     }
 
     onDownloadGame(): void {
@@ -52,19 +54,35 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             GamePrice: game.Price,
             Quantity: 1
         }
-        this.shoppingCartService.addItem(cartItem).subscribe(() => {
-            this.toaster.success(`${game.Name} has been added to shopping cart!`)
+
+        this.isBuyButtonDisabled = true;
+
+        this.shoppingCartService.getQuantity(game.Key).subscribe((quantity) =>{
+            if(quantity + 1 > game.UnitsInStock){
+                this.toaster.error("There are not enough games in the stock!")
+            } else {
+                this.shoppingCartService.addItem(cartItem).subscribe(() => {
+                    this.toaster.success(`${game.Name} has been added to shopping cart!`)
+                });
+            }
+            this.isBuyButtonDisabled = false;
         });
     }
 
     onCommentCreated(): void {
-        this.newCommentSubscription = this.commentService.getEmittedComment$().subscribe(() => {
+        this.newCommentSubscription = this.commentService.getEmittedNewComment$().subscribe(() => {
             this.getCommentListArray(this.game.Key);
         });
     }
 
     ngOnDestroy(): void {
         this.newCommentSubscription.unsubscribe();
+    }
+
+    private onCommentDeleted(): void {
+        this.deleteCommentSubscription = this.commentService.getEmittedDeleteComment$().subscribe(() =>{
+            this.getCommentListArray(this.game.Key);
+        })
     }
 
     private getCommentListArray(gameKey: string): void {

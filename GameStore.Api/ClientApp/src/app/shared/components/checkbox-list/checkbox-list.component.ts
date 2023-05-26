@@ -8,7 +8,7 @@ import {CheckboxListService} from "../../services/checkbox-list.service";
     templateUrl: './checkbox-list.component.html',
     styleUrls: ['./checkbox-list.component.scss']
 })
-export class CheckboxListComponent {
+export class CheckboxListComponent implements OnInit{
     @Input() items!: CheckboxListItem[];
     @Input() parentItems?: CheckboxListItem[];
     @Input() control!: FormArray;
@@ -18,6 +18,10 @@ export class CheckboxListComponent {
 
     constructor(private checkboxListService: CheckboxListService) {
         this.uniqueInstanceId = 'checkbox-list-' + Math.random().toString(36).substring(2, 11);
+    }
+
+    ngOnInit(): void {
+
     }
 
     onCheckboxChange(event: Event, id: number): void {

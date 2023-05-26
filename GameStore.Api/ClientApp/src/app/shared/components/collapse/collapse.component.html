@@ -1,0 +1,11 @@
+<div class="collapsible">
+    <div class="collapsible-header" (click)="isCollapsed = !isCollapsed">
+        <span>{{ title }}</span>
+        <span class="arrow" [ngClass]="{ 'rotate-down': isCollapsed, 'rotate-up': !isCollapsed }"></span>
+    </div>
+    <div [collapse]="isCollapsed" [isAnimated]="true">
+        <div class="collapsible-body">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GetGameResponse} from "../../models/GetGameResponse";
+import {PaginationResult} from "../../../shared/models/PaginationResult";
 
 @Component({
     selector: 'app-game-list',
@@ -7,5 +8,5 @@ import {GetGameResponse} from "../../models/GetGameResponse";
     styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent {
-    @Input() games!: GetGameResponse[];
+    @Input() paginatedGames!: PaginationResult<GetGameResponse>;
 }

@@ -24,6 +24,13 @@ namespace GameStore.Api.Controllers
             return Json(items);
         }
 
+        [HttpGet]
+        [Route("quantity/{gameKey}")]
+        public async Task<IHttpActionResult> GetGameQuantity(string gameKey)
+        {
+            return Ok(await _shoppingCartService.GetGameQuantityByKeyAsync(gameKey));
+        }
+
         [HttpPost]
         [Route("add-item")]
         public async Task<IHttpActionResult> AddItem([FromBody] CreateShoppingCartItemDTO itemDTO)

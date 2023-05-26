@@ -2,13 +2,17 @@
     <app-game-details
         *ngIf="game!"
         [game]="game"
+        [isBuyButtonDisabled]="isBuyButtonDisabled"
         (downloadGame)="onDownloadGame()"
         (buyGame)="onBuyGame($event)"
     />
     <div class="comments">
         <h3 class="comments__title">Comments</h3>
         <div *ngIf="game!">
-            <app-create-comment [gameKey]="game.Key"></app-create-comment>
+            <app-create-comment
+                id="create-comment-form"
+                [gameKey]="game.Key"
+            ></app-create-comment>
             <app-comment-list [gameKey]="game.Key" [commentNodes]="commentNodes"></app-comment-list>
         </div>
     </div>

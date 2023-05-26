@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Game : BaseDeletableEntity
+    public class Game : BaseAuditableEntity
     {
         public string Key { get; set; } = Guid.NewGuid().ToString();
 
@@ -19,6 +19,8 @@ namespace GameStore.DAL.Entities
         public bool Discontinued { get; set; }
 
         public int PublisherId { get; set; }
+
+        public int Views { get; set; }
 
         public Publisher Publisher { get; set; }
 

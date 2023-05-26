@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {GetCommentResponse} from "../models/GetCommentResponse";
 import {CreateCommentRequest} from "../models/CreateCommentRequest";
+import {BanRequest} from "../models/BanRequest";
 
 @Injectable({
     providedIn: 'root'
@@ -10,9 +11,10 @@ import {CreateCommentRequest} from "../models/CreateCommentRequest";
 export class CommentService {
     private baseUrl = '/api/comments';
     private newCommentSubject = new Subject<boolean>();
+    private replySubject = new Subject<GetCommentResponse>();
+    private quoteSubject = new Subject<GetCommentResponse>();
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getCommentList(gameKey: string): Observable<GetCommentResponse[]> {
         return this.http.get<GetCommentResponse[]>(`${this.baseUrl}/${gameKey}`);
@@ -22,11 +24,43 @@ export class CommentService {
         return this.http.post<void>(`${this.baseUrl}/create`, newComment);
     }
 
-    emitComment(value: boolean): void {
+    ban(banRequest: BanRequest): Observable<void>{
+        return this.http.post<void>(`${this.baseUrl}/ban`, banRequest);
+    }
+
+    deleteComment(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    }
+
+    emitNewComment(value: boolean): void {
         this.newCommentSubject.next(value);
     }
 
-    getEmittedComment$(): Observable<boolean> {
+    getEmittedNewComment$(): Observable<boolean> {
         return this.newCommentSubject.asObservable();
+    }
+
+    emitDeletedComment(value: boolean): void {
+        this.newCommentSubject.next(value);
+    }
+
+    getEmittedDeleteComment$(): Observable<boolean> {
+        return this.newCommentSubject.asObservable();
+    }
+
+    emitReply(parentComment: GetCommentResponse): void{
+        this.replySubject.next(parentComment);
+    }
+
+    emitQuote(parentComment: GetCommentResponse): void{
+        this.quoteSubject.next(parentComment);
+    }
+
+    getEmittedReply$(): Observable<GetCommentResponse> {
+        return this.replySubject.asObservable();
+    }
+
+    getEmittedQuote$(): Observable<GetCommentResponse> {
+        return this.quoteSubject.asObservable();
     }
 }

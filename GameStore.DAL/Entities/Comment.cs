@@ -3,11 +3,13 @@ using System.Collections.Generic;
 
 namespace GameStore.DAL.Entities
 {
-    public class Comment : BaseDeletableEntity
+    public class Comment : BaseAuditableEntity
     {
         public string Name { get; set; }
 
         public string Body { get; set; }
+
+        public bool HasQuote { get; set; }
 
         public int GameId { get; set; }
 

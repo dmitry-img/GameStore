@@ -2,6 +2,9 @@
     <app-comment-list-item
         [gameKey]="gameKey"
         [commentNode]="commentNode"
-        [parentNode]="parentNode">
+        [parentNode]="parentNode"
+        (delete)="onDelete($event)"
+        (reply)="onReply($event)"
+        (quote)="onQuote($event)">
     </app-comment-list-item>
 </ng-container>

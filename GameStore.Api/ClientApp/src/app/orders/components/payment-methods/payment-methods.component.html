@@ -1,0 +1,13 @@
+<div class="payment-methods">
+    <div *ngFor="let method of paymentMethods" class="payment-method">
+        <img class="payment-method__image" [src]="method.icon" alt="Bank"/>
+        <div class="payment-method__content">
+            <h4>{{method.name}}</h4>
+            <p>{{method.description}}</p>
+        </div>
+        <button class="btn btn-primary payment-method__action" (click)="selectPaymentMethod(method.id)">Pay</button>
+    </div>
+</div>
+
+
+

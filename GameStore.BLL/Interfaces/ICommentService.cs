@@ -12,5 +12,7 @@ namespace GameStore.BLL.Interfaces
         Task CreateAsync(CreateCommentDTO commentDTO);
 
         Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key);
+
+        Task DeleteAsync(int id);
     }
 }

@@ -27,7 +27,7 @@
 <div *ngIf="!game.Discontinued; else discontinued">
     <p>Units in stock: {{game.UnitsInStock}}</p>
     <p>Price: {{game.Price}}</p>
-    <button class="btn btn-primary" type="button" (click)="onBuy()">Buy</button>
+    <button class="btn btn-primary" type="button" (click)="onBuy()" [disabled]="isBuyButtonDisabled">Buy</button>
     <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
 </div>
 

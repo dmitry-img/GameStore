@@ -123,9 +123,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\Ban\BanDTO.cs" />
     <Compile Include="DTOs\Comment\BaseCommentDto.cs" />
+    <Compile Include="DTOs\Common\PaginationResult.cs" />
     <Compile Include="DTOs\Game\BaseGameDTO.cs" />
+    <Compile Include="DTOs\Game\FilterGameDTO.cs" />
     <Compile Include="DTOs\Game\GetGameBriefDTO.cs" />
+    <Compile Include="DTOs\Genre\FiltrationGenreDTO.cs" />
+    <Compile Include="DTOs\Order\GetOrderDTO.cs" />
     <Compile Include="DTOs\Publisher\BasePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\CreatePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\GetPublisherBriefDTO.cs" />
@@ -133,6 +138,13 @@
     <Compile Include="DTOs\ShoppingCart\BaseShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\CreateShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\GetShoppingCartItemDTO.cs" />
+    <Compile Include="Enums\BanDuration.cs" />
+    <Compile Include="Enums\DateFilterOption.cs" />
+    <Compile Include="Enums\SortOption.cs" />
+    <Compile Include="Enums\PaymentType.cs" />
+    <Compile Include="Exceptions\BadRequestException.cs" />
+    <Compile Include="Factories\PaymentStrategyFactory.cs" />
+    <Compile Include="Factories\SortStrategyFactory.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="DTOs\Comment\CreateCommentDTO.cs" />
     <Compile Include="DTOs\Comment\GetCommentDTO.cs" />
@@ -142,23 +154,52 @@
     <Compile Include="DTOs\Genre\GetGenreDTO.cs" />
     <Compile Include="DTOs\PlatformType\GetPlatformTypeDTO.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Interfaces\IBanService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGenreService.cs" />
+    <Compile Include="Interfaces\IOperation.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
+    <Compile Include="Interfaces\IPaymentService.cs" />
+    <Compile Include="Interfaces\IPaymentStrategy.cs" />
+    <Compile Include="Interfaces\IPaymentStrategyFactory.cs" />
     <Compile Include="Interfaces\IPlatformTypeService.cs" />
     <Compile Include="Interfaces\IPublisherService.cs" />
     <Compile Include="Interfaces\IShoppingCartService.cs" />
+    <Compile Include="Interfaces\ISortStrategy.cs" />
+    <Compile Include="Interfaces\ISortStrategyFactory.cs" />
+    <Compile Include="Interfaces\IValidationService.cs" />
+    <Compile Include="Pipelines\GameOperations\DateFilterOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\GenreOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\NameOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PlatformOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PriceOperation.cs" />
+    <Compile Include="Pipelines\GameOperations\PublisherOperation.cs" />
+    <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Profiles\MappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BanService.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\GenreService.cs" />
+    <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Services\PlatformTypeService.cs" />
     <Compile Include="Services\PublisherService.cs" />
     <Compile Include="Services\ShoppingCartService.cs" />
+    <Compile Include="Services\ValidationService.cs" />
+    <Compile Include="Strategies\Payment\BankPaymentStrategy.cs" />
+    <Compile Include="Strategies\Payment\IBoxPaymentStrategy.cs" />
+    <Compile Include="Strategies\Payment\VisaPaymentStrategy.cs" />
+    <Compile Include="Strategies\Sorting\MostCommentedSortStrategy.cs" />
+    <Compile Include="Strategies\Sorting\MostViewedSortStrategy.cs" />
+    <Compile Include="Strategies\Sorting\NewSortStrategy.cs" />
+    <Compile Include="Strategies\Sorting\PriceAscSortStrategy.cs" />
+    <Compile Include="Strategies\Sorting\PriceDescSortStrategy.cs" />
     <Compile Include="Validators\CreateCommentDTOValidator.cs" />
     <Compile Include="Validators\CreateGameDTOValidator.cs" />
     <Compile Include="Validators\CreatePublisherDTOValidator.cs" />
+    <Compile Include="Validators\FilterGameDTOValidator.cs" />
     <Compile Include="Validators\UpdateGameDTOValidator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,11 +4,13 @@ using GameStore.DAL.Entities.Common;
 
 namespace GameStore.DAL.Entities
 {
-    public class Order : BaseDeletableEntity
+    public class Order : BaseAuditableEntity
     {
         public int CustomerId { get; set; }
 
         public DateTime OrderDate { get; set; }
+
+        public bool Paid { get; set; }
 
         public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }

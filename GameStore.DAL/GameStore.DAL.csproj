@@ -113,9 +113,9 @@
     <Compile Include="Data\Configurations\PlatformTypeConfiguration.cs" />
     <Compile Include="Data\GameStoreDbContext.cs" />
     <Compile Include="Entities\Comment.cs" />
-    <Compile Include="Entities\Common\BaseDeletableEntity.cs" />
+    <Compile Include="Entities\Common\BaseAuditableEntity.cs" />
     <Compile Include="Entities\Common\BaseEntity.cs" />
-    <Compile Include="Entities\Common\IDeletable.cs" />
+    <Compile Include="Entities\Common\IAuditableEntity.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\PlatformType.cs" />
@@ -147,6 +147,22 @@
     <Compile Include="Migrations\202304271223101_AddOrders.designer.cs">
       <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305151003410_AddPaidFieldToOrder.cs" />
+    <Compile Include="Migrations\202305151003410_AddPaidFieldToOrder.designer.cs">
+      <DependentUpon>202305151003410_AddPaidFieldToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305160846136_AddAuditableEntity.cs" />
+    <Compile Include="Migrations\202305160846136_AddAuditableEntity.designer.cs">
+      <DependentUpon>202305160846136_AddAuditableEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305181031551_AddCommentQuotation.cs" />
+    <Compile Include="Migrations\202305181031551_AddCommentQuotation.designer.cs">
+      <DependentUpon>202305181031551_AddCommentQuotation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305190946353_AddDeletedBy.cs" />
+    <Compile Include="Migrations\202305190946353_AddDeletedBy.designer.cs">
+      <DependentUpon>202305190946353_AddDeletedBy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RedisCacheRepository.cs" />
@@ -176,6 +192,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202304271223101_AddOrders.resx">
       <DependentUpon>202304271223101_AddOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305151003410_AddPaidFieldToOrder.resx">
+      <DependentUpon>202305151003410_AddPaidFieldToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305160846136_AddAuditableEntity.resx">
+      <DependentUpon>202305160846136_AddAuditableEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305181031551_AddCommentQuotation.resx">
+      <DependentUpon>202305181031551_AddCommentQuotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305190946353_AddDeletedBy.resx">
+      <DependentUpon>202305190946353_AddDeletedBy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -10,8 +10,7 @@ import {PlatformType} from "../models/PlatformType";
 export class PlatformTypeService {
     private baseUrl = '/api/platformTypes/';
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient) { }
 
     getAllPlatformTypes(): Observable<PlatformType[]> {
         return this.http.get<PlatformType[]>(this.baseUrl);
