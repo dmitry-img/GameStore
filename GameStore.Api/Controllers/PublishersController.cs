@@ -15,8 +15,8 @@ namespace GameStore.Api.Controllers
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
 
         public PublishersController(
-            IPublisherService publisherService, 
-            IValidationService validationService, 
+            IPublisherService publisherService,
+            IValidationService validationService,
             IValidator<CreatePublisherDTO> createPublisherValidator)
         {
             _publisherService = publisherService;

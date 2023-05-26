@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommentNode} from "../../../models/CommentNode";
+import {GetCommentResponse} from "../../../models/GetCommentResponse";
 
 @Component({
     selector: 'app-comment-list-item',
@@ -11,8 +12,8 @@ export class CommentListItemComponent {
     @Input() parentNode: CommentNode | null = null;
     @Input() gameKey!: string;
     @Output() delete: EventEmitter<number> = new EventEmitter<number>();
-    clickedReply: boolean = false;
-    clickedQuote: boolean = false;
+    @Output() reply: EventEmitter<GetCommentResponse> = new EventEmitter<GetCommentResponse>();
+    @Output() quote: EventEmitter<GetCommentResponse> = new EventEmitter<GetCommentResponse>();
 
     navigateToParent(id: number): void {
         const element = document.getElementById(`comment-${id}`);
@@ -21,22 +22,12 @@ export class CommentListItemComponent {
         }
     }
 
-    onReply(): void {
-        if(this.clickedReply){
-            this.clickedReply = !this.clickedReply
-            return;
-        }
-        this.clickedReply = true;
-        this.clickedQuote = false;
+    onReply(parentComment: GetCommentResponse): void {
+       this.reply.emit(parentComment);
     }
 
-    onQuote(): void {
-        if(this.clickedQuote){
-            this.clickedQuote = !this.clickedQuote
-            return;
-        }
-        this.clickedReply = false;
-        this.clickedQuote = true;
+    onQuote(parentComment: GetCommentResponse): void {
+        this.quote.emit(parentComment);
     }
 
     onDelete(id: number): void {

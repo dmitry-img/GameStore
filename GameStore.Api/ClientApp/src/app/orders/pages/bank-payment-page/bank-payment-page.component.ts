@@ -4,6 +4,7 @@ import {OrderService} from "../../services/order.service";
 import {PaymentService} from "../../services/payment.service";
 import {ModalService} from "../../../shared/services/modal.service";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-bank-payment-page',
@@ -16,7 +17,8 @@ export class BankPaymentPageComponent implements OnInit{
         private orderService: OrderService,
         private paymentService: PaymentService,
         private modalService: ModalService,
-        private toaster: ToastrService
+        private toaster: ToastrService,
+        private router: Router
     ) { }
     ngOnInit(): void {
         this.payByBank();
@@ -33,6 +35,7 @@ export class BankPaymentPageComponent implements OnInit{
             },
             error: (error) =>{
                 this.toaster.error(error.error);
+                this.router.navigate(['/shopping-cart'])
             }
         });
     }

@@ -21,7 +21,8 @@ export class VisaPaymentPageComponent implements OnInit{
         private orderService: OrderService,
         private paymentService: PaymentService,
         private modalService: ModalService,
-        private toaster: ToastrService
+        private toaster: ToastrService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -51,6 +52,7 @@ export class VisaPaymentPageComponent implements OnInit{
             },
             error: (error) =>{
                 this.toaster.error(error.error);
+                this.router.navigate(['/shopping-cart'])
             }
         });
     }

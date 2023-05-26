@@ -8,7 +8,7 @@ namespace GameStore.Api.Controllers
     public class OrdersController : ApiController
     {
         // TODO delete when users added
-        private const int DefaultCommentId = 1;
+        private const int DefaultCustomerId = 1;
         private readonly IOrderService _orderService;
 
         public OrdersController(IOrderService orderService)
@@ -20,7 +20,7 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create()
         {
-            var order = await _orderService.Create(DefaultCommentId);
+            var order = await _orderService.Create(DefaultCustomerId);
 
             return Ok(order);
         }

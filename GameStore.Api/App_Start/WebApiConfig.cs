@@ -1,9 +1,7 @@
 ﻿using FluentValidation.WebApi;
 using GameStore.Api.Filters;
-using log4net;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Unity;
 
 namespace GameStore.Api
 {

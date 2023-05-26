@@ -32,8 +32,6 @@ namespace GameStore.BLL.UnitTests.Common
 
             MockLogger = new Mock<ILog>();
 
-            GameFilterOperation = new GameFilterOperations();
-
             MockShoppingCartCash = new Mock<IDistributedCache<ShoppingCart>>();
             MockShoppingCartCash.Setup(sc => sc.GetAsync(It.IsAny<string>())).ReturnsAsync(ShoppingCart);
             MockShoppingCartCash.Setup(r => r.SetAsync(It.IsAny<string>(), It.IsAny<ShoppingCart>()))
@@ -75,8 +73,6 @@ namespace GameStore.BLL.UnitTests.Common
         protected Mock<IUnitOfWork> MockUow { get; set; }
 
         protected Mock<IDistributedCache<ShoppingCart>> MockShoppingCartCash { get; set; }
-
-        protected IGameFilterOperations GameFilterOperation { get; set; }
 
         protected Mock<ISortStrategyFactory> MockSortStrategyFactory { get; set; }
 

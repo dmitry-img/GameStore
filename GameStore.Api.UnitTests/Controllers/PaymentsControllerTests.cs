@@ -16,15 +16,11 @@ namespace GameStore.Api.Tests.Controllers
     {
         private readonly PaymentsController _controller;
         private readonly Mock<IPaymentService> _paymentServiceMock;
-        private readonly IPaymentStrategyFactory _paymentStrategyFactory;
-        private readonly Mock<IUnityContainer> _unitContainerMock;
 
         public PaymentsControllerTests()
         {
             _paymentServiceMock = new Mock<IPaymentService>();
-            _unitContainerMock = new Mock<IUnityContainer>();
-            _paymentStrategyFactory = new PaymentStrategyFactory(_unitContainerMock.Object);
-            _controller = new PaymentsController(_paymentServiceMock.Object, _paymentStrategyFactory);
+            _controller = new PaymentsController(_paymentServiceMock.Object);
         }
 
         [Fact]

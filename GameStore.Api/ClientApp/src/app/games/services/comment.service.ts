@@ -11,7 +11,8 @@ import {BanRequest} from "../models/BanRequest";
 export class CommentService {
     private baseUrl = '/api/comments';
     private newCommentSubject = new Subject<boolean>();
-    private deleteCommentSubject = new Subject<boolean>();
+    private replySubject = new Subject<GetCommentResponse>();
+    private quoteSubject = new Subject<GetCommentResponse>();
 
     constructor(private http: HttpClient) { }
 
@@ -45,5 +46,21 @@ export class CommentService {
 
     getEmittedDeleteComment$(): Observable<boolean> {
         return this.newCommentSubject.asObservable();
+    }
+
+    emitReply(parentComment: GetCommentResponse){
+        this.replySubject.next(parentComment);
+    }
+
+    emitQuote(parentComment: GetCommentResponse){
+        this.quoteSubject.next(parentComment);
+    }
+
+    getEmittedReply$(): Observable<GetCommentResponse> {
+        return this.replySubject.asObservable();
+    }
+
+    getEmittedQuote$(): Observable<GetCommentResponse> {
+        return this.quoteSubject.asObservable();
     }
 }

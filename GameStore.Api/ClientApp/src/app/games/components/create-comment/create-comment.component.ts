@@ -1,18 +1,22 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {CommentService} from "../../services/comment.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {GetCommentResponse} from "../../models/GetCommentResponse";
+import {Subscription} from "rxjs";
+import {subscriptionLogsToBeFn} from "rxjs/internal/testing/TestScheduler";
 
 @Component({
     selector: 'app-create-comment',
     templateUrl: './create-comment.component.html',
     styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit {
-    @Input() parentComment: GetCommentResponse | null = null
+export class CreateCommentComponent implements OnInit, OnDestroy {
     @Input() gameKey!: string
-    @Input() hasQuote: boolean = false
+    parentComment!: GetCommentResponse | null;
+    hasQuote: boolean = false
+    replySubscription!: Subscription;
+    quoteSubscription!: Subscription;
     createCommentForm!: FormGroup;
 
     constructor(
@@ -28,6 +32,8 @@ export class CreateCommentComponent implements OnInit {
             GameKey: [''],
             ParentCommentId: [''],
         });
+        this.onCommentReplied();
+        this.onCommentQuoted();
     }
 
     onSubmit(): void {
@@ -41,6 +47,28 @@ export class CreateCommentComponent implements OnInit {
         this.commentService.createComment(this.createCommentForm.value).subscribe(() => {
             this.commentService.emitNewComment(true);
         });
+
         this.createCommentForm.reset();
+        this.parentComment = null;
+        this.hasQuote = false;
+    }
+
+    onCommentReplied(): void {
+        this.replySubscription = this.commentService.getEmittedReply$().subscribe((parentComment) =>{
+            this.parentComment = parentComment;
+            this.hasQuote = false;
+        });
+    }
+
+    onCommentQuoted(): void {
+        this.quoteSubscription = this.commentService.getEmittedQuote$().subscribe((parentComment) =>{
+            this.parentComment = parentComment;
+            this.hasQuote = true;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.replySubscription.unsubscribe();
+        this.quoteSubscription.unsubscribe();
     }
 }

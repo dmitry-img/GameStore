@@ -13,12 +13,10 @@ namespace GameStore.Api.Controllers
     public class PaymentsController : ApiController
     {
         private readonly IPaymentService _paymentService;
-        private readonly IPaymentStrategyFactory _paymentStrategyFactory;
 
-        public PaymentsController(IPaymentService paymentService, IPaymentStrategyFactory paymentStrategyFactory)
+        public PaymentsController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
-            _paymentStrategyFactory = paymentStrategyFactory;
         }
 
         [HttpPost]

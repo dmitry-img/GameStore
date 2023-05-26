@@ -7,6 +7,7 @@
         class="form-control"
         [id]="labelText | lowercase"
         (keydown)="onKeydown($event)"
-        (input)="onInput($event)">
+        (input)="onInput($event)"
+        (focusout)="onFocusout()">
     </textarea>
 </div>

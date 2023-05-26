@@ -13,7 +13,7 @@ namespace GameStore.BLL.Strategies.Payment
         public MemoryStream Pay(Order order)
         {
             var data = $"The order {order.Id} has been successully created!{Environment.NewLine}" +
-                $"Total price: {order.OrderDetails.Sum(od => od.Price)}";
+                $"Total price: {order.OrderDetails.Sum(od => od.Price * od.Quantity)}";
             return new MemoryStream(Encoding.ASCII.GetBytes(data));
         }
     }

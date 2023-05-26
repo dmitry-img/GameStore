@@ -15,19 +15,16 @@
             </div>
         </div>
         <div class="comment__actions">
-            <button class="comment__action comment__reply" type="button" (click)="onReply()">
+            <button class="comment__action comment__reply" type="button" (click)="onReply(commentNode.comment)">
                 Reply
             </button>
-            <button class="comment__action comment__quote" type="button" (click)="onQuote()">
+            <button class="comment__action comment__quote" type="button" (click)="onQuote(commentNode.comment)">
                 Quote
             </button>
             <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">
                 Delete
             </button>
             <a class="comment__action btn btn-danger" type="button" [routerLink]="['/ban',commentNode.comment.Id]">Ban</a>
-        </div>
-        <div class="comment__form" *ngIf="clickedReply || clickedQuote">
-            <app-create-comment [gameKey]="gameKey" [parentComment]="commentNode.comment" [hasQuote]="clickedQuote"></app-create-comment>
         </div>
     </div>
     <div class="comment__children">

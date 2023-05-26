@@ -33,4 +33,12 @@ export class CommentListComponent {
             });
         });
     }
+
+    onReply(parentComment: GetCommentResponse) {
+        this.commentService.emitReply(parentComment)
+    }
+
+    onQuote(parentComment: GetCommentResponse) {
+        this.commentService.emitQuote(parentComment)
+    }
 }

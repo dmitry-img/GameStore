@@ -22,6 +22,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     newCommentSubscription!: Subscription;
     deleteCommentSubscription!: Subscription;
     gameKey!: string;
+    isBuyButtonDisabled = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -54,6 +55,8 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             Quantity: 1
         }
 
+        this.isBuyButtonDisabled = true;
+
         this.shoppingCartService.getQuantity(game.Key).subscribe((quantity) =>{
             if(quantity + 1 > game.UnitsInStock){
                 this.toaster.error("There are not enough games in the stock!")
@@ -62,6 +65,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
                     this.toaster.success(`${game.Name} has been added to shopping cart!`)
                 });
             }
+            this.isBuyButtonDisabled = false;
         });
     }
 
@@ -71,14 +75,14 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngOnDestroy(): void {
+        this.newCommentSubscription.unsubscribe();
+    }
+
     private onCommentDeleted(): void {
         this.deleteCommentSubscription = this.commentService.getEmittedDeleteComment$().subscribe(() =>{
             this.getCommentListArray(this.game.Key);
         })
-    }
-
-    ngOnDestroy(): void {
-        this.newCommentSubscription.unsubscribe();
     }
 
     private getCommentListArray(gameKey: string): void {

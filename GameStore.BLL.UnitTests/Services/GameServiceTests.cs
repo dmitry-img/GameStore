@@ -25,7 +25,6 @@ namespace GameStore.BLL.UnitTests.Services
                 MockUow.Object,
                 Mapper,
                 MockLogger.Object,
-                GameFilterOperation,
                 MockSortStrategyFactory.Object);
         }
 

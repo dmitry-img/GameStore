@@ -14,16 +14,16 @@
 }"
     ></app-validation-message>
 
-    <app-input-field
+    <app-text-area-field
         [control]="createPublisherForm | formControl:'Description'"
         [isRequired]="true"
         labelText="Description"
-    ></app-input-field>
+    ></app-text-area-field>
     <app-validation-message
         [control]="createPublisherForm | formControl:'Description'"
         [errorMessages]="{
-  'required': 'This field is required!',
-}"
+      'required': 'This field is required!',
+    }"
     ></app-validation-message>
 
     <app-input-field

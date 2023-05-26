@@ -3,6 +3,8 @@ import {OrderService} from "../../services/order.service";
 import {PaymentService} from "../../services/payment.service";
 import {ModalService} from "../../../shared/services/modal.service";
 import {GetOrderResponse} from "../../models/GetOrderResponse";
+import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-ibox-payment-page',
@@ -14,7 +16,9 @@ export class IboxPaymentPageComponent implements OnInit {
     constructor(
         private orderService: OrderService,
         private paymentService: PaymentService,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private toaster: ToastrService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -22,8 +26,14 @@ export class IboxPaymentPageComponent implements OnInit {
     }
 
     getOrder(): void{
-        this.orderService.createOrder().subscribe((order: GetOrderResponse) =>{
-            this.order = order;
+        this.orderService.createOrder().subscribe({
+            next: (order: GetOrderResponse) =>{
+                this.order = order;
+            },
+            error: (err) =>{
+                this.toaster.error(err.error);
+                this.router.navigate(['/shopping-cart']);
+            }
         })
     }
 
