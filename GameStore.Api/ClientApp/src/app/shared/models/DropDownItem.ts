@@ -1,4 +1,4 @@
 export interface DropDownItem {
-    id: number,
-    value: string
+    Id: number | null
+    Value: string
 }

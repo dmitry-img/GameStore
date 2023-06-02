@@ -10,6 +10,8 @@ import {ShoppingCartsModule} from "./shopping-carts/shopping-carts.module";
 import {OrdersModule} from "./orders/orders.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {GamesModule} from "./games/games.module";
+import {AuthModule} from "./auth/auth.module";
+import {GenresModule} from "./genres/genres.module";
 
 @NgModule({
     declarations: [
@@ -24,7 +26,9 @@ import {GamesModule} from "./games/games.module";
         PublishersModule,
         ShoppingCartsModule,
         OrdersModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AuthModule,
+        GenresModule
     ],
     providers: [],
     bootstrap: [AppComponent]

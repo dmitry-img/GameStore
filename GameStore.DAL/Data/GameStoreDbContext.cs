@@ -29,6 +29,10 @@ namespace GameStore.DAL.Data
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Role> Role { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             ApplyDeletableInformation();
@@ -42,6 +46,8 @@ namespace GameStore.DAL.Data
             modelBuilder.Configurations.Add(new GenreConfiguration());
             modelBuilder.Configurations.Add(new PlatformTypeConfiguration());
             modelBuilder.Configurations.Add(new OrderDetailConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new RoleConfiguration());
         }
 
         private void ApplyDeletableInformation()

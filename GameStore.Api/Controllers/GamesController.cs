@@ -36,6 +36,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("count")]
+        [Authorize(Roles = "User")]
         public IHttpActionResult GetCount()
         {
             return Ok(_gameService.GetCount());
@@ -43,6 +44,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("list")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetList([FromUri]FilterGameDTO filter)
         {
             _validationService.Validate(filter, _filterGameValidator);
@@ -53,6 +55,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("{key}")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetByKey(string key)
         {
             var games = await _gameService.GetByKeyAsync(key);

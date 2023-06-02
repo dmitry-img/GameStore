@@ -17,7 +17,8 @@ namespace GameStore.BLL.Pipelines.GameOperations
         public IQueryable<Game> Invoke(IQueryable<Game> games)
         {
             return _publishers != null && _publishers.Any() ? games.Where(game =>
-                _publishers.Contains(game.PublisherId)) : games;
+                game.PublisherId.HasValue && _publishers.Contains(game.PublisherId.Value)) : games;
         }
+
     }
 }

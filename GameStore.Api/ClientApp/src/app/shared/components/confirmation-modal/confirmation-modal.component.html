@@ -3,9 +3,9 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()"></button>
 </div>
 <div class="modal-body">
-    {{message}}
+    <ng-container *ngTemplateOutlet="content"></ng-container>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">{{btnCancelText}}</button>
-    <button type="button" class="btn btn-primary" (click)="confirmAndClose()">{{btnOkText}}</button>
+    <button type="button" class="btn btn-primary" (click)="onConfirm()">{{btnOkText}}</button>
 </div>

@@ -18,7 +18,7 @@ namespace GameStore.DAL.Entities
 
         public bool Discontinued { get; set; }
 
-        public int PublisherId { get; set; }
+        public int? PublisherId { get; set; }
 
         public int Views { get; set; }
 

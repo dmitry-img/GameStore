@@ -18,6 +18,7 @@ import { CollapseComponent } from './components/collapse/collapse.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
         CollapseComponent,
         PaginationNavComponent,
         ConfirmationModalComponent,
+        ErrorPageComponent,
     ],
     exports: [
         HeaderComponent,

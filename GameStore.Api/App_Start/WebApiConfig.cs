@@ -12,6 +12,7 @@ namespace GameStore.Api
             UnityConfig.RegisterComponents(config);
 
             // Global Attributes
+            config.Filters.Add(new JwtAuthenticationFilterAttribute());
             config.Filters.Add(new LogIpFilterAttribute());
             config.Filters.Add(new LogPerformanceFilterAttribute());
             config.Filters.Add(new GeneralExceptionFilterAttribute());

@@ -1,5 +1,6 @@
 import {DateFilterOption} from "./DateFilterOption";
 import { SortOption } from "./SortOption";
+import {PaginationRequest} from "../../shared/models/PaginationRequest";
 
 export class FilterGameRequest {
     NameFragment: string | null = null;
@@ -10,7 +11,9 @@ export class FilterGameRequest {
     PriceTo: number | null = null;
     DateFilterOption: DateFilterOption = DateFilterOption.None;
     SortOption: SortOption = SortOption.MostViewed;
-    PageNumber: number = 1;
-    PageSize: number = 10;
+    Pagination: PaginationRequest = {
+        PageNumber: 1,
+        PageSize: 10
+    };
 }
 

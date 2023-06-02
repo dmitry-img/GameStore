@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using FluentValidation;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
 
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/publishers")]
+    //[Authorize(Roles = "Manager")]
     public class PublishersController : ApiController
     {
         private readonly IPublisherService _publisherService;
@@ -26,6 +28,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("{companyName}")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetByCompanyName(string companyName)
         {
             var publisher = await _publisherService.GetByCompanyNameAsync(companyName);
@@ -46,11 +49,39 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("brief")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> GetAllBrief()
         {
             var publishers = await _publisherService.GetAllBriefAsync();
 
             return Json(publishers);
+        }
+
+        [HttpGet]
+        [Route("paginated-list")]
+        public async Task<IHttpActionResult> GetAllBriefWithPagination([FromUri] PaginationDTO paginationDTO)
+        {
+            var publishers = await _publisherService.GetAllBriefWithPaginationAsync(paginationDTO);
+
+            return Json(publishers);
+        }
+
+        [HttpPut]
+        [Route("update/{companyName}")]
+        public async Task<IHttpActionResult> Update(string companyName, UpdatePublisherDTO updatePublisherDTO)
+        {
+            await _publisherService.UpdateAsync(companyName, updatePublisherDTO);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IHttpActionResult> Delete(int id)
+        {
+            await _publisherService.DeleteAsync(id);
+
+            return Ok();
         }
     }
 }

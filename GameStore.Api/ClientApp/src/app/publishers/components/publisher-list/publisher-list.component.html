@@ -1,0 +1,20 @@
+<a type="button" class="btn btn-primary mb-3" routerLink="/publisher/create">Create</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let publisher of paginatedPublishers.Items">
+        <td>{{publisher.CompanyName}}</td>
+        <td>
+            <a type="button" class="btn btn-secondary mr-2" [routerLink]="['/publisher', publisher.CompanyName]">Details</a>
+            <a type="button" class="btn btn-warning mr-2" [routerLink]="['/publisher/update', publisher.CompanyName]">Modify</a>
+            <button type="button" class="btn btn-danger" (click)="onDelete(publisher)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

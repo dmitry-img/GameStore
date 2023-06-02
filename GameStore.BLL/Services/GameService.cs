@@ -198,22 +198,12 @@ namespace GameStore.BLL.Services
             var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
             query = sortStrategy.Sort(query);
 
-            if (filter.PageSize != -1 && filter.PageNumber > 0 && filter.PageSize > 0)
-            {
-                query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
-            }
-
             var games = await query.ToListAsync();
 
-            var result = new PaginationResult<GetGameBriefDTO>
-            {
-                Items = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
-                TotalItems = totalItems,
-                PageSize = filter.PageSize,
-                CurrentPage = filter.PageNumber
-            };
-
-            return result;
+            return PaginationResult<GetGameBriefDTO>.ToPaginationResult(
+                _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
+                filter.Pagination.PageNumber,
+                filter.Pagination.PageSize);
         }
     }
 }

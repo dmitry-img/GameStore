@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <app-genre-list
+        *ngIf="paginatedGenres!"
+        [paginatedGenres]="paginatedGenres"
+        (create)="onCreate()"
+        (modify)="onModify($event)"
+        (delete)="onDelete($event)"
+    ></app-genre-list>
+    <app-pagination-nav
+        *ngIf="paginatedGenres!"
+        [totalItems]="paginatedGenres.TotalItems"
+        [itemsPerPage]="paginatedGenres.PageSize"
+        [currentPage]="paginatedGenres.CurrentPage"
+        baseUrl="/genre/list">
+    </app-pagination-nav>
+    <ng-template #genreFormBody>
+        <app-input-field
+            [control]="genreForm | formControl:'Name'"
+            [isRequired]="true"
+            labelText="Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="genreForm | formControl:'Name'"
+            [errorMessages]="{
+                'required': 'Name is required!'
+            }"
+        ></app-validation-message>
+        <app-dropdown
+            *ngIf="genresForDropDown!"
+            [control]="genreForm | formControl:'ParentGenreId'"
+            [items]="genresForDropDown"
+            [showPlaceholder]="false"
+            labelText="Parent"
+        ></app-dropdown>
+    </ng-template>
+    <ng-template #genreDeleteModalBody>
+        <p>The genre will be deleted!</p>
+    </ng-template>
+</div>

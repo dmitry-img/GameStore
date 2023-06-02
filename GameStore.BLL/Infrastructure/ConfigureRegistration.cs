@@ -1,21 +1,20 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using AutoMapper;
 using FluentValidation;
+using GameStore.BLL.DTOs.Auth;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Publisher;
+using GameStore.BLL.DTOs.User;
 using GameStore.BLL.Enums;
 using GameStore.BLL.Factories;
 using GameStore.BLL.Interfaces;
-using GameStore.BLL.Pipelines;
 using GameStore.BLL.Profiles;
 using GameStore.BLL.Services;
 using GameStore.BLL.Strategies.Payment;
 using GameStore.BLL.Strategies.Sorting;
 using GameStore.BLL.Validators;
 using GameStore.DAL.Entities;
-using StackExchange.Redis;
 using Unity;
 
 namespace GameStore.BLL.Infrastructure
@@ -40,6 +39,9 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IOrderService, OrderService>();
             container.RegisterType<IPaymentService, PaymentService>();
             container.RegisterType<IBanService, BanService>();
+            container.RegisterType<IAuthService, AuthService>();
+            container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IRoleService, RoleService>();
 
             container.RegisterType<IPaymentStrategyFactory, PaymentStrategyFactory>();
             container.RegisterType<IPaymentStrategy<MemoryStream>, BankPaymentStrategy>(PaymentType.Bank.ToString());
@@ -57,6 +59,10 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IValidator<CreateCommentDTO>, CreateCommentDTOValidator>();
             container.RegisterType<IValidator<CreatePublisherDTO>, CreatePublisherDTOValidator>();
             container.RegisterType<IValidator<FilterGameDTO>, FilterGameDTOValidator>();
+            container.RegisterType<IValidator<RegistrationDTO>, RegistrationDTOValidator>();
+            container.RegisterType<IValidator<LoginDTO>, LoginDTOValidator>();
+            container.RegisterType<IValidator<CreateUserDTO>, CreateUserDTOValidator>();
+            container.RegisterType<IValidator<UpdateUserDTO>, UpdateUserDTOValidator>();
 
             container.RegisterType<IValidationService, ValidationService>();
 

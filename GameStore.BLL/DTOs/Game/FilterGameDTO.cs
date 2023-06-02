@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.Enums;
 
@@ -22,8 +23,6 @@ namespace GameStore.BLL.DTOs.Game
 
         public SortOption SortOption { get; set; }
 
-        public int PageNumber { get; set; }
-
-        public int PageSize { get; set; }
+        public PaginationDTO Pagination { get; set; }
     }
 }

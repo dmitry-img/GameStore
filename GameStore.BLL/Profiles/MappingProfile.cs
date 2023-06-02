@@ -4,7 +4,9 @@ using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.DTOs.PlatformType;
 using GameStore.BLL.DTOs.Publisher;
+using GameStore.BLL.DTOs.Role;
 using GameStore.BLL.DTOs.ShoppingCart;
+using GameStore.BLL.DTOs.User;
 using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Entities;
 
@@ -68,9 +70,18 @@ namespace GameStore.BLL.Profiles
 
             CreateMap<Comment, GetCommentDTO>();
 
-            CreateMap<Genre, GetGenreDTO>();
+            CreateMap<Genre, GetGenreDTO>()
+                .ForMember(dest => dest.ParentGenreName, opt => opt.MapFrom(src => src.ParentGenre.Name));
+
+            CreateMap<CreateGenreDTO, Genre>();
+
+            CreateMap<UpdateGenreDTO, Genre>();
 
             CreateMap<PlatformType, GetPlatformTypeDTO>();
+
+            CreateMap<CreatePlatformTypeDTO, PlatformType>();
+
+            CreateMap<UpdatePlatformTypeDTO, PlatformType>();
 
             CreateMap<CreatePublisherDTO, Publisher>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -82,6 +93,7 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
+            CreateMap<UpdatePublisherDTO, Publisher>();
 
             CreateMap<Publisher, GetPublisherDTO>();
 
@@ -106,6 +118,20 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
+
+            CreateMap<User, GetUserDTO>();
+
+            CreateMap<CreateUserDTO, User>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
+
+            CreateMap<UpdateUserDTO, User>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
+
+            CreateMap<Role, GetRoleDTO>();
+
+            CreateMap<CreateRoleDTO, Role>();
+
+            CreateMap<UpdateRoleDTO, Role>();
         }
     }
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {GetGameResponse} from "../../models/GetGameResponse";
 import {GetCommentResponse} from "../../models/GetCommentResponse";
-import {Genre} from "../../models/Genre";
+import {GetGenreResponse} from "../../../genres/models/GetGenreResponse";
 import {CommentNode} from "../../models/CommentNode";
 
 @Component({
@@ -14,7 +14,7 @@ export class GameDetailsComponent implements OnInit {
     @Input() isBuyButtonDisabled: boolean = false
     @Output() downloadGame = new EventEmitter<File>();
     @Output() buyGame = new EventEmitter<GetGameResponse>();
-    parentGenres!: Genre[]
+    parentGenres!: GetGenreResponse[]
 
     ngOnInit(): void {
         this.getParentGenres();
