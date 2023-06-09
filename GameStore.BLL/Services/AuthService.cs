@@ -11,6 +11,7 @@ using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
+using log4net;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GameStore.BLL.Services
@@ -18,11 +19,13 @@ namespace GameStore.BLL.Services
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILog _logger;
         private readonly string _jwtSecret = ConfigurationManager.AppSettings["JwtSecret"];
 
-        public AuthService(IUnitOfWork unitOfWork)
+        public AuthService(IUnitOfWork unitOfWork, ILog logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task RegisterAsync(RegistrationDTO registrationDTO)
@@ -47,6 +50,8 @@ namespace GameStore.BLL.Services
             _unitOfWork.Users.Create(user);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"User({user.Username}) has been registered!");
         }
 
         public async Task<AuthResponseDTO> LoginAsync(LoginDTO model)
@@ -70,6 +75,8 @@ namespace GameStore.BLL.Services
             _unitOfWork.Users.Update(user);
             await _unitOfWork.SaveAsync();
 
+            _logger.Info($"User({user.Username}) has been logged in!");
+
             return new AuthResponseDTO
             {
                 AccessToken = accessToken,
@@ -92,6 +99,9 @@ namespace GameStore.BLL.Services
             user.RefreshTokenExpirationDate = null;
 
             _unitOfWork.Users.Update(user);
+
+            _logger.Info($"User({user.Username}) has been logged out!");
+
             await _unitOfWork.SaveAsync();
         }
 
@@ -131,14 +141,14 @@ namespace GameStore.BLL.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                    new Claim(JwtRegisteredClaimNames.NameId, user.ObjectId),
-                    new Claim(ClaimTypes.Role, user.Role.Name),
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, user.ObjectId),
+                    new Claim(ClaimTypes.Role, user.Role != null ? user.Role.Name : string.Empty),
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
+                new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

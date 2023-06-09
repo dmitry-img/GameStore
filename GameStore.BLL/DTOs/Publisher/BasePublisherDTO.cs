@@ -7,5 +7,7 @@
         public string Description { get; set; }
 
         public string HomePage { get; set; }
+
+        public string Username { get; set; }
     }
 }

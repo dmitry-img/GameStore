@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.User;
 
@@ -16,5 +17,9 @@ namespace GameStore.BLL.Interfaces
         Task UpdateAsync(string id, UpdateUserDTO updateUserDTO);
 
         Task DeleteAsync(string id);
+
+        Task BanAsync(BanDTO banDTO);
+
+        Task<bool> IsBannedAsync();
     }
 }

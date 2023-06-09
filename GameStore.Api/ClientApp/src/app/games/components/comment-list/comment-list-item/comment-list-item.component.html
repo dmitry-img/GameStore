@@ -14,17 +14,22 @@
                 {{ commentNode.comment.Body }}
             </div>
         </div>
-        <div class="comment__actions">
+        <div
+            *ngIf="userRole && ((isGameDeleted && userRole != 'User') ||
+            (!isGameDeleted && rolesAllowedToComment.includes(userRole) && !isUserBanned))"
+            class="comment__actions">
             <button class="comment__action comment__reply" type="button" (click)="onReply(commentNode.comment)">
                 Reply
             </button>
             <button class="comment__action comment__quote" type="button" (click)="onQuote(commentNode.comment)">
                 Quote
             </button>
-            <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">
-                Delete
-            </button>
-            <a class="comment__action btn btn-danger" type="button" [routerLink]="['/ban',commentNode.comment.Id]">Ban</a>
+            <ng-container *ngIf="userRole === 'Moderator'">
+                <button class="comment__action btn btn-danger" type="button" (click)="onDelete(commentNode.comment.Id)">
+                    Delete
+                </button>
+                <a class="comment__action btn btn-danger" type="button" [routerLink]="['/ban',commentNode.comment.Id]">Ban</a>
+            </ng-container>
         </div>
     </div>
     <div class="comment__children">
@@ -32,6 +37,11 @@
             *ngIf="commentNode.children!"
             [gameKey]="gameKey"
             [commentNodes]="commentNode.children"
-            [parentNode]="commentNode"></app-comment-list>
+            [parentNode]="commentNode"
+            [userRole]="userRole"
+            [isUserBanned]="isUserBanned"
+            [isGameDeleted]="isGameDeleted"
+            [rolesAllowedToComment]="rolesAllowedToComment">
+        </app-comment-list>
     </div>
 </div>

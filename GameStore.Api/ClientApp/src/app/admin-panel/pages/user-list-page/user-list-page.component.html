@@ -13,98 +13,102 @@
     baseUrl="/admin-panel/user/list">
 </app-pagination-nav>
 <ng-template #createUserFormBody>
-    <app-input-field
-        [control]="createUserForm | formControl:'Email'"
-        [isRequired]="true"
-        labelText="Email"
-    ></app-input-field>
-    <app-validation-message
-        [control]="createUserForm | formControl:'Email'"
-        [errorMessages]="{
+    <form [formGroup]="createUserForm">
+        <app-input-field
+            [control]="createUserForm | formControl:'Email'"
+            [isRequired]="true"
+            labelText="Email"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createUserForm | formControl:'Email'"
+            [errorMessages]="{
             'required': 'Email is required!',
             'email': 'Wrong email format!'
         }"
-    ></app-validation-message>
-    <app-input-field
-        [control]="createUserForm | formControl:'Username'"
-        [isRequired]="true"
-        labelText="Username"
-    ></app-input-field>
-    <app-validation-message
-        [control]="createUserForm | formControl:'Username'"
-        [errorMessages]="{
+        ></app-validation-message>
+        <app-input-field
+            [control]="createUserForm | formControl:'Username'"
+            [isRequired]="true"
+            labelText="Username"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createUserForm | formControl:'Username'"
+            [errorMessages]="{
             'required': 'Username is required!',
             'minlength': 'Minimal length is 6',
             'pattern': 'Username can only contain letters, numbers, underscores and dashes.'
         }"
-    ></app-validation-message>
-    <app-dropdown
-        [control]="createUserForm | formControl:'RoleId'"
-        [items]="roles"
-        [isRequired]="true"
-        labelText="Role"
-        placeholder="Select a role"
-    ></app-dropdown>
-    <app-validation-message
-        [control]="createUserForm | formControl:'RoleId'"
-        [errorMessages]="{
+        ></app-validation-message>
+        <app-dropdown
+            [control]="createUserForm | formControl:'RoleId'"
+            [items]="roles"
+            [isRequired]="true"
+            labelText="Role"
+            placeholder="Select a role"
+        ></app-dropdown>
+        <app-validation-message
+            [control]="createUserForm | formControl:'RoleId'"
+            [errorMessages]="{
             'required': 'Role is required!',
         }"
-    ></app-validation-message>
-    <app-input-field
-        [control]="createUserForm | formControl:'Password'"
-        [isRequired]="!isUpdating"
-        type="password"
-        labelText="Password"
-    ></app-input-field>
-    <app-validation-message
-        [control]="createUserForm | formControl:'Password'"
-        [errorMessages]="{
+        ></app-validation-message>
+        <app-input-field
+            [control]="createUserForm | formControl:'Password'"
+            [isRequired]="!isUpdating"
+            type="password"
+            labelText="Password"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createUserForm | formControl:'Password'"
+            [errorMessages]="{
             'required': 'Password is required!',
             'minlength': 'Minimal length is 6'
         }"
-    ></app-validation-message>
-    <app-input-field
-        [control]="createUserForm | formControl:'ConfirmPassword'"
-        [isRequired]="!isUpdating"
-        type="password"
-        labelText="Confirm Password"
-    ></app-input-field>
-    <app-validation-message
-        [control]="createUserForm | formControl:'ConfirmPassword'"
-        [errorMessages]="{
+        ></app-validation-message>
+        <app-input-field
+            [control]="createUserForm | formControl:'ConfirmPassword'"
+            [isRequired]="!isUpdating"
+            type="password"
+            labelText="Confirm Password"
+        ></app-input-field>
+        <app-validation-message
+            [control]="createUserForm | formControl:'ConfirmPassword'"
+            [errorMessages]="{
             'required': 'Password is required!',
             'minlength': 'Minimal length is 6'
         }"
-    ></app-validation-message>
+        ></app-validation-message>
+    </form>
 </ng-template>
 <ng-template #updateUserFormBody>
-    <app-input-field
-        [control]="updateUserForm | formControl:'Username'"
-        [isRequired]="true"
-        labelText="Username"
-    ></app-input-field>
-    <app-validation-message
-        [control]="updateUserForm | formControl:'Username'"
-        [errorMessages]="{
+    <form [formGroup]="updateUserForm">
+        <app-input-field
+            [control]="updateUserForm | formControl:'Username'"
+            [isRequired]="true"
+            labelText="Username"
+        ></app-input-field>
+        <app-validation-message
+            [control]="updateUserForm | formControl:'Username'"
+            [errorMessages]="{
             'required': 'Username is required!',
             'minlength': 'Minimal length is 6',
             'pattern': 'Username can only contain letters, numbers, underscores and dashes.'
         }"
-    ></app-validation-message>
-    <app-dropdown
-        [control]="updateUserForm | formControl:'RoleId'"
-        [items]="roles"
-        [isRequired]="true"
-        labelText="Role"
-        placeholder="Select a role"
-    ></app-dropdown>
-    <app-validation-message
-        [control]="updateUserForm | formControl:'RoleId'"
-        [errorMessages]="{
+        ></app-validation-message>
+        <app-dropdown
+            [control]="updateUserForm | formControl:'RoleId'"
+            [items]="roles"
+            [isRequired]="true"
+            labelText="Role"
+            placeholder="Select a role"
+        ></app-dropdown>
+        <app-validation-message
+            [control]="updateUserForm | formControl:'RoleId'"
+            [errorMessages]="{
             'required': 'Role is required!',
         }"
-    ></app-validation-message>
+        ></app-validation-message>
+    </form>
 </ng-template>
 <ng-template #userDeleteModalBody>
     <p>The user will be deleted!</p>

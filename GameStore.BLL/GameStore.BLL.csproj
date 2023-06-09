@@ -183,7 +183,10 @@
     <Compile Include="DTOs\Genre\BaseGenreDTO.cs" />
     <Compile Include="DTOs\Genre\CreateGenreDTO.cs" />
     <Compile Include="DTOs\Genre\UpdateGenreDTO.cs" />
+    <Compile Include="DTOs\Order\GetOrderDetailDTO.cs" />
     <Compile Include="DTOs\Order\GetOrderDTO.cs" />
+    <Compile Include="DTOs\Order\UpdateOrderDetailDTO.cs" />
+    <Compile Include="DTOs\Order\UpdateOrderDTO.cs" />
     <Compile Include="DTOs\PlatformType\BasePlatformTypeDTO.cs" />
     <Compile Include="DTOs\PlatformType\CreatePlatformTypeDTO.cs" />
     <Compile Include="DTOs\PlatformType\UpdatePlatformTypeDTO.cs" />
@@ -220,7 +223,6 @@
     <Compile Include="DTOs\PlatformType\GetPlatformTypeDTO.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Interfaces\IAuthService.cs" />
-    <Compile Include="Interfaces\IBanService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IGenreService.cs" />
@@ -247,7 +249,6 @@
     <Compile Include="Profiles\MappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />
-    <Compile Include="Services\BanService.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\GenreService.cs" />
@@ -267,15 +268,24 @@
     <Compile Include="Strategies\Sorting\NewSortStrategy.cs" />
     <Compile Include="Strategies\Sorting\PriceAscSortStrategy.cs" />
     <Compile Include="Strategies\Sorting\PriceDescSortStrategy.cs" />
-    <Compile Include="Validators\CreateCommentDTOValidator.cs" />
-    <Compile Include="Validators\CreateGameDTOValidator.cs" />
-    <Compile Include="Validators\CreatePublisherDTOValidator.cs" />
-    <Compile Include="Validators\CreateUserDTOValidator.cs" />
-    <Compile Include="Validators\FilterGameDTOValidator.cs" />
-    <Compile Include="Validators\LoginDTOValidator.cs" />
-    <Compile Include="Validators\RegistrationDTOValidator.cs" />
-    <Compile Include="Validators\UpdateGameDTOValidator.cs" />
-    <Compile Include="Validators\UpdateUserDTOValidator.cs" />
+    <Compile Include="Validators\Comment\CreateCommentDTOValidator.cs" />
+    <Compile Include="Validators\Game\CreateGameDTOValidator.cs" />
+    <Compile Include="Validators\Genre\CreateGenreDTOValidator.cs" />
+    <Compile Include="Validators\Genre\UpdateGenreDTOValidator.cs" />
+    <Compile Include="Validators\PlatformType\CreatePlatformTypeDTOValidator.cs" />
+    <Compile Include="Validators\PlatformType\UpdatePlatformTypeDTOValidator.cs" />
+    <Compile Include="Validators\Publisher\CreatePublisherDTOValidator.cs" />
+    <Compile Include="Validators\Publisher\UpdatePublisherDTOValidator.cs" />
+    <Compile Include="Validators\Role\CreateRoleDTOValidator.cs" />
+    <Compile Include="Validators\Role\UpdateRoleDTOValidator.cs" />
+    <Compile Include="Validators\ShoppingCart\CreateShoppingCartItemDTOValidator.cs" />
+    <Compile Include="Validators\User\CreateUserDTOValidator.cs" />
+    <Compile Include="Validators\Game\FilterGameDTOValidator.cs" />
+    <Compile Include="Validators\User\RegistrationDTOValidator.cs" />
+    <Compile Include="Validators\Game\UpdateGameDTOValidator.cs" />
+    <Compile Include="Validators\Order\UpdateOrderDetailDTOValidator.cs" />
+    <Compile Include="Validators\Order\UpdateOrderDTOValidator.cs" />
+    <Compile Include="Validators\User\UpdateUserDTOValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -285,6 +295,10 @@
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{b6b91eca-7e20-4cf3-978a-3237ac13c423}</Project>
       <Name>GameStore.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

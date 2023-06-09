@@ -20,6 +20,8 @@ namespace GameStore.BLL.Interfaces
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllAsync();
 
+        Task<PaginationResult<GetGameBriefDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO);
+
         Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter);
 
         Task<IEnumerable<GetGameBriefDTO>> GetAllByGenreAsync(int genreId);
@@ -27,5 +29,7 @@ namespace GameStore.BLL.Interfaces
         Task<IEnumerable<GetGameBriefDTO>> GetAllByPlatformTypeAsync(int platformTypeId);
 
         Task<MemoryStream> GetGameFileAsync(string gameKey);
+
+        Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(PaginationDTO paginationDTO);
     }
 }

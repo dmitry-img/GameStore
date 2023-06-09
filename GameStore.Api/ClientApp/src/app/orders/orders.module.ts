@@ -5,8 +5,11 @@ import {SharedModule} from "../shared/shared.module";
 import { PaymentMethodsComponent } from './components/payment-methods/payment-methods.component';
 import { VisaPaymentPageComponent } from './pages/visa-payment-page/visa-payment-page.component';
 import { IboxPaymentPageComponent } from './pages/ibox-payment-page/ibox-payment-page.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { BankPaymentPageComponent } from './pages/bank-payment-page/bank-payment-page.component';
+import { OrderListPageComponent } from './pages/order-list-page/order-list-page.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
+import {RouterLink} from "@angular/router";
 
 
 
@@ -17,11 +20,15 @@ import { BankPaymentPageComponent } from './pages/bank-payment-page/bank-payment
     VisaPaymentPageComponent,
     IboxPaymentPageComponent,
     BankPaymentPageComponent,
+    OrderListPageComponent,
+    OrderListComponent,
   ],
     imports: [
         CommonModule,
         SharedModule,
-        FormsModule
+        FormsModule,
+        RouterLink,
+        ReactiveFormsModule
     ]
 })
 export class OrdersModule { }

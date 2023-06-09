@@ -57,20 +57,16 @@
         *ngIf="genres!"
         [items]="genres"
         [control]="createGameForm | formArray:'GenreIds'"
-        labelText="Genres"
-        [isRequired]="true"></app-checkbox-list>
-    <app-validation-message
-        [control]="createGameForm | formArray:'GenreIds'"
-        [errorMessages]="{
-            'required': 'Pick at least one genre!',
-        }"></app-validation-message>
+        labelText="Genres">
+    </app-checkbox-list>
 
     <app-checkbox-list
         *ngIf="platformTypes!"
         [items]="platformTypes"
         [control]="createGameForm | formArray:'PlatformTypeIds'"
         labelText="Platforms"
-        [isRequired]="true"></app-checkbox-list>
+        [isRequired]="true">
+    </app-checkbox-list>
     <app-validation-message
         [control]="createGameForm | formArray:'PlatformTypeIds'"
         [errorMessages]="{
@@ -83,11 +79,6 @@
         labelText="Publisher"
         placeholder="Select a publisher"
     ></app-dropdown>
-    <app-validation-message
-        [control]="createGameForm | formArray:'PublisherId'"
-        [errorMessages]="{
-        'required': 'The publisher is required to be picked!',
-    }"></app-validation-message>
     <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
 </form>
 

@@ -42,7 +42,11 @@ export class GameListSidebarComponent implements OnInit{
 
             SortOption: [SortOption.MostViewed],
 
-            PageSize: [10]
+            Pagination: this.fb.group({
+                PageNumber: [1],
+
+                PageSize: [10]
+            })
         }, { validators: compareValidator<number>('PriceFrom', 'PriceTo', Number) });
     }
 

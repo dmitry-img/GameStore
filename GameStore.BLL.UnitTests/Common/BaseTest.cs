@@ -109,7 +109,6 @@ namespace GameStore.BLL.UnitTests.Common
                 {
                     new Comment()
                     {
-                        Name = "Test Name",
                         Body = "Test Body",
                     }
                 },
@@ -222,7 +221,6 @@ namespace GameStore.BLL.UnitTests.Common
             new Comment
             {
                 Id = 1,
-                Name = "Test Name",
                 Body = "Test Body",
                 GameId = 1,
                 ChildComments = new List<Comment>()
@@ -230,7 +228,6 @@ namespace GameStore.BLL.UnitTests.Common
                     new Comment
                     {
                         Id = 2,
-                        Name = "Test Name Child1",
                         Body = "Test Body  Child1",
                         GameId = 1,
                         ParentCommentId = 1
@@ -238,7 +235,6 @@ namespace GameStore.BLL.UnitTests.Common
                     new Comment
                     {
                         Id = 3,
-                        Name = "Test Name Child2",
                         Body = "Test Body Child2",
                         GameId = 1,
                         ParentCommentId = 1

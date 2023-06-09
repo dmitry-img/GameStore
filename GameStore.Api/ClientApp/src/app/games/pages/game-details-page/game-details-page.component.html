@@ -2,18 +2,36 @@
     <app-game-details
         *ngIf="game!"
         [game]="game"
-        [isBuyButtonDisabled]="isBuyButtonDisabled"
-        (downloadGame)="onDownloadGame()"
-        (buyGame)="onBuyGame($event)"
     />
+    <ng-container *ngIf="game! && !game.IsDeleted && userRole">
+        <div *ngIf="!game.Discontinued; else discontinued">
+            <p>Units in stock: {{game.UnitsInStock}}</p>
+            <p>Price: {{game.Price}}</p>
+            <button class="btn btn-primary" type="button" (click)="onBuyGame()" [disabled]="isBuyButtonDisabled">Buy</button>
+            <button class="btn btn-primary" type="button" (click)="onDownloadGame()">Download</button>
+        </div>
+
+        <ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>
+    </ng-container>
+
     <div class="comments">
         <h3 class="comments__title">Comments</h3>
+        <p *ngIf="isUserBanned" class="comments__ban-message">You are currently banned and cannot leave comments!</p>
         <div *ngIf="game!">
             <app-create-comment
+                *ngIf="userRole && ((game.IsDeleted && rolesAllowedToComment.includes(userRole) && userRole != 'User') ||
+                (!game.IsDeleted && rolesAllowedToComment.includes(userRole) && !isUserBanned))"
                 id="create-comment-form"
                 [gameKey]="game.Key"
             ></app-create-comment>
-            <app-comment-list [gameKey]="game.Key" [commentNodes]="commentNodes"></app-comment-list>
+            <app-comment-list
+                [gameKey]="game.Key"
+                [commentNodes]="commentNodes"
+                [userRole]="userRole"
+                [isUserBanned]="isUserBanned"
+                [rolesAllowedToComment]="rolesAllowedToComment"
+                [isGameDeleted]="game.IsDeleted">
+            </app-comment-list>
         </div>
     </div>
 </div>

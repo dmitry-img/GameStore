@@ -1,7 +1,6 @@
 <div class="container">
     <h1>Create Publisher</h1>
     <form [formGroup]="createPublisherForm" (ngSubmit)="onSubmit()">
-
         <app-input-field
             [control]="createPublisherForm | formControl:'CompanyName'"
             [isRequired]="true"
@@ -10,9 +9,9 @@
         <app-validation-message
             [control]="createPublisherForm | formControl:'CompanyName'"
             [errorMessages]="{
-          'required': 'This field is required!',
-          'maxlength': 'The company name should be up to 40 characters!'
-        }"
+              'required': 'This field is required!',
+              'maxlength': 'The company name should be up to 40 characters!'
+            }"
         ></app-validation-message>
 
         <app-text-area-field
@@ -23,8 +22,8 @@
         <app-validation-message
             [control]="createPublisherForm | formControl:'Description'"
             [errorMessages]="{
-          'required': 'This field is required!',
-        }"
+              'required': 'This field is required!',
+            }"
         ></app-validation-message>
 
         <app-input-field
@@ -35,13 +34,22 @@
         <app-validation-message
             [control]="createPublisherForm | formControl:'HomePage'"
             [errorMessages]="{
-          'required': 'This field is required!',
-          'pattern': 'Enter a valid link!'
-        }"
+              'required': 'This field is required!',
+              'pattern': 'Enter a valid link!'
+            }"
         ></app-validation-message>
+        <label>User<span class="required">*</span></label>
+        <ngx-select
+            formControlName="Username"
+            [items]="freePublisherUsernames"
+            placeholder="Select items">
+        </ngx-select>
+        <app-validation-message
+            [control]="createPublisherForm | formControl:'Username'"
+            [errorMessages]="{
+                'required': 'Select username of the publisher'
+            }">
+        </app-validation-message>
         <button type="submit" class="btn btn-primary" [disabled]="createPublisherForm.invalid">Submit</button>
     </form>
-
-
-
 </div>

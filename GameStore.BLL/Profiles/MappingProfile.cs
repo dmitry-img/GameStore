@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Genre;
+using GameStore.BLL.DTOs.Order;
 using GameStore.BLL.DTOs.PlatformType;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.DTOs.Role;
@@ -48,9 +50,7 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
-            CreateMap<Game, GetGameDTO>()
-                .ForMember(dest => dest.PublisherCompanyName, opt =>
-                    opt.MapFrom(src => src.Publisher.CompanyName));
+            CreateMap<Game, GetGameDTO>();
 
             CreateMap<Game, GetGameBriefDTO>();
 
@@ -68,7 +68,8 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
 
-            CreateMap<Comment, GetCommentDTO>();
+            CreateMap<Comment, GetCommentDTO>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Username));
 
             CreateMap<Genre, GetGenreDTO>()
                 .ForMember(dest => dest.ParentGenreName, opt => opt.MapFrom(src => src.ParentGenre.Name));
@@ -95,7 +96,8 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
             CreateMap<UpdatePublisherDTO, Publisher>();
 
-            CreateMap<Publisher, GetPublisherDTO>();
+            CreateMap<Publisher, GetPublisherDTO>()
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username));
 
             CreateMap<Publisher, GetPublisherBriefDTO>();
 
@@ -118,6 +120,46 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore());
+
+            CreateMap<Order, GetOrderDTO>()
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CustomerUsername, opt => opt.MapFrom(src => src.User.Username))
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.User.ObjectId))
+                .ForMember(dest => dest.OrderState, opt => opt.MapFrom(src => src.OrderState))
+                .ForMember(dest => dest.TotalSum, opt => opt.MapFrom(src => src.OrderDetails.Sum(od => od.Price)));
+
+            CreateMap<UpdateOrderDTO, Order>()
+                .ForMember(dest => dest.OrderDate, opt => opt.Ignore())
+                .ForMember(dest => dest.ShippedDate, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.User, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderDetails, opt => opt.Ignore());
+
+            CreateMap<OrderDetail, GetOrderDetailDTO>()
+                .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Game.Name))
+                .ForMember(dest => dest.GameKey, opt => opt.MapFrom(src => src.Game.Key));
+
+            CreateMap<UpdateOrderDetailDTO, OrderDetail>()
+                .ForPath(dest => dest.Game.Key, opt => opt.MapFrom(src => src.GameKey))
+                .ForMember(dest => dest.GameId, opt => opt.Ignore())
+                .ForMember(dest => dest.Price, opt => opt.Ignore())
+                .ForMember(dest => dest.Discount, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderId, opt => opt.Ignore())
+                .ForMember(dest => dest.Order, opt => opt.Ignore())
+                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<User, GetUserDTO>();
 

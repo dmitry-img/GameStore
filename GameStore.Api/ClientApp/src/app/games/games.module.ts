@@ -18,6 +18,10 @@ import {SubGenresPipe} from './pipes/sub-genres.pipe';
 import { GameListSidebarComponent } from './components/game-list-sidebar/game-list-sidebar.component';
 import { BanPageComponent } from './pages/ban-page/ban-page.component';
 import { BanComponent } from './components/ban/ban.component';
+import { GameListManagementPageComponent } from './pages/game-list-management-page/game-list-management-page.component';
+import { GameListManagementComponent } from './components/game-list-management/game-list-management.component';
+import { UpdateGamePageComponent } from './pages/update-game-page/update-game-page.component';
+import { UpdateGameComponent } from './components/update-game/update-game.component';
 
 
 @NgModule({
@@ -34,7 +38,11 @@ import { BanComponent } from './components/ban/ban.component';
         SubGenresPipe,
         GameListSidebarComponent,
         BanPageComponent,
-        BanComponent
+        BanComponent,
+        GameListManagementPageComponent,
+        GameListManagementComponent,
+        UpdateGamePageComponent,
+        UpdateGameComponent
     ],
     imports: [
         CommonModule,

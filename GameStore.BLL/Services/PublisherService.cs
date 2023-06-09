@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Exceptions;
@@ -16,12 +17,18 @@ namespace GameStore.BLL.Services
     public class PublisherService : IPublisherService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
-        public PublisherService(IUnitOfWork unitOfWork, IMapper mapper, ILog logger)
+        public PublisherService(
+            IUnitOfWork unitOfWork,
+            ICurrentUserService currentUserService,
+            IMapper mapper,
+            ILog logger)
         {
             _unitOfWork = unitOfWork;
+            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -29,6 +36,10 @@ namespace GameStore.BLL.Services
         public async Task CreateAsync(CreatePublisherDTO createPublisherDTO)
         {
             var publisher = _mapper.Map<Publisher>(createPublisherDTO);
+
+            var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.Username == createPublisherDTO.Username);
+
+            publisher.User = user;
 
             _unitOfWork.Publishers.Create(publisher);
 
@@ -39,19 +50,19 @@ namespace GameStore.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            var games = await _unitOfWork.Games
+            var publisher = await _unitOfWork.Publishers
                 .GetQuery()
-                .Where(g => g.PublisherId == id)
-                .ToListAsync();
+                .Include(p => p.Games)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            foreach (var game in games)
-            {
-                game.PublisherId = null;
-            }
+            publisher.Games.Clear();
 
             _unitOfWork.Publishers.Delete(id);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Publisher({publisher.Id}) has been deleted!");
+
         }
 
         public async Task<IEnumerable<GetPublisherBriefDTO>> GetAllBriefAsync()
@@ -81,6 +92,7 @@ namespace GameStore.BLL.Services
         {
             var publisher = await _unitOfWork.Publishers
                 .GetQuery()
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.CompanyName == companyName);
 
             if (publisher == null)
@@ -97,9 +109,65 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .FirstOrDefaultAsync(p => p.CompanyName == companyName);
 
+            var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.Username == updatePublisherDTO.Username);
+
+            publisher.User = user;
+
             _mapper.Map(updatePublisherDTO, publisher);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Publisher({publisher.Id}) has been updated!");
+        }
+
+        public async Task<bool> IsUserAssociatedWithPublisherAsync(string companyName)
+        {
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var publisher = await _unitOfWork.Publishers
+                .GetQuery()
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.CompanyName == companyName);
+
+            return publisher.User.ObjectId == userObjectId;
+        }
+
+        public async Task<bool> IsGameAssociatedWithPublisherAsync(string gameKey)
+        {
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var publisher = await _unitOfWork.Publishers
+               .GetQuery()
+               .Include(p => p.User)
+               .Include(p => p.Games)
+               .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
+
+            return publisher.Games.Select(g => g.Key).Contains(gameKey);
+        }
+
+        public async Task<string> GetCurrentCompanyNameAsync()
+        {
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var currentPulisher = await _unitOfWork.Publishers
+                .GetQuery()
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
+
+            return currentPulisher.CompanyName;
+        }
+
+        public async Task<IEnumerable<string>> GetFreePublisherUsernamesAsync()
+        {
+            var publishersUserIds = await _unitOfWork.Publishers.GetQuery().Select(p => p.UserId).ToListAsync();
+
+            var usernames = await _unitOfWork.Users
+                .GetQuery()
+                .Where(u => u.Role.Name == "Publisher" && !publishersUserIds.Contains(u.Id))
+                .Select(u => u.Username)
+                .ToListAsync();
+
+            return usernames;
         }
     }
 }

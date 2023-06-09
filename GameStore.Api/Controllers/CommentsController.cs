@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
@@ -14,23 +15,21 @@ namespace GameStore.Api.Controllers
     {
         private readonly ICommentService _commentService;
         private readonly IValidationService _validationService;
-        private readonly IBanService _banService;
         private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
         public CommentsController(
             ICommentService commentService,
             IValidationService validationService,
-            IBanService banService,
             IValidator<CreateCommentDTO> createCommentValidator)
         {
             _commentService = commentService;
             _validationService = validationService;
-            _banService = banService;
             _createCommentValidator = createCommentValidator;
         }
 
         [HttpPost]
         [Route("create")]
+        [Authorize]
         public async Task<IHttpActionResult> Create([FromBody] CreateCommentDTO commentDTO)
         {
             _validationService.Validate(commentDTO, _createCommentValidator);
@@ -42,6 +41,7 @@ namespace GameStore.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
+        [Authorize(Roles = "Moderator")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             await _commentService.DeleteAsync(id);
@@ -56,15 +56,6 @@ namespace GameStore.Api.Controllers
             var comments = await _commentService.GetAllByGameKeyAsync(key);
 
             return Json(comments);
-        }
-
-        [HttpPost]
-        [Route("ban")]
-        public async Task<IHttpActionResult> Ban(BanDTO banDTO)
-        {
-            await _banService.BanAsync(banDTO);
-
-            return Ok();
         }
     }
 }

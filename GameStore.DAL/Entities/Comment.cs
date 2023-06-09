@@ -5,8 +5,6 @@ namespace GameStore.DAL.Entities
 {
     public class Comment : BaseAuditableEntity
     {
-        public string Name { get; set; }
-
         public string Body { get; set; }
 
         public bool HasQuote { get; set; }
@@ -14,6 +12,10 @@ namespace GameStore.DAL.Entities
         public int GameId { get; set; }
 
         public int? ParentCommentId { get; set; }
+
+        public int UserId { get; set; }
+
+        public User User { get; set; }
 
         public Game Game { get; set; }
 

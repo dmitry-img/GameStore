@@ -52,7 +52,8 @@
                     },
                     new Genre() { Name = "Adventure" },
                     new Genre() { Name = "Puzzle&Skill" },
-                    new Genre() { Name = "Misc" }
+                    new Genre() { Name = "Misc" },
+                    new Genre() { Name = "Other" }
                 });
             }
 
@@ -67,24 +68,100 @@
                 });
             }
 
+            if (!context.Role.Any())
+            {
+                context.Role.AddRange(new List<Role>
+                    {
+                        new Role { Id = 1, Name = "Administrator" },
+                        new Role { Id = 2, Name = "Manager" },
+                        new Role { Id = 3, Name = "Moderator" },
+                        new Role { Id = 4, Name = "User" },
+                        new Role { Id = 5, Name = "Publisher" }
+                    });
+            }
+
+            if (!context.Users.Any())
+            {
+                // The password "q1w2e3r4" is set for all the users
+                context.Users.AddRange(new List<User>
+                {
+                    new User
+                    {
+                        Id = 1,
+                        Username = "administrator",
+                        Email = "admin@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 1
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        Username = "manager",
+                        Email = "manager@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 2
+                    },
+                    new User
+                    {
+                        Id = 3,
+                        Username = "moderator",
+                        Email = "moderator@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 3
+                    },
+                    new User
+                    {
+                        Id = 4,
+                        Username = "regularUser",
+                        Email = "user@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 4
+                    },
+                    new User {
+                        Id = 5,
+                        Username = "blizzard",
+                        Email = "blizzard@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 5
+                    },
+                    new User {
+                        Id = 6,
+                        Username = "rockstar",
+                        Email = "rockstar@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 5
+                    },
+                    new User {
+                        Id = 7,
+                        Username = "electronic-arts",
+                        Email = "electronic-arts@example.com",
+                        Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
+                        RoleId = 5
+                    }
+                });
+            }
+
             if (!context.Publishers.Any())
             {
                 context.Publishers.AddRange(new List<Publisher>
                 {
                     new Publisher()
                     {
+                        UserId = 5,
                         CompanyName = "Blizzard Entertainment",
                         Description = "Blizzard description...",
                         HomePage = "https://www.blizzard.com/"
                     },
                     new Publisher()
                     {
+                        UserId = 6,
                         CompanyName = "Rockstar",
                         Description = "Rockstar description...",
                         HomePage = "https://www.rockstargames.com/"
                     },
                     new Publisher()
                     {
+                        UserId = 7,
                         CompanyName = "Electronic Arts",
                         Description = "Electronic Arts description...",
                         HomePage = "https://www.ea.com/"
@@ -373,30 +450,6 @@
                         Discontinued = true,
                         CreatedAt = DateTime.UtcNow.AddMonths(-8)
                     }
-                });
-            }
-
-            if (!context.Role.Any())
-            {
-                context.Role.AddRange(new List<Role>
-                    {
-                        new Role { Id = 1, Name = "Administrator" },
-                        new Role { Id = 2, Name = "Manager" },
-                        new Role { Id = 3, Name = "Moderator" },
-                        new Role { Id = 4, Name = "User" },
-                        new Role { Id = 5, Name = "Publisher" }
-                    });
-            }
-
-            if (!context.Users.Any())
-            {
-                context.Users.AddRange(new List<User>
-                {
-                    new User { Username = "AdminUser", Email = "admin@example.com", Password = "password", RoleId = 1 },
-                    new User { Username = "ManagerUser", Email = "manager@example.com", Password = "password", RoleId = 2 },
-                    new User { Username = "ModeratorUser", Email = "moderator@example.com", Password = "password", RoleId = 3 },
-                    new User { Username = "RegularUser", Email = "user@example.com", Password = "password", RoleId = 4 },
-                    new User { Username = "PublisherUser", Email = "publisher@example.com", Password = "password", RoleId = 5 }
                 });
             }
         }

@@ -4,12 +4,14 @@ import {GetGameResponse} from "../../models/GetGameResponse";
 import {CommentService} from "../../services/comment.service";
 import {GetCommentResponse} from "../../models/GetCommentResponse";
 import {ToastrService} from "ngx-toastr";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {CommentNode} from "../../models/CommentNode";
 import {ShoppingCartService} from "../../../shopping-carts/services/shopping-cart.service";
 import {CreateShoppingCartItemRequest} from "../../../shopping-carts/models/CreateShoppingCartItemRequest";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
 import {GameService} from "../../services/game.service";
+import {AuthService} from "../../../auth/services/auth.service";
+import {UserService} from "../../../admin-panel/services/user.service";
 
 @Component({
     selector: 'app-game-details-page',
@@ -23,14 +25,19 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     deleteCommentSubscription!: Subscription;
     gameKey!: string;
     isBuyButtonDisabled = false;
+    userRole!: string | null;
+    isUserBanned!: boolean;
+    rolesAllowedToComment!: string[]
 
     constructor(
         private route: ActivatedRoute,
         private gameService: GameService,
         private commentService: CommentService,
+        private userService: UserService,
         private shoppingCartService: ShoppingCartService,
         private toaster: ToastrService,
-        private hierarchicalDataService: HierarchicalDataService
+        private hierarchicalDataService: HierarchicalDataService,
+        private authService: AuthService
     ) { }
 
     ngOnInit(): void {
@@ -39,6 +46,17 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
             this.getCommentListArray(data['key'])
             this.gameKey = data['key'];
         });
+
+        this.authService.getUserRole().subscribe( (userRole: string | null) =>{
+            this.userRole = userRole;
+        });
+
+        this.userService.isBanned().subscribe((isBanned: boolean) =>{
+            this.isUserBanned = isBanned
+        });
+
+        this.rolesAllowedToComment = ['User', 'Moderator', 'Publisher'];
+
         this.onCommentCreated();
         this.onCommentDeleted();
     }
@@ -47,22 +65,22 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
         this.gameService.downloadGame(this.gameKey, this.game.Name);
     }
 
-    onBuyGame(game: GetGameResponse): void {
+    onBuyGame(): void {
         const cartItem: CreateShoppingCartItemRequest = {
-            GameKey: game.Key,
-            GameName: game.Name,
-            GamePrice: game.Price,
+            GameKey: this.game.Key,
+            GameName: this.game.Name,
+            GamePrice: this.game.Price,
             Quantity: 1
         }
 
         this.isBuyButtonDisabled = true;
 
-        this.shoppingCartService.getQuantity(game.Key).subscribe((quantity) =>{
-            if(quantity + 1 > game.UnitsInStock){
+        this.shoppingCartService.getQuantity(this.game.Key).subscribe((quantity) =>{
+            if(quantity + 1 > this.game.UnitsInStock){
                 this.toaster.error("There are not enough games in the stock!")
             } else {
                 this.shoppingCartService.addItem(cartItem).subscribe(() => {
-                    this.toaster.success(`${game.Name} has been added to shopping cart!`)
+                    this.toaster.success(`${this.game.Name} has been added to shopping cart!`)
                 });
             }
             this.isBuyButtonDisabled = false;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameStore.DAL.Entities.Common;
 
 namespace GameStore.DAL.Entities
@@ -17,8 +18,12 @@ namespace GameStore.DAL.Entities
 
         public DateTime? RefreshTokenExpirationDate { get; set; }
 
-        public int RoleId { get; set; }
+        public DateTime? BanEndDate { get; set; }
+
+        public int? RoleId { get; set; }
 
         public Role Role { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }

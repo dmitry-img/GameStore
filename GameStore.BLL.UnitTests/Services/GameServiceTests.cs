@@ -268,8 +268,11 @@ namespace GameStore.BLL.UnitTests.Services
                 PriceTo = 100,
                 DateFilterOption = DateFilterOption.None,
                 SortOption = SortOption.New,
-                PageSize = 1,
-                PageNumber = 1
+                Pagination = new PaginationDTO
+                {
+                    PageNumber = 1,
+                    PageSize = 1
+                }
             };
 
             MockSortStrategyFactory.Setup(f => f.GetSortStrategy(It.IsAny<SortOption>()))

@@ -13,18 +13,15 @@ namespace GameStore.Api.Controllers
         private readonly IAuthService _authService;
         private readonly IValidationService _validationService;
         private readonly IValidator<RegistrationDTO> _registrationValidator;
-        private readonly IValidator<LoginDTO> _loginValidator;
 
         public AuthController(
             IAuthService authService,
             IValidationService validationService,
-            IValidator<RegistrationDTO> registrationValidator,
-            IValidator<LoginDTO> loginValidator)
+            IValidator<RegistrationDTO> registrationValidator)
         {
             _authService = authService;
             _validationService = validationService;
             _registrationValidator = registrationValidator;
-            _loginValidator = loginValidator;
         }
 
         [Route("register")]
@@ -42,8 +39,6 @@ namespace GameStore.Api.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Login(LoginDTO loginDTO)
         {
-            _validationService.Validate(loginDTO, _loginValidator);
-
             var response = await _authService.LoginAsync(loginDTO);
 
             return Json(response);

@@ -1,0 +1,30 @@
+<a *ngIf="userRole === 'Manager'" type="button" class="btn btn-primary mb-3" routerLink="/game/create">Create</a>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Deleted</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let game of paginatedGames.Items">
+        <td>{{game.Name}}</td>
+        <td>{{game.IsDeleted ? 'Yes' : 'No'}}</td>
+        <td>
+            <a type="button" class="btn btn-secondary mr-2" [routerLink]="['/game/', game.Key]">Details</a>
+            <ng-container *ngIf="!game.IsDeleted && userRole === 'Manager' || userRole === 'Publisher'">
+                <a type="button" class="btn btn-warning mr-2" [routerLink]="['/game/update', game.Key]">Modify</a>
+                <button
+                    *ngIf="userRole != 'Publisher'"
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="onDelete(game)">
+                    Delete
+                </button>
+            </ng-container>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

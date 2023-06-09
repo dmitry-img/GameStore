@@ -22,7 +22,7 @@ namespace GameStore.DAL.Repositories
                 .Include(g => g.Genres)
                 .Include(g => g.PlatformTypes)
                 .Include(g => g.Publisher)
-                .FirstOrDefaultAsync(g => g.Key == key && !g.IsDeleted);
+                .FirstOrDefaultAsync(g => g.Key == key);
 
             return game;
         }

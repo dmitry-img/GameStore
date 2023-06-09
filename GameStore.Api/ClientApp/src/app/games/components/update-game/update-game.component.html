@@ -1,0 +1,93 @@
+<h1>Update Game</h1>
+<form [formGroup]="updateGameForm" (ngSubmit)="onSubmit()">
+    <app-input-field
+        [control]="updateGameForm | formControl:'Name'"
+        [isRequired]="true"
+        labelText="Name">
+    </app-input-field>
+    <app-validation-message
+        [control]="updateGameForm | formControl:'Name'"
+        [errorMessages]="{
+          'required': 'This field is required!'
+       }">
+    </app-validation-message>
+
+    <app-text-area-field
+        [control]="updateGameForm | formControl:'Description'"
+        [isRequired]="true"
+        labelText="Description">
+    </app-text-area-field>
+    <app-validation-message
+        [control]="updateGameForm | formControl:'Description'"
+        [errorMessages]="{
+          'required': 'This field is required!',
+          'minlength': 'The minimal length of the description is 50 characters!'
+      }">
+    </app-validation-message>
+
+    <app-input-field
+        [control]="updateGameForm | formControl:'Price'"
+        [isRequired]="true"
+        labelText="Price"
+        type="number">
+    </app-input-field>
+    <app-validation-message
+        [control]="updateGameForm | formControl:'Price'"
+        [errorMessages]="{
+          'required': 'This field is required!',
+          'min': ' The minimal price is should be higher than 0.01!'
+      }">
+    </app-validation-message>
+
+    <app-input-field
+        [control]="updateGameForm | formControl:'UnitsInStock'"
+        [isRequired]="true"
+        labelText="Units in Stock"
+        type="number">
+    </app-input-field>
+    <app-validation-message
+        [control]="updateGameForm | formControl:'UnitsInStock'"
+        [errorMessages]="{
+          'required': 'This field is required!',
+          'min': ' The minimal number of units in stock is 1!'
+      }">
+    </app-validation-message>
+
+    <app-checkbox-list
+        *ngIf="genres!"
+        [items]="genres"
+        [control]="updateGameForm | formArray:'GenreIds'"
+        labelText="Genres">
+    </app-checkbox-list>
+
+    <app-checkbox-list
+        *ngIf="platformTypes!"
+        [items]="platformTypes"
+        [control]="updateGameForm | formArray:'PlatformTypeIds'"
+        labelText="Platforms"
+        [isRequired]="true">
+    </app-checkbox-list>
+    <app-validation-message
+        [control]="updateGameForm | formArray:'PlatformTypeIds'"
+        [errorMessages]="{
+        'required': 'Pick at least one platform!',
+    }"></app-validation-message>
+
+    <ng-container *ngIf="userRole != 'Publisher'">
+        <app-dropdown
+            [control]="updateGameForm | formControl:'PublisherId'"
+            [items]="publishers"
+            [showPlaceholder]="false"
+            labelText="Publisher"
+        ></app-dropdown>
+        <app-dropdown
+            [control]="updateGameForm | formControl:'Discontinued'"
+            [items]="discontinuedOptions"
+            [showPlaceholder]="false"
+            labelText="Discontinued"
+        ></app-dropdown>
+    </ng-container>
+    <button type="submit" class="btn btn-primary" [disabled]="!updateGameForm.valid">Submit</button>
+</form>
+
+

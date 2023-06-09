@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace GameStore.Api.Filters
         public Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
             if (context.ActionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any() ||
-                !context.ActionContext.ActionDescriptor.GetCustomAttributes<AuthorizeAttribute>().Any())
+                (!context.ActionContext.ActionDescriptor.GetCustomAttributes<AuthorizeAttribute>().Any() &&
+                !context.ActionContext.ControllerContext.ControllerDescriptor.GetCustomAttributes<AuthorizeAttribute>().Any()))
             {
                 return Task.CompletedTask;
             }

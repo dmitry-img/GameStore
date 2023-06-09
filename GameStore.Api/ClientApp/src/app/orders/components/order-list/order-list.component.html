@@ -1,0 +1,28 @@
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order number</th>
+            <th scope="col">Customer</th>
+            <th scope="col">State</th>
+            <th scope="col">Shipped Date</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let orderStateValue of orderStateValues">
+            <td>{{orderStateValue.order.OrderId}}</td>
+            <td>{{orderStateValue.order.CustomerUsername}}</td>
+            <td>{{orderStateValue.stateValue}}</td>
+            <td>{{orderStateValue.order.ShippedDate | date}}</td>
+            <td>
+                <button class="btn btn-warning" (click)="onUpdate(orderStateValue.order)">
+                    Modify
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+

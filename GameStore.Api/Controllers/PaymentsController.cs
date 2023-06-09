@@ -10,6 +10,7 @@ using GameStore.BLL.Interfaces;
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/payments")]
+    [Authorize]
     public class PaymentsController : ApiController
     {
         private readonly IPaymentService _paymentService;

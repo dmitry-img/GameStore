@@ -1,5 +1,6 @@
 import {GetGenreResponse} from "../../genres/models/GetGenreResponse";
 import {PlatformType} from "./PlatformType";
+import {GetPublisherBriefResponse} from "../../publishers/models/GetPublisherBriefResponse";
 
 export interface GetGameResponse {
     Key: string
@@ -10,5 +11,6 @@ export interface GetGameResponse {
     Price: number
     UnitsInStock: number
     Discontinued: boolean
-    PublisherCompanyName: string
+    Publisher: GetPublisherBriefResponse
+    IsDeleted: boolean
 }

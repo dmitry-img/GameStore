@@ -4,4 +4,5 @@ export interface UpdatePublisherRequest{
     Description: string
 
     HomePage: string
+    Username: string
 }

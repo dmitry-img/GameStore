@@ -47,7 +47,7 @@ export class CreateGamePageComponent implements OnInit {
                     checked: false,
                     parentId: genre.ParentGenreId
                 })
-            );
+            ).filter((item: CheckboxListItem) => item.label !== 'Other');
 
             this.platformTypes = platformTypes.map((type: PlatformType) => ({
                 id: type.Id,

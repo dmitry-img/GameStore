@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http.Filters;
-using System.Web.Mvc;
-using GameStore.Api.Infrastructure;
 using GameStore.BLL.Exceptions;
 using log4net;
 

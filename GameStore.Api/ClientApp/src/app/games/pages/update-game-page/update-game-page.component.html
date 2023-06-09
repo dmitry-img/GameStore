@@ -1,0 +1,12 @@
+<div class="container">
+    <app-update-game
+        *ngIf="game! && genres! && platformTypes! && publishers!"
+        [genres]="genres"
+        [platformTypes]="platformTypes"
+        [publishers]="publishers"
+        [game]="game"
+        [discontinuedOptions]="discontinuedOptions"
+        [userRole]="userRole"
+    />
+</div>
+

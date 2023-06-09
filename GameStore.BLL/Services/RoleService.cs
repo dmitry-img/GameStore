@@ -9,18 +9,24 @@ using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
+using log4net;
 
 namespace GameStore.BLL.Services
 {
     public class RoleService : IRoleService
     {
-        private IUnitOfWork _unitOfWork;
-        private IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILog _logger;
 
-        public RoleService(IUnitOfWork unitOfWork, IMapper mapper)
+        public RoleService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILog logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task CreateAsync(CreateRoleDTO createRoleDTO)
@@ -29,21 +35,42 @@ namespace GameStore.BLL.Services
 
             if (role != null)
             {
-                throw new BadRequestException("The role already exists!");
+                if (role.IsDeleted)
+                {
+                    role.IsDeleted = false;
+                    role.DeletedAt = null;
+                }
+                else
+                {
+                    throw new BadRequestException("The role already exists!");
+                }
+            }
+            else
+            {
+                var newRole = _mapper.Map<Role>(createRoleDTO);
+
+                _unitOfWork.Roles.Create(newRole);
             }
 
-            var newRole = _mapper.Map<Role>(createRoleDTO);
-
-            _unitOfWork.Roles.Create(newRole);
-
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Role({role.Id}) has been created!");
         }
 
         public async Task DeleteAsync(int id)
         {
+            var role = await _unitOfWork.Roles
+                .GetQuery()
+                .Include(r => r.Users)
+                .FirstOrDefaultAsync(r => r.Id == id);
+
+            role.Users.Clear();
+
             _unitOfWork.Roles.Delete(id);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Role({role.Id}) has been deleted!");
         }
 
         public async Task<IEnumerable<GetRoleDTO>> GetAllAsync()
@@ -90,6 +117,9 @@ namespace GameStore.BLL.Services
             _mapper.Map(updateRoleDTO, roleToUpdate);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Role({role.Id}) has been updated!");
+
         }
     }
 }

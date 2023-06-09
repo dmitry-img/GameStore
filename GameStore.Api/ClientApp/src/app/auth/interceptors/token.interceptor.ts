@@ -16,8 +16,8 @@ export class TokenInterceptor implements HttpInterceptor {
 
     constructor(
         public authService: AuthService,
-        private router: Router,
-        private toaster: ToastrService) { }
+        private router: Router
+    ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const accessToken = this.authService.getAccessToken();
@@ -40,7 +40,6 @@ export class TokenInterceptor implements HttpInterceptor {
                         catchError((refreshError) => {
                             const userObjectId = this.authService.decodeAccessToken()?.UserObjectId;
                             this.authService.logout(userObjectId!).subscribe(() =>{
-                                this.toaster.success("You have been successfully logout!");
                                 this.router.navigate(['/login']);
                             });
                             return throwError(refreshError);

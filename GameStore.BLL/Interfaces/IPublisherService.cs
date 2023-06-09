@@ -18,5 +18,13 @@ namespace GameStore.BLL.Interfaces
         Task UpdateAsync(string companyName, UpdatePublisherDTO updatePublisherDTO);
 
         Task DeleteAsync(int id);
+
+        Task<bool> IsUserAssociatedWithPublisherAsync(string companyName);
+
+        Task<bool> IsGameAssociatedWithPublisherAsync(string gameKey);
+
+        Task<string> GetCurrentCompanyNameAsync();
+
+        Task<IEnumerable<string>> GetFreePublisherUsernamesAsync();
     }
 }

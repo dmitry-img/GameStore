@@ -12,17 +12,19 @@
     baseUrl="/admin-panel/role/list">
 </app-pagination-nav>
 <ng-template #roleFormBody>
-    <app-input-field
-        [control]="roleForm | formControl:'Name'"
-        [isRequired]="true"
-        labelText="Name"
-    ></app-input-field>
-    <app-validation-message
-        [control]="roleForm | formControl:'Name'"
-        [errorMessages]="{
+    <form [formGroup]="roleForm">
+        <app-input-field
+            [control]="roleForm | formControl:'Name'"
+            [isRequired]="true"
+            labelText="Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="roleForm | formControl:'Name'"
+            [errorMessages]="{
             'required': 'Name is required!'
         }"
-    ></app-validation-message>
+        ></app-validation-message>
+    </form>
 </ng-template>
 <ng-template #roleDeleteModalBody>
     <p>The role will be deleted!</p>

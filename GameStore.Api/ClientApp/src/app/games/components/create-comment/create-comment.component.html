@@ -1,15 +1,4 @@
 <form [formGroup]="createCommentForm" (ngSubmit)="onSubmit()" class="form">
-    <app-input-field
-        [control]="createCommentForm | formControl:'Name'"
-        [isRequired]="true"
-        labelText="Name"
-    ></app-input-field>
-    <app-validation-message
-        [control]="createCommentForm | formControl:'Name'"
-        [errorMessages]="{
-        'required': 'This field is required!'
-    }"></app-validation-message>
-
     <app-text-area-field
         [control]="createCommentForm | formControl:'Body'"
         [isRequired]="true"

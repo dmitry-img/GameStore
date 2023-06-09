@@ -3,5 +3,7 @@
     public class GetCommentDTO : BaseCommentDto
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }

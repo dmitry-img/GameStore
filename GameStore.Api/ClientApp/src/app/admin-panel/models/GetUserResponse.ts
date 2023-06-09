@@ -4,5 +4,5 @@ export interface GetUserResponse{
     ObjectId: string
     Email: string
     Username: string
-    Role: GetRoleResponse
+    Role: GetRoleResponse | null
 }

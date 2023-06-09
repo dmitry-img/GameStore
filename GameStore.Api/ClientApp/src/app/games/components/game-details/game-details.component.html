@@ -21,15 +21,9 @@
 
 <div>
     <h3>Publisher</h3>
-    <a [routerLink]="['/publisher',game.PublisherCompanyName]">{{game.PublisherCompanyName}}</a>
+    <a *ngIf="game.Publisher!; else unknownPublisher" [routerLink]="['/publisher',game.Publisher.CompanyName]">{{game.Publisher.CompanyName}}</a>
+    <ng-template #unknownPublisher>
+        <p>Unknown</p>
+    </ng-template>
 </div>
-
-<div *ngIf="!game.Discontinued; else discontinued">
-    <p>Units in stock: {{game.UnitsInStock}}</p>
-    <p>Price: {{game.Price}}</p>
-    <button class="btn btn-primary" type="button" (click)="onBuy()" [disabled]="isBuyButtonDisabled">Buy</button>
-    <button class="btn btn-primary" type="button" (click)="onDownload()">Download</button>
-</div>
-
-<ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>
 

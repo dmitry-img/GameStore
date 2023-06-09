@@ -1,18 +1,27 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using FluentValidation;
 using GameStore.BLL.DTOs.ShoppingCart;
 using GameStore.BLL.Interfaces;
 
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/shopping-carts")]
+    [Authorize]
     public class ShoppingCartsController : ApiController
     {
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly IValidationService _validationService;
+        private readonly IValidator<CreateShoppingCartItemDTO> _createShoppingCartItemValidator;
 
-        public ShoppingCartsController(IShoppingCartService shoppingCartService)
+        public ShoppingCartsController(
+            IShoppingCartService shoppingCartService,
+            IValidationService validationService,
+            IValidator<CreateShoppingCartItemDTO> createShoppingCartItemValidator)
         {
             _shoppingCartService = shoppingCartService;
+            _validationService = validationService;
+            _createShoppingCartItemValidator = createShoppingCartItemValidator;
         }
 
         [HttpGet]
@@ -35,6 +44,8 @@ namespace GameStore.Api.Controllers
         [Route("add-item")]
         public async Task<IHttpActionResult> AddItem([FromBody] CreateShoppingCartItemDTO itemDTO)
         {
+            _validationService.Validate(itemDTO, _createShoppingCartItemValidator);
+
             await _shoppingCartService.AddItemAsync(itemDTO);
 
             return Ok();

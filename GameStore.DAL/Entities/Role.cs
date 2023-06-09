@@ -10,5 +10,7 @@ namespace GameStore.DAL.Entities
     public class Role : BaseAuditableEntity
     {
         public string Name { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }

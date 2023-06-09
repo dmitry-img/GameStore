@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
+using FluentValidation;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Role;
 using GameStore.BLL.Interfaces;
@@ -10,13 +8,24 @@ using GameStore.BLL.Interfaces;
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/roles")]
+    [Authorize(Roles = "Administrator")]
     public class RolesController : ApiController
     {
-        private IRoleService _roleService;
+        private readonly IRoleService _roleService;
+        private readonly IValidationService _validationService;
+        private readonly IValidator<CreateRoleDTO> _createRoleValidator;
+        private readonly IValidator<UpdateRoleDTO> _updateRoleValidator;
 
-        public RolesController(IRoleService roleService)
+        public RolesController(
+            IRoleService roleService,
+            IValidationService validationService,
+            IValidator<CreateRoleDTO> createRoleValidator,
+            IValidator<UpdateRoleDTO> updateRoleValidator)
         {
             _roleService = roleService;
+            _validationService = validationService;
+            _createRoleValidator = createRoleValidator;
+            _updateRoleValidator = updateRoleValidator;
         }
 
         [HttpGet]
@@ -50,6 +59,8 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create(CreateRoleDTO createRoleDTO)
         {
+            _validationService.Validate(createRoleDTO, _createRoleValidator);
+
             await _roleService.CreateAsync(createRoleDTO);
 
             return Ok();
@@ -59,6 +70,8 @@ namespace GameStore.Api.Controllers
         [Route("update/{id}")]
         public async Task<IHttpActionResult> Update(int id, UpdateRoleDTO updateRoleDTO)
         {
+            _validationService.Validate(updateRoleDTO, _updateRoleValidator);
+
             await _roleService.UpdateAsync(id, updateRoleDTO);
 
             return Ok();

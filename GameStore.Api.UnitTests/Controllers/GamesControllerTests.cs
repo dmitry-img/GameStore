@@ -52,7 +52,7 @@ namespace GameStore.Api.UnitTests.Controllers
             var filter = new FilterGameDTO();
 
             // Act
-            var result = await _gamesController.GetList(filter);
+            var result = await _gamesController.GetAll(filter);
 
             // Assert
             Assert.IsType<JsonResult<PaginationResult<GetGameBriefDTO>>>(result);

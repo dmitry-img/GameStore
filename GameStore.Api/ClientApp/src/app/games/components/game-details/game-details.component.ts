@@ -11,21 +11,10 @@ import {CommentNode} from "../../models/CommentNode";
 })
 export class GameDetailsComponent implements OnInit {
     @Input() game!: GetGameResponse;
-    @Input() isBuyButtonDisabled: boolean = false
-    @Output() downloadGame = new EventEmitter<File>();
-    @Output() buyGame = new EventEmitter<GetGameResponse>();
     parentGenres!: GetGenreResponse[]
 
     ngOnInit(): void {
         this.getParentGenres();
-    }
-
-    onDownload(): void {
-        this.downloadGame.emit();
-    }
-
-    onBuy(): void {
-        this.buyGame.emit(this.game);
     }
 
     private getParentGenres(): void {

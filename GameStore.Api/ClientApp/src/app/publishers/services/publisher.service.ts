@@ -8,6 +8,7 @@ import {CreatePublisherRequest} from "../models/CreatePublisherRequest";
 import {PaginationRequest} from "../../shared/models/PaginationRequest";
 import {PaginationResult} from "../../shared/models/PaginationResult";
 import {UpdatePublisherRequest} from "../models/UpdatePublisherRequest";
+import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 
 @Injectable({
     providedIn: 'root'
@@ -44,5 +45,21 @@ export class PublisherService {
 
     deletePublisher(id: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    }
+
+    isGameAssociatedWithPublisher(gameKey: string): Observable<boolean>{
+        return this.http.get<boolean>(`${this.baseUrl}/${gameKey}/is-game-associated-with-publisher`);
+    }
+
+    isUserAssociatedWithPublisher(gameKey: string): Observable<boolean>{
+        return this.http.get<boolean>(`${this.baseUrl}/${gameKey}/is-user-associated-with-publisher`);
+    }
+
+    getCurrentPublisherCompanyName(): Observable<string>{
+        return this.http.get<string>(`${this.baseUrl}/current`);
+    }
+
+    getFreePublisherUsernames(): Observable<string[]>{
+        return this.http.get<string[]>(`${this.baseUrl}/free`);
     }
 }

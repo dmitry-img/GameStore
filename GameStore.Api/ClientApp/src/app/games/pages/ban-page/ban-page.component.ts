@@ -4,6 +4,7 @@ import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {BanDuration} from "../../models/BanDuration";
 import {CommentService} from "../../services/comment.service";
 import {ToastrService} from "ngx-toastr";
+import {UserService} from "../../../admin-panel/services/user.service";
 
 @Component({
   selector: 'app-ban-page',
@@ -16,7 +17,7 @@ export class BanPageComponent implements OnInit{
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private commentService: CommentService,
+        private userService: UserService,
         private toaster: ToastrService
     ) { }
 
@@ -38,7 +39,7 @@ export class BanPageComponent implements OnInit{
     }
 
     onBan(banDuration: BanDuration): void {
-        this.commentService.ban({
+        this.userService.ban({
             BanDuration: banDuration,
             CommentId: this.commentId
         }).subscribe(() => {

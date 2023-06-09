@@ -1,0 +1,56 @@
+<div class="container">
+    <app-order-list
+        *ngIf="paginatedOrders"
+        [paginatedOrders]="paginatedOrders"
+        [orderStates]="orderStates"
+        (update)="onChangeState($event)">
+    </app-order-list>
+    <app-pagination-nav
+        *ngIf="paginatedOrders!"
+        [totalItems]="paginatedOrders.TotalItems"
+        [itemsPerPage]="paginatedOrders.PageSize"
+        [currentPage]="paginatedOrders.CurrentPage"
+        baseUrl="/order/list">
+    </app-pagination-nav>
+</div>
+
+<ng-template #orderChangeToShippedModalBody>
+    <form [formGroup]="orderForm">
+        <app-dropdown
+            [control]="orderForm | formControl:'OrderState'"
+            [items]="orderStates"
+            [showPlaceholder]="false"
+            labelText="Order state">
+        </app-dropdown>
+        <table>
+            <thead>
+            <tr>
+                <th>Game Name</th>
+                <th>Quantity</th>
+            </tr>
+            </thead>
+            <tbody formArrayName="OrderDetails">
+            <tr *ngFor="let orderDetail of orderDetails.controls; index as i" [formGroupName]="i">
+                <td>
+                    <a [routerLink]="['/game', order.OrderDetails[i].GameKey]" target="_blank">{{ order.OrderDetails[i].GameName }}</a>
+                </td>
+                <td>
+                    <app-input-field
+                        [control]="orderDetail | formControl:'Quantity'"
+                        type="number">
+                    </app-input-field>
+                    <app-validation-message
+                        [control]="orderDetail | formControl:'Quantity'"
+                        [errorMessages]="{
+                            'required': 'Quantity is required!',
+                            'min': 'Minimal quantity is 1!'
+                        }"
+                    ></app-validation-message>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</ng-template>
+
+

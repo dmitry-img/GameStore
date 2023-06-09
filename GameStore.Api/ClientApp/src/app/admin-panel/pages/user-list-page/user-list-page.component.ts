@@ -50,7 +50,7 @@ export class UserListPageComponent {
                 Validators.minLength(6),
                 Validators.pattern('^[a-zA-Z0-9_-]*$')
             ]],
-            'RoleId': ['', Validators.required],
+            'RoleId': [null, Validators.required],
             'Password': ['', [Validators.required, Validators.minLength(6)]],
             'ConfirmPassword': ['', [Validators.required, Validators.minLength(6)]]
         });
@@ -61,7 +61,7 @@ export class UserListPageComponent {
                 Validators.minLength(6),
                 Validators.pattern('^[a-zA-Z0-9_-]*$')
             ]],
-            'RoleId': ['', Validators.required]
+            'RoleId': [null, Validators.required]
         })
 
         this.paginationRequest = {
@@ -92,9 +92,9 @@ export class UserListPageComponent {
             content: this.updateFormBody
         };
 
-        this.updateUserForm.setValue({
+        this.updateUserForm.patchValue({
             'Username': user.Username,
-            'RoleId': user.Role.Id
+            'RoleId': user.Role ? user.Role.Id : null
         });
 
         this.bsModalRef = this.modalService.show(ConfirmationModalComponent, {initialState});
@@ -144,7 +144,7 @@ export class UserListPageComponent {
         };
 
         this.createUserForm.reset({
-            'RoleId': ''
+            'RoleId': null
         })
 
         this.bsModalRef = this.modalService.show(ConfirmationModalComponent, {initialState});

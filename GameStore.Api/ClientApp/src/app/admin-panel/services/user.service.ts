@@ -6,6 +6,7 @@ import {CreateUserRequest} from "../models/CreateUserRequest";
 import {UpdateUserRequest} from "../models/UpdateUserRequest";
 import {PaginationRequest} from "../../shared/models/PaginationRequest";
 import {PaginationResult} from "../../shared/models/PaginationResult";
+import {BanRequest} from "../../games/models/BanRequest";
 
 
 @Injectable({
@@ -38,5 +39,13 @@ export class UserService {
 
     deleteUser(objectId: string): Observable<void>{
         return this.http.delete<void>(`${this.baseUrl}/delete/${objectId}`)
+    }
+
+    ban(banRequest: BanRequest): Observable<void>{
+        return this.http.post<void>(`${this.baseUrl}/ban`, banRequest);
+    }
+
+    isBanned(): Observable<boolean>{
+        return this.http.get<boolean>(`${this.baseUrl}/is-banned`);
     }
 }

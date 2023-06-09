@@ -9,6 +9,7 @@ import {RoleListComponent} from "./components/role-list/role-list.component";
 import {RoleListPageComponent} from "./pages/role-list-page/role-list-page.component";
 import {UserListPageComponent} from "./pages/user-list-page/user-list-page.component";
 import {SharedModule} from "../shared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {SharedModule} from "../shared/shared.module";
         CommonModule,
         AdminPanelRoutingModule,
         SharedModule,
+        ReactiveFormsModule,
     ]
 })
 export class AdminPanelModule { }

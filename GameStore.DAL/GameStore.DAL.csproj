@@ -111,6 +111,7 @@
     <Compile Include="Entities\Publisher.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\OrderState.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="Data\Configurations\GameConfiguration.cs" />
@@ -175,9 +176,33 @@
     <Compile Include="Migrations\202305311120544_AddRefreshToken.designer.cs">
       <DependentUpon>202305311120544_AddRefreshToken.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306021125135_AddNullablePublisher.cs" />
-    <Compile Include="Migrations\202306021125135_AddNullablePublisher.designer.cs">
-      <DependentUpon>202306021125135_AddNullablePublisher.cs</DependentUpon>
+    <Compile Include="Migrations\202306041211079_MakePublisherIdNullable.cs" />
+    <Compile Include="Migrations\202306041211079_MakePublisherIdNullable.designer.cs">
+      <DependentUpon>202306041211079_MakePublisherIdNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306060940568_ModifiedRolesAndOrders.cs" />
+    <Compile Include="Migrations\202306060940568_ModifiedRolesAndOrders.designer.cs">
+      <DependentUpon>202306060940568_ModifiedRolesAndOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306061241421_AddUserToOrder.cs" />
+    <Compile Include="Migrations\202306061241421_AddUserToOrder.designer.cs">
+      <DependentUpon>202306061241421_AddUserToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306070923134_AddUserToComments.cs" />
+    <Compile Include="Migrations\202306070923134_AddUserToComments.designer.cs">
+      <DependentUpon>202306070923134_AddUserToComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071015376_AddUserBan.cs" />
+    <Compile Include="Migrations\202306071015376_AddUserBan.designer.cs">
+      <DependentUpon>202306071015376_AddUserBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071227382_AddUserToPublishers.cs" />
+    <Compile Include="Migrations\202306071227382_AddUserToPublishers.designer.cs">
+      <DependentUpon>202306071227382_AddUserToPublishers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081224529_AddNullableUserInPublisher.cs" />
+    <Compile Include="Migrations\202306081224529_AddNullableUserInPublisher.designer.cs">
+      <DependentUpon>202306081224529_AddNullableUserInPublisher.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,13 +252,37 @@
     <EmbeddedResource Include="Migrations\202305311120544_AddRefreshToken.resx">
       <DependentUpon>202305311120544_AddRefreshToken.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306021125135_AddNullablePublisher.resx">
-      <DependentUpon>202306021125135_AddNullablePublisher.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306041211079_MakePublisherIdNullable.resx">
+      <DependentUpon>202306041211079_MakePublisherIdNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306060940568_ModifiedRolesAndOrders.resx">
+      <DependentUpon>202306060940568_ModifiedRolesAndOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306061241421_AddUserToOrder.resx">
+      <DependentUpon>202306061241421_AddUserToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306070923134_AddUserToComments.resx">
+      <DependentUpon>202306070923134_AddUserToComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071015376_AddUserBan.resx">
+      <DependentUpon>202306071015376_AddUserBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071227382_AddUserToPublishers.resx">
+      <DependentUpon>202306071227382_AddUserToPublishers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081224529_AddNullableUserInPublisher.resx">
+      <DependentUpon>202306081224529_AddNullableUserInPublisher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

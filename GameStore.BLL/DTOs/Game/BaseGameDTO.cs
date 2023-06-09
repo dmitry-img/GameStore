@@ -12,6 +12,6 @@
 
         public bool Discontinued { get; set; }
 
-        public string PublisherId { get; set; }
+        public int? PublisherId { get; set; }
     }
 }

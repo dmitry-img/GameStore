@@ -6,6 +6,7 @@ using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
+using log4net;
 
 namespace GameStore.BLL.Services
 {
@@ -13,11 +14,16 @@ namespace GameStore.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILog _logger;
 
-        public PlatformTypeService(IUnitOfWork unitOfWork, IMapper mapper)
+        public PlatformTypeService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILog logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task CreateAsync(CreatePlatformTypeDTO createPlatformTypeDTO)
@@ -27,6 +33,8 @@ namespace GameStore.BLL.Services
             _unitOfWork.PlatformTypes.Create(newPlatformType);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Platform type({newPlatformType.Id}) has been created!");
         }
 
         public async Task DeleteAsync(int id)
@@ -34,6 +42,9 @@ namespace GameStore.BLL.Services
             _unitOfWork.PlatformTypes.Delete(id);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Platform type({id}) has been deleted!");
+
         }
 
         public async Task<IEnumerable<GetPlatformTypeDTO>> GetAllAsync()

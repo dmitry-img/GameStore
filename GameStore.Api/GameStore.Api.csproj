@@ -286,6 +286,7 @@
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="Infrastructure\Extensions\Log4NetExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CurrentUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -365,6 +366,10 @@
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{b6b91eca-7e20-4cf3-978a-3237ac13c423}</Project>
       <Name>GameStore.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

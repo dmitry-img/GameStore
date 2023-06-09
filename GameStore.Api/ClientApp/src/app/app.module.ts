@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 import {PublishersModule} from "./publishers/publishers.module";
 import {ShoppingCartsModule} from "./shopping-carts/shopping-carts.module";
@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {GamesModule} from "./games/games.module";
 import {AuthModule} from "./auth/auth.module";
 import {GenresModule} from "./genres/genres.module";
+import {HttpErrorInterceptor} from "./core/interceptors/http-error.interceptor";
 
 @NgModule({
     declarations: [
@@ -30,7 +31,9 @@ import {GenresModule} from "./genres/genres.module";
         AuthModule,
         GenresModule
     ],
-    providers: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

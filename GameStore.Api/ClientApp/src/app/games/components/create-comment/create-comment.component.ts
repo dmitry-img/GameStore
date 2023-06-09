@@ -26,7 +26,6 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.createCommentForm = this.fb.group({
-            Name: ['', Validators.required],
             Body: ['', Validators.required],
             HasQuote: [false],
             GameKey: [''],

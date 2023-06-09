@@ -19,6 +19,5 @@ namespace GameStore.BLL.Pipelines.GameOperations
             return _publishers != null && _publishers.Any() ? games.Where(game =>
                 game.PublisherId.HasValue && _publishers.Contains(game.PublisherId.Value)) : games;
         }
-
     }
 }

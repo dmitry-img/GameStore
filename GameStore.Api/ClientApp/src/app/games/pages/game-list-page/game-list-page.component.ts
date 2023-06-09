@@ -16,6 +16,7 @@ import {SortOption} from "../../models/SortOption";
 import {DateFilterOption} from "../../models/DateFilterOption";
 import {GameService} from "../../services/game.service";
 import {GenreService} from "../../../genres/services/genre.service";
+import {GetGameBriefResponse} from "../../models/GetGameBriefResponse";
 
 @Component({
     selector: 'app-game-list-page',
@@ -23,7 +24,7 @@ import {GenreService} from "../../../genres/services/genre.service";
     styleUrls: ['./game-list-page.component.scss']
 })
 export class GameListPageComponent {
-    paginatedGames!: PaginationResult<GetGameResponse>;
+    paginatedGames!: PaginationResult<GetGameBriefResponse>;
     genres!: CheckboxListItem[];
     platformTypes!: CheckboxListItem[];
     publishers!: CheckboxListItem[];
@@ -124,7 +125,7 @@ export class GameListPageComponent {
     }
 
     private getGames(): void{
-        this.gameService.getGames(this.filterGameRequest).subscribe((paginatedGames: PaginationResult<GetGameResponse>) =>{
+        this.gameService.getGames(this.filterGameRequest).subscribe((paginatedGames: PaginationResult<GetGameBriefResponse>) =>{
             this.paginatedGames = paginatedGames;
         })
     }
@@ -140,7 +141,7 @@ export class GameListPageComponent {
                 }
             }),
             switchMap(() => this.gameService.getGames(this.filterGameRequest))
-        ).subscribe((paginatedGames: PaginationResult<GetGameResponse>) => {
+        ).subscribe((paginatedGames: PaginationResult<GetGameBriefResponse>) => {
             this.paginatedGames = paginatedGames;
         });
     }

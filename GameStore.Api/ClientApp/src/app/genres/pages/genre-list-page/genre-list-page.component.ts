@@ -150,8 +150,8 @@ export class GenreListPageComponent {
                     Value: g.Name
                 }));
 
-                let defaultItem: DropDownItem = { Id: null, Value: 'None' };
-                return [defaultItem, ...dropDownGenres];
+                dropDownGenres.unshift({ Id: null, Value: 'None' });
+                return dropDownGenres;
             })
         );
     }

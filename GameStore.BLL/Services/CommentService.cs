@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Exceptions;
@@ -17,19 +18,28 @@ namespace GameStore.BLL.Services
     public class CommentService : ICommentService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper, ILog logger)
+        public CommentService(
+            IUnitOfWork unitOfWork,
+            ICurrentUserService currentUserService,
+            IMapper mapper,
+            ILog logger)
         {
             _unitOfWork = unitOfWork;
+            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
         }
 
         public async Task CreateAsync(CreateCommentDTO commentDTO)
         {
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
             var game = await _unitOfWork.Games.GetByKeyAsync(commentDTO.GameKey);
+            var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.ObjectId == userObjectId);
 
             if (game == null)
             {
@@ -37,6 +47,7 @@ namespace GameStore.BLL.Services
             }
 
             var comment = _mapper.Map<Comment>(commentDTO);
+            comment.User = user;
 
             game.Comments.Add(comment);
             await _unitOfWork.SaveAsync();
@@ -66,13 +77,15 @@ namespace GameStore.BLL.Services
             _unitOfWork.Comments.Delete(comment.Id);
 
             await _unitOfWork.SaveAsync();
+
+            _logger.Info($"Comment({comment.Id}) has been deleted!");
         }
 
         public async Task<IEnumerable<GetCommentDTO>> GetAllByGameKeyAsync(string key)
         {
             var game = await _unitOfWork.Games
                 .GetQuery()
-                .Include(g => g.Comments)
+                .Include(g => g.Comments.Select(c => c.User))
                 .FirstOrDefaultAsync(g => g.Key == key);
 
             if (game == null)

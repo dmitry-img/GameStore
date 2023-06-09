@@ -38,6 +38,21 @@
           'pattern': 'Enter a valid link!'
         }"
         ></app-validation-message>
+
+        <ng-container *ngIf="userRole == 'Manager'">
+            <label>User<span class="required">*</span></label>
+            <ngx-select
+                formControlName="Username"
+                [items]="freePublisherUsernames"
+                placeholder="Select items">
+            </ngx-select>
+            <app-validation-message
+                [control]="updatePublisherForm | formControl:'Username'"
+                [errorMessages]="{
+                'required': 'Select username of the publisher'
+            }">
+            </app-validation-message>
+        </ng-container>
         <button type="submit" class="btn btn-primary" [disabled]="updatePublisherForm.invalid">Update</button>
     </form>
 </div>
