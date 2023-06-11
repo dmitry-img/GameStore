@@ -13,15 +13,18 @@ namespace GameStore.Api.Controllers
     public class OrdersController : ApiController
     {
         private readonly IOrderService _orderService;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<UpdateOrderDTO> _updateOrderValidator;
 
         public OrdersController(
             IOrderService orderService,
+            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<UpdateOrderDTO> updateOrderValidator)
         {
             _orderService = orderService;
+            _currentUserService = currentUserService;
             _validationService = validationService;
             _updateOrderValidator = updateOrderValidator;
         }
@@ -30,7 +33,9 @@ namespace GameStore.Api.Controllers
         [Route("create")]
         public async Task<IHttpActionResult> Create()
         {
-            var order = await _orderService.CreateAsync();
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var order = await _orderService.CreateAsync(userObjectId);
 
             return Ok(order);
         }

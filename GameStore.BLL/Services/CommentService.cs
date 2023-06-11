@@ -18,26 +18,21 @@ namespace GameStore.BLL.Services
     public class CommentService : ICommentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
         public CommentService(
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
             IMapper mapper,
             ILog logger)
         {
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task CreateAsync(CreateCommentDTO commentDTO)
+        public async Task CreateAsync(string userObjectId, CreateCommentDTO commentDTO)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var game = await _unitOfWork.Games.GetByKeyAsync(commentDTO.GameKey);
             var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.ObjectId == userObjectId);
 

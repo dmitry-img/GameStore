@@ -22,8 +22,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         errorArray.forEach((message: string) => {
                             this.toaster.error(message);
                         });
-                    } else if (error.status === 500) {
-                        this.toaster.error('An internal server error occurred. Please try again later.');
+                    } else if (error.status === 500 || error.status == 404) {
+                        this.toaster.error(error.error);
                     } else {
                         this.toaster.error('An unexpected error occurred. Please try again later.');
                     }

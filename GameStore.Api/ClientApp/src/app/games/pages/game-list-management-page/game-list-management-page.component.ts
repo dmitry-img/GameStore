@@ -67,10 +67,9 @@ export class GameListManagementPageComponent implements OnInit{
         this.bsModalRef.content.confirm.subscribe(() => {
             this.gameService.deleteGame(game.Key).subscribe(() =>{
                 this.toaster.success(`The game has been deleted successfully!`);
-                this.getGamesOfCurrentPage()
+                this.getGamesOfCurrentPage();
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 

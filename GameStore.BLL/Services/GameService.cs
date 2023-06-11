@@ -23,20 +23,17 @@ namespace GameStore.BLL.Services
     public class GameService : IGameService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICurrentUserService _currentUserService;
         private readonly ISortStrategyFactory _sortStrategyFactory;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
         public GameService(
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
             IMapper mapper,
             ILog logger,
             ISortStrategyFactory sortStrategyFactory)
         {
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
             _sortStrategyFactory = sortStrategyFactory;
@@ -224,14 +221,17 @@ namespace GameStore.BLL.Services
                     paginationDTO.PageSize);
         }
 
-        public async Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(PaginationDTO paginationDTO)
+        public async Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(string userObjectId, PaginationDTO paginationDTO)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var publisher = await _unitOfWork.Publishers.GetQuery()
                 .Include(p => p.User)
                 .Include(p => p.Games)
                 .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
+
+            if (publisher == null)
+            {
+                throw new BadRequestException("You don't have published games yet!");
+            }
 
             return PaginationResult<GetGameBriefDTO>.ToPaginationResult(
                 _mapper.Map<IEnumerable<GetGameBriefDTO>>(publisher.Games),
@@ -241,13 +241,14 @@ namespace GameStore.BLL.Services
 
         private async Task AddGenresOrOther(Game game, ICollection<int> genreIds)
         {
-            if (genreIds.Any())
+            if (genreIds != null && genreIds.Any())
             {
                 game.Genres = (await _unitOfWork.Genres
                     .FilterAsync(g => genreIds.Contains(g.Id))).ToList();
             }
             else
             {
+                game.Genres.Clear();
                 var other = await _unitOfWork.Genres.GetQuery().FirstOrDefaultAsync(g => g.Name == "Other");
                 game.Genres.Add(other);
             }

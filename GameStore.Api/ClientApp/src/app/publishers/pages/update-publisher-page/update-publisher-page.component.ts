@@ -23,6 +23,7 @@ export class UpdatePublisherPageComponent {
         private publisherService: PublisherService,
         private authService: AuthService,
         private route: ActivatedRoute,
+        private router: Router,
         private toaster: ToastrService,
     ) { }
 
@@ -54,11 +55,16 @@ export class UpdatePublisherPageComponent {
                     )
                 )
             )
-        ).subscribe((usernames: string[]) => {
-            this.freePublisherUsernames = usernames;
-            this.freePublisherUsernames.push(this.publisher.Username);
+        ).subscribe({
+            next: (usernames: string[]) => {
+                this.freePublisherUsernames = usernames;
+                this.freePublisherUsernames.push(this.publisher.Username);
 
-            this.updatePublisherForm.setValue(this.publisher);
+                this.updatePublisherForm.setValue(this.publisher);
+            },
+            error: (err) => {
+                this.router.navigate(['/'])
+            }
         });
     }
 

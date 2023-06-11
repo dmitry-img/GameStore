@@ -77,7 +77,7 @@
         [control]="createGameForm | formControl:'PublisherId'"
         [items]="publishers"
         labelText="Publisher"
-        placeholder="Select a publisher"
+        [showPlaceholder]="false"
     ></app-dropdown>
     <button type="submit" class="btn btn-primary" [disabled]="!createGameForm.valid">Submit</button>
 </form>

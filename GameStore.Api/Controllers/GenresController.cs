@@ -33,7 +33,7 @@ namespace GameStore.Api.Controllers
         [AllowAnonymous]
         public async Task<IHttpActionResult> GetAll()
         {
-            return Json(await _genreService.GetAll());
+            return Json(await _genreService.GetAllAsync());
         }
 
         [HttpGet]

@@ -288,5 +288,41 @@ namespace GameStore.BLL.UnitTests.Services
             Assert.Equal(1, result.CurrentPage);
             Assert.Equal(1, result.PageSize);
         }
+
+        [Fact]
+        public async Task GetAllWithPaginationAsync_ReturnsPaginatedResult()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO
+            {
+                PageNumber = 1,
+                PageSize = 1
+            };
+
+            // Act
+            var result = await _gameService.GetAllWithPaginationAsync(paginationDTO);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result.Items);
+        }
+
+        [Fact]
+        public async Task GetPublisherGamesWithPaginationAsync_ReturnsPublisherGames()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO
+            {
+                PageNumber = 1,
+                PageSize = 1
+            };
+
+            // Act
+            var result = await _gameService.GetPublisherGamesWithPaginationAsync(PublisherObjectId, paginationDTO);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result.Items);
+        }
     }
 }

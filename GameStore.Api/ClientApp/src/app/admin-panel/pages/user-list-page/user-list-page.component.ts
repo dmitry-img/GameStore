@@ -101,15 +101,10 @@ export class UserListPageComponent {
 
         this.bsModalRef.content.confirm.subscribe(() => {
             if (this.updateUserForm.valid) {
-                this.userService.updateUser(user.ObjectId, this.updateUserForm.value).subscribe({
-                    next: () => {
-                        this.toaster.success(`The user has been modified successfully!`);
-                        this.getUsersOfCurrentPage();
-                        this.bsModalRef.hide();
-                    },
-                    error: (err) => {
-                        this.toaster.error(err.error);
-                    }
+                this.userService.updateUser(user.ObjectId, this.updateUserForm.value).subscribe(() => {
+                    this.toaster.success(`The user has been modified successfully!`);
+                    this.getUsersOfCurrentPage();
+                    this.bsModalRef.hide();
                 });
             }
         });
@@ -129,9 +124,8 @@ export class UserListPageComponent {
             this.userService.deleteUser(user.ObjectId).subscribe(() =>{
                 this.toaster.success(`The user has been deleted successfully!`);
                 this.getUsersOfCurrentPage();
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 
@@ -153,15 +147,10 @@ export class UserListPageComponent {
             this.createUserForm.markAllAsTouched();
 
             if (this.createUserForm.valid) {
-                this.userService.createUser(this.createUserForm.value).subscribe({
-                    next: () => {
-                        this.toaster.success(`The user has been created successfully!`);
-                        this.getUsersOfCurrentPage();
-                        this.bsModalRef.hide();
-                    },
-                    error: (err) => {
-                        this.toaster.error(err.error);
-                    }
+                this.userService.createUser(this.createUserForm.value).subscribe(() => {
+                    this.toaster.success(`The user has been created successfully!`);
+                    this.getUsersOfCurrentPage();
+                    this.bsModalRef.hide();
                 });
             }
         });

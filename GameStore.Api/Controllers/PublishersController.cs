@@ -13,17 +13,20 @@ namespace GameStore.Api.Controllers
     public class PublishersController : ApiController
     {
         private readonly IPublisherService _publisherService;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
         private readonly IValidator<UpdatePublisherDTO> _updatePublisherValidator;
 
         public PublishersController(
             IPublisherService publisherService,
+            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreatePublisherDTO> createPublisherValidator,
             IValidator<UpdatePublisherDTO> updatePublisherValidator)
         {
             _publisherService = publisherService;
+            _currentUserService = currentUserService;
             _validationService = validationService;
             _createPublisherValidator = createPublisherValidator;
             _updatePublisherValidator = updatePublisherValidator;
@@ -85,9 +88,11 @@ namespace GameStore.Api.Controllers
         [HttpGet]
         [Route("{companyName}/is-user-associated-with-publisher")]
         [Authorize(Roles = "Publisher")]
-        public async Task<IHttpActionResult> IsUserAssiciatedWithPublisher(string companyName)
+        public async Task<IHttpActionResult> IsUserAssociatedWithPublisher(string companyName)
         {
-            var isAssociated = await _publisherService.IsUserAssociatedWithPublisherAsync(companyName);
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var isAssociated = await _publisherService.IsUserAssociatedWithPublisherAsync(userObjectId, companyName);
 
             return Ok(isAssociated);
         }
@@ -95,9 +100,11 @@ namespace GameStore.Api.Controllers
         [HttpGet]
         [Route("{gameKey}/is-game-associated-with-publisher")]
         [Authorize(Roles = "Publisher")]
-        public async Task<IHttpActionResult> IsGameAssiciatedWithPublisher(string gameKey)
+        public async Task<IHttpActionResult> IsGameAssociatedWithPublisher(string gameKey)
         {
-            var isAssociated = await _publisherService.IsGameAssociatedWithPublisherAsync(gameKey);
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var isAssociated = await _publisherService.IsGameAssociatedWithPublisherAsync(userObjectId, gameKey);
 
             return Ok(isAssociated);
         }
@@ -107,7 +114,9 @@ namespace GameStore.Api.Controllers
         [Authorize(Roles = "Publisher")]
         public async Task<IHttpActionResult> GetCurrentPublisherCompanyName()
         {
-            var currentPublisherCompanyName = await _publisherService.GetCurrentCompanyNameAsync();
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var currentPublisherCompanyName = await _publisherService.GetCurrentCompanyNameAsync(userObjectId);
 
             return Ok(currentPublisherCompanyName);
         }

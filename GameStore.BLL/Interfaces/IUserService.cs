@@ -8,7 +8,7 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<PaginationResult<GetUserDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO);
+        Task<PaginationResult<GetUserDTO>> GetAllWithPaginationAsync(string userObjectId, PaginationDTO paginationDTO);
 
         Task<GetUserDTO> GetByIdAsync(string id);
 
@@ -20,6 +20,6 @@ namespace GameStore.BLL.Interfaces
 
         Task BanAsync(BanDTO banDTO);
 
-        Task<bool> IsBannedAsync();
+        Task<bool> IsBannedAsync(string userObjectId);
     }
 }

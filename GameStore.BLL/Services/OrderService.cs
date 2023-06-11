@@ -21,29 +21,24 @@ namespace GameStore.BLL.Services
     {
         private const string Cart = "cart";
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IDistributedCache<ShoppingCart> _distributedCache;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
         public OrderService(
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
             IDistributedCache<ShoppingCart> distributedCache,
             IMapper mapper,
             ILog logger)
         {
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
             _distributedCache = distributedCache;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<GetOrderDTO> CreateAsync()
+        public async Task<GetOrderDTO> CreateAsync(string userObjectId)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var shoppingCart = await _distributedCache.GetAsync($"{Cart}:{userObjectId}");
 
             if (shoppingCart == null)
@@ -88,7 +83,8 @@ namespace GameStore.BLL.Services
                 UserId = user.Id,
                 OrderDate = DateTime.UtcNow,
                 OrderDetails = orderDetails,
-                OrderState = OrderState.Unpaid
+                OrderState = OrderState.Unpaid,
+                User = user
             };
 
             _unitOfWork.Orders.Create(order);
@@ -126,6 +122,11 @@ namespace GameStore.BLL.Services
                 .Include(o => o.OrderDetails.Select(od => od.Game))
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
+            if (order == null)
+            {
+                throw new NotFoundException(nameof(order), orderId);
+            }
+
             return _mapper.Map<GetOrderDTO>(order);
         }
 
@@ -135,6 +136,11 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .Include(o => o.OrderDetails.Select(od => od.Game))
                 .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                throw new NotFoundException(nameof(order), orderId);
+            }
 
             if (updateOrderDTO.OrderState == OrderState.Shipped && order.OrderState != OrderState.Shipped)
             {

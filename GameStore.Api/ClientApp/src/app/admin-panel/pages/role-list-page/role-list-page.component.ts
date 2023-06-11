@@ -59,9 +59,8 @@ export class RoleListPageComponent implements OnInit{
             this.roleService.deleteRole(role.Id).subscribe(() =>{
                 this.toaster.success(`The role has been deleted successfully!`);
                 this.getRolesOfCurrentPage()
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 
@@ -79,15 +78,10 @@ export class RoleListPageComponent implements OnInit{
             this.roleForm.markAllAsTouched();
 
             if(this.roleForm.valid){
-                this.roleService.createRole(this.roleForm.value).subscribe({
-                    next: () => {
-                        this.toaster.success(`The role has been created successfully!`);
-                        this.getRolesOfCurrentPage()
-                        this.bsModalRef.hide();
-                    },
-                    error: (err) => {
-                        this.toaster.error(err.error);
-                    }
+                this.roleService.createRole(this.roleForm.value).subscribe(() => {
+                    this.toaster.success(`The role has been created successfully!`);
+                    this.getRolesOfCurrentPage()
+                    this.bsModalRef.hide();
                 });
             }
         });

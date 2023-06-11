@@ -38,11 +38,11 @@
               'pattern': 'Enter a valid link!'
             }"
         ></app-validation-message>
-        <label>User<span class="required">*</span></label>
+        <label>Publisher<span class="required">*</span></label>
         <ngx-select
             formControlName="Username"
             [items]="freePublisherUsernames"
-            placeholder="Select items">
+            placeholder="Select a publisher">
         </ngx-select>
         <app-validation-message
             [control]="createPublisherForm | formControl:'Username'"

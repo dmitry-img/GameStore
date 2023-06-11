@@ -36,7 +36,7 @@ namespace GameStore.BLL.UnitTests.Services
             };
 
             // Act
-            await _shoppingCartService.AddItemAsync(shoppingCartItem);
+            await _shoppingCartService.AddItemAsync(RegularUserObjectId, shoppingCartItem);
 
             // Assert
             var usershoppingCart = await MockShoppingCartCash.Object.GetAsync(cartKey);
@@ -59,7 +59,7 @@ namespace GameStore.BLL.UnitTests.Services
             };
 
             // Act
-            await _shoppingCartService.AddItemAsync(shoppingCartItem);
+            await _shoppingCartService.AddItemAsync(RegularUserObjectId, shoppingCartItem);
 
             // Assert
             var usershoppingCart = await MockShoppingCartCash.Object.GetAsync(cartKey);
@@ -77,7 +77,7 @@ namespace GameStore.BLL.UnitTests.Services
             var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
 
             // Act
-            await _shoppingCartService.DeleteItemAsync(gameKey);
+            await _shoppingCartService.DeleteItemAsync(RegularUserObjectId, gameKey);
 
             // Assert
             var usershoppingCart = await MockShoppingCartCash.Object.GetAsync(cartKey);
@@ -94,7 +94,7 @@ namespace GameStore.BLL.UnitTests.Services
             var gameKey = "55aa36g4-16b0-4eec-8c27-39b54e67664d";
 
             // Act
-            await _shoppingCartService.DeleteItemAsync(gameKey);
+            await _shoppingCartService.DeleteItemAsync(RegularUserObjectId, gameKey);
 
             // Assert
             var usershoppingCart = await MockShoppingCartCash.Object.GetAsync(cartKey);
@@ -108,10 +108,23 @@ namespace GameStore.BLL.UnitTests.Services
         public async Task GetAllItemsAsync_ShouldReturnListOfShoppingCartItems()
         {
             // Act
-            var items = await _shoppingCartService.GetAllItemsAsync();
+            var items = await _shoppingCartService.GetAllItemsAsync(RegularUserObjectId);
 
             // Assert
             Assert.Equal(2, items.Count());
+        }
+
+        [Fact]
+        public async Task GetGameQuantityByKeyAsync_WithExistingKey_ShouldReturnQuantity()
+        {
+            // Arrange
+            var gameKey = "69bb25f3-16b0-4eec-8c27-39b54e67664d";
+
+            // Act
+            var quantity = await _shoppingCartService.GetGameQuantityByKeyAsync(RegularUserObjectId, gameKey);
+
+            // Assert
+            Assert.Equal(1, quantity);
         }
     }
 }

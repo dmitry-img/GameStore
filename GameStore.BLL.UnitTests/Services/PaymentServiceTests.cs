@@ -16,7 +16,11 @@ namespace GameStore.BLL.UnitTests.Services
 
         public PaymentServiceTests()
         {
-            _paymentService = new PaymentService(MockUow.Object, MockPaymentStrategyFactory.Object, MockShoppingCartCash.Object);
+            _paymentService = new PaymentService(
+                MockUow.Object,
+                MockPaymentStrategyFactory.Object,
+                MockShoppingCartCash.Object,
+                MockLogger.Object);
         }
 
         [Fact]

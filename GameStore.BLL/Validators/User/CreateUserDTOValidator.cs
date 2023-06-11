@@ -10,7 +10,7 @@ namespace GameStore.BLL.Validators.User
             RuleFor(p => p.Username)
                 .NotEmpty().WithMessage("Username is required!")
                 .MinimumLength(6).WithMessage("The minimal length of username is 6 characters!")
-                .Matches("^[a-zA-Z0-9_-]*$").WithMessage("Username can only contain letters, numbers, underscores and dashes."); ;
+                .Matches("^[a-zA-Z0-9_-]*$").WithMessage("Username can only contain letters, numbers, underscores and dashes.");
 
             RuleFor(p => p.Email)
                 .NotEmpty().WithMessage("Email is required!")

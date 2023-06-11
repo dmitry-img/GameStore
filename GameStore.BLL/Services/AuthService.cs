@@ -2,11 +2,13 @@
 using System.Configuration;
 using System.Data.Entity;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using GameStore.BLL.DTOs.Auth;
+using GameStore.BLL.DTOs.User;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
@@ -19,13 +21,20 @@ namespace GameStore.BLL.Services
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserValidationService _userValidationService;
         private readonly ILog _logger;
-        private readonly string _jwtSecret = ConfigurationManager.AppSettings["JwtSecret"];
+        private readonly IConfigurationWrapper _configurationWrapper;
 
-        public AuthService(IUnitOfWork unitOfWork, ILog logger)
+        public AuthService(
+            IUnitOfWork unitOfWork,
+            IUserValidationService userValidationService,
+            ILog logger,
+            IConfigurationWrapper configurationWrapper)
         {
             _unitOfWork = unitOfWork;
+            _userValidationService = userValidationService;
             _logger = logger;
+            _configurationWrapper = configurationWrapper;
         }
 
         public async Task RegisterAsync(RegistrationDTO registrationDTO)
@@ -34,9 +43,14 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .FirstOrDefaultAsync(r => r.Name == "User");
 
-            if (userRole == null)
+            _userValidationService.CheckUserExistsByEmail(registrationDTO.Email);
+            _userValidationService.CheckUserExistsByUsername(registrationDTO.Username);
+
+            var checkUsernameUser = _unitOfWork.Users.GetQuery().FirstOrDefault(u => u.Username == registrationDTO.Username);
+
+            if (checkUsernameUser != null)
             {
-                throw new NotFoundException(nameof(userRole), "User");
+                throw new BadRequestException($"User with username {registrationDTO.Username} already exists!");
             }
 
             var user = new User
@@ -136,7 +150,16 @@ namespace GameStore.BLL.Services
         private string GenerateAccessToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSecret);
+
+            if (!_configurationWrapper.HasKey("JwtSecret"))
+            {
+                _logger.Error("JwtSecret was not found in the configuration!");
+
+                throw new KeyNotFoundException("JwtSecret key not found in configuration.");
+            }
+
+            var jwtSecret = _configurationWrapper.GetValue("JwtSecret");
+            var key = Encoding.ASCII.GetBytes(jwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]

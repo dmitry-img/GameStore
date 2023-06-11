@@ -36,9 +36,8 @@ export class CommentListComponent {
         this.bsModalRef.content.confirm.subscribe(() => {
             this.commentService.deleteComment(id).subscribe(() =>{
                 this.commentService.emitDeletedComment(true);
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 

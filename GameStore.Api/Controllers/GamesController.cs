@@ -17,6 +17,7 @@ namespace GameStore.Api.Controllers
     public class GamesController : ApiController
     {
         private readonly IGameService _gameService;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateGameDTO> _createGameValidator;
         private readonly IValidator<UpdateGameDTO> _updateGameValidator;
@@ -24,12 +25,14 @@ namespace GameStore.Api.Controllers
 
         public GamesController(
             IGameService gameService,
+            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreateGameDTO> createGameValidator,
             IValidator<UpdateGameDTO> updateGameValidator,
             IValidator<FilterGameDTO> filterGameValidator)
         {
             _gameService = gameService;
+            _currentUserService = currentUserService;
             _validationService = validationService;
             _createGameValidator = createGameValidator;
             _updateGameValidator = updateGameValidator;
@@ -68,7 +71,9 @@ namespace GameStore.Api.Controllers
         [Authorize(Roles = "Publisher")]
         public async Task<IHttpActionResult> GetPublisherGamesWithPagination([FromUri] PaginationDTO paginationDTO)
         {
-            var games = await _gameService.GetPublisherGamesWithPaginationAsync(paginationDTO);
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var games = await _gameService.GetPublisherGamesWithPaginationAsync(userObjectId, paginationDTO);
 
             return Json(games);
         }

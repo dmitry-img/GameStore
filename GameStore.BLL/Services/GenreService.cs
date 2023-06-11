@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Genre;
+using GameStore.BLL.DTOs.Role;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
@@ -28,13 +29,30 @@ namespace GameStore.BLL.Services
 
         public async Task CreateAsync(CreateGenreDTO createGenreDTO)
         {
-            var newGenre = _mapper.Map<Genre>(createGenreDTO);
+            var genre = await _unitOfWork.Genres.GetQuery().FirstOrDefaultAsync(r => r.Name == createGenreDTO.Name);
 
-            _unitOfWork.Genres.Create(newGenre);
+            if (genre != null)
+            {
+                if (genre.IsDeleted)
+                {
+                    genre.IsDeleted = false;
+                    genre.DeletedAt = null;
+                }
+                else
+                {
+                    throw new BadRequestException("The genre already exists!");
+                }
+            }
+            else
+            {
+                genre = _mapper.Map<Genre>(createGenreDTO);
+
+                _unitOfWork.Genres.Create(genre);
+            }
 
             await _unitOfWork.SaveAsync();
 
-            _logger.Info($"Genre({newGenre.Id}) has been created!");
+            _logger.Info($"Genre({genre.Id}) has been created!");
         }
 
         public async Task DeleteAsync(int id)
@@ -55,7 +73,7 @@ namespace GameStore.BLL.Services
             _logger.Info($"Genre({genre.Id}) has been deleted!");
         }
 
-        public async Task<IEnumerable<GetGenreDTO>> GetAll()
+        public async Task<IEnumerable<GetGenreDTO>> GetAllAsync()
         {
             var genres = await _unitOfWork.Genres
                 .GetQuery()
@@ -101,7 +119,7 @@ namespace GameStore.BLL.Services
             }
             else if (oldParentGenreId.HasValue && !genre.ParentGenreId.HasValue)
             {
-                await RemoveParentGenreFromGamesWithGenre(genre, oldParentGenreId.Value);
+                RemoveParentGenreFromGamesWithGenre(genre, oldParentGenreId.Value);
             }
 
             await _unitOfWork.SaveAsync();
@@ -134,8 +152,6 @@ namespace GameStore.BLL.Services
                     game.Genres.Add(newParentGenre);
                 }
             }
-
-            await _unitOfWork.SaveAsync();
         }
 
         private async Task AddParentGenreToGamesWithGenre(Genre genre)
@@ -152,11 +168,9 @@ namespace GameStore.BLL.Services
                     game.Genres.Add(parentGenre);
                 }
             }
-
-            await _unitOfWork.SaveAsync();
         }
 
-        private async Task RemoveParentGenreFromGamesWithGenre(Genre genre, int oldParentGenreId)
+        private void RemoveParentGenreFromGamesWithGenre(Genre genre, int oldParentGenreId)
         {
             var gamesQuery = _unitOfWork.Games.GetQuery().Include(g => g.Genres);
 
@@ -175,8 +189,6 @@ namespace GameStore.BLL.Services
                     }
                 }
             }
-
-            await _unitOfWork.SaveAsync();
         }
     }
 }

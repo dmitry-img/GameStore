@@ -8,21 +8,24 @@ namespace GameStore.Api.Services
 {
     public class CurrentUserService : ICurrentUserService
     {
+        private readonly IUserIdentityProvider _identityProvider;
+
+        public CurrentUserService(IUserIdentityProvider identityProvider)
+        {
+            _identityProvider = identityProvider;
+        }
+
         public string GetCurrentUserObjectId()
         {
-            if (HttpContext.Current != null && HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            var identity = _identityProvider.GetIdentity() as ClaimsIdentity;
 
-                var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-                if (userIdClaim != null)
-                {
-                    return userIdClaim.Value;
-                }
+            var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim != null)
+            {
+                return userIdClaim.Value;
             }
 
             return null;
         }
-
     }
 }

@@ -4,7 +4,7 @@ import {GetOrderDetailResponse} from "./GetOrderDetailResponse";
 export interface GetOrderResponse {
     CustomerId: number
     CustomerUsername: string
-    OrderId: number
+    Id: number
     OrderState: OrderState
     ShippedDate: Date
     TotalSum: number

@@ -66,17 +66,6 @@ namespace GameStore.Api.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        [Route("update/{id}")]
-        public async Task<IHttpActionResult> Update(int id, UpdateRoleDTO updateRoleDTO)
-        {
-            _validationService.Validate(updateRoleDTO, _updateRoleValidator);
-
-            await _roleService.UpdateAsync(id, updateRoleDTO);
-
-            return Ok();
-        }
-
         [HttpDelete]
         [Route("delete/{id}")]
         public async Task<IHttpActionResult> Delete(int id)

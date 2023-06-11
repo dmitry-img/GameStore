@@ -67,15 +67,10 @@ export class GenreListPageComponent {
 
             this.bsModalRef.content.confirm.subscribe(() => {
                 if(this.genreForm.valid) {
-                    this.genreService.updateGenre(genre.Id, this.genreForm.value).subscribe({
-                        next: () => {
-                            this.toaster.success(`The genre has been modified successfully!`);
-                            this.getGenresOfCurrentPage();
-                            this.bsModalRef.hide();
-                        },
-                        error: (err) => {
-                            this.toaster.error(err.error);
-                        }
+                    this.genreService.updateGenre(genre.Id, this.genreForm.value).subscribe(() => {
+                        this.toaster.success(`The genre has been modified successfully!`);
+                        this.getGenresOfCurrentPage();
+                        this.bsModalRef.hide();
                     });
                 }
             });
@@ -96,9 +91,8 @@ export class GenreListPageComponent {
             this.genreService.deleteGenre(genre.Id).subscribe(() =>{
                 this.toaster.success(`The genre has been deleted successfully!`);
                 this.getGenresOfCurrentPage();
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 
@@ -123,15 +117,10 @@ export class GenreListPageComponent {
                 this.genreForm.markAllAsTouched();
 
                 if(this.genreForm.valid){
-                    this.genreService.createGenre(this.genreForm.value).subscribe({
-                        next: () => {
-                            this.toaster.success(`The genre has been created successfully!`);
-                            this.getGenresOfCurrentPage();
-                            this.bsModalRef.hide();
-                        },
-                        error: (err) => {
-                            this.toaster.error(err.error);
-                        }
+                    this.genreService.createGenre(this.genreForm.value).subscribe(() => {
+                        this.toaster.success(`The genre has been created successfully!`);
+                        this.getGenresOfCurrentPage();
+                        this.bsModalRef.hide();
                     });
                 }
             });

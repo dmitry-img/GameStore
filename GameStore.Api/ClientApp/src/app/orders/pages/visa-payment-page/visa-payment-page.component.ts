@@ -41,19 +41,13 @@ export class VisaPaymentPageComponent implements OnInit{
     }
 
     private payByVisa(){
-        this.orderService.createOrder().subscribe({
-            next: (response: GetOrderResponse) => {
-                this.paymentService.payByVisa(response.OrderId).subscribe(() => {
-                    this.modalService.openInfoModalWithRedirection(
-                        "Success!",
-                        `The order ${response.OrderId} has been paid successfully!`
-                    );
-                });
-            },
-            error: (error) =>{
-                this.toaster.error(error.error);
-                this.router.navigate(['/shopping-cart'])
-            }
+        this.orderService.createOrder().subscribe((response: GetOrderResponse) => {
+            this.paymentService.payByVisa(response.Id).subscribe(() => {
+                this.modalService.openInfoModalWithRedirection(
+                    "Success!",
+                    `The order ${response.Id} has been paid successfully!`
+                );
+            });
         });
     }
 }

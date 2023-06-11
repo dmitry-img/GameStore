@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
+using GameStore.BLL.Exceptions;
 using GameStore.BLL.Services;
 using GameStore.BLL.UnitTests.Common;
 using Moq;
@@ -33,7 +34,7 @@ namespace GameStore.BLL.UnitTests.Services
             _mockValidator.Setup(v => v.Validate(It.IsAny<string>())).Returns(validationResult);
 
             // Act and Assert
-            var ex = Assert.Throws<ValidationException>(() => _validationService.Validate("TestDto", _mockValidator.Object));
+            var ex = Assert.Throws<BadRequestException>(() => _validationService.Validate("TestDto", _mockValidator.Object));
             Assert.Contains("Error message", ex.Message);
         }
     }

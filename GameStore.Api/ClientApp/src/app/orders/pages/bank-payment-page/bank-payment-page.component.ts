@@ -27,14 +27,13 @@ export class BankPaymentPageComponent implements OnInit{
     private payByBank(): void{
         this.orderService.createOrder().subscribe({
             next: (response: GetOrderResponse) => {
-                this.paymentService.payByBank(response.OrderId);
+                this.paymentService.payByBank(response.Id);
                 this.modalService.openInfoModalWithRedirection(
                     "Success!",
-                    `The order ${response.OrderId} has been paid successfully!`
+                    `The order ${response.Id} has been paid successfully!`
                 )
             },
             error: (error) =>{
-                this.toaster.error(error.error);
                 this.router.navigate(['/shopping-cart'])
             }
         });

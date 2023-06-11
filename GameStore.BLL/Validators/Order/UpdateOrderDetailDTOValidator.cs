@@ -13,5 +13,4 @@ namespace GameStore.BLL.Validators.Order
                 .GreaterThan(0).WithMessage("The quantity must be greater than 0!");
         }
     }
-
 }

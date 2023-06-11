@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.Api.Interfaces;
+using GameStore.BLL.DTOs.Auth;
 using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.User;
@@ -20,7 +21,7 @@ namespace GameStore.BLL.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICurrentUserService _currentUserService;
+        private readonly IUserValidationService _userValidationService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
         private readonly Dictionary<BanDuration, DateTime> _banDurationDictionary = new Dictionary<BanDuration, DateTime>
@@ -34,18 +35,21 @@ namespace GameStore.BLL.Services
 
         public UserService(
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
+            IUserValidationService userValidationService,
             IMapper mapper,
             ILog logger)
         {
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
+            _userValidationService = userValidationService;
             _mapper = mapper;
             _logger = logger;
         }
 
         public async Task CreateAsync(CreateUserDTO createUserDTO)
         {
+            _userValidationService.CheckUserExistsByEmail(createUserDTO.Email);
+            _userValidationService.CheckUserExistsByUsername(createUserDTO.Username);
+
             var newUser = _mapper.Map<User>(createUserDTO);
 
             _unitOfWork.Users.Create(newUser);
@@ -73,10 +77,8 @@ namespace GameStore.BLL.Services
             _logger.Info($"User({user.Id}) has been deleted!");
         }
 
-        public async Task<PaginationResult<GetUserDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO)
+        public async Task<PaginationResult<GetUserDTO>> GetAllWithPaginationAsync(string userObjectId, PaginationDTO paginationDTO)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var users = await _unitOfWork.Users
                 .GetQuery()
                 .Include(u => u.Role)
@@ -129,7 +131,6 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
 
             _logger.Info($"User({user.Id}) has been updated!");
-
         }
 
         public async Task BanAsync(BanDTO banDTO)
@@ -147,10 +148,8 @@ namespace GameStore.BLL.Services
                 $"has been banned until {_banDurationDictionary[banDTO.BanDuration]}");
         }
 
-        public async Task<bool> IsBannedAsync()
+        public async Task<bool> IsBannedAsync(string userObjectId)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.ObjectId == userObjectId);
 
             if (user == null)

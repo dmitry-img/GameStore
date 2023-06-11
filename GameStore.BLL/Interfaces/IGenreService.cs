@@ -7,7 +7,7 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IGenreService
     {
-        Task<IEnumerable<GetGenreDTO>> GetAll();
+        Task<IEnumerable<GetGenreDTO>> GetAllAsync();
 
         Task<PaginationResult<GetGenreDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO);
 

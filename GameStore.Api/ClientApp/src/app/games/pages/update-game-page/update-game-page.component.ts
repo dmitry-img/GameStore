@@ -78,7 +78,7 @@ export class UpdateGamePageComponent implements OnInit{
                 Value: publisher.CompanyName
             }));
 
-            this.publishers.unshift({Id: null, Value: 'None'})
+            this.publishers.unshift({Id: null, Value: 'Unknown'})
 
 
         });

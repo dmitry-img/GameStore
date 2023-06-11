@@ -8,7 +8,7 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IOrderService
     {
-        Task<GetOrderDTO> CreateAsync();
+        Task<GetOrderDTO> CreateAsync(string userObjectId);
 
         Task<PaginationResult<GetOrderDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO);
 

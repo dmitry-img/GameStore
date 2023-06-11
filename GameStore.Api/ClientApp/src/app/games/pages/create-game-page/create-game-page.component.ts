@@ -59,6 +59,8 @@ export class CreateGamePageComponent implements OnInit {
                 Id: publisher.Id,
                 Value: publisher.CompanyName
             }));
+
+            this.publishers.unshift({Id: null, Value: 'Unknown'})
         });
     }
 }

@@ -82,12 +82,11 @@ export class OrderListPageComponent {
         this.bsModalRef = this.modalService.show(ConfirmationModalComponent, {initialState});
 
         this.bsModalRef.content.confirm.subscribe(() => {
-            this.orderService.updateOrder(order.OrderId, this.orderForm.value).subscribe(() =>{
+            this.orderService.updateOrder(order.Id, this.orderForm.value).subscribe(() =>{
                 this.toaster.success("The order has been successfully updated!");
                 this.getOrdersOfCurrentPage();
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 

@@ -30,6 +30,6 @@ namespace GameStore.BLL.Interfaces
 
         Task<MemoryStream> GetGameFileAsync(string gameKey);
 
-        Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(PaginationDTO paginationDTO);
+        Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(string userObjectId, PaginationDTO paginationDTO);
     }
 }

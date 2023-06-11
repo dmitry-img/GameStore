@@ -117,21 +117,24 @@
                         Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
                         RoleId = 4
                     },
-                    new User {
+                    new User 
+                    {
                         Id = 5,
                         Username = "blizzard",
                         Email = "blizzard@example.com",
                         Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
                         RoleId = 5
                     },
-                    new User {
+                    new User 
+                    {
                         Id = 6,
                         Username = "rockstar",
                         Email = "rockstar@example.com",
                         Password = "$2a$11$ZIUkolq17gMt8KlJYOauU.PT9uRrkiLNDz6oR1lepFqqg12IU4jIW",
                         RoleId = 5
                     },
-                    new User {
+                    new User 
+                    {
                         Id = 7,
                         Username = "electronic-arts",
                         Email = "electronic-arts@example.com",

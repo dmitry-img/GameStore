@@ -11,6 +11,7 @@ namespace GameStore.Api.Infrastructure
         {
             container.AddNewExtension<Log4NetExtension>();
             container.RegisterType<ICurrentUserService, CurrentUserService>();
+            container.RegisterType<IUserIdentityProvider, UserIdentityProvider>();
 
             return container;
         }

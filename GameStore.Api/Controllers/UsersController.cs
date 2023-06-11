@@ -13,17 +13,20 @@ namespace GameStore.Api.Controllers
     public class UsersController : ApiController
     {
         private readonly IUserService _userService;
+        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateUserDTO> _createUserValidator;
         private readonly IValidator<UpdateUserDTO> _updateUserValidator;
 
         public UsersController(
             IUserService userService,
+            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreateUserDTO> createUserValidator,
             IValidator<UpdateUserDTO> updateUserValidator)
         {
             _userService = userService;
+            _currentUserService = currentUserService;
             _validationService = validationService;
             _createUserValidator = createUserValidator;
             _updateUserValidator = updateUserValidator;
@@ -34,7 +37,9 @@ namespace GameStore.Api.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IHttpActionResult> GetAllWithPagination([FromUri] PaginationDTO paginationDTO)
         {
-            var users = await _userService.GetAllWithPaginationAsync(paginationDTO);
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            var users = await _userService.GetAllWithPaginationAsync(userObjectId, paginationDTO);
 
             return Json(users);
         }
@@ -98,7 +103,9 @@ namespace GameStore.Api.Controllers
         [Authorize]
         public async Task<IHttpActionResult> IsBanned()
         {
-            bool isBanned = await _userService.IsBannedAsync();
+            var userObjectId = _currentUserService.GetCurrentUserObjectId();
+
+            bool isBanned = await _userService.IsBannedAsync(userObjectId);
 
             return Ok(isBanned);
         }

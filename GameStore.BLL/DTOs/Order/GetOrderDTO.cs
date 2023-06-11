@@ -6,11 +6,11 @@ namespace GameStore.BLL.DTOs.Order
 {
     public class GetOrderDTO
     {
+        public int Id { get; set; }
+
         public string CustomerId { get; set; }
 
         public string CustomerUsername { get; set; }
-
-        public int OrderId { get; set; }
 
         public OrderState OrderState { get; set; }
 

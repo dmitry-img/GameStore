@@ -15,8 +15,6 @@ namespace GameStore.BLL.Interfaces
 
         Task CreateAsync(CreateRoleDTO createRoleDTO);
 
-        Task UpdateAsync(int id, UpdateRoleDTO updateRoleDTO);
-
         Task DeleteAsync(int id);
     }
 }

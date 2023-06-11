@@ -17,18 +17,15 @@ namespace GameStore.BLL.Services
     public class PublisherService : IPublisherService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
         public PublisherService(
             IUnitOfWork unitOfWork,
-            ICurrentUserService currentUserService,
             IMapper mapper,
             ILog logger)
         {
             _unitOfWork = unitOfWork;
-            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -55,6 +52,11 @@ namespace GameStore.BLL.Services
                 .Include(p => p.Games)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
+            if (publisher == null)
+            {
+                throw new NotFoundException(nameof(publisher), id);
+            }
+
             publisher.Games.Clear();
 
             _unitOfWork.Publishers.Delete(id);
@@ -62,7 +64,6 @@ namespace GameStore.BLL.Services
             await _unitOfWork.SaveAsync();
 
             _logger.Info($"Publisher({publisher.Id}) has been deleted!");
-
         }
 
         public async Task<IEnumerable<GetPublisherBriefDTO>> GetAllBriefAsync()
@@ -109,7 +110,17 @@ namespace GameStore.BLL.Services
                 .GetQuery()
                 .FirstOrDefaultAsync(p => p.CompanyName == companyName);
 
+            if (publisher == null)
+            {
+                throw new NotFoundException(nameof(publisher), companyName);
+            }
+
             var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.Username == updatePublisherDTO.Username);
+
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(user), updatePublisherDTO.Username);
+            }
 
             publisher.User = user;
 
@@ -120,22 +131,23 @@ namespace GameStore.BLL.Services
             _logger.Info($"Publisher({publisher.Id}) has been updated!");
         }
 
-        public async Task<bool> IsUserAssociatedWithPublisherAsync(string companyName)
+        public async Task<bool> IsUserAssociatedWithPublisherAsync(string userObjectId, string companyName)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var publisher = await _unitOfWork.Publishers
                 .GetQuery()
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.CompanyName == companyName);
 
+            if (publisher == null)
+            {
+                throw new BadRequestException("You do not have a publisher profile yet!");
+            }
+
             return publisher.User.ObjectId == userObjectId;
         }
 
-        public async Task<bool> IsGameAssociatedWithPublisherAsync(string gameKey)
+        public async Task<bool> IsGameAssociatedWithPublisherAsync(string userObjectId, string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var publisher = await _unitOfWork.Publishers
                .GetQuery()
                .Include(p => p.User)
@@ -145,16 +157,14 @@ namespace GameStore.BLL.Services
             return publisher.Games.Select(g => g.Key).Contains(gameKey);
         }
 
-        public async Task<string> GetCurrentCompanyNameAsync()
+        public async Task<string> GetCurrentCompanyNameAsync(string userObjectId)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var currentPulisher = await _unitOfWork.Publishers
                 .GetQuery()
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
 
-            return currentPulisher.CompanyName;
+            return currentPulisher != null ? currentPulisher.CompanyName : null;
         }
 
         public async Task<IEnumerable<string>> GetFreePublisherUsernamesAsync()

@@ -34,36 +34,5 @@ namespace GameStore.Api.Controllers
         {
             return Json(await _platformTypeService.GetAllAsync());
         }
-
-        [HttpPost]
-        [Route("create")]
-        public async Task<IHttpActionResult> Create(CreatePlatformTypeDTO createPlatformTypeDTO)
-        {
-            _validationService.Validate(createPlatformTypeDTO, _createPlatformTypeValidator);
-
-            await _platformTypeService.CreateAsync(createPlatformTypeDTO);
-
-            return Ok();
-        }
-
-        [HttpPut]
-        [Route("update/{id}")]
-        public async Task<IHttpActionResult> Update(int id, UpdatePlatformTypeDTO updatePlatformTypeDTO)
-        {
-            _validationService.Validate(updatePlatformTypeDTO, _updatePlatformTypeValidator);
-
-            await _platformTypeService.UpdateAsync(id, updatePlatformTypeDTO);
-
-            return Ok();
-        }
-
-        [HttpDelete]
-        [Route("delete/{id}")]
-        public async Task<IHttpActionResult> Delete(int id)
-        {
-            await _platformTypeService.DeleteAsync(id);
-
-            return Ok();
-        }
     }
 }

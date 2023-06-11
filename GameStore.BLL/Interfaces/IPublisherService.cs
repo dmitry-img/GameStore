@@ -19,11 +19,11 @@ namespace GameStore.BLL.Interfaces
 
         Task DeleteAsync(int id);
 
-        Task<bool> IsUserAssociatedWithPublisherAsync(string companyName);
+        Task<bool> IsUserAssociatedWithPublisherAsync(string userObjectId, string companyName);
 
-        Task<bool> IsGameAssociatedWithPublisherAsync(string gameKey);
+        Task<bool> IsGameAssociatedWithPublisherAsync(string userObjectId, string gameKey);
 
-        Task<string> GetCurrentCompanyNameAsync();
+        Task<string> GetCurrentCompanyNameAsync(string userObjectId);
 
         Task<IEnumerable<string>> GetFreePublisherUsernamesAsync();
     }

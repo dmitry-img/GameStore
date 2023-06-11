@@ -55,6 +55,9 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IAuthService, AuthService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IRoleService, RoleService>();
+            container.RegisterType<IUserValidationService, UserValidationService>();
+
+            container.RegisterType<IConfigurationWrapper, AppConfigWrapper>();
 
             container.RegisterType<IPaymentStrategyFactory, PaymentStrategyFactory>();
             container.RegisterType<IPaymentStrategy<MemoryStream>, BankPaymentStrategy>(PaymentType.Bank.ToString());
@@ -85,7 +88,6 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IValidator<CreateRoleDTO>, CreateRoleDTOValidator>();
             container.RegisterType<IValidator<UpdateRoleDTO>, UpdateRoleDTOValidator>();
             container.RegisterType<IValidator<CreateShoppingCartItemDTO>, CreateShoppingCartItemDTOValidator>();
-
 
             container.RegisterType<IValidationService, ValidationService>();
 

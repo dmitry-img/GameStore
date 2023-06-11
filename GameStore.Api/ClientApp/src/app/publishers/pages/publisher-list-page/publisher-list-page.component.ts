@@ -54,9 +54,8 @@ export class PublisherListPageComponent {
             this.publisherService.deletePublisher(publisher.Id).subscribe(() =>{
                 this.toaster.success(`The publisher has been deleted successfully!`);
                 this.getPublishersOfCurrentPage()
+                this.bsModalRef.hide();
             });
-
-            this.bsModalRef.hide();
         });
     }
 

@@ -17,26 +17,21 @@ namespace GameStore.BLL.Services
     {
         private const string Cart = "cart";
         private readonly IDistributedCache<ShoppingCart> _distributedCache;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
         private readonly ILog _logger;
 
         public ShoppingCartService(
             IDistributedCache<ShoppingCart> distributedCache,
-            ICurrentUserService currentUserService,
             IMapper mapper,
             ILog logger)
         {
             _distributedCache = distributedCache;
-            _currentUserService = currentUserService;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task AddItemAsync(CreateShoppingCartItemDTO cartItemDTO)
+        public async Task AddItemAsync(string userObjectId, CreateShoppingCartItemDTO cartItemDTO)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var newItem = _mapper.Map<ShoppingCartItem>(cartItemDTO);
 
             var shoppingCart = await _distributedCache.GetAsync($"{Cart}:{userObjectId}");
@@ -61,10 +56,8 @@ namespace GameStore.BLL.Services
             _logger.Info($"{cartItemDTO.GameName} was added to shopping cart!");
         }
 
-        public async Task DeleteItemAsync(string gameKey)
+        public async Task DeleteItemAsync(string userObjectId, string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var shoppingCart = await _distributedCache.GetAsync($"{Cart}:{userObjectId}");
 
             if (shoppingCart == null)
@@ -85,10 +78,8 @@ namespace GameStore.BLL.Services
             _logger.Info($"{item.GameName} was deleted from shopping cart!");
         }
 
-        public async Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync()
+        public async Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync(string userObjectId)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var shoppingCart = await _distributedCache.GetAsync($"{Cart}:{userObjectId}");
 
             if (shoppingCart == null)
@@ -99,10 +90,8 @@ namespace GameStore.BLL.Services
             return _mapper.Map<List<GetShoppingCartItemDTO>>(shoppingCart.Items);
         }
 
-        public async Task<int> GetGameQuantityByKeyAsync(string gameKey)
+        public async Task<int> GetGameQuantityByKeyAsync(string userObjectId, string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
             var shoppingCart = await _distributedCache.GetAsync($"{Cart}:{userObjectId}");
 
             if (shoppingCart == null)

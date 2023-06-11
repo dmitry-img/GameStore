@@ -28,14 +28,9 @@ export class LoginPageComponent {
 
     onSubmit(): void {
         if(this.loginForm.valid){
-            this.authService.login(this.loginForm.value).subscribe({
-                next:(authResponse: AuthResponse) =>{
-                    this.authService.saveTokens(authResponse);
-                    this.router.navigate(['/'])
-                },
-                error: (err) =>{
-                    this.toaster.error(err.error)
-                }
+            this.authService.login(this.loginForm.value).subscribe((authResponse: AuthResponse) =>{
+                this.authService.saveTokens(authResponse);
+                this.router.navigate(['/'])
             });
         }
     }
