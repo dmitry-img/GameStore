@@ -33,7 +33,7 @@ export class BankPaymentPageComponent implements OnInit{
                     `The order ${response.Id} has been paid successfully!`
                 )
             },
-            error: (error) =>{
+            error: () =>{
                 this.router.navigate(['/shopping-cart'])
             }
         });

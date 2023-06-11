@@ -49,13 +49,13 @@ export class GameListManagementPageComponent implements OnInit{
         this.getGamesOfCurrentPage()
     }
 
-    getUserRole(){
+    getUserRole(): void{
         this.authService.getUserRole().subscribe((userRole: string | null) =>{
             this.userRole = userRole;
         })
     }
 
-    onDelete(game: GetGameBriefResponse) {
+    onDelete(game: GetGameBriefResponse): void {
         const initialState = {
             title: 'Are you sure?',
             btnOkText: 'Confirm',

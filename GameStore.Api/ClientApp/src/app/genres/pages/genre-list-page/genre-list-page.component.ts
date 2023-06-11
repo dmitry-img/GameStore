@@ -48,7 +48,7 @@ export class GenreListPageComponent {
         this.getGenresOfCurrentPage();
     }
 
-    onModify(genre: GetGenreResponse) {
+    onModify(genre: GetGenreResponse): void {
         const initialState = {
             title: 'Update the genre',
             btnOkText: 'Update',
@@ -78,7 +78,7 @@ export class GenreListPageComponent {
     }
 
 
-    onDelete(genre: GetGenreResponse) {
+    onDelete(genre: GetGenreResponse): void {
         const initialState = {
             title: 'Are you sure?',
             btnOkText: 'Confirm',
@@ -96,7 +96,7 @@ export class GenreListPageComponent {
         });
     }
 
-    onCreate() {
+    onCreate(): void {
         const initialState = {
             title: 'Create a new genre',
             btnOkText: 'Create',

@@ -17,14 +17,14 @@ export class OrderListComponent implements OnChanges{
     orderStateValues!: {order: GetOrderResponse, stateValue: string}[];
     OrderStateEnum = OrderState
 
-    ngOnChanges() {
+    ngOnChanges(): void {
         this.orderStateValues = this.paginatedOrders.Items.map(order => ({
             order: order,
             stateValue: this.getOrderStateValue(order.OrderState)
         }));
     }
 
-    onUpdate(order: GetOrderResponse) {
+    onUpdate(order: GetOrderResponse): void {
         this.update.emit(order);
     }
 

@@ -14,15 +14,15 @@ export class GenreListComponent {
     @Output() modify: EventEmitter<GetGenreResponse> = new EventEmitter<GetGenreResponse>();
     @Output() delete: EventEmitter<GetGenreResponse> = new EventEmitter<GetGenreResponse>();
 
-    onModify(genre: GetGenreResponse) {
+    onModify(genre: GetGenreResponse): void {
         this.modify.emit(genre);
     }
 
-    onDelete(genre: GetGenreResponse) {
+    onDelete(genre: GetGenreResponse): void {
         this.delete.emit(genre);
     }
 
-    onCreate() {
+    onCreate(): void {
         this.create.emit();
     }
 }

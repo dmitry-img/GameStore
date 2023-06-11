@@ -63,11 +63,11 @@ export class OrderListPageComponent {
         return this.orderForm.get('OrderDetails') as FormArray;
     }
 
-    setOrderDetailsControls(){
+    setOrderDetailsControls(): void{
         this.orderDetailsControls = (this.orderForm.get('OrderDetails') as FormArray).controls as FormControl[];
     }
 
-    onChangeState(order: GetOrderResponse){
+    onChangeState(order: GetOrderResponse): void{
         const initialState = {
             title: 'Modify order',
             btnOkText: 'Confirm',

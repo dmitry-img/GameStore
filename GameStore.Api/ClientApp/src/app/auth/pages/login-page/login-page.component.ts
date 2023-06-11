@@ -16,7 +16,6 @@ export class LoginPageComponent {
         private fb: FormBuilder,
         private authService: AuthService,
         private router: Router,
-        private toaster: ToastrService
     ) { }
 
     ngOnInit(): void {

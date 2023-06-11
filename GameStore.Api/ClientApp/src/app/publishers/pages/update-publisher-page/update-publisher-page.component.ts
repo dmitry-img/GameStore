@@ -62,7 +62,7 @@ export class UpdatePublisherPageComponent {
 
                 this.updatePublisherForm.setValue(this.publisher);
             },
-            error: (err) => {
+            error: () => {
                 this.router.navigate(['/'])
             }
         });

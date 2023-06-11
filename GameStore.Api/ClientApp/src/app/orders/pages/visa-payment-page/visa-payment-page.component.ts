@@ -20,9 +20,7 @@ export class VisaPaymentPageComponent implements OnInit{
     constructor(
         private orderService: OrderService,
         private paymentService: PaymentService,
-        private modalService: ModalService,
-        private toaster: ToastrService,
-        private router: Router
+        private modalService: ModalService
     ) { }
 
     ngOnInit(): void {
@@ -40,7 +38,7 @@ export class VisaPaymentPageComponent implements OnInit{
         }
     }
 
-    private payByVisa(){
+    private payByVisa(): void{
         this.orderService.createOrder().subscribe((response: GetOrderResponse) => {
             this.paymentService.payByVisa(response.Id).subscribe(() => {
                 this.modalService.openInfoModalWithRedirection(

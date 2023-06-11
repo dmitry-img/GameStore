@@ -46,7 +46,7 @@ export class RoleListPageComponent implements OnInit{
         this.getRolesOfCurrentPage()
     }
 
-    onDelete(role: GetRoleResponse) {
+    onDelete(role: GetRoleResponse): void {
         const initialState = {
             title: 'Are you sure?',
             btnOkText: 'Confirm',
@@ -64,7 +64,7 @@ export class RoleListPageComponent implements OnInit{
         });
     }
 
-    onCreate() {
+    onCreate(): void {
         const initialState = {
             title: 'Create a new role',
             btnOkText: 'Create',

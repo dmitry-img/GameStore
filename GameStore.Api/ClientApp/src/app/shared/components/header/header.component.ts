@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
     gamesCount!: number;
     isAuthenticated$!: Observable<boolean>;
     userRole$!: Observable<string | null>;
-    rolesAllowedToGetGameList = ['Moderator', 'Publisher', 'Manager'];
     currentPublisherCompanyName$!: Observable<string>;
 
     constructor(

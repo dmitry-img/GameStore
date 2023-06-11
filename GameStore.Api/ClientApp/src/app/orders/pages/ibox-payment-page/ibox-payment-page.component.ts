@@ -30,7 +30,7 @@ export class IboxPaymentPageComponent implements OnInit {
             next: (order: GetOrderResponse) =>{
                 this.order = order;
             },
-            error: (err) =>{
+            error: () =>{
                 this.router.navigate(['/shopping-cart']);
             }
         })

@@ -26,7 +26,7 @@ export class RegistrationPageComponent {
         }, { validators: equalValidator<string>('Password', 'ConfirmPassword', String) });
     }
 
-    onSubmit() {
+    onSubmit(): void {
         if (this.registerForm.valid) {
             this.authService.register(this.registerForm.value).subscribe(() => {
                 this.authService.login({
