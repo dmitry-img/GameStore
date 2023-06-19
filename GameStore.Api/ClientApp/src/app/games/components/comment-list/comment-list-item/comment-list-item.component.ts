@@ -11,7 +11,6 @@ export class CommentListItemComponent {
     @Input() commentNode!: CommentNode;
     @Input() parentNode: CommentNode | null = null;
     @Input() gameKey!: string;
-    @Input() userRole!: string | null;
     @Input() isGameDeleted!: boolean;
     @Input() isUserBanned!: boolean
     @Input() rolesAllowedToComment!: string[]

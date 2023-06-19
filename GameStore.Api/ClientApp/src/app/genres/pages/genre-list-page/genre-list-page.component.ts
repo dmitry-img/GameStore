@@ -1,4 +1,4 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {ToastrService} from "ngx-toastr";
@@ -8,7 +8,7 @@ import {GetGenreResponse} from "../../models/GetGenreResponse";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {PaginationRequest} from "../../../shared/models/PaginationRequest";
 import {PaginationResult} from "../../../shared/models/PaginationResult";
-import {map, Observable, switchMap, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {GetUserResponse} from "../../../admin-panel/models/GetUserResponse";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -17,7 +17,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './genre-list-page.component.html',
   styleUrls: ['./genre-list-page.component.scss']
 })
-export class GenreListPageComponent {
+export class GenreListPageComponent implements OnInit, OnDestroy{
     @ViewChild('genreFormBody') genreFormBody!: TemplateRef<any>;
     @ViewChild('genreDeleteModalBody') genreDeleteModalBody!: TemplateRef<any>;
     paginatedGenres!: PaginationResult<GetGenreResponse>;
@@ -25,6 +25,11 @@ export class GenreListPageComponent {
     genreForm!: FormGroup;
     bsModalRef!: BsModalRef;
     paginationRequest!: PaginationRequest
+    private pageNumber$ = new BehaviorSubject<number>(1);
+    private paginatedGenres$ = new BehaviorSubject<PaginationResult<GetGenreResponse>|null>(null);
+    private destroy$ = new Subject<void>();
+
+
     constructor(
         private genreService: GenreService,
         private fb: FormBuilder,
@@ -45,7 +50,9 @@ export class GenreListPageComponent {
             PageSize: 10
         }
 
-        this.getGenresOfCurrentPage();
+        this.subscribeToPageNumber();
+        this.subscribeToPaginatedGenres();
+        this.subscribeToRouteParams();
     }
 
     onModify(genre: GetGenreResponse): void {
@@ -127,6 +134,47 @@ export class GenreListPageComponent {
         });
     }
 
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    private subscribeToPageNumber(): void {
+        this.pageNumber$
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(pageNumber => {
+                    if (isNaN(pageNumber)) {
+                        this.navigateToFirstPage();
+                    } else {
+                        this.paginationRequest.PageNumber = pageNumber;
+                    }
+                }),
+                switchMap(() => this.genreService.getAllGenresWithPagination(this.paginationRequest))
+            )
+            .subscribe(this.paginatedGenres$);
+    }
+
+    private subscribeToPaginatedGenres(): void {
+        this.paginatedGenres$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((paginatedGenres: PaginationResult<GetGenreResponse> | null) => {
+                if (paginatedGenres !== null) {
+                    this.paginatedGenres = paginatedGenres;
+                }
+            });
+    }
+
+    private subscribeToRouteParams(): void {
+        this.route.paramMap
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(params => {
+                const pageNumber = +params.get('page')!;
+                this.pageNumber$.next(pageNumber);
+            });
+    }
+
+
     private getGenresForDropDown(genreToIgnore: GetGenreResponse | null = null): Observable<DropDownItem[]> {
         return this.genreService.getAllGenres().pipe(
             map((genres: GetGenreResponse[]) => {
@@ -145,21 +193,8 @@ export class GenreListPageComponent {
         );
     }
 
-
     private getGenresOfCurrentPage(): void {
-        this.route.paramMap.pipe(
-            tap(params => {
-                const pageNumber = +params.get('page')!;
-                if (isNaN(pageNumber)) {
-                    this.navigateToFirstPage()
-                } else {
-                    this.paginationRequest.PageNumber = pageNumber;
-                }
-            }),
-            switchMap(() => this.genreService.getAllGenresWithPagination(this.paginationRequest))
-        ).subscribe((paginatedGenres: PaginationResult<GetGenreResponse>) => {
-            this.paginatedGenres = paginatedGenres;
-        });
+        this.pageNumber$.next(this.paginationRequest.PageNumber);
     }
 
     private navigateToFirstPage(): void{

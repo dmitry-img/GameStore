@@ -10,6 +10,7 @@ import { PublisherListComponent } from './components/publisher-list/publisher-li
 import {RouterLink} from "@angular/router";
 import { UpdatePublisherPageComponent } from './pages/update-publisher-page/update-publisher-page.component';
 import {NgxSelectModule} from "ngx-select-ex";
+import {AuthModule} from "../auth/auth.module";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {NgxSelectModule} from "ngx-select-ex";
         ReactiveFormsModule,
         SharedModule,
         RouterLink,
-        NgxSelectModule
+        NgxSelectModule,
+        AuthModule
     ]
 })
 export class PublishersModule {

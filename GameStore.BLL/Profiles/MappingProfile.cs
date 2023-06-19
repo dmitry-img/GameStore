@@ -100,31 +100,9 @@ namespace GameStore.BLL.Profiles
                 .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
                 .ForMember(dest => dest.ParentGenre, opt => opt.Ignore())
                 .ForMember(dest => dest.ChildGenres, opt => opt.Ignore())
-                .ForMember(dest => dest.Games, opt => opt.Ignore()); ;
+                .ForMember(dest => dest.Games, opt => opt.Ignore());
 
             CreateMap<PlatformType, GetPlatformTypeDTO>();
-
-            CreateMap<CreatePlatformTypeDTO, PlatformType>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.Games, opt => opt.Ignore());
-
-            CreateMap<UpdatePlatformTypeDTO, PlatformType>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.Games, opt => opt.Ignore());
 
             CreateMap<CreatePublisherDTO, Publisher>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -258,17 +236,6 @@ namespace GameStore.BLL.Profiles
             CreateMap<Role, GetRoleDTO>();
 
             CreateMap<CreateRoleDTO, Role>()
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.DeletedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedAt, opt => opt.Ignore())
-                .ForMember(dest => dest.ModifiedBy, opt => opt.Ignore())
-                .ForMember(dest => dest.Users, opt => opt.Ignore());
-
-            CreateMap<UpdateRoleDTO, Role>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsDeleted, opt => opt.Ignore())
                 .ForMember(dest => dest.DeletedAt, opt => opt.Ignore())

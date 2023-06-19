@@ -22,6 +22,7 @@ import { GameListManagementPageComponent } from './pages/game-list-management-pa
 import { GameListManagementComponent } from './components/game-list-management/game-list-management.component';
 import { UpdateGamePageComponent } from './pages/update-game-page/update-game-page.component';
 import { UpdateGameComponent } from './components/update-game/update-game.component';
+import {AuthModule} from "../auth/auth.module";
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { UpdateGameComponent } from './components/update-game/update-game.compon
         ToastrModule.forRoot(),
         FormsModule,
         SharedModule,
+        AuthModule,
     ],
     exports: [
         GameListPageComponent,

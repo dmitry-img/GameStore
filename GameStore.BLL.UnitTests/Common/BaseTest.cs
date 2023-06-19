@@ -11,8 +11,10 @@ using GameStore.DAL.CacheEntities;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Enums;
 using GameStore.DAL.Interfaces;
+using GameStore.Shared.Infrastructure;
 using log4net;
 using Moq;
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.BLL.UnitTests.Common
 {
@@ -79,7 +81,9 @@ namespace GameStore.BLL.UnitTests.Common
 
             MockConfigurationWrapper = new Mock<IConfigurationWrapper>();
             MockConfigurationWrapper.Setup((x) => x.HasKey(It.IsAny<string>())).Returns(true);
-            MockConfigurationWrapper.Setup((x) => x.GetValue(It.IsAny<string>())).Returns("8455c5aa-5f60-44de-b2de-a2c8cb9270e6");
+            MockConfigurationWrapper.Setup((x) => x.GetValue(It.Is<string>(s => s == JwtSecret))).Returns("8455c5aa-5f60-44de-b2de-a2c8cb9270e6");
+            MockConfigurationWrapper.Setup((x) => x.GetValue(It.Is<string>(s => s == AccessTokenExpirationDateInMinutesName))).Returns("10");
+            MockConfigurationWrapper.Setup((x) => x.GetValue(It.Is<string>(s => s == RefreshTokenExpirationDateInDaysName))).Returns("10");
         }
 
         protected IMapper Mapper { get; }

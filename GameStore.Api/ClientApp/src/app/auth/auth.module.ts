@@ -8,6 +8,8 @@ import {SharedModule} from "../shared/shared.module";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 import { LogoutPageComponent } from './pages/logout-page/logout-page.component';
+import { HasRoleDirective } from '../shared/directives/has-role.directive';
+import { ExceptRoleDirective } from '../shared/directives/except-role.directive';
 
 
 
@@ -15,7 +17,7 @@ import { LogoutPageComponent } from './pages/logout-page/logout-page.component';
     declarations: [
         LoginPageComponent,
         RegistrationPageComponent,
-        LogoutPageComponent
+        LogoutPageComponent,
     ],
     imports: [
         CommonModule,
@@ -25,7 +27,8 @@ import { LogoutPageComponent } from './pages/logout-page/logout-page.component';
         ReactiveFormsModule,
         SharedModule
     ],
-    providers:[
+    exports: [],
+    providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

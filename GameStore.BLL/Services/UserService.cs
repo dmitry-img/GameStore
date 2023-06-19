@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Auth;
 using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Common;
@@ -15,6 +14,8 @@ using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.BLL.Services
 {
@@ -63,11 +64,25 @@ namespace GameStore.BLL.Services
 
         public async Task DeleteAsync(string objectId)
         {
-            var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.ObjectId == objectId);
+            var user = await _unitOfWork.Users
+                .GetQuery()
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.ObjectId == objectId);
 
             if (user == null)
             {
                 throw new NotFoundException(nameof(user), objectId);
+            }
+
+            if (user.Role?.Name == PublisherRoleName)
+            {
+                var publisher = await _unitOfWork.Publishers
+                    .GetQuery()
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id);
+                if (publisher != null)
+                {
+                    publisher.UserId = null;
+                }
             }
 
             _unitOfWork.Users.Delete(user.Id);
@@ -107,23 +122,11 @@ namespace GameStore.BLL.Services
         {
             var user = await _unitOfWork.Users
                 .GetQuery()
-                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.ObjectId == objectId);
 
             if (user == null)
             {
                 throw new NotFoundException(nameof(user), objectId);
-            }
-
-            if (user.Role?.Name == "Publisher")
-            {
-                var publisher = await _unitOfWork.Publishers
-                    .GetQuery()
-                    .FirstOrDefaultAsync(p => p.UserId == user.Id);
-                if (publisher != null)
-                {
-                    publisher.UserId = null;
-                }
             }
 
             _mapper.Map(updateUserDTO, user);

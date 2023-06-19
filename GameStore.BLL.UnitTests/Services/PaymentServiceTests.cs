@@ -11,6 +11,7 @@ namespace GameStore.BLL.UnitTests.Services
 {
     public class PaymentServiceTests : BaseTest
     {
+        private const string TestObjectId = "TestObjectId";
         private readonly PaymentService _paymentService;
         private readonly int _orderId = 1;
 
@@ -30,7 +31,7 @@ namespace GameStore.BLL.UnitTests.Services
             MockPaymentStrategyFactory.Setup(f => f.GetStrategy<MemoryStream>(PaymentType.Bank)).Returns(new BankPaymentStrategy());
 
             // Act
-            var result = await _paymentService.ProcessPayment<MemoryStream>(_orderId, PaymentType.Bank);
+            var result = await _paymentService.ProcessPayment<MemoryStream>(_orderId, PaymentType.Bank, TestObjectId);
 
             // Assert
             Assert.NotNull(result);
@@ -44,7 +45,7 @@ namespace GameStore.BLL.UnitTests.Services
             MockPaymentStrategyFactory.Setup(f => f.GetStrategy<int>(PaymentType.IBox)).Returns(new IBoxPaymentStrategy());
 
             // Act
-            var result = await _paymentService.ProcessPayment<int>(_orderId, PaymentType.IBox);
+            var result = await _paymentService.ProcessPayment<int>(_orderId, PaymentType.IBox, TestObjectId);
 
             // Assert
             Assert.Equal(_orderId, result);
@@ -57,7 +58,7 @@ namespace GameStore.BLL.UnitTests.Services
             MockPaymentStrategyFactory.Setup(f => f.GetStrategy<int>(PaymentType.Visa)).Returns(new VisaPaymentStrategy());
 
             // Act
-            var result = await _paymentService.ProcessPayment<int>(_orderId, PaymentType.Visa);
+            var result = await _paymentService.ProcessPayment<int>(_orderId, PaymentType.Visa, TestObjectId);
 
             // Assert
             Assert.Equal(_orderId, result);

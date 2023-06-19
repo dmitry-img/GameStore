@@ -1,5 +1,7 @@
 ﻿using FluentValidation.WebApi;
 using GameStore.Api.Filters;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -13,6 +15,7 @@ namespace GameStore.Api
 
             // Global Attributes
             config.Filters.Add(new JwtAuthenticationFilterAttribute());
+            config.Filters.Add(new CurrentUserFilterAttribute());
             config.Filters.Add(new LogIpFilterAttribute());
             config.Filters.Add(new LogPerformanceFilterAttribute());
             config.Filters.Add(new GeneralExceptionFilterAttribute());

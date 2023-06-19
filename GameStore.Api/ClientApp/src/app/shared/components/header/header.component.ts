@@ -12,7 +12,6 @@ import {PublisherService} from "../../../publishers/services/publisher.service";
 export class HeaderComponent implements OnInit {
     gamesCount!: number;
     isAuthenticated$!: Observable<boolean>;
-    userRole$!: Observable<string | null>;
     currentPublisherCompanyName$!: Observable<string>;
 
     constructor(
@@ -21,9 +20,8 @@ export class HeaderComponent implements OnInit {
         private publisherService: PublisherService) { }
 
     ngOnInit(): void {
-        this.userRole$ = this.authService.getUserRole();
         this.currentPublisherCompanyName$ = this.publisherService.getCurrentPublisherCompanyName();
-        this.isAuthenticated$ = this.authService.isAuthenticated();
+        this.isAuthenticated$ = this.authService.isAuthenticated$();
         this.getCount();
     }
 

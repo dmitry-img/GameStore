@@ -31,7 +31,7 @@ namespace GameStore.BLL.Services
             _logger = logger;
         }
 
-        public async Task<T> ProcessPayment<T>(int orderId, PaymentType paymentType)
+        public async Task<T> ProcessPayment<T>(int orderId, PaymentType paymentType, string userObjectId)
         {
             var order = await _unitOfWork.Orders.GetQuery()
                 .Include(o => o.OrderDetails.Select(od => od.Game))
@@ -53,7 +53,7 @@ namespace GameStore.BLL.Services
 
             order.OrderState = OrderState.Paid;
 
-            await _distributedCache.SetAsync(Cart, null);
+            await _distributedCache.SetAsync($"{Cart}:{userObjectId}", null);
             await _unitOfWork.SaveAsync();
 
             _logger.Info($"Order({order.Id}) has been paid!");

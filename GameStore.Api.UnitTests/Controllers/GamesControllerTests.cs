@@ -8,25 +8,22 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
-using GameStore.BLL.Validators;
 using GameStore.BLL.Validators.Game;
-using GameStore.DAL.Entities;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class GamesControllerTests
+    public class GamesControllerTests : BaseTest
     {
         private const string TestKey = "test-key";
         private readonly GamesController _gamesController;
         private readonly Mock<IGameService> _gameServiceMock;
-        private readonly Mock<ICurrentUserService> _currentUserServiceMock = new Mock<ICurrentUserService>();
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateGameDTO> _createGameValidator;
         private readonly IValidator<UpdateGameDTO> _updateGameValidator;
@@ -42,7 +39,6 @@ namespace GameStore.Api.UnitTests.Controllers
 
             _gamesController = new GamesController(
                 _gameServiceMock.Object,
-                _currentUserServiceMock.Object,
                 _validationService,
                 _createGameValidator,
                 _updateGameValidator,

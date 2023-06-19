@@ -21,8 +21,6 @@ export class UpdateGameComponent {
     @Input() publishers!: DropDownItem[];
     @Input() game!: GetGameResponse;
     @Input() discontinuedOptions!: DropDownItem[];
-    @Input() userRole!: string | null;
-
     updateGameForm!: FormGroup
 
     constructor(

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Role;
 using GameStore.BLL.Interfaces;
@@ -14,26 +15,23 @@ using Xunit;
 
 namespace GameStore.Api.Tests.Controllers
 {
-    public class RolesControllerTests
+    public class RolesControllerTests : BaseTest
     {
         private readonly RolesController _rolesController;
         private readonly Mock<IRoleService> _roleServiceMock;
         private readonly Mock<IValidationService> _validationServiceMock;
         private readonly Mock<IValidator<CreateRoleDTO>> _createRoleValidatorMock;
-        private readonly Mock<IValidator<UpdateRoleDTO>> _updateRoleValidatorMock;
 
         public RolesControllerTests()
         {
             _roleServiceMock = new Mock<IRoleService>();
             _validationServiceMock = new Mock<IValidationService>();
             _createRoleValidatorMock = new Mock<IValidator<CreateRoleDTO>>();
-            _updateRoleValidatorMock = new Mock<IValidator<UpdateRoleDTO>>();
 
             _rolesController = new RolesController(
                 _roleServiceMock.Object,
                 _validationServiceMock.Object,
-                _createRoleValidatorMock.Object,
-                _updateRoleValidatorMock.Object);
+                _createRoleValidatorMock.Object);
         }
 
         [Fact]

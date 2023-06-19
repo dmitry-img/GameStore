@@ -23,7 +23,6 @@ using GameStore.BLL.Validators.Comment;
 using GameStore.BLL.Validators.Game;
 using GameStore.BLL.Validators.Genre;
 using GameStore.BLL.Validators.Order;
-using GameStore.BLL.Validators.PlatformType;
 using GameStore.BLL.Validators.Publisher;
 using GameStore.BLL.Validators.Role;
 using GameStore.BLL.Validators.ShoppingCart;
@@ -83,10 +82,7 @@ namespace GameStore.BLL.Infrastructure
             container.RegisterType<IValidator<UpdateOrderDetailDTO>, UpdateOrderDetailDTOValidator>();
             container.RegisterType<IValidator<CreateGenreDTO>, CreateGenreDTOValidator>();
             container.RegisterType<IValidator<UpdateGenreDTO>, UpdateGenreDTOValidator>();
-            container.RegisterType<IValidator<CreatePlatformTypeDTO>, CreatePlatformTypeDTOValidator>();
-            container.RegisterType<IValidator<UpdatePlatformTypeDTO>, UpdatePlatformTypeDTOValidator>();
             container.RegisterType<IValidator<CreateRoleDTO>, CreateRoleDTOValidator>();
-            container.RegisterType<IValidator<UpdateRoleDTO>, UpdateRoleDTOValidator>();
             container.RegisterType<IValidator<CreateShoppingCartItemDTO>, CreateShoppingCartItemDTOValidator>();
 
             container.RegisterType<IValidationService, ValidationService>();

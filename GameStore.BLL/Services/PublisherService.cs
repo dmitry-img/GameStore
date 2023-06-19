@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Exceptions;
@@ -11,6 +10,8 @@ using GameStore.BLL.Interfaces;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
 using log4net;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.BLL.Services
 {
@@ -116,13 +117,7 @@ namespace GameStore.BLL.Services
             }
 
             var user = await _unitOfWork.Users.GetQuery().FirstOrDefaultAsync(u => u.Username == updatePublisherDTO.Username);
-
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(user), updatePublisherDTO.Username);
-            }
-
-            publisher.User = user;
+            publisher.User = user ?? throw new NotFoundException(nameof(user), updatePublisherDTO.Username);
 
             _mapper.Map(updatePublisherDTO, publisher);
 
@@ -148,13 +143,9 @@ namespace GameStore.BLL.Services
 
         public async Task<bool> IsGameAssociatedWithPublisherAsync(string userObjectId, string gameKey)
         {
-            var publisher = await _unitOfWork.Publishers
+            return await _unitOfWork.Publishers
                .GetQuery()
-               .Include(p => p.User)
-               .Include(p => p.Games)
-               .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
-
-            return publisher.Games.Select(g => g.Key).Contains(gameKey);
+               .AnyAsync(p => p.User.ObjectId == userObjectId && p.Games.Any(g => g.Key == gameKey));
         }
 
         public async Task<string> GetCurrentCompanyNameAsync(string userObjectId)
@@ -164,7 +155,7 @@ namespace GameStore.BLL.Services
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
 
-            return currentPulisher != null ? currentPulisher.CompanyName : null;
+            return currentPulisher?.CompanyName;
         }
 
         public async Task<IEnumerable<string>> GetFreePublisherUsernamesAsync()
@@ -173,7 +164,7 @@ namespace GameStore.BLL.Services
 
             var usernames = await _unitOfWork.Users
                 .GetQuery()
-                .Where(u => u.Role.Name == "Publisher" && !publishersUserIds.Contains(u.Id))
+                .Where(u => u.Role.Name == PublisherRoleName && !publishersUserIds.Contains(u.Id))
                 .Select(u => u.Username)
                 .ToListAsync();
 

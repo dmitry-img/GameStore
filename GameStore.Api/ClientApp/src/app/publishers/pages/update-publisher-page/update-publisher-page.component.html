@@ -39,7 +39,7 @@
         }"
         ></app-validation-message>
 
-        <ng-container *ngIf="userRole == 'Manager'">
+        <ng-container *appHasRole="['Manager']">
             <label>User<span class="required">*</span></label>
             <ngx-select
                 formControlName="Username"

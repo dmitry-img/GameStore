@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using GameStore.BLL.DTOs.PlatformType;
 using GameStore.BLL.Services;
 using GameStore.BLL.UnitTests.Common;
-using GameStore.DAL.Entities;
-using Moq;
 using Xunit;
 
 namespace GameStore.BLL.UnitTests.Services

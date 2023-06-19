@@ -8,16 +8,19 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Http.Results;
 using Microsoft.IdentityModel.Tokens;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.Api.Filters
 {
     public class JwtAuthenticationFilterAttribute : Attribute, IAuthenticationFilter
     {
-        private readonly string _jwtSecret = ConfigurationManager.AppSettings["JwtSecret"];
+        private readonly string _jwtSecret = ConfigurationManager.AppSettings[JwtSecret];
 
         public bool AllowMultiple => false;
 

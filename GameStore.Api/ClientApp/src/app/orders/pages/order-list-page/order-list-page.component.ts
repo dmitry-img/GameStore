@@ -1,11 +1,11 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PaginationResult} from "../../../shared/models/PaginationResult";
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {PaginationRequest} from "../../../shared/models/PaginationRequest";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap, tap} from "rxjs";
+import {BehaviorSubject, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {GetOrderResponse} from "../../models/GetOrderResponse";
 import {OrderService} from "../../services/order.service";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
@@ -17,7 +17,7 @@ import {ConfirmationModalComponent} from "../../../shared/components/confirmatio
   templateUrl: './order-list-page.component.html',
   styleUrls: ['./order-list-page.component.scss']
 })
-export class OrderListPageComponent {
+export class OrderListPageComponent implements OnInit, OnDestroy{
     @ViewChild('orderChangeToShippedModalBody') orderChangeToShippedModalBody!: TemplateRef<any>;
     @ViewChild('roleDeleteModalBody') orderDeleteModalBody!: TemplateRef<any>;
     paginatedOrders!: PaginationResult<GetOrderResponse>;
@@ -27,6 +27,9 @@ export class OrderListPageComponent {
     orderStates!: DropDownItem[]
     order!: GetOrderResponse;
     orderDetailsControls: FormControl[] = [];
+    private pageNumber$ = new BehaviorSubject<number>(1);
+    private paginatedOrders$ = new BehaviorSubject<PaginationResult<GetOrderResponse>|null>(null);
+    private destroy$ = new Subject<void>();
 
     constructor(
         private orderService: OrderService,
@@ -56,7 +59,9 @@ export class OrderListPageComponent {
 
         this.setOrderDetailsControls();
 
-        this.getOrdersOfCurrentPage()
+        this.subscribeToPageNumber();
+        this.subscribeToPaginatedOrders();
+        this.subscribeToRouteParams();
     }
 
     get orderDetails(): FormArray {
@@ -90,6 +95,46 @@ export class OrderListPageComponent {
         });
     }
 
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    private subscribeToPageNumber(): void {
+        this.pageNumber$
+            .pipe(
+                takeUntil(this.destroy$),
+                tap(pageNumber => {
+                    if (isNaN(pageNumber)) {
+                        this.navigateToFirstPage();
+                    } else {
+                        this.paginationRequest.PageNumber = pageNumber;
+                    }
+                }),
+                switchMap(() => this.orderService.getAllOrdersWithPagination(this.paginationRequest))
+            )
+            .subscribe(this.paginatedOrders$);
+    }
+
+    private subscribeToPaginatedOrders(): void {
+        this.paginatedOrders$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((paginatedOrders: PaginationResult<GetOrderResponse> | null) => {
+                if (paginatedOrders !== null) {
+                    this.paginatedOrders = paginatedOrders;
+                }
+            });
+    }
+
+    private subscribeToRouteParams(): void {
+        this.route.paramMap
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(params => {
+                const pageNumber = +params.get('page')!;
+                this.pageNumber$.next(pageNumber);
+            });
+    }
+
     private populateOrderForm(order: GetOrderResponse) {
         this.orderForm.patchValue({
             'OrderState': order.OrderState,
@@ -111,19 +156,7 @@ export class OrderListPageComponent {
         this.setOrderDetailsControls();
     }
     private getOrdersOfCurrentPage(): void {
-        this.route.paramMap.pipe(
-            tap(params => {
-                const pageNumber = +params.get('page')!;
-                if (isNaN(pageNumber)) {
-                    this.navigateToFirstPage()
-                } else {
-                    this.paginationRequest.PageNumber = pageNumber;
-                }
-            }),
-            switchMap(() => this.orderService.getAllOrdersWithPagination(this.paginationRequest))
-        ).subscribe((paginatedOrders: PaginationResult<GetOrderResponse>) => {
-            this.paginatedOrders = paginatedOrders;
-        });
+        this.pageNumber$.next(this.paginationRequest.PageNumber);
     }
 
     private navigateToFirstPage(): void{

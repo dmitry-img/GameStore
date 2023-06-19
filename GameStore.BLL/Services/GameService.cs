@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Enums;

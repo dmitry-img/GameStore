@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
-using GameStore.Api.Interfaces;
-using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Comment;
 using GameStore.BLL.Interfaces;
-using GameStore.BLL.Validators;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.Api.Controllers
 {
@@ -15,17 +16,14 @@ namespace GameStore.Api.Controllers
     {
         private readonly ICommentService _commentService;
         private readonly IValidationService _validationService;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IValidator<CreateCommentDTO> _createCommentValidator;
 
         public CommentsController(
             ICommentService commentService,
-            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreateCommentDTO> createCommentValidator)
         {
             _commentService = commentService;
-            _currentUserService = currentUserService;
             _validationService = validationService;
             _createCommentValidator = createCommentValidator;
         }
@@ -37,16 +35,14 @@ namespace GameStore.Api.Controllers
         {
             _validationService.Validate(commentDTO, _createCommentValidator);
 
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            await _commentService.CreateAsync(userObjectId, commentDTO);
+            await _commentService.CreateAsync(UserContext.UserObjectId, commentDTO);
 
             return Ok();
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = ModeratorRoleName)]
         public async Task<IHttpActionResult> Delete(int id)
         {
             await _commentService.DeleteAsync(id);

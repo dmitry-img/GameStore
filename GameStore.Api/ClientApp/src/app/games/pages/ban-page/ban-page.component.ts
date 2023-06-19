@@ -31,6 +31,7 @@ export class BanPageComponent implements OnInit{
         })
 
         this.banDurations = [
+            {Id: BanDuration.OneHour, Value: 'One Hour'},
             {Id: BanDuration.OneDay, Value: 'One Day'},
             {Id: BanDuration.OneWeek, Value: 'One Week'},
             {Id: BanDuration.OneMonth, Value: 'One Month'},

@@ -11,7 +11,13 @@ export class AuthGuard {
     canActivate(route: ActivatedRouteSnapshot): boolean {
         const expectedRoles = route.data['expectedRoles'];
         const decodedToken = this.authService.decodeAccessToken();
-        if (!decodedToken || !expectedRoles.includes(decodedToken.Role)) {
+
+        if (!decodedToken) {
+            this.router.navigate(['/']);
+            return false;
+        }
+
+        if (expectedRoles && Array.isArray(expectedRoles) && !expectedRoles.includes(decodedToken.Role)) {
             this.router.navigate(['/']);
             return false;
         }

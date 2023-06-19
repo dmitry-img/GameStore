@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Order;
 using GameStore.BLL.Exceptions;

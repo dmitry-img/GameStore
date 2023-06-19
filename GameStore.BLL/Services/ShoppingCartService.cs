@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.ShoppingCart;
 using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;

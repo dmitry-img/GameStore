@@ -3,20 +3,19 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Threading;
 using System.Threading.Tasks;
-using GameStore.Api.Interfaces;
 using GameStore.DAL.Data.Configurations;
 using GameStore.DAL.Entities;
 using GameStore.DAL.Entities.Common;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
+using Unity;
 
 namespace GameStore.DAL.Data
 {
     public class GameStoreDbContext : DbContext
     {
-        private readonly ICurrentUserService _currentUserService;
-
-        public GameStoreDbContext(ICurrentUserService currentUserService) : base("name=DefaultConnection")
+        public GameStoreDbContext() : base("name=DefaultConnection")
         {
-            _currentUserService = currentUserService;
         }
 
         public DbSet<Game> Games { get; set; }
@@ -62,22 +61,21 @@ namespace GameStore.DAL.Data
             {
                 if (entry.Entity is IAuditableEntity auditableEntity)
                 {
-                    var userObjectId = _currentUserService.GetCurrentUserObjectId();
                     if (entry.State == EntityState.Added && auditableEntity.CreatedAt == null)
                     {
                         auditableEntity.CreatedAt = DateTime.UtcNow;
-                        auditableEntity.CreatedBy = userObjectId;
+                        auditableEntity.CreatedBy = UserContext.UserObjectId;
                     }
                     else if (entry.State == EntityState.Modified)
                     {
                         auditableEntity.ModifiedAt = DateTime.UtcNow;
-                        auditableEntity.ModifiedBy = userObjectId;
+                        auditableEntity.ModifiedBy = UserContext.UserObjectId;
                     }
                     else if (entry.State == EntityState.Deleted)
                     {
                         auditableEntity.IsDeleted = true;
                         auditableEntity.DeletedAt = DateTime.UtcNow;
-                        auditableEntity.DeletedBy = userObjectId;
+                        auditableEntity.DeletedBy = UserContext.UserObjectId;
 
                         entry.State = EntityState.Modified;
                     }

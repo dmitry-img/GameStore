@@ -16,6 +16,8 @@ using GameStore.DAL.Interfaces;
 using log4net;
 using Microsoft.IdentityModel.Tokens;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.BLL.Services
 {
     public class AuthService : IAuthService
@@ -24,6 +26,8 @@ namespace GameStore.BLL.Services
         private readonly IUserValidationService _userValidationService;
         private readonly ILog _logger;
         private readonly IConfigurationWrapper _configurationWrapper;
+        private readonly int _accessTokenExpirationDateInMinutes;
+        private readonly int _refreshTokenExpirationDateInDays;
 
         public AuthService(
             IUnitOfWork unitOfWork,
@@ -35,23 +39,20 @@ namespace GameStore.BLL.Services
             _userValidationService = userValidationService;
             _logger = logger;
             _configurationWrapper = configurationWrapper;
+            _accessTokenExpirationDateInMinutes =
+                int.Parse(_configurationWrapper.GetValue(AccessTokenExpirationDateInMinutesName));
+            _refreshTokenExpirationDateInDays =
+                int.Parse(_configurationWrapper.GetValue(RefreshTokenExpirationDateInDaysName));
         }
 
         public async Task RegisterAsync(RegistrationDTO registrationDTO)
         {
             var userRole = await _unitOfWork.Roles
                 .GetQuery()
-                .FirstOrDefaultAsync(r => r.Name == "User");
+                .FirstOrDefaultAsync(r => r.Name == UserRoleName);
 
             _userValidationService.CheckUserExistsByEmail(registrationDTO.Email);
             _userValidationService.CheckUserExistsByUsername(registrationDTO.Username);
-
-            var checkUsernameUser = _unitOfWork.Users.GetQuery().FirstOrDefault(u => u.Username == registrationDTO.Username);
-
-            if (checkUsernameUser != null)
-            {
-                throw new BadRequestException($"User with username {registrationDTO.Username} already exists!");
-            }
 
             var user = new User
             {
@@ -84,7 +85,7 @@ namespace GameStore.BLL.Services
             var refreshToken = GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpirationDate = DateTime.UtcNow.AddDays(1);
+            user.RefreshTokenExpirationDate = DateTime.UtcNow.AddDays(_accessTokenExpirationDateInMinutes);
 
             _unitOfWork.Users.Update(user);
             await _unitOfWork.SaveAsync();
@@ -135,7 +136,7 @@ namespace GameStore.BLL.Services
             var newRefreshToken = GenerateRefreshToken();
 
             user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpirationDate = DateTime.UtcNow.AddDays(1);
+            user.RefreshTokenExpirationDate = DateTime.UtcNow.AddDays(_refreshTokenExpirationDateInDays);
 
             _unitOfWork.Users.Update(user);
             await _unitOfWork.SaveAsync();
@@ -151,14 +152,14 @@ namespace GameStore.BLL.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            if (!_configurationWrapper.HasKey("JwtSecret"))
+            if (!_configurationWrapper.HasKey(JwtSecret))
             {
                 _logger.Error("JwtSecret was not found in the configuration!");
 
                 throw new KeyNotFoundException("JwtSecret key not found in configuration.");
             }
 
-            var jwtSecret = _configurationWrapper.GetValue("JwtSecret");
+            var jwtSecret = _configurationWrapper.GetValue(JwtSecret);
             var key = Encoding.ASCII.GetBytes(jwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -168,7 +169,7 @@ namespace GameStore.BLL.Services
                     new Claim(ClaimTypes.NameIdentifier, user.ObjectId),
                     new Claim(ClaimTypes.Role, user.Role != null ? user.Role.Name : string.Empty),
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddMinutes(_accessTokenExpirationDateInMinutes),
                 SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)

@@ -5,10 +5,12 @@ using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.Interfaces;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/genres")]
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = ManagerRoleName)]
     public class GenresController : ApiController
     {
         private readonly IGenreService _genreService;

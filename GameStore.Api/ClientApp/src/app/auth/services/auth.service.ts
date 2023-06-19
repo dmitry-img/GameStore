@@ -74,11 +74,11 @@ export class AuthService {
         return localStorage.getItem('refreshToken');
     }
 
-    isAuthenticated(): Observable<boolean> {
+    isAuthenticated$(): Observable<boolean> {
         return this.isAuthenticatedSubject.asObservable();
     }
 
-    getUserRole(): Observable<string | null> {
+    getUserRole$(): Observable<string | null> {
         return this.userRoleSubject.asObservable();
     }
 

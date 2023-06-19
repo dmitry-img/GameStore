@@ -105,6 +105,10 @@
       <Project>{b6b91eca-7e20-4cf3-978a-3237ac13c423}</Project>
       <Name>GameStore.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

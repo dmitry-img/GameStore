@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.ShoppingCart;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
@@ -13,23 +13,20 @@ using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class ShoppingCartsControllerTests
+    public class ShoppingCartsControllerTests : BaseTest
     {
         private readonly ShoppingCartsController _shoppingCartsController;
         private readonly Mock<IShoppingCartService> _shoppingCartServiceMock;
-        private readonly Mock<ICurrentUserService> _currentUserServiceMock;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateShoppingCartItemDTO> _createPublisherValidator;
 
         public ShoppingCartsControllerTests()
         {
             _shoppingCartServiceMock = new Mock<IShoppingCartService>();
-            _currentUserServiceMock = new Mock<ICurrentUserService>();
             _validationService = new ValidationService();
             _createPublisherValidator = new CreateShoppingCartItemDTOValidator();
             _shoppingCartsController = new ShoppingCartsController(
                 _shoppingCartServiceMock.Object,
-                _currentUserServiceMock.Object,
                 _validationService,
                 _createPublisherValidator);
         }

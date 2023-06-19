@@ -1,4 +1,4 @@
-import {Component, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {GetRoleResponse} from "../../models/GetRoleResponse";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
@@ -11,7 +11,7 @@ import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisherBriefResponse";
 import {PaginationRequest} from "../../../shared/models/PaginationRequest";
 import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap, tap} from "rxjs";
+import {BehaviorSubject, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {PaginationResult} from "../../../shared/models/PaginationResult";
 import {GetGameResponse} from "../../../games/models/GetGameResponse";
 
@@ -20,7 +20,7 @@ import {GetGameResponse} from "../../../games/models/GetGameResponse";
   templateUrl: './user-list-page.component.html',
   styleUrls: ['./user-list-page.component.scss']
 })
-export class UserListPageComponent {
+export class UserListPageComponent implements OnInit, OnDestroy{
     @ViewChild('createUserFormBody') userFormBody!: TemplateRef<any>;
     @ViewChild('updateUserFormBody') updateFormBody!: TemplateRef<any>;
     @ViewChild('userDeleteModalBody') roleDeleteModalBody!: TemplateRef<any>;
@@ -31,6 +31,9 @@ export class UserListPageComponent {
     isUpdating: boolean = false;
     bsModalRef!: BsModalRef;
     paginationRequest!: PaginationRequest;
+    private pageNumber$ = new BehaviorSubject<number>(1);
+    private paginatedUsers$ = new BehaviorSubject<PaginationResult<GetUserResponse>|null>(null);
+    private destroy$ = new Subject<void>();
 
     constructor(
         private userService: UserService,
@@ -69,12 +72,14 @@ export class UserListPageComponent {
             PageSize: 10
         }
 
-        this.getData();
+        this.subscribeToPageNumber();
+        this.subscribeToPaginatedUsers();
+        this.subscribeToRouteParams();
+
+        this.getRoles();
     }
 
-    getData() {
-        this.getUsersOfCurrentPage();
-
+    getRoles() {
         this.roleService.getAllRoles().subscribe((roles: GetRoleResponse[]) =>{
             this.roles = roles.map((role: GetRoleResponse) => ({
                 Id: role.Id,
@@ -156,20 +161,48 @@ export class UserListPageComponent {
         });
     }
 
-    private getUsersOfCurrentPage(): void {
-        this.route.paramMap.pipe(
-            tap(params => {
-                const pageNumber = +params.get('page')!;
-                if (isNaN(pageNumber)) {
-                    this.navigateToFirstPage()
-                } else {
-                    this.paginationRequest.PageNumber = pageNumber;
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    private subscribeToPageNumber(): void {
+        this.pageNumber$
+            .pipe(
+                tap(pageNumber => {
+                    if (isNaN(pageNumber)) {
+                        this.navigateToFirstPage();
+                    } else {
+                        this.paginationRequest.PageNumber = pageNumber;
+                    }
+                }),
+                switchMap(() => this.userService.getAllUsersWithPagination(this.paginationRequest)),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(this.paginatedUsers$);
+    }
+
+    private subscribeToPaginatedUsers(): void {
+        this.paginatedUsers$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((paginatedUsers: PaginationResult<GetUserResponse> | null) => {
+                if (paginatedUsers !== null) {
+                    this.paginatedUsers = paginatedUsers;
                 }
-            }),
-            switchMap(() => this.userService.getAllUsersWithPagination(this.paginationRequest))
-        ).subscribe((paginatedUsers: PaginationResult<GetUserResponse>) => {
-            this.paginatedUsers = paginatedUsers;
-        });
+            });
+    }
+
+    private subscribeToRouteParams(): void {
+        this.route.paramMap
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(params => {
+                const pageNumber = +params.get('page')!;
+                this.pageNumber$.next(pageNumber);
+            });
+    }
+
+    private getUsersOfCurrentPage(): void {
+        this.pageNumber$.next(this.paginationRequest.PageNumber);
     }
 
     private navigateToFirstPage(): void{

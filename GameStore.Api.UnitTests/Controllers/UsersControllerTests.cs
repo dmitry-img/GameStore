@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.User;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared.Infrastructure;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.Tests.Controllers
 {
-    public class UsersControllerTests
+    public class UsersControllerTests : BaseTest
     {
-        private const string TestObjectId = "TestObjectId";
         private readonly UsersController _usersControllerMock;
         private readonly Mock<IUserService> _userServiceMock;
-        private readonly Mock<ICurrentUserService> _currentUserServiceMock;
         private readonly Mock<IValidationService> _validationServiceMock;
         private readonly Mock<IValidator<CreateUserDTO>> _createUserValidatorMock;
         private readonly Mock<IValidator<UpdateUserDTO>> _updateUserValidatorMock;
@@ -28,14 +24,12 @@ namespace GameStore.Api.Tests.Controllers
         public UsersControllerTests()
         {
             _userServiceMock = new Mock<IUserService>();
-            _currentUserServiceMock = new Mock<ICurrentUserService>();
             _validationServiceMock = new Mock<IValidationService>();
             _createUserValidatorMock = new Mock<IValidator<CreateUserDTO>>();
             _updateUserValidatorMock = new Mock<IValidator<UpdateUserDTO>>();
 
             _usersControllerMock = new UsersController(
                 _userServiceMock.Object,
-                _currentUserServiceMock.Object,
                 _validationServiceMock.Object,
                 _createUserValidatorMock.Object,
                 _updateUserValidatorMock.Object);
@@ -52,7 +46,7 @@ namespace GameStore.Api.Tests.Controllers
                 new GetUserDTO()
             };
 
-            _userServiceMock.Setup(x => x.GetAllWithPaginationAsync(TestObjectId, pagination)).ReturnsAsync(
+            _userServiceMock.Setup(x => x.GetAllWithPaginationAsync(UserContext.UserObjectId, pagination)).ReturnsAsync(
                 PaginationResult<GetUserDTO>.ToPaginationResult(users, 1, 1));
 
             // Act
@@ -91,20 +85,20 @@ namespace GameStore.Api.Tests.Controllers
             _updateUserValidatorMock.Setup(x => x.ValidateAsync(updateUserDTO, default)).ReturnsAsync(new FluentValidation.Results.ValidationResult());
 
             // Act
-            var result = await _usersControllerMock.Update(TestObjectId, updateUserDTO);
+            var result = await _usersControllerMock.Update(UserContext.UserObjectId, updateUserDTO);
 
             // Assert
-            _userServiceMock.Verify(x => x.UpdateAsync(TestObjectId, updateUserDTO), Times.Once);
+            _userServiceMock.Verify(x => x.UpdateAsync(UserContext.UserObjectId, updateUserDTO), Times.Once);
         }
 
         [Fact]
         public async Task DeleteAsync_CallsDeleteAsync()
         {
             // Act
-            var result = await _usersControllerMock.Delete(TestObjectId);
+            var result = await _usersControllerMock.Delete(UserContext.UserObjectId);
 
             // Assert
-            _userServiceMock.Verify(x => x.DeleteAsync(TestObjectId), Times.Once);
+            _userServiceMock.Verify(x => x.DeleteAsync(UserContext.UserObjectId), Times.Once);
         }
     }
 }

@@ -2,7 +2,6 @@
     <app-game-list-management
         *ngIf="paginatedGames!"
         [paginatedGames]="paginatedGames"
-        [userRole]="userRole"
         (delete)="onDelete($event)"
     ></app-game-list-management>
     <app-pagination-nav

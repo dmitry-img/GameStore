@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.PlatformType;
 using GameStore.BLL.Interfaces;
 using Moq;
@@ -11,26 +12,16 @@ using Xunit;
 
 namespace GameStore.Api.Tests.Controllers
 {
-    public class PlatformTypesControllerTests
+    public class PlatformTypesControllerTests : BaseTest
     {
         private readonly PlatformTypesController _platformTypesController;
         private readonly Mock<IPlatformTypeService> _platformTypeServiceMock;
-        private readonly Mock<IValidationService> _validationServiceMock;
-        private readonly Mock<IValidator<CreatePlatformTypeDTO>> _createPlatformTypeValidatorMock;
-        private readonly Mock<IValidator<UpdatePlatformTypeDTO>> _updatePlatformTypeValidatorMock;
 
         public PlatformTypesControllerTests()
         {
             _platformTypeServiceMock = new Mock<IPlatformTypeService>();
-            _validationServiceMock = new Mock<IValidationService>();
-            _createPlatformTypeValidatorMock = new Mock<IValidator<CreatePlatformTypeDTO>>();
-            _updatePlatformTypeValidatorMock = new Mock<IValidator<UpdatePlatformTypeDTO>>();
 
-            _platformTypesController = new PlatformTypesController(
-                _platformTypeServiceMock.Object,
-                _validationServiceMock.Object,
-                _createPlatformTypeValidatorMock.Object,
-                _updatePlatformTypeValidatorMock.Object);
+            _platformTypesController = new PlatformTypesController(_platformTypeServiceMock.Object);
         }
 
         [Fact]

@@ -188,8 +188,6 @@
     <Compile Include="DTOs\Order\UpdateOrderDetailDTO.cs" />
     <Compile Include="DTOs\Order\UpdateOrderDTO.cs" />
     <Compile Include="DTOs\PlatformType\BasePlatformTypeDTO.cs" />
-    <Compile Include="DTOs\PlatformType\CreatePlatformTypeDTO.cs" />
-    <Compile Include="DTOs\PlatformType\UpdatePlatformTypeDTO.cs" />
     <Compile Include="DTOs\Publisher\BasePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\CreatePublisherDTO.cs" />
     <Compile Include="DTOs\Publisher\GetPublisherBriefDTO.cs" />
@@ -198,7 +196,6 @@
     <Compile Include="DTOs\Role\BaseRoleDTO.cs" />
     <Compile Include="DTOs\Role\CreateRoleDTO.cs" />
     <Compile Include="DTOs\Role\GetRoleDTO.cs" />
-    <Compile Include="DTOs\Role\UpdateRoleDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\BaseShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\CreateShoppingCartItemDTO.cs" />
     <Compile Include="DTOs\ShoppingCart\GetShoppingCartItemDTO.cs" />
@@ -277,12 +274,9 @@
     <Compile Include="Validators\Game\CreateGameDTOValidator.cs" />
     <Compile Include="Validators\Genre\CreateGenreDTOValidator.cs" />
     <Compile Include="Validators\Genre\UpdateGenreDTOValidator.cs" />
-    <Compile Include="Validators\PlatformType\CreatePlatformTypeDTOValidator.cs" />
-    <Compile Include="Validators\PlatformType\UpdatePlatformTypeDTOValidator.cs" />
     <Compile Include="Validators\Publisher\CreatePublisherDTOValidator.cs" />
     <Compile Include="Validators\Publisher\UpdatePublisherDTOValidator.cs" />
     <Compile Include="Validators\Role\CreateRoleDTOValidator.cs" />
-    <Compile Include="Validators\Role\UpdateRoleDTOValidator.cs" />
     <Compile Include="Validators\ShoppingCart\CreateShoppingCartItemDTOValidator.cs" />
     <Compile Include="Validators\User\CreateUserDTOValidator.cs" />
     <Compile Include="Validators\Game\FilterGameDTOValidator.cs" />

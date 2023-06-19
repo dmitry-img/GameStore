@@ -82,11 +82,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {expectedRoles: ['Manager']}
     },
-    {path: 'shopping-cart', component: ShoppingCartDetailsPageComponent},
-    {path: 'make-order', component: MakeOrderPageComponent},
-    {path: 'bank-payment', component: BankPaymentPageComponent},
-    {path: 'ibox-payment', component: IboxPaymentPageComponent},
-    {path: 'visa-payment', component: VisaPaymentPageComponent},
+    {path: 'shopping-cart', component: ShoppingCartDetailsPageComponent, canActivate: [AuthGuard]},
+    {path: 'make-order', component: MakeOrderPageComponent, canActivate: [AuthGuard]},
+    {path: 'bank-payment', component: BankPaymentPageComponent, canActivate: [AuthGuard]},
+    {path: 'ibox-payment', component: IboxPaymentPageComponent, canActivate: [AuthGuard]},
+    {path: 'visa-payment', component: VisaPaymentPageComponent, canActivate: [AuthGuard]},
     {path: 'ban/:commentId', component: BanPageComponent},
     {path: 'admin-panel', redirectTo: '/admin-panel/user/list/1', pathMatch: 'full'},
     {

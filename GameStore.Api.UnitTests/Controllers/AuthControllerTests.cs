@@ -1,16 +1,17 @@
 ﻿using System.Threading.Tasks;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Auth;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared.Infrastructure;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class AuthControllerTests
+    public class AuthControllerTests : BaseTest
     {
-        private const string TestObjectId = "TestObjectId";
         private readonly AuthController _authControoller;
         private readonly Mock<IAuthService> _authServiceMock;
         private readonly Mock<IValidationService> _validationServiceMock;
@@ -66,10 +67,10 @@ namespace GameStore.Api.UnitTests.Controllers
         public async Task LogoutAsync_ShouldInvoke_LogoutAsync()
         {
             // Act
-            var result = await _authControoller.Logout(TestObjectId);
+            var result = await _authControoller.Logout(UserContext.UserObjectId);
 
             // Assert
-            _authServiceMock.Verify(x => x.LogoutAsync(TestObjectId), Times.Once);
+            _authServiceMock.Verify(x => x.LogoutAsync(UserContext.UserObjectId), Times.Once);
         }
 
         [Fact]

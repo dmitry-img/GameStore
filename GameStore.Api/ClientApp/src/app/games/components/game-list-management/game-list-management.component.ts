@@ -11,7 +11,6 @@ import {GetGameBriefResponse} from "../../models/GetGameBriefResponse";
 })
 export class GameListManagementComponent{
     @Input() paginatedGames!: PaginationResult<GetGameBriefResponse>;
-    @Input() userRole!: string | null;
     @Output() delete: EventEmitter<GetGameBriefResponse> = new EventEmitter<GetGameBriefResponse>();
 
     onDelete(game: GetGameBriefResponse) {

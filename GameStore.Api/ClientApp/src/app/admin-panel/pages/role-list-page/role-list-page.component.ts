@@ -1,11 +1,11 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {GetRoleResponse} from "../../models/GetRoleResponse";
 import {RoleService} from "../../services/role.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ConfirmationModalComponent} from "../../../shared/components/confirmation-modal/confirmation-modal.component";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {ToastrService} from "ngx-toastr";
-import {switchMap, tap} from "rxjs";
+import {BehaviorSubject, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {PaginationResult} from "../../../shared/models/PaginationResult";
 import {GetUserResponse} from "../../models/GetUserResponse";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,13 +16,16 @@ import {PaginationRequest} from "../../../shared/models/PaginationRequest";
   templateUrl: './role-list-page.component.html',
   styleUrls: ['./role-list-page.component.scss']
 })
-export class RoleListPageComponent implements OnInit{
+export class RoleListPageComponent implements OnInit, OnDestroy{
     @ViewChild('roleFormBody') roleFormBody!: TemplateRef<any>;
     @ViewChild('roleDeleteModalBody') roleDeleteModalBody!: TemplateRef<any>;
     paginatedRoles!: PaginationResult<GetRoleResponse>;
     roleForm!: FormGroup;
     bsModalRef!: BsModalRef;
     paginationRequest!: PaginationRequest;
+    private pageNumber$ = new BehaviorSubject<number>(1);
+    private paginatedRoles$ = new BehaviorSubject<PaginationResult<GetRoleResponse>|null>(null);
+    private destroy$ = new Subject<void>();
 
     constructor(
         private roleService: RoleService,
@@ -43,7 +46,9 @@ export class RoleListPageComponent implements OnInit{
             PageSize: 10
         }
 
-        this.getRolesOfCurrentPage()
+        this.subscribeToPageNumber();
+        this.subscribeToPaginatedRoles();
+        this.subscribeToRouteParams();
     }
 
     onDelete(role: GetRoleResponse): void {
@@ -87,20 +92,48 @@ export class RoleListPageComponent implements OnInit{
         });
     }
 
-    private getRolesOfCurrentPage(): void {
-        this.route.paramMap.pipe(
-            tap(params => {
-                const pageNumber = +params.get('page')!;
-                if (isNaN(pageNumber)) {
-                    this.navigateToFirstPage()
-                } else {
-                    this.paginationRequest.PageNumber = pageNumber;
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    private subscribeToPageNumber(): void {
+        this.pageNumber$
+            .pipe(
+                tap(pageNumber => {
+                    if (isNaN(pageNumber)) {
+                        this.navigateToFirstPage();
+                    } else {
+                        this.paginationRequest.PageNumber = pageNumber;
+                    }
+                }),
+                switchMap(() => this.roleService.getAllRolesWithPagination(this.paginationRequest)),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(this.paginatedRoles$);
+    }
+
+    private subscribeToPaginatedRoles(): void {
+        this.paginatedRoles$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((paginatedRoles: PaginationResult<GetRoleResponse> | null) => {
+                if (paginatedRoles !== null) {
+                    this.paginatedRoles = paginatedRoles;
                 }
-            }),
-            switchMap(() => this.roleService.getAllRolesWithPagination(this.paginationRequest))
-        ).subscribe((paginatedRoles: PaginationResult<GetRoleResponse>) => {
-            this.paginatedRoles = paginatedRoles;
-        });
+            });
+    }
+
+    private subscribeToRouteParams(): void {
+        this.route.paramMap
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(params => {
+                const pageNumber = +params.get('page')!;
+                this.pageNumber$.next(pageNumber);
+            });
+    }
+
+    private getRolesOfCurrentPage(): void {
+        this.pageNumber$.next(this.paginationRequest.PageNumber);
     }
 
     private navigateToFirstPage(): void{

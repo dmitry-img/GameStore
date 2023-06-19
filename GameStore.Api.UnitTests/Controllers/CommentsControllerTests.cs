@@ -3,24 +3,18 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
-using GameStore.BLL.DTOs.Ban;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Comment;
-using GameStore.BLL.Enums;
 using GameStore.BLL.Interfaces;
-using GameStore.BLL.Services;
-using GameStore.BLL.Validators;
-using GameStore.BLL.Validators.Comment;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class CommentsControllerTests
+    public class CommentsControllerTests : BaseTest
     {
         private const string TestKey = "test-key";
         private readonly Mock<ICommentService> _commentServiceMock;
-        private readonly Mock<ICurrentUserService> _currentUserServiceMock;
         private readonly Mock<IValidationService> _validationServiceMock;
         private readonly Mock<IValidator<CreateCommentDTO>> _createCommentValidatorMock;
         private readonly CommentsController _commentsController;
@@ -28,13 +22,11 @@ namespace GameStore.Api.UnitTests.Controllers
         public CommentsControllerTests()
         {
             _commentServiceMock = new Mock<ICommentService>();
-            _currentUserServiceMock = new Mock<ICurrentUserService>();
             _validationServiceMock = new Mock<IValidationService>();
             _createCommentValidatorMock = new Mock<IValidator<CreateCommentDTO>>();
 
             _commentsController = new CommentsController(
                 _commentServiceMock.Object,
-                _currentUserServiceMock.Object,
                 _validationServiceMock.Object,
                 _createCommentValidatorMock.Object);
         }

@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
-using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
-using GameStore.BLL.Validators;
 using GameStore.BLL.Validators.Publisher;
-using GameStore.DAL.Entities;
+using GameStore.Shared.Infrastructure;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class PublishersControllerTests
+    public class PublishersControllerTests : BaseTest
     {
-        private const string TestObjectId = "TestObjectId";
         private readonly Mock<IPublisherService> _publisherServiceMock;
-        private readonly Mock<ICurrentUserService> _currentUserServiceMock;
         private readonly IValidationService _validationService;
         private readonly PublishersController _publishersController;
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
@@ -33,13 +26,11 @@ namespace GameStore.Api.UnitTests.Controllers
         public PublishersControllerTests()
         {
             _publisherServiceMock = new Mock<IPublisherService>();
-            _currentUserServiceMock = new Mock<ICurrentUserService>();
             _validationService = new ValidationService();
             _createPublisherValidator = new CreatePublisherDTOValidator();
             _updatePublisherValidator = new UpdatePublisherDTOValidator();
             _publishersController = new PublishersController(
                 _publisherServiceMock.Object,
-                _currentUserServiceMock.Object,
                 _validationService,
                 _createPublisherValidator,
                 _updatePublisherValidator);
@@ -146,7 +137,7 @@ namespace GameStore.Api.UnitTests.Controllers
             };
 
             // Act
-            var result = await _publishersController.Update(TestObjectId, updatePublisher);
+            var result = await _publishersController.Update(UserContext.UserObjectId, updatePublisher);
 
             // Assert
             _publisherServiceMock.Verify(s => s.UpdateAsync(It.IsAny<string>(), It.IsAny<UpdatePublisherDTO>()), Times.Once);

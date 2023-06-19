@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Genre;
 using GameStore.BLL.Interfaces;
@@ -13,7 +14,7 @@ using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class GenresControllerTests
+    public class GenresControllerTests : BaseTest
     {
         private readonly GenresController _genresController;
         private readonly Mock<IGenreService> _genreServiceMock;

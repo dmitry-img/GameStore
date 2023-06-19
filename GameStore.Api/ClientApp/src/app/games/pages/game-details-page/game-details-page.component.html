@@ -3,7 +3,7 @@
         *ngIf="game!"
         [game]="game"
     />
-    <ng-container *ngIf="game! && !game.IsDeleted && userRole">
+    <ng-container *ngIf="game! && !game.IsDeleted && isAuthenticated">
         <div *ngIf="!game.Discontinued; else discontinued">
             <p>Units in stock: {{game.UnitsInStock}}</p>
             <p>Price: {{game.Price}}</p>
@@ -18,16 +18,23 @@
         <h3 class="comments__title">Comments</h3>
         <p *ngIf="isUserBanned" class="comments__ban-message">You are currently banned and cannot leave comments!</p>
         <div *ngIf="game!">
-            <app-create-comment
-                *ngIf="userRole && ((game.IsDeleted && rolesAllowedToComment.includes(userRole) && userRole != 'User') ||
-                (!game.IsDeleted && rolesAllowedToComment.includes(userRole) && !isUserBanned))"
-                id="create-comment-form"
-                [gameKey]="game.Key"
-            ></app-create-comment>
+            <ng-container *ngIf="!isUserBanned;">
+                <ng-container *ngIf="game.IsDeleted; else gameActive">
+                    <app-create-comment
+                        *appExceptRole="['User']"
+                        [gameKey]="game.Key">
+                    </app-create-comment>
+                </ng-container>
+                <ng-template #gameActive>
+                    <app-create-comment
+                        *appHasRole="rolesAllowedToComment"
+                        [gameKey]="game.Key">
+                    </app-create-comment>
+                </ng-template>
+            </ng-container>
             <app-comment-list
                 [gameKey]="game.Key"
                 [commentNodes]="commentNodes"
-                [userRole]="userRole"
                 [isUserBanned]="isUserBanned"
                 [rolesAllowedToComment]="rolesAllowedToComment"
                 [isGameDeleted]="game.IsDeleted">

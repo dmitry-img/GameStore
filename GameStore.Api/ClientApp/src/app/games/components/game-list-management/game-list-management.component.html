@@ -1,4 +1,4 @@
-<a *ngIf="userRole === 'Manager'" type="button" class="btn btn-primary mb-3" routerLink="/game/create">Create</a>
+<a *appHasRole="['Manager']" type="button" class="btn btn-primary mb-3" routerLink="/game/create">Create</a>
 <table class="table">
     <thead>
     <tr>
@@ -13,15 +13,17 @@
         <td>{{game.IsDeleted ? 'Yes' : 'No'}}</td>
         <td>
             <a type="button" class="btn btn-secondary mr-2" [routerLink]="['/game/', game.Key]">Details</a>
-            <ng-container *ngIf="!game.IsDeleted && userRole === 'Manager' || userRole === 'Publisher'">
-                <a type="button" class="btn btn-warning mr-2" [routerLink]="['/game/update', game.Key]">Modify</a>
-                <button
-                    *ngIf="userRole != 'Publisher'"
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="onDelete(game)">
-                    Delete
-                </button>
+            <ng-container *ngIf="!game.IsDeleted">
+                <ng-container *appHasRole="['Manager', 'Publisher']">
+                    <a type="button" class="btn btn-warning mr-2" [routerLink]="['/game/update', game.Key]">Modify</a>
+                    <button
+                        *appExceptRole="['Publisher']"
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="onDelete(game)">
+                        Delete
+                    </button>
+                </ng-container>
             </ng-container>
         </td>
     </tr>

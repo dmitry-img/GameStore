@@ -13,7 +13,7 @@ import {GetUserResponse} from "../../admin-panel/models/GetUserResponse";
 })
 export class GenreService {
 
-    private baseUrl = '/api/genres/';
+    private baseUrl = '/api/genres';
 
     constructor(private http: HttpClient) { }
 

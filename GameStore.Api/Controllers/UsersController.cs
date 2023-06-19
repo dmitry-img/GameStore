@@ -1,11 +1,14 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using FluentValidation;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Ban;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.User;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.Api.Controllers
 {
@@ -13,20 +16,17 @@ namespace GameStore.Api.Controllers
     public class UsersController : ApiController
     {
         private readonly IUserService _userService;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateUserDTO> _createUserValidator;
         private readonly IValidator<UpdateUserDTO> _updateUserValidator;
 
         public UsersController(
             IUserService userService,
-            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreateUserDTO> createUserValidator,
             IValidator<UpdateUserDTO> updateUserValidator)
         {
             _userService = userService;
-            _currentUserService = currentUserService;
             _validationService = validationService;
             _createUserValidator = createUserValidator;
             _updateUserValidator = updateUserValidator;
@@ -34,19 +34,17 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("paginated-list")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IHttpActionResult> GetAllWithPagination([FromUri] PaginationDTO paginationDTO)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            var users = await _userService.GetAllWithPaginationAsync(userObjectId, paginationDTO);
+            var users = await _userService.GetAllWithPaginationAsync(UserContext.UserObjectId, paginationDTO);
 
             return Json(users);
         }
 
         [HttpGet]
         [Route("{objectId}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IHttpActionResult> GetById(string objectId)
         {
             var user = await _userService.GetByIdAsync(objectId);
@@ -56,7 +54,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("create")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IHttpActionResult> Create(CreateUserDTO createUserDTO)
         {
             _validationService.Validate(createUserDTO, _createUserValidator);
@@ -68,7 +66,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPut]
         [Route("update/{objectId}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IHttpActionResult> Update(string objectId, UpdateUserDTO updateUserDTO)
         {
             _validationService.Validate(updateUserDTO, _updateUserValidator);
@@ -80,7 +78,7 @@ namespace GameStore.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{objectId}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = AdministratorRoleName)]
         public async Task<IHttpActionResult> Delete(string objectId)
         {
             await _userService.DeleteAsync(objectId);
@@ -90,7 +88,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("ban")]
-        [Authorize(Roles = "Moderator")]
+        [Authorize(Roles = ModeratorRoleName)]
         public async Task<IHttpActionResult> Ban(BanDTO banDTO)
         {
             await _userService.BanAsync(banDTO);
@@ -103,9 +101,7 @@ namespace GameStore.Api.Controllers
         [Authorize]
         public async Task<IHttpActionResult> IsBanned()
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            bool isBanned = await _userService.IsBannedAsync(userObjectId);
+            bool isBanned = await _userService.IsBannedAsync(UserContext.UserObjectId);
 
             return Ok(isBanned);
         }

@@ -2,10 +2,13 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using FluentValidation;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Publisher;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.Api.Controllers
 {
@@ -13,20 +16,17 @@ namespace GameStore.Api.Controllers
     public class PublishersController : ApiController
     {
         private readonly IPublisherService _publisherService;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreatePublisherDTO> _createPublisherValidator;
         private readonly IValidator<UpdatePublisherDTO> _updatePublisherValidator;
 
         public PublishersController(
             IPublisherService publisherService,
-            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreatePublisherDTO> createPublisherValidator,
             IValidator<UpdatePublisherDTO> updatePublisherValidator)
         {
             _publisherService = publisherService;
-            _currentUserService = currentUserService;
             _validationService = validationService;
             _createPublisherValidator = createPublisherValidator;
             _updatePublisherValidator = updatePublisherValidator;
@@ -44,7 +44,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("create")]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = ManagerRoleName)]
         public async Task<IHttpActionResult> Create([FromBody] CreatePublisherDTO publisherDTO)
         {
             _validationService.Validate(publisherDTO, _createPublisherValidator);
@@ -65,7 +65,7 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("paginated-list")]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = ManagerRoleName)]
         public async Task<IHttpActionResult> GetAllBriefWithPagination([FromUri] PaginationDTO paginationDTO)
         {
             var publishers = await _publisherService.GetAllBriefWithPaginationAsync(paginationDTO);
@@ -75,7 +75,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPut]
         [Route("update/{companyName}")]
-        [Authorize(Roles = "Manager,Publisher")]
+        [Authorize(Roles = ManagerRoleName + "," + PublisherRoleName)]
         public async Task<IHttpActionResult> Update(string companyName, UpdatePublisherDTO updatePublisherDTO)
         {
             _validationService.Validate(updatePublisherDTO, _updatePublisherValidator);
@@ -87,43 +87,40 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("{companyName}/is-user-associated-with-publisher")]
-        [Authorize(Roles = "Publisher")]
+        [Authorize(Roles = PublisherRoleName)]
         public async Task<IHttpActionResult> IsUserAssociatedWithPublisher(string companyName)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            var isAssociated = await _publisherService.IsUserAssociatedWithPublisherAsync(userObjectId, companyName);
+            var isAssociated = await _publisherService
+                .IsUserAssociatedWithPublisherAsync(UserContext.UserObjectId, companyName);
 
             return Ok(isAssociated);
         }
 
         [HttpGet]
         [Route("{gameKey}/is-game-associated-with-publisher")]
-        [Authorize(Roles = "Publisher")]
+        [Authorize(Roles = PublisherRoleName)]
         public async Task<IHttpActionResult> IsGameAssociatedWithPublisher(string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            var isAssociated = await _publisherService.IsGameAssociatedWithPublisherAsync(userObjectId, gameKey);
+            var isAssociated = await _publisherService
+                .IsGameAssociatedWithPublisherAsync(UserContext.UserObjectId, gameKey);
 
             return Ok(isAssociated);
         }
 
         [HttpGet]
         [Route("current")]
-        [Authorize(Roles = "Publisher")]
+        [Authorize(Roles = PublisherRoleName)]
         public async Task<IHttpActionResult> GetCurrentPublisherCompanyName()
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            var currentPublisherCompanyName = await _publisherService.GetCurrentCompanyNameAsync(userObjectId);
+            var currentPublisherCompanyName = await _publisherService
+                .GetCurrentCompanyNameAsync(UserContext.UserObjectId);
 
             return Ok(currentPublisherCompanyName);
         }
 
         [HttpGet]
         [Route("free")]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = ManagerRoleName)]
         public async Task<IHttpActionResult> GetFreePublisherUsernames()
         {
             var usernames = await _publisherService.GetFreePublisherUsernamesAsync();
@@ -133,7 +130,7 @@ namespace GameStore.Api.Controllers
 
         [HttpDelete]
         [Route("delete/{id}")]
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = ManagerRoleName)]
         public async Task<IHttpActionResult> Delete(int id)
         {
             await _publisherService.DeleteAsync(id);

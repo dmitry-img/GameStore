@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using FluentValidation;
-using GameStore.Api.Interfaces;
 using GameStore.BLL.DTOs.ShoppingCart;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
 
 namespace GameStore.Api.Controllers
 {
@@ -12,18 +13,15 @@ namespace GameStore.Api.Controllers
     public class ShoppingCartsController : ApiController
     {
         private readonly IShoppingCartService _shoppingCartService;
-        private readonly ICurrentUserService _currentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateShoppingCartItemDTO> _createShoppingCartItemValidator;
 
         public ShoppingCartsController(
             IShoppingCartService shoppingCartService,
-            ICurrentUserService currentUserService,
             IValidationService validationService,
             IValidator<CreateShoppingCartItemDTO> createShoppingCartItemValidator)
         {
             _shoppingCartService = shoppingCartService;
-            _currentUserService = currentUserService;
             _validationService = validationService;
             _createShoppingCartItemValidator = createShoppingCartItemValidator;
         }
@@ -32,9 +30,7 @@ namespace GameStore.Api.Controllers
         [Route("items")]
         public async Task<IHttpActionResult> GetAll()
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            var items = await _shoppingCartService.GetAllItemsAsync(userObjectId);
+            var items = await _shoppingCartService.GetAllItemsAsync(UserContext.UserObjectId);
 
             return Json(items);
         }
@@ -43,9 +39,7 @@ namespace GameStore.Api.Controllers
         [Route("quantity/{gameKey}")]
         public async Task<IHttpActionResult> GetGameQuantity(string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            return Ok(await _shoppingCartService.GetGameQuantityByKeyAsync(userObjectId, gameKey));
+            return Ok(await _shoppingCartService.GetGameQuantityByKeyAsync(UserContext.UserObjectId, gameKey));
         }
 
         [HttpPost]
@@ -54,9 +48,7 @@ namespace GameStore.Api.Controllers
         {
             _validationService.Validate(itemDTO, _createShoppingCartItemValidator);
 
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            await _shoppingCartService.AddItemAsync(userObjectId, itemDTO);
+            await _shoppingCartService.AddItemAsync(UserContext.UserObjectId, itemDTO);
 
             return Ok();
         }
@@ -65,9 +57,7 @@ namespace GameStore.Api.Controllers
         [Route("delete-item/{gameKey}")]
         public async Task<IHttpActionResult> DeleteItem(string gameKey)
         {
-            var userObjectId = _currentUserService.GetCurrentUserObjectId();
-
-            await _shoppingCartService.DeleteItemAsync(userObjectId, gameKey);
+            await _shoppingCartService.DeleteItemAsync(UserContext.UserObjectId, gameKey);
 
             return Ok();
         }

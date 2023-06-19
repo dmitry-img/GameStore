@@ -26,7 +26,6 @@ export class UpdateGamePageComponent implements OnInit{
     publishers!: DropDownItem[];
     discontinuedOptions!: DropDownItem[];
     game!: GetGameResponse;
-    userRole!: string | null;
 
     constructor(
         private genreService: GenreService,
@@ -82,8 +81,6 @@ export class UpdateGamePageComponent implements OnInit{
 
 
         });
-
-        this.userRole = this.authService.decodeAccessToken()!.Role;
 
         this.discontinuedOptions = [
             { Id: false, Value: 'No' },

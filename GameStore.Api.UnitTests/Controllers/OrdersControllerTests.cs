@@ -3,21 +3,21 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
-using GameStore.Api.Interfaces;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Order;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
 using GameStore.BLL.Validators.Order;
+using GameStore.Shared.Infrastructure;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class OrdersControllerTests
+    public class OrdersControllerTests : BaseTest
     {
         private readonly Mock<IOrderService> _mockOrderService;
-        private readonly Mock<ICurrentUserService> _mockCurrentUserService;
         private readonly IValidationService _validationService;
         private readonly IValidator<UpdateOrderDTO> _updateOrderValidator;
         private readonly OrdersController _ordersController;
@@ -25,13 +25,11 @@ namespace GameStore.Api.UnitTests.Controllers
         public OrdersControllerTests()
         {
             _mockOrderService = new Mock<IOrderService>();
-            _mockCurrentUserService = new Mock<ICurrentUserService>();
             _validationService = new ValidationService();
             _updateOrderValidator = new UpdateOrderDTOValidator();
 
             _ordersController = new OrdersController(
                     _mockOrderService.Object,
-                    _mockCurrentUserService.Object,
                     _validationService,
                     _updateOrderValidator);
         }
@@ -40,9 +38,7 @@ namespace GameStore.Api.UnitTests.Controllers
         public async Task Create_ReturnsOkResult()
         {
             // Arrange
-            var userObjectId = "123";
-            _mockCurrentUserService.Setup(s => s.GetCurrentUserObjectId()).Returns(userObjectId);
-            _mockOrderService.Setup(s => s.CreateAsync(userObjectId)).ReturnsAsync(new GetOrderDTO());
+            _mockOrderService.Setup(s => s.CreateAsync(UserContext.UserObjectId)).ReturnsAsync(new GetOrderDTO());
 
             // Act
             var result = await _ordersController.Create();

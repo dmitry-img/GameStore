@@ -73,7 +73,7 @@
         'required': 'Pick at least one platform!',
     }"></app-validation-message>
 
-    <ng-container *ngIf="userRole != 'Publisher'">
+    <ng-container *appExceptRole="['Publisher']">
         <app-dropdown
             [control]="updateGameForm | formControl:'PublisherId'"
             [items]="publishers"

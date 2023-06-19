@@ -5,27 +5,26 @@ using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Role;
 using GameStore.BLL.Interfaces;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/roles")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = AdministratorRoleName)]
     public class RolesController : ApiController
     {
         private readonly IRoleService _roleService;
         private readonly IValidationService _validationService;
         private readonly IValidator<CreateRoleDTO> _createRoleValidator;
-        private readonly IValidator<UpdateRoleDTO> _updateRoleValidator;
 
         public RolesController(
             IRoleService roleService,
             IValidationService validationService,
-            IValidator<CreateRoleDTO> createRoleValidator,
-            IValidator<UpdateRoleDTO> updateRoleValidator)
+            IValidator<CreateRoleDTO> createRoleValidator)
         {
             _roleService = roleService;
             _validationService = validationService;
             _createRoleValidator = createRoleValidator;
-            _updateRoleValidator = updateRoleValidator;
         }
 
         [HttpGet]
