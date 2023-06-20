@@ -122,11 +122,23 @@ namespace GameStore.BLL.Services
         {
             var user = await _unitOfWork.Users
                 .GetQuery()
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.ObjectId == objectId);
 
             if (user == null)
             {
                 throw new NotFoundException(nameof(user), objectId);
+            }
+
+            if (user.Role?.Name == PublisherRoleName && updateUserDTO.RoleId != user.RoleId)
+            {
+                var publisher = await _unitOfWork.Publishers
+                    .GetQuery()
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id);
+                if (publisher != null)
+                {
+                    publisher.UserId = null;
+                }
             }
 
             _mapper.Map(updateUserDTO, user);
