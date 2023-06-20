@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Genre} from "../../models/Genre";
+import {GetGenreResponse} from "../../../genres/models/GetGenreResponse";
 import {PlatformType} from "../../models/PlatformType";
-import {GenreService} from "../../services/genre.service";
 import {PlatformTypeService} from "../../services/platform-type.service";
 import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisherBriefResponse";
 import {PublisherService} from "../../../publishers/services/publisher.service";
@@ -9,6 +8,7 @@ import {HierarchicalDataService} from "../../../core/services/hierarchical-data.
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {forkJoin} from "rxjs";
+import {GenreService} from "../../../genres/services/genre.service";
 
 @Component({
     selector: 'app-create-game-page',
@@ -36,8 +36,8 @@ export class CreateGamePageComponent implements OnInit {
             this.genreService.getAllGenres(),
             this.platformTypeService.getAllPlatformTypes(),
             this.publisherService.getAllPublishersBrief()
-        ]).subscribe(([genres, platformTypes, publishers]: [Genre[], PlatformType[], GetPublisherBriefResponse[]]) => {
-            this.genres = this.hierarchicalDataService.convertToTreeStructure<Genre, CheckboxListItem>(
+        ]).subscribe(([genres, platformTypes, publishers]: [GetGenreResponse[], PlatformType[], GetPublisherBriefResponse[]]) => {
+            this.genres = this.hierarchicalDataService.convertToTreeStructure<GetGenreResponse, CheckboxListItem>(
                 genres,
                 'Id',
                 'ParentGenreId',
@@ -47,7 +47,7 @@ export class CreateGamePageComponent implements OnInit {
                     checked: false,
                     parentId: genre.ParentGenreId
                 })
-            );
+            ).filter((item: CheckboxListItem) => item.label !== 'Other');
 
             this.platformTypes = platformTypes.map((type: PlatformType) => ({
                 id: type.Id,
@@ -56,9 +56,11 @@ export class CreateGamePageComponent implements OnInit {
             }));
 
             this.publishers = publishers.map((publisher: GetPublisherBriefResponse) => ({
-                id: publisher.Id,
-                value: publisher.CompanyName
+                Id: publisher.Id,
+                Value: publisher.CompanyName
             }));
+
+            this.publishers.unshift({Id: null, Value: 'Unknown'})
         });
     }
 }

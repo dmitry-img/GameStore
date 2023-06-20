@@ -31,7 +31,6 @@ namespace GameStore.BLL.UnitTests.Services
 
             var commentDTO = new CreateCommentDTO
             {
-                 Name = "My Test Comment",
                  Body = "My Test Body",
                  GameKey = gameKey,
             };
@@ -44,11 +43,22 @@ namespace GameStore.BLL.UnitTests.Services
                 });
 
             // Act
-            await _commentService.CreateAsync(commentDTO);
+            await _commentService.CreateAsync(RegularUserObjectId, commentDTO);
 
             // Assert
             Assert.Equal(2, (await MockUow.Object.Games.GetByKeyAsync(gameKey)).Comments.Count);
             MockUow.Verify(uow => uow.SaveAsync(), Times.Once);
+        }
+
+        [Fact]
+        public async Task CreateAsync_UserNotFound_ThrowsNotFoundException()
+        {
+            // Arrange
+            var commentDTO = new CreateCommentDTO();
+
+            // Act& Assert
+            await Assert.ThrowsAsync<NotFoundException>(() =>
+                _commentService.CreateAsync("NonExistingUserObjectId", commentDTO));
         }
 
         [Fact]
@@ -59,7 +69,7 @@ namespace GameStore.BLL.UnitTests.Services
 
             // Act& Assert
             await Assert.ThrowsAsync<NotFoundException>(() =>
-                _commentService.CreateAsync(commentDTO));
+                _commentService.CreateAsync(RegularUserObjectId, commentDTO));
         }
 
         [Fact]

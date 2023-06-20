@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using GameStore.BLL.Enums;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared.Infrastructure;
 
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/payments")]
+    [Authorize]
     public class PaymentsController : ApiController
     {
         private readonly IPaymentService _paymentService;
@@ -24,7 +26,7 @@ namespace GameStore.Api.Controllers
         public async Task<HttpResponseMessage> ProcessBankPayment([FromBody]int orderId)
         {
             var invoiceData = await _paymentService
-                        .ProcessPayment<MemoryStream>(orderId, PaymentType.Bank);
+                        .ProcessPayment<MemoryStream>(orderId, PaymentType.Bank, UserContext.UserObjectId);
             string fileName = $"GameStoreInvoice{orderId}.txt";
 
             HttpResponseMessage result =
@@ -46,7 +48,7 @@ namespace GameStore.Api.Controllers
         [Route("ibox")]
         public async Task<IHttpActionResult> ProcessIboxPayment([FromBody] int orderId)
         {
-            await _paymentService.ProcessPayment<int>(orderId, PaymentType.IBox);
+            await _paymentService.ProcessPayment<int>(orderId, PaymentType.IBox, UserContext.UserObjectId);
             return Json(orderId);
         }
 
@@ -54,7 +56,7 @@ namespace GameStore.Api.Controllers
         [Route("visa")]
         public async Task<IHttpActionResult> PocessVisaPayment([FromBody] int orderId)
         {
-            await _paymentService.ProcessPayment<int>(orderId, PaymentType.Visa);
+            await _paymentService.ProcessPayment<int>(orderId, PaymentType.Visa, UserContext.UserObjectId);
             return Json(orderId);
         }
     }

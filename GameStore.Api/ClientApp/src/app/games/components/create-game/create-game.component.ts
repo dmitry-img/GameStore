@@ -4,7 +4,6 @@ import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {DropDownItem} from "../../../shared/models/DropDownItem";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
-import {ErrorHandlerService} from "../../../core/services/error-handler.service";
 import {GameService} from "../../services/game.service";
 
 @Component({
@@ -24,16 +23,15 @@ export class CreateGameComponent implements OnInit {
         private gameService: GameService,
         private toaster: ToastrService,
         private router: Router,
-        private errorHandlerService: ErrorHandlerService
     ) { }
 
     ngOnInit(): void {
         this.createGameForm = this.fb.group({
             Name: ['', Validators.required],
             Description: ['', [Validators.required, Validators.minLength(50)]],
-            GenreIds: [[], Validators.required],
-            PlatformTypeIds: [[], Validators.required],
-            PublisherId: ['', Validators.required],
+            GenreIds: [this.fb.array([])],
+            PlatformTypeIds: [this.fb.array([]), Validators.required],
+            PublisherId: [null],
             Price: ['', [Validators.required, Validators.min(0.01)]],
             UnitsInStock: ['', [Validators.required, Validators.min(1)]]
         });
@@ -44,14 +42,9 @@ export class CreateGameComponent implements OnInit {
             return;
         }
 
-        this.gameService.createGame(this.createGameForm.value).subscribe({
-            next: () => {
-                this.toaster.success("The game has been created successfully!")
-                this.router.navigate(['/'])
-            },
-            error: (error) => {
-                this.errorHandlerService.handleApiError(error);
-            }
+        this.gameService.createGame(this.createGameForm.value).subscribe(() => {
+            this.toaster.success("The game has been created successfully!")
+            this.router.navigate(['/game/list/management/'])
         });
     }
 }

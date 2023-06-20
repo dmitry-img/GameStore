@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 using System.Web.Http.Results;
 using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
-using GameStore.BLL.Validators;
-using GameStore.DAL.Entities;
+using GameStore.BLL.Validators.Game;
 using Moq;
 using Xunit;
 
 namespace GameStore.Api.UnitTests.Controllers
 {
-    public class GamesControllerTests
+    public class GamesControllerTests : BaseTest
     {
         private const string TestKey = "test-key";
+        private readonly GamesController _gamesController;
         private readonly Mock<IGameService> _gameServiceMock;
         private readonly IValidationService _validationService;
-        private readonly GamesController _gamesController;
         private readonly IValidator<CreateGameDTO> _createGameValidator;
         private readonly IValidator<UpdateGameDTO> _updateGameValidator;
         private readonly IValidator<FilterGameDTO> _filterGameValidator;
@@ -52,7 +52,7 @@ namespace GameStore.Api.UnitTests.Controllers
             var filter = new FilterGameDTO();
 
             // Act
-            var result = await _gamesController.GetList(filter);
+            var result = await _gamesController.GetAll(filter);
 
             // Assert
             Assert.IsType<JsonResult<PaginationResult<GetGameBriefDTO>>>(result);
@@ -108,6 +108,10 @@ namespace GameStore.Api.UnitTests.Controllers
                 "elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 GenreIds = new List<int> { 1 },
                 PlatformTypeIds = new List<int> { 1 },
+                Price = 10,
+                UnitsInStock = 10,
+                Discontinued = false,
+                PublisherId = 1
             };
 
             // Act
@@ -157,6 +161,32 @@ namespace GameStore.Api.UnitTests.Controllers
             Assert.Equal(
                 new ContentDispositionHeaderValue("attachment") { FileName = $"{game.Name}.bin" },
                 result.Content.Headers.ContentDisposition);
+        }
+
+        [Fact]
+        public async Task GetPublisherGamesWithPagination_ShouldInvoke_GetPublisherGamesWithPaginationAsync()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO() { PageNumber = 1, PageSize = 1 };
+
+            // Act
+            var result = await _gamesController.GetPublisherGamesWithPagination(paginationDTO);
+
+            // Assert
+            Assert.IsType<JsonResult<PaginationResult<GetGameBriefDTO>>>(result);
+        }
+
+        [Fact]
+        public async Task GetAllWithPagination_ShouldInvoke_GetAllWithPaginationAsync()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO() { PageNumber = 1, PageSize = 1 };
+
+            // Act
+            var result = await _gamesController.GetAllWithPagination(paginationDTO);
+
+            // Assert
+            Assert.IsType<JsonResult<PaginationResult<GetGameBriefDTO>>>(result);
         }
     }
 }

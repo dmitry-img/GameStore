@@ -1,0 +1,58 @@
+<div class="container">
+    <h1>Update Publisher</h1>
+    <form [formGroup]="updatePublisherForm" (ngSubmit)="onSubmit()">
+        <app-input-field
+            [control]="updatePublisherForm | formControl:'CompanyName'"
+            [isRequired]="true"
+            labelText="Company Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="updatePublisherForm | formControl:'CompanyName'"
+            [errorMessages]="{
+          'required': 'This field is required!',
+          'maxlength': 'The company name should be up to 40 characters!'
+        }"
+        ></app-validation-message>
+
+        <app-text-area-field
+            [control]="updatePublisherForm | formControl:'Description'"
+            [isRequired]="true"
+            labelText="Description"
+        ></app-text-area-field>
+        <app-validation-message
+            [control]="updatePublisherForm | formControl:'Description'"
+            [errorMessages]="{
+          'required': 'This field is required!',
+        }"
+        ></app-validation-message>
+
+        <app-input-field
+            [control]="updatePublisherForm | formControl:'HomePage'"
+            [isRequired]="true"
+            labelText="Home Page"
+        ></app-input-field>
+        <app-validation-message
+            [control]="updatePublisherForm | formControl:'HomePage'"
+            [errorMessages]="{
+          'required': 'This field is required!',
+          'pattern': 'Enter a valid link!'
+        }"
+        ></app-validation-message>
+
+        <ng-container *appHasRole="['Manager']">
+            <label>User<span class="required">*</span></label>
+            <ngx-select
+                formControlName="Username"
+                [items]="freePublisherUsernames"
+                placeholder="Select items">
+            </ngx-select>
+            <app-validation-message
+                [control]="updatePublisherForm | formControl:'Username'"
+                [errorMessages]="{
+                'required': 'Select username of the publisher'
+            }">
+            </app-validation-message>
+        </ng-container>
+        <button type="submit" class="btn btn-primary" [disabled]="updatePublisherForm.invalid">Update</button>
+    </form>
+</div>

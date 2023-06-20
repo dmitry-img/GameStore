@@ -1,0 +1,21 @@
+<button type="button" class="btn btn-primary mb-3" (click)="onCreate()">Create</button>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Parent</th>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let genre of paginatedGenres.Items">
+        <td>{{genre.Name}}</td>
+        <td>{{genre.ParentGenreName}}</td>
+        <td>
+            <button type="button" class="btn btn-warning mr-2" (click)="onModify(genre)">Modify</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete(genre)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+

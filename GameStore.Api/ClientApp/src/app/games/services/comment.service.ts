@@ -24,10 +24,6 @@ export class CommentService {
         return this.http.post<void>(`${this.baseUrl}/create`, newComment);
     }
 
-    ban(banRequest: BanRequest): Observable<void>{
-        return this.http.post<void>(`${this.baseUrl}/ban`, banRequest);
-    }
-
     deleteComment(id: number): Observable<void> {
         return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
     }

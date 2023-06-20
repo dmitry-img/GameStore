@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
 import {BsModalRef} from "ngx-bootstrap/modal";
 
 @Component({
@@ -8,16 +8,15 @@ import {BsModalRef} from "ngx-bootstrap/modal";
 })
 export class ConfirmationModalComponent {
     @Input() title!: string;
-    @Input() message!: string;
     @Input() btnOkText!: string;
     @Input() btnCancelText!: string;
+    @Input() content!: TemplateRef<any>;
 
     @Output() confirm = new EventEmitter();
 
     constructor(public modalRef: BsModalRef) { }
 
-    confirmAndClose(): void {
+    onConfirm(): void {
         this.confirm.emit();
-        this.modalRef.hide();
     }
 }

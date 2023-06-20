@@ -2,7 +2,7 @@
     <div *ngIf="order!" class="ibox-payment">
         <h2>IBox Terminal Payment</h2>
         <p>Account Number: {{order.CustomerId}}</p>
-        <p>Invoice Number: {{order.OrderId}}</p>
+        <p>Invoice Number: {{order.Id}}</p>
         <p>Sum: {{order.TotalSum}}</p>
         <button class="btn btn-primary" type="button" (click)="onPay()">Pay</button>
     </div>

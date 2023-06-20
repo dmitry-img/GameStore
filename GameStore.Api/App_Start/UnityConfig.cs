@@ -13,9 +13,9 @@ namespace GameStore.Api
         {
             var container = new UnityContainer();
 
+            container.RegisterApiTypes();
             container.RegisterDALTypes();
             container.RegisterBLLTypes();
-            container.RegisterApiTypes();
 
             config.DependencyResolver = new UnityDependencyResolver(container);
         }

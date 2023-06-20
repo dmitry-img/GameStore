@@ -17,7 +17,7 @@ export class BanComponent implements OnInit{
 
     ngOnInit(): void {
         this.banForm = this.fb.group({
-            banDuration: [BanDuration.OneDay]
+            banDuration: [BanDuration.OneHour]
         })
     }
 

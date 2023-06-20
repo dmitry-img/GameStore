@@ -1,0 +1,11 @@
+<div class="container mt-4">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="user/list/1" [class.active]="activeTab === 'user'">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="role/list/1" [class.active]="activeTab === 'role'">Roles</a>
+        </li>
+    </ul>
+    <router-outlet></router-outlet>
+</div>

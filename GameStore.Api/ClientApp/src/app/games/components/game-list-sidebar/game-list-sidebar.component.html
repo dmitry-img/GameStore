@@ -1,7 +1,7 @@
 <div class="game-list-sidebar">
     <form [formGroup]="filterGameForm" (ngSubmit)="onSubmit()">
         <app-dropdown
-            [control]="filterGameForm | formControl:'PageSize'"
+            [control]="filterGameForm | formControl:'Pagination.PageSize'"
             [items]="pageSizes"
             labelText="Page Size"
             [showPlaceholder]="false"

@@ -1,0 +1,71 @@
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Registration
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="registerForm | formControl:'Email'"
+                                labelText="Email"
+                                [isRequired]="true"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="registerForm | formControl:'Email'"
+                                [errorMessages]="{
+                                    'required': 'Username is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="registerForm | formControl:'Username'"
+                                labelText="Username"
+                                [isRequired]="true"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="registerForm | formControl:'Username'"
+                                [errorMessages]="{
+                                    'required': 'Username is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="registerForm | formControl:'Password'"
+                                [isRequired]="true"
+                                labelText="Password"
+                                type="password"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="registerForm | formControl:'Password'"
+                                [errorMessages]="{
+                                    'required': 'Password is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="registerForm | formControl:'ConfirmPassword'"
+                                [isRequired]="true"
+                                labelText="Confirm Password"
+                                type="password"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="registerForm | formControl:'ConfirmPassword'"
+                                [errorMessages]="{
+                                    'required': 'Password is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <app-validation-message
+                            [control]="registerForm"
+                            [errorMessages]="{
+                            'equal': 'Password don\'t match!',
+                        }"></app-validation-message>
+                        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

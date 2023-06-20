@@ -6,12 +6,12 @@ namespace GameStore.BLL.Interfaces
 {
     public interface IShoppingCartService
     {
-        Task AddItemAsync(CreateShoppingCartItemDTO cartItemDTO);
+        Task AddItemAsync(string userObjectId, CreateShoppingCartItemDTO cartItemDTO);
 
-        Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync();
+        Task<IEnumerable<GetShoppingCartItemDTO>> GetAllItemsAsync(string userObjectId);
 
-        Task DeleteItemAsync(string gameKey);
+        Task DeleteItemAsync(string userObjectId, string gameKey);
 
-        Task<int> GetGameQuantityByKeyAsync(string gameKey);
+        Task<int> GetGameQuantityByKeyAsync(string userObjectId, string gameKey);
     }
 }

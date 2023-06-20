@@ -1,5 +1,7 @@
 ﻿using GameStore.Api.Infrastructure.Extensions;
+
 using Unity;
+using Unity.Lifetime;
 
 namespace GameStore.Api.Infrastructure
 {

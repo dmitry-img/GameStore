@@ -1,0 +1,18 @@
+<div class="container mt-5">
+    <app-publisher-list
+        *ngIf="paginatedPublishers"
+        [paginatedPublishers]="paginatedPublishers"
+        (delete)="onDelete($event)"
+    ></app-publisher-list>
+</div>
+<app-pagination-nav
+    *ngIf="paginatedPublishers!"
+    [totalItems]="paginatedPublishers.TotalItems"
+    [itemsPerPage]="paginatedPublishers.PageSize"
+    [currentPage]="paginatedPublishers.CurrentPage"
+    baseUrl="/publisher/list">
+</app-pagination-nav>
+<ng-template #publisherDeleteModalBody>
+    <p>The publisher will be deleted!</p>
+</ng-template>
+

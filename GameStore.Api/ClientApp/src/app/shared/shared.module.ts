@@ -18,6 +18,10 @@ import { CollapseComponent } from './components/collapse/collapse.component';
 import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import {AuthModule} from "../auth/auth.module";
+import {HasRoleDirective} from "./directives/has-role.directive";
+import {ExceptRoleDirective} from "./directives/except-role.directive";
 
 @NgModule({
     declarations: [
@@ -35,6 +39,9 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
         CollapseComponent,
         PaginationNavComponent,
         ConfirmationModalComponent,
+        ErrorPageComponent,
+        HasRoleDirective,
+        ExceptRoleDirective
     ],
     exports: [
         HeaderComponent,
@@ -50,13 +57,15 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
         InfoModalComponent,
         CollapseComponent,
         PaginationNavComponent,
+        HasRoleDirective,
+        ExceptRoleDirective
     ],
     imports: [
         CommonModule,
         RouterLink,
         ReactiveFormsModule,
         ModalModule.forRoot(),
-        CollapseModule.forRoot()
+        CollapseModule.forRoot(),
     ]
 })
 export class SharedModule {

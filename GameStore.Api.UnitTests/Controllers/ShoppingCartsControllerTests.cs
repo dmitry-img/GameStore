@@ -1,23 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
+using FluentValidation;
 using GameStore.Api.Controllers;
+using GameStore.Api.Tests.Common;
 using GameStore.BLL.DTOs.ShoppingCart;
 using GameStore.BLL.Interfaces;
+using GameStore.BLL.Services;
+using GameStore.BLL.Validators.ShoppingCart;
 using Moq;
 using Xunit;
 
-namespace GameStore.Api.Tests.Controllers
+namespace GameStore.Api.UnitTests.Controllers
 {
-    public class ShoppingCartsControllerTests
+    public class ShoppingCartsControllerTests : BaseTest
     {
-        private readonly Mock<IShoppingCartService> _shoppingCartServiceMock;
         private readonly ShoppingCartsController _shoppingCartsController;
+        private readonly Mock<IShoppingCartService> _shoppingCartServiceMock;
+        private readonly IValidationService _validationService;
+        private readonly IValidator<CreateShoppingCartItemDTO> _createPublisherValidator;
 
         public ShoppingCartsControllerTests()
         {
             _shoppingCartServiceMock = new Mock<IShoppingCartService>();
-            _shoppingCartsController = new ShoppingCartsController(_shoppingCartServiceMock.Object);
+            _validationService = new ValidationService();
+            _createPublisherValidator = new CreateShoppingCartItemDTOValidator();
+            _shoppingCartsController = new ShoppingCartsController(
+                _shoppingCartServiceMock.Object,
+                _validationService,
+                _createPublisherValidator);
         }
 
         [Fact]
@@ -30,7 +41,7 @@ namespace GameStore.Api.Tests.Controllers
                 new GetShoppingCartItemDTO()
             };
 
-            _shoppingCartServiceMock.Setup(x => x.GetAllItemsAsync()).ReturnsAsync(items);
+            _shoppingCartServiceMock.Setup(x => x.GetAllItemsAsync(It.IsAny<string>())).ReturnsAsync(items);
 
             // Act
             var result = await _shoppingCartsController.GetAll();
@@ -38,20 +49,29 @@ namespace GameStore.Api.Tests.Controllers
             // Assert
             Assert.NotNull(result);
             Assert.IsType<JsonResult<IEnumerable<GetShoppingCartItemDTO>>>(result);
-            _shoppingCartServiceMock.Verify(s => s.GetAllItemsAsync(), Times.Once);
+            _shoppingCartServiceMock.Verify(s => s.GetAllItemsAsync(It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
         public async Task Create_ShouldInvoke_CreateAsync()
         {
             // Arrange
-            var newItem = new CreateShoppingCartItemDTO();
+            var newItem = new CreateShoppingCartItemDTO()
+            {
+                GameKey = "TestGameKey",
+                GameName = "TestGame",
+                GamePrice = 1,
+                Quantity = 1
+            };
 
             // Act
             var result = await _shoppingCartsController.AddItem(newItem);
 
             // Assert
-            _shoppingCartServiceMock.Verify(s => s.AddItemAsync(It.IsAny<CreateShoppingCartItemDTO>()), Times.Once);
+            _shoppingCartServiceMock.Verify(
+                s => s.AddItemAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<CreateShoppingCartItemDTO>()), Times.Once);
         }
 
         [Fact]
@@ -64,7 +84,26 @@ namespace GameStore.Api.Tests.Controllers
             var result = await _shoppingCartsController.DeleteItem(gameKey);
 
             // Assert
-            _shoppingCartServiceMock.Verify(s => s.DeleteItemAsync(It.IsAny<string>()), Times.Once);
+            _shoppingCartServiceMock.Verify(s => s.DeleteItemAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetGameQuantity_ShouldInvoke_GetGameQuantityByKeyAsync_And_ReturnOk()
+        {
+            // Arrange
+            var gameKey = "test-key";
+            var quantity = 1;
+
+            _shoppingCartServiceMock.Setup(x => x.GetGameQuantityByKeyAsync(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(quantity);
+
+            // Act
+            var result = await _shoppingCartsController.GetGameQuantity(gameKey);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkNegotiatedContentResult<int>>(result);
+            _shoppingCartServiceMock.Verify(s => s.GetGameQuantityByKeyAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -41,8 +42,8 @@ namespace GameStore.BLL.Services
         {
             var game = _mapper.Map<Game>(gameDTO);
 
-            game.Genres = (await _unitOfWork.Genres
-                .FilterAsync(g => gameDTO.GenreIds.Contains(g.Id))).ToList();
+            await AddGenresOrOther(game, gameDTO.GenreIds);
+
             game.PlatformTypes = (await _unitOfWork.PlatformTypes
                 .FilterAsync(pt => gameDTO.PlatformTypeIds.Contains(pt.Id))).ToList();
 
@@ -63,8 +64,8 @@ namespace GameStore.BLL.Services
 
             _mapper.Map(gameDTO, game);
 
-            game.Genres = (await _unitOfWork.Genres
-               .FilterAsync(g => gameDTO.GenreIds.Contains(g.Id))).ToList();
+            await AddGenresOrOther(game, gameDTO.GenreIds);
+
             game.PlatformTypes = (await _unitOfWork.PlatformTypes
                 .FilterAsync(pt => gameDTO.PlatformTypeIds.Contains(pt.Id))).ToList();
 
@@ -76,7 +77,9 @@ namespace GameStore.BLL.Services
 
         public async Task DeleteAsync(string key)
         {
-            var game = await _unitOfWork.Games.GetByKeyAsync(key);
+            var game = await _unitOfWork.Games
+                .GetQuery()
+                .FirstOrDefaultAsync(g => g.Key == key);
 
             if (game == null)
             {
@@ -178,7 +181,8 @@ namespace GameStore.BLL.Services
         public async Task<PaginationResult<GetGameBriefDTO>> GetFilteredAsync(FilterGameDTO filter)
         {
             var query = _unitOfWork.Games.GetQuery()
-                .Include(game => game.Genres);
+                .Include(game => game.Genres)
+                .Where(game => !game.IsDeleted);
 
             var pipeline = new Pipeline<IQueryable<Game>>();
             pipeline.Register(new NameOperation(filter.NameFragment));
@@ -198,22 +202,55 @@ namespace GameStore.BLL.Services
             var sortStrategy = _sortStrategyFactory.GetSortStrategy(filter.SortOption);
             query = sortStrategy.Sort(query);
 
-            if (filter.PageSize != -1 && filter.PageNumber > 0 && filter.PageSize > 0)
-            {
-                query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
-            }
-
             var games = await query.ToListAsync();
 
-            var result = new PaginationResult<GetGameBriefDTO>
-            {
-                Items = _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
-                TotalItems = totalItems,
-                PageSize = filter.PageSize,
-                CurrentPage = filter.PageNumber
-            };
+            return PaginationResult<GetGameBriefDTO>.ToPaginationResult(
+                _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
+                filter.Pagination.PageNumber,
+                filter.Pagination.PageSize);
+        }
 
-            return result;
+        public async Task<PaginationResult<GetGameBriefDTO>> GetAllWithPaginationAsync(PaginationDTO paginationDTO)
+        {
+            var games = await _unitOfWork.Games.GetAllAsync();
+
+            return PaginationResult<GetGameBriefDTO>.ToPaginationResult(
+                    _mapper.Map<IEnumerable<GetGameBriefDTO>>(games),
+                    paginationDTO.PageNumber,
+                    paginationDTO.PageSize);
+        }
+
+        public async Task<PaginationResult<GetGameBriefDTO>> GetPublisherGamesWithPaginationAsync(string userObjectId, PaginationDTO paginationDTO)
+        {
+            var publisher = await _unitOfWork.Publishers.GetQuery()
+                .Include(p => p.User)
+                .Include(p => p.Games)
+                .FirstOrDefaultAsync(p => p.User.ObjectId == userObjectId);
+
+            if (publisher == null)
+            {
+                throw new BadRequestException("You don't have published games yet!");
+            }
+
+            return PaginationResult<GetGameBriefDTO>.ToPaginationResult(
+                _mapper.Map<IEnumerable<GetGameBriefDTO>>(publisher.Games),
+                paginationDTO.PageNumber,
+                paginationDTO.PageSize);
+        }
+
+        private async Task AddGenresOrOther(Game game, ICollection<int> genreIds)
+        {
+            if (genreIds != null && genreIds.Any())
+            {
+                game.Genres = (await _unitOfWork.Genres
+                    .FilterAsync(g => genreIds.Contains(g.Id))).ToList();
+            }
+            else
+            {
+                game.Genres.Clear();
+                var other = await _unitOfWork.Genres.GetQuery().FirstOrDefaultAsync(g => g.Name == "Other");
+                game.Genres.Add(other);
+            }
         }
     }
 }

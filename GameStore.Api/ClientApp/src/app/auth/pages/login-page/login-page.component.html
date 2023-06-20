@@ -1,0 +1,41 @@
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Login
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="loginForm | formControl:'Username'"
+                                labelText="Username"
+                                [isRequired]="true"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="loginForm | formControl:'Username'"
+                                [errorMessages]="{
+                                    'required': 'Username is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <div class="mb-3">
+                            <app-input-field
+                                [control]="loginForm | formControl:'Password'"
+                                [isRequired]="true"
+                                labelText="Password"
+                                type="password"
+                            ></app-input-field>
+                            <app-validation-message
+                                [control]="loginForm | formControl:'Password'"
+                                [errorMessages]="{
+                                    'required': 'Password is required!'
+                                }"></app-validation-message>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

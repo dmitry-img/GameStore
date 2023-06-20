@@ -1,14 +1,16 @@
-import {Genre} from "./Genre";
+import {GetGenreResponse} from "../../genres/models/GetGenreResponse";
 import {PlatformType} from "./PlatformType";
+import {GetPublisherBriefResponse} from "../../publishers/models/GetPublisherBriefResponse";
 
 export interface GetGameResponse {
     Key: string
     Name: string,
     Description: string,
-    Genres: Genre[],
+    Genres: GetGenreResponse[],
     PlatformTypes: PlatformType[]
     Price: number
     UnitsInStock: number
     Discontinued: boolean
-    PublisherCompanyName: string
+    Publisher: GetPublisherBriefResponse
+    IsDeleted: boolean
 }

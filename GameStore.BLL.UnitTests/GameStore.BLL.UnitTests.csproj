@@ -62,6 +62,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>4.7.1</Version>
+    </PackageReference>
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
     <PackageReference Include="xunit.runner.visualstudio">
@@ -78,13 +81,17 @@
     <Compile Include="Pipelines\GameFilterOperationsTests.cs" />
     <Compile Include="Profiles\MappingProfileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BanServiceTests.cs" />
+    <Compile Include="Services\AuthServiceTests.cs" />
     <Compile Include="Services\GameServiceTests.cs" />
     <Compile Include="Services\CommentServiceTests.cs" />
+    <Compile Include="Services\GenreServiceTests.cs" />
     <Compile Include="Services\OrderServiceTests.cs" />
     <Compile Include="Services\PaymentServiceTests.cs" />
-    <Compile Include="Services\PublisherServiceServiceTests.cs" />
+    <Compile Include="Services\PlafrotmTypeServiceTests.cs" />
+    <Compile Include="Services\PublisherServiceTests.cs" />
+    <Compile Include="Services\RoleServiceTests.cs" />
     <Compile Include="Services\ShoppingCartServiceTests.cs" />
+    <Compile Include="Services\UserServiceTests.cs" />
     <Compile Include="Services\ValidationServiceTests.cs" />
     <Compile Include="Strategies\PaymentStrategyTests.cs" />
     <Compile Include="Strategies\SortingStrategyTests.cs" />
@@ -97,6 +104,10 @@
     <ProjectReference Include="..\GameStore.DAL\GameStore.DAL.csproj">
       <Project>{b6b91eca-7e20-4cf3-978a-3237ac13c423}</Project>
       <Name>GameStore.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

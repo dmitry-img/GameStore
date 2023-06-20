@@ -1,13 +1,18 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using GameStore.BLL.DTOs.Common;
 using GameStore.BLL.DTOs.Game;
 using GameStore.BLL.Interfaces;
+using GameStore.Shared;
+using GameStore.Shared.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
+
+using static GameStore.Shared.Infrastructure.Constants;
 
 namespace GameStore.Api.Controllers
 {
@@ -43,11 +48,31 @@ namespace GameStore.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        public async Task<IHttpActionResult> GetList([FromUri]FilterGameDTO filter)
+        public async Task<IHttpActionResult> GetAll([FromUri]FilterGameDTO filter)
         {
             _validationService.Validate(filter, _filterGameValidator);
 
             var games = await _gameService.GetFilteredAsync(filter);
+            return Json(games);
+        }
+
+        [HttpGet]
+        [Route("paginated-list")]
+        [Authorize(Roles = ManagerRoleName + "," + ModeratorRoleName)]
+        public async Task<IHttpActionResult> GetAllWithPagination([FromUri] PaginationDTO paginationDTO)
+        {
+            var games = await _gameService.GetAllWithPaginationAsync(paginationDTO);
+
+            return Json(games);
+        }
+
+        [HttpGet]
+        [Route("publisher/paginated-list")]
+        [Authorize(Roles = PublisherRoleName)]
+        public async Task<IHttpActionResult> GetPublisherGamesWithPagination([FromUri] PaginationDTO paginationDTO)
+        {
+            var games = await _gameService.GetPublisherGamesWithPaginationAsync(UserContext.UserObjectId, paginationDTO);
+
             return Json(games);
         }
 
@@ -62,6 +87,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("create")]
+        [Authorize(Roles = ManagerRoleName)]
         public async Task<IHttpActionResult> Create([FromBody] CreateGameDTO gameDTO)
         {
             _validationService.Validate(gameDTO, _createGameValidator);
@@ -73,7 +99,8 @@ namespace GameStore.Api.Controllers
 
         [HttpPut]
         [Route("update/{key}")]
-        public async Task<IHttpActionResult> Update(string key, [FromBody] UpdateGameDTO gameDTO)
+        [Authorize(Roles = ManagerRoleName + "," + PublisherRoleName)]
+        public async Task<IHttpActionResult> Update(string key, UpdateGameDTO gameDTO)
         {
             _validationService.Validate(gameDTO, _updateGameValidator);
 

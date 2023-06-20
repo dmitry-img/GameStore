@@ -42,7 +42,7 @@ export class TextAreaFieldComponent implements OnInit, AfterViewInit, OnChanges,
         if (changes['immutableText']) {
             this.updateImmutableText();
             if (this.inputTextArea) {
-                this.inputTextArea.nativeElement.value = this.immutableTextInQuotes;
+                this.inputTextArea.nativeElement.value = this.immutableTextInQuotes + (this.control.value ? this.control.value : '');
             }
         }
         if (changes['control']) {
@@ -52,6 +52,8 @@ export class TextAreaFieldComponent implements OnInit, AfterViewInit, OnChanges,
             this.controlSubscription = this.control.valueChanges.subscribe(value => {
                 if (value === null || value === '') {
                     this.inputTextArea.nativeElement.value = this.immutableTextInQuotes;
+                } else {
+                    this.inputTextArea.nativeElement.value = this.immutableTextInQuotes + value;
                 }
             });
         }
@@ -63,7 +65,7 @@ export class TextAreaFieldComponent implements OnInit, AfterViewInit, OnChanges,
     }
 
     ngAfterViewInit(): void {
-        this.inputTextArea.nativeElement.value = this.immutableTextInQuotes;
+        this.inputTextArea.nativeElement.value = this.immutableTextInQuotes + (this.control.value ? this.control.value : '');
     }
 
     onKeydown(event: any): void {

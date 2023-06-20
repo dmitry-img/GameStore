@@ -1,8 +1,8 @@
 export interface GetCommentResponse {
     Id: number,
-    Name: string,
+    Name: string
     Body: string,
     HasQuote: boolean
-    GameKey: string,
+    GameKey: string
     ParentCommentId: number | null
 }

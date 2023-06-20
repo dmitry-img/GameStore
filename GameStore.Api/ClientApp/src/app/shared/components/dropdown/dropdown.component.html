@@ -1,10 +1,12 @@
 <div class="form-group">
-    <label>{{labelText}}</label>
+    <label>
+        {{labelText}}<span *ngIf="isRequired" class="required">*</span>
+    </label>
     <select
         class="form-select form-select-lg mb-1"
         aria-label=".form-select-lg example"
         [formControl]="control">
-        <option *ngIf="showPlaceholder" value="" disabled selected>{{placeholder}}</option>
-        <option *ngFor="let item of items" value="{{item.id}}">{{item.value}}</option>
+        <option *ngIf="showPlaceholder" [value]="null" disabled selected>{{placeholder}}</option>
+        <option *ngFor="let item of items" [value]="item.Id">{{item.Value}}</option>
     </select>
 </div>

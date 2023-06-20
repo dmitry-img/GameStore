@@ -20,9 +20,7 @@ export class VisaPaymentPageComponent implements OnInit{
     constructor(
         private orderService: OrderService,
         private paymentService: PaymentService,
-        private modalService: ModalService,
-        private toaster: ToastrService,
-        private router: Router
+        private modalService: ModalService
     ) { }
 
     ngOnInit(): void {
@@ -40,20 +38,14 @@ export class VisaPaymentPageComponent implements OnInit{
         }
     }
 
-    private payByVisa(){
-        this.orderService.createOrder().subscribe({
-            next: (response: GetOrderResponse) => {
-                this.paymentService.payByVisa(response.OrderId).subscribe(() => {
-                    this.modalService.openInfoModalWithRedirection(
-                        "Success!",
-                        `The order ${response.OrderId} has been paid successfully!`
-                    );
-                });
-            },
-            error: (error) =>{
-                this.toaster.error(error.error);
-                this.router.navigate(['/shopping-cart'])
-            }
+    private payByVisa(): void{
+        this.orderService.createOrder().subscribe((response: GetOrderResponse) => {
+            this.paymentService.payByVisa(response.Id).subscribe(() => {
+                this.modalService.openInfoModalWithRedirection(
+                    "Success!",
+                    `The order ${response.Id} has been paid successfully!`
+                );
+            });
         });
     }
 }

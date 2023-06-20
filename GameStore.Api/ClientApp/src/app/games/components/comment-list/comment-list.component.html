@@ -3,8 +3,14 @@
         [gameKey]="gameKey"
         [commentNode]="commentNode"
         [parentNode]="parentNode"
+        [isUserBanned]="isUserBanned"
+        [isGameDeleted]="isGameDeleted"
+        [rolesAllowedToComment]="rolesAllowedToComment"
         (delete)="onDelete($event)"
         (reply)="onReply($event)"
         (quote)="onQuote($event)">
     </app-comment-list-item>
 </ng-container>
+<ng-template #commentDeleteModalBody>
+    <p>The comment will be deleted!</p>
+</ng-template>

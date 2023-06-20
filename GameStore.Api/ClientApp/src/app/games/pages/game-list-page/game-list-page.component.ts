@@ -2,11 +2,10 @@ import {Component, Input} from '@angular/core';
 import {GetGameResponse} from "../../models/GetGameResponse";
 import {FilterGameRequest} from "../../models/FilterGameRequest";
 import {forkJoin, switchMap, tap} from "rxjs";
-import {Genre} from "../../models/Genre";
+import {GetGenreResponse} from "../../../genres/models/GetGenreResponse";
 import {PlatformType} from "../../models/PlatformType";
 import {GetPublisherBriefResponse} from "../../../publishers/models/GetPublisherBriefResponse";
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
-import {GenreService} from "../../services/genre.service";
 import {PlatformTypeService} from "../../services/platform-type.service";
 import {PublisherService} from "../../../publishers/services/publisher.service";
 import {HierarchicalDataService} from "../../../core/services/hierarchical-data.service";
@@ -16,6 +15,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SortOption} from "../../models/SortOption";
 import {DateFilterOption} from "../../models/DateFilterOption";
 import {GameService} from "../../services/game.service";
+import {GenreService} from "../../../genres/services/genre.service";
+import {GetGameBriefResponse} from "../../models/GetGameBriefResponse";
 
 @Component({
     selector: 'app-game-list-page',
@@ -23,7 +24,7 @@ import {GameService} from "../../services/game.service";
     styleUrls: ['./game-list-page.component.scss']
 })
 export class GameListPageComponent {
-    paginatedGames!: PaginationResult<GetGameResponse>;
+    paginatedGames!: PaginationResult<GetGameBriefResponse>;
     genres!: CheckboxListItem[];
     platformTypes!: CheckboxListItem[];
     publishers!: CheckboxListItem[];
@@ -52,10 +53,10 @@ export class GameListPageComponent {
             this.genreService.getAllGenres(),
             this.platformTypeService.getAllPlatformTypes(),
             this.publisherService.getAllPublishersBrief()
-        ]).subscribe(([genres, platformTypes, publishers]: [Genre[], PlatformType[], GetPublisherBriefResponse[]]) => {
+        ]).subscribe(([genres, platformTypes, publishers]: [GetGenreResponse[], PlatformType[], GetPublisherBriefResponse[]]) => {
             this.getGamesOfCurrentPage();
 
-            this.genres = this.hierarchicalDataService.convertToTreeStructure<Genre, CheckboxListItem>(
+            this.genres = this.hierarchicalDataService.convertToTreeStructure<GetGenreResponse, CheckboxListItem>(
                 genres,
                 'Id',
                 'ParentGenreId',
@@ -81,28 +82,28 @@ export class GameListPageComponent {
         });
 
         this.sortOptions = [
-            {id: SortOption.MostViewed, value: 'Most viewed'},
-            {id: SortOption.MostCommented, value: 'Most commented'},
-            {id: SortOption.PriceDescending, value: 'Price descending'},
-            {id: SortOption.PriceAscending, value: 'Price ascending'},
-            {id: SortOption.New, value: 'New'},
+            {Id: SortOption.MostViewed, Value: 'Most viewed'},
+            {Id: SortOption.MostCommented, Value: 'Most commented'},
+            {Id: SortOption.PriceDescending, Value: 'Price descending'},
+            {Id: SortOption.PriceAscending, Value: 'Price ascending'},
+            {Id: SortOption.New, Value: 'New'},
         ]
 
         this.dateFilterOption = [
-            {id: DateFilterOption.None, value: 'All'},
-            {id: DateFilterOption.LastWeek, value: 'Last week'},
-            {id: DateFilterOption.LastMonth, value: 'Last month'},
-            {id: DateFilterOption.LastYear, value: 'Last year'},
-            {id: DateFilterOption.TwoYears, value: 'Two years ago'},
-            {id: DateFilterOption.ThreeYears, value: 'Three years ago'},
+            {Id: DateFilterOption.None, Value: 'All'},
+            {Id: DateFilterOption.LastWeek, Value: 'Last week'},
+            {Id: DateFilterOption.LastMonth, Value: 'Last month'},
+            {Id: DateFilterOption.LastYear, Value: 'Last year'},
+            {Id: DateFilterOption.TwoYears, Value: 'Two years ago'},
+            {Id: DateFilterOption.ThreeYears, Value: 'Three years ago'},
         ]
 
         this.pageSizes = [
-            {id: 10, value: '10'},
-            {id: 20, value: '20'},
-            {id: 50, value: '50'},
-            {id: 100, value: '100'},
-            {id: -1, value: 'All'},
+            {Id: 10, Value: '10'},
+            {Id: 20, Value: '20'},
+            {Id: 50, Value: '50'},
+            {Id: 100, Value: '100'},
+            {Id: -1, Value: 'All'},
         ]
 
         this.onPageChanged();
@@ -124,7 +125,7 @@ export class GameListPageComponent {
     }
 
     private getGames(): void{
-        this.gameService.getGames(this.filterGameRequest).subscribe((paginatedGames: PaginationResult<GetGameResponse>) =>{
+        this.gameService.getGames(this.filterGameRequest).subscribe((paginatedGames: PaginationResult<GetGameBriefResponse>) =>{
             this.paginatedGames = paginatedGames;
         })
     }
@@ -136,11 +137,11 @@ export class GameListPageComponent {
                 if (isNaN(pageNumber)) {
                     this.navigateToFirstPage()
                 } else {
-                    this.filterGameRequest.PageNumber = pageNumber;
+                    this.filterGameRequest.Pagination.PageNumber = pageNumber;
                 }
             }),
             switchMap(() => this.gameService.getGames(this.filterGameRequest))
-        ).subscribe((paginatedGames: PaginationResult<GetGameResponse>) => {
+        ).subscribe((paginatedGames: PaginationResult<GetGameBriefResponse>) => {
             this.paginatedGames = paginatedGames;
         });
     }

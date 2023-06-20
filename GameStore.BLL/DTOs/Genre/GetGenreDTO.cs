@@ -2,12 +2,10 @@
 
 namespace GameStore.BLL.DTOs.Genre
 {
-    public class GetGenreDTO
+    public class GetGenreDTO : BaseGenreDTO
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
-
-        public int? ParentGenreId { get; set; }
+        public string ParentGenreName { get; set; }
     }
 }

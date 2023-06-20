@@ -268,8 +268,11 @@ namespace GameStore.BLL.UnitTests.Services
                 PriceTo = 100,
                 DateFilterOption = DateFilterOption.None,
                 SortOption = SortOption.New,
-                PageSize = 1,
-                PageNumber = 1
+                Pagination = new PaginationDTO
+                {
+                    PageNumber = 1,
+                    PageSize = 1
+                }
             };
 
             MockSortStrategyFactory.Setup(f => f.GetSortStrategy(It.IsAny<SortOption>()))
@@ -284,6 +287,42 @@ namespace GameStore.BLL.UnitTests.Services
             Assert.Single(result.Items);
             Assert.Equal(1, result.CurrentPage);
             Assert.Equal(1, result.PageSize);
+        }
+
+        [Fact]
+        public async Task GetAllWithPaginationAsync_ReturnsPaginatedResult()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO
+            {
+                PageNumber = 1,
+                PageSize = 1
+            };
+
+            // Act
+            var result = await _gameService.GetAllWithPaginationAsync(paginationDTO);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result.Items);
+        }
+
+        [Fact]
+        public async Task GetPublisherGamesWithPaginationAsync_ReturnsPublisherGames()
+        {
+            // Arrange
+            var paginationDTO = new PaginationDTO
+            {
+                PageNumber = 1,
+                PageSize = 1
+            };
+
+            // Act
+            var result = await _gameService.GetPublisherGamesWithPaginationAsync(PublisherObjectId, paginationDTO);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Single(result.Items);
         }
     }
 }

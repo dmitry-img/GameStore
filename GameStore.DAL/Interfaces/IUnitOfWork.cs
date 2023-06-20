@@ -18,6 +18,10 @@ namespace GameStore.DAL.Interfaces
 
         IGenericRepository<Order> Orders { get; }
 
+        IGenericRepository<Role> Roles { get; }
+
+        IGenericRepository<User> Users { get; }
+
         Task SaveAsync();
     }
 }

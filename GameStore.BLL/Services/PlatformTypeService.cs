@@ -2,8 +2,11 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using GameStore.BLL.DTOs.PlatformType;
+using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
+using GameStore.DAL.Entities;
 using GameStore.DAL.Interfaces;
+using log4net;
 
 namespace GameStore.BLL.Services
 {

@@ -2,18 +2,43 @@
     <app-game-details
         *ngIf="game!"
         [game]="game"
-        [isBuyButtonDisabled]="isBuyButtonDisabled"
-        (downloadGame)="onDownloadGame()"
-        (buyGame)="onBuyGame($event)"
     />
+    <ng-container *ngIf="game! && !game.IsDeleted && isAuthenticated">
+        <div *ngIf="!game.Discontinued; else discontinued">
+            <p>Units in stock: {{game.UnitsInStock}}</p>
+            <p>Price: {{game.Price}}</p>
+            <button class="btn btn-primary" type="button" (click)="onBuyGame()" [disabled]="isBuyButtonDisabled">Buy</button>
+            <button class="btn btn-primary" type="button" (click)="onDownloadGame()">Download</button>
+        </div>
+
+        <ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>
+    </ng-container>
+
     <div class="comments">
         <h3 class="comments__title">Comments</h3>
+        <p *ngIf="isUserBanned" class="comments__ban-message">You are currently banned and cannot leave comments!</p>
         <div *ngIf="game!">
-            <app-create-comment
-                id="create-comment-form"
+            <ng-container *ngIf="!isUserBanned;">
+                <ng-container *ngIf="game.IsDeleted; else gameActive">
+                    <app-create-comment
+                        *appExceptRole="['User']"
+                        [gameKey]="game.Key">
+                    </app-create-comment>
+                </ng-container>
+                <ng-template #gameActive>
+                    <app-create-comment
+                        *appHasRole="rolesAllowedToComment"
+                        [gameKey]="game.Key">
+                    </app-create-comment>
+                </ng-template>
+            </ng-container>
+            <app-comment-list
                 [gameKey]="game.Key"
-            ></app-create-comment>
-            <app-comment-list [gameKey]="game.Key" [commentNodes]="commentNodes"></app-comment-list>
+                [commentNodes]="commentNodes"
+                [isUserBanned]="isUserBanned"
+                [rolesAllowedToComment]="rolesAllowedToComment"
+                [isGameDeleted]="game.IsDeleted">
+            </app-comment-list>
         </div>
     </div>
 </div>

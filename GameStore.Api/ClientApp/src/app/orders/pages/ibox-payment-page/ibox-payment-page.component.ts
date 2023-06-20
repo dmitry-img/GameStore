@@ -30,18 +30,17 @@ export class IboxPaymentPageComponent implements OnInit {
             next: (order: GetOrderResponse) =>{
                 this.order = order;
             },
-            error: (err) =>{
-                this.toaster.error(err.error);
+            error: () =>{
                 this.router.navigate(['/shopping-cart']);
             }
         })
     }
 
     onPay(): void {
-        this.paymentService.payByIbox(this.order.OrderId).subscribe(() =>{
+        this.paymentService.payByIbox(this.order.Id).subscribe(() =>{
             this.modalService.openInfoModalWithRedirection(
                 "Success!",
-                `The order ${this.order.OrderId} has been paid successfully!`
+                `The order ${this.order.Id} has been paid successfully!`
             );
         });
     }

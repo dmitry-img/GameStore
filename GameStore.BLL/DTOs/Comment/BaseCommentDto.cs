@@ -2,8 +2,6 @@
 {
     public class BaseCommentDto
     {
-        public string Name { get; set; }
-
         public string Body { get; set; }
 
         public bool HasQuote { get; set; }

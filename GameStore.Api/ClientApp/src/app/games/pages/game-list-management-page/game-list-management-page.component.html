@@ -1,0 +1,18 @@
+<div class="container mt-5">
+    <app-game-list-management
+        *ngIf="paginatedGames!"
+        [paginatedGames]="paginatedGames"
+        (delete)="onDelete($event)"
+    ></app-game-list-management>
+    <app-pagination-nav
+        *ngIf="paginatedGames!"
+        [totalItems]="paginatedGames.TotalItems"
+        [itemsPerPage]="paginatedGames.PageSize"
+        [currentPage]="paginatedGames.CurrentPage"
+        baseUrl="/game/list/management">
+    </app-pagination-nav>
+    <ng-template #gameDeleteModalBody>
+        <p>The game will be deleted!</p>
+    </ng-template>
+</div>
+

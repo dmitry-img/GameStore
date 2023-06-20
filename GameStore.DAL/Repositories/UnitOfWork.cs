@@ -16,6 +16,8 @@ namespace GameStore.DAL.Repositories
         private readonly Lazy<IGenericRepository<PlatformType>> _platformTypeRepository;
         private readonly Lazy<IGenericRepository<Publisher>> _publisherRepository;
         private readonly Lazy<IGenericRepository<Order>> _orderRepository;
+        private readonly Lazy<IGenericRepository<User>> _userRepository;
+        private readonly Lazy<IGenericRepository<Role>> _roleRepository;
         private bool _disposed = false;
 
         public UnitOfWork(
@@ -25,7 +27,9 @@ namespace GameStore.DAL.Repositories
             Lazy<IGenericRepository<Genre>> genreRepository,
             Lazy<IGenericRepository<PlatformType>> platformTypeRepository,
             Lazy<IGenericRepository<Publisher>> publisherRepository,
-            Lazy<IGenericRepository<Order>> orderRepository)
+            Lazy<IGenericRepository<Order>> orderRepository,
+            Lazy<IGenericRepository<User>> userRepository,
+            Lazy<IGenericRepository<Role>> roleRepository)
         {
             _context = context;
             _gameRepository = gameRepository;
@@ -34,6 +38,8 @@ namespace GameStore.DAL.Repositories
             _platformTypeRepository = platformTypeRepository;
             _publisherRepository = publisherRepository;
             _orderRepository = orderRepository;
+            _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
 
         public IGameRepository Games => _gameRepository.Value;
@@ -47,6 +53,10 @@ namespace GameStore.DAL.Repositories
         public IGenericRepository<Publisher> Publishers => _publisherRepository.Value;
 
         public IGenericRepository<Order> Orders => _orderRepository.Value;
+
+        public IGenericRepository<User> Users => _userRepository.Value;
+
+        public IGenericRepository<Role> Roles => _roleRepository.Value;
 
         public Task SaveAsync()
         {

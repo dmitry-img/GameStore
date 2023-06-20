@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentValidation;
+using GameStore.BLL.Exceptions;
 using GameStore.BLL.Interfaces;
 
 namespace GameStore.BLL.Services
@@ -12,9 +13,8 @@ namespace GameStore.BLL.Services
             if (!result.IsValid)
             {
                 var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
-                throw new ValidationException(string.Join(", ", errors));
+                throw new BadRequestException(string.Join(", ", errors));
             }
         }
     }
-
 }

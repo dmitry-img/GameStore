@@ -1,0 +1,32 @@
+<app-role-list
+    *ngIf="paginatedRoles!"
+    [paginatedRoles]="paginatedRoles"
+    (create)="onCreate()"
+    (delete)="onDelete($event)"
+></app-role-list>
+<app-pagination-nav
+    *ngIf="paginatedRoles!"
+    [totalItems]="paginatedRoles.TotalItems"
+    [itemsPerPage]="paginatedRoles.PageSize"
+    [currentPage]="paginatedRoles.CurrentPage"
+    baseUrl="/admin-panel/role/list">
+</app-pagination-nav>
+<ng-template #roleFormBody>
+    <form [formGroup]="roleForm">
+        <app-input-field
+            [control]="roleForm | formControl:'Name'"
+            [isRequired]="true"
+            labelText="Name"
+        ></app-input-field>
+        <app-validation-message
+            [control]="roleForm | formControl:'Name'"
+            [errorMessages]="{
+            'required': 'Name is required!'
+        }"
+        ></app-validation-message>
+    </form>
+</ng-template>
+<ng-template #roleDeleteModalBody>
+    <p>The role will be deleted!</p>
+</ng-template>
+

@@ -1,0 +1,25 @@
+<div class="container">
+    <button type="button" class="btn btn-primary mb-3" (click)="onCreate()">Create</button>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of paginatedUsers.Items">
+            <td>{{user.Email}}</td>
+            <td>{{user.Username}}</td>
+            <td>{{user.Role?.Name}}</td>
+            <td>
+                <button type="button" class="btn btn-warning mr-2" (click)="onModify(user)">Modify</button>
+                <button type="button" class="btn btn-danger" (click)="onDelete(user)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

@@ -77,8 +77,8 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Channels, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Channels.5.0.0\lib\net461\System.Threading.Channels.dll</HintPath>
@@ -103,9 +103,15 @@
     <Compile Include="CacheEntities\ShoppingCart.cs" />
     <Compile Include="CacheEntities\ShoppingCartItem.cs" />
     <Compile Include="Data\Configurations\OrderDetailConfiguration.cs" />
+    <Compile Include="Data\Configurations\RoleConfiguration.cs" />
+    <Compile Include="Data\Configurations\UserConfiguration.cs" />
+    <Compile Include="Entities\Common\BaseEntity.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Entities\Publisher.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Enums\OrderState.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\ConfigureRegistration.cs" />
     <Compile Include="Data\Configurations\GameConfiguration.cs" />
@@ -114,7 +120,6 @@
     <Compile Include="Data\GameStoreDbContext.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Common\BaseAuditableEntity.cs" />
-    <Compile Include="Entities\Common\BaseEntity.cs" />
     <Compile Include="Entities\Common\IAuditableEntity.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Genre.cs" />
@@ -163,6 +168,42 @@
     <Compile Include="Migrations\202305190946353_AddDeletedBy.designer.cs">
       <DependentUpon>202305190946353_AddDeletedBy.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305300741417_AddUsers.cs" />
+    <Compile Include="Migrations\202305300741417_AddUsers.designer.cs">
+      <DependentUpon>202305300741417_AddUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305311120544_AddRefreshToken.cs" />
+    <Compile Include="Migrations\202305311120544_AddRefreshToken.designer.cs">
+      <DependentUpon>202305311120544_AddRefreshToken.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306041211079_MakePublisherIdNullable.cs" />
+    <Compile Include="Migrations\202306041211079_MakePublisherIdNullable.designer.cs">
+      <DependentUpon>202306041211079_MakePublisherIdNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306060940568_ModifiedRolesAndOrders.cs" />
+    <Compile Include="Migrations\202306060940568_ModifiedRolesAndOrders.designer.cs">
+      <DependentUpon>202306060940568_ModifiedRolesAndOrders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306061241421_AddUserToOrder.cs" />
+    <Compile Include="Migrations\202306061241421_AddUserToOrder.designer.cs">
+      <DependentUpon>202306061241421_AddUserToOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306070923134_AddUserToComments.cs" />
+    <Compile Include="Migrations\202306070923134_AddUserToComments.designer.cs">
+      <DependentUpon>202306070923134_AddUserToComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071015376_AddUserBan.cs" />
+    <Compile Include="Migrations\202306071015376_AddUserBan.designer.cs">
+      <DependentUpon>202306071015376_AddUserBan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306071227382_AddUserToPublishers.cs" />
+    <Compile Include="Migrations\202306071227382_AddUserToPublishers.designer.cs">
+      <DependentUpon>202306071227382_AddUserToPublishers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081224529_AddNullableUserInPublisher.cs" />
+    <Compile Include="Migrations\202306081224529_AddNullableUserInPublisher.designer.cs">
+      <DependentUpon>202306081224529_AddNullableUserInPublisher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RedisCacheRepository.cs" />
@@ -205,10 +246,43 @@
     <EmbeddedResource Include="Migrations\202305190946353_AddDeletedBy.resx">
       <DependentUpon>202305190946353_AddDeletedBy.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305300741417_AddUsers.resx">
+      <DependentUpon>202305300741417_AddUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305311120544_AddRefreshToken.resx">
+      <DependentUpon>202305311120544_AddRefreshToken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306041211079_MakePublisherIdNullable.resx">
+      <DependentUpon>202306041211079_MakePublisherIdNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306060940568_ModifiedRolesAndOrders.resx">
+      <DependentUpon>202306060940568_ModifiedRolesAndOrders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306061241421_AddUserToOrder.resx">
+      <DependentUpon>202306061241421_AddUserToOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306070923134_AddUserToComments.resx">
+      <DependentUpon>202306070923134_AddUserToComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071015376_AddUserBan.resx">
+      <DependentUpon>202306071015376_AddUserBan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071227382_AddUserToPublishers.resx">
+      <DependentUpon>202306071227382_AddUserToPublishers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081224529_AddNullableUserInPublisher.resx">
+      <DependentUpon>202306081224529_AddNullableUserInPublisher.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameStore.Shared\GameStore.Shared.csproj">
+      <Project>{B2A0E6C8-A853-46B8-9EB3-D8B91B60EBDB}</Project>
+      <Name>GameStore.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
