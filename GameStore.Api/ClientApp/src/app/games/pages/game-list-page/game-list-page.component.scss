@@ -1,4 +1,11 @@
-.game-list-page{
+.game-list{
     display: flex;
 }
 
+.game-list__items {
+    flex: 1;
+}
+
+.game-list__sidebar {
+    margin-left: auto;
+}

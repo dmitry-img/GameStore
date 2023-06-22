@@ -1,16 +1,6 @@
 <div class="container">
-    <div class="game-list-page">
-        <app-game-list-sidebar
-            *ngIf="genres! && platformTypes! && publishers! && filterGameRequest!"
-            [genres]="genres"
-            [platformTypes]="platformTypes"
-            [publishers]="publishers"
-            [sortOptions]="sortOptions"
-            [dateFilterOption]="dateFilterOption"
-            [pageSizes]="pageSizes"
-            (filter)="onFilter($event)">
-        </app-game-list-sidebar>
-        <div class="game-list">
+    <div class="game-list">
+        <div class="game-list__items">
             <app-game-list *ngIf="paginatedGames!" [paginatedGames]="paginatedGames"></app-game-list>
             <app-pagination-nav
                 *ngIf="paginatedGames!"
@@ -19,6 +9,18 @@
                 [currentPage]="paginatedGames.CurrentPage"
                 baseUrl="/game/list">
             </app-pagination-nav>
+        </div>
+        <div class="game-list__sidebar">
+            <app-game-list-sidebar
+                *ngIf="genres! && platformTypes! && publishers! && filterGameRequest!"
+                [genres]="genres"
+                [platformTypes]="platformTypes"
+                [publishers]="publishers"
+                [sortOptions]="sortOptions"
+                [dateFilterOption]="dateFilterOption"
+                [pageSizes]="pageSizes"
+                (filter)="onFilter($event)">
+            </app-game-list-sidebar>
         </div>
     </div>
 </div>
