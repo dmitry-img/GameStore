@@ -1,6 +1,6 @@
-<div class="container">
-    <div class="game-list">
-        <div class="game-list__items">
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-8 col-md-6 col-sm-12 order-2 order-md-1 game-list__items">
             <app-game-list *ngIf="paginatedGames!" [paginatedGames]="paginatedGames"></app-game-list>
             <app-pagination-nav
                 *ngIf="paginatedGames!"
@@ -10,7 +10,14 @@
                 baseUrl="/game/list">
             </app-pagination-nav>
         </div>
-        <div class="game-list__sidebar">
+
+        <div class="col-12 d-md-none mb-3">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-expanded="false" aria-controls="sidebarCollapse">
+                Filter
+            </button>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12 order-1 order-md-2 game-list__sidebar collapse d-md-block" id="sidebarCollapse">
             <app-game-list-sidebar
                 *ngIf="genres! && platformTypes! && publishers! && filterGameRequest!"
                 [genres]="genres"
@@ -24,5 +31,3 @@
         </div>
     </div>
 </div>
-
-
