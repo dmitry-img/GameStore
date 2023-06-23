@@ -120,7 +120,7 @@ export class GameDetailsPageComponent implements OnInit, OnDestroy {
     }
 
     private subscribeToAuthStatus(): void {
-        this.authService.isAuthenticated$()
+        this.authService.isAuthenticated$
             .pipe(takeUntil(this.destroy$))
             .subscribe(isAuthenticated => {
                 this.isAuthenticated = isAuthenticated;

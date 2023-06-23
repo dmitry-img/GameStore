@@ -1,0 +1,19 @@
+.main-nav__auth-items {
+    display: flex;
+
+    .main-nav__link {
+        background: linear-gradient(to bottom, #89BC00, #739F0D);
+        font-weight: 600;
+        border-radius: 5px;
+        align-self: center;
+        margin-left: 10px;
+        color: #fff;
+        padding: 5px 20px;
+        text-decoration: none;
+
+        &:hover{
+            background: linear-gradient(to bottom,#739F0D, #89BC00);
+            transition: linear .1s;
+        }
+    }
+}

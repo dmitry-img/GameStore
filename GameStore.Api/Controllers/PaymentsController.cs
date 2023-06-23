@@ -8,10 +8,12 @@ using GameStore.BLL.Enums;
 using GameStore.BLL.Interfaces;
 using GameStore.Shared.Infrastructure;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/payments")]
-    [Authorize]
+    [Authorize(Roles = UserRoleName)]
     public class PaymentsController : ApiController
     {
         private readonly IPaymentService _paymentService;

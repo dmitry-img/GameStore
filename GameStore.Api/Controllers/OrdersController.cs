@@ -30,7 +30,7 @@ namespace GameStore.Api.Controllers
 
         [HttpPost]
         [Route("create")]
-        [Authorize]
+        [Authorize(Roles = UserRoleName)]
         public async Task<IHttpActionResult> Create()
         {
             var order = await _orderService.CreateAsync(UserContext.UserObjectId);

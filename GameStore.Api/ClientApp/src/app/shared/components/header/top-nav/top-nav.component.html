@@ -1,0 +1,16 @@
+<nav class="top-nav">
+    <div class="top-nav__items">
+        <ng-container *ngFor="let item of items">
+            <div class="nav-item">
+                <a class="nav-item__link" [routerLink]="item.link">{{item.text}}</a>
+            </div>
+        </ng-container>
+    </div>
+    <div class="top-nav__contacts">
+        <ng-container *ngFor="let contact of contacts">
+            <div class="nav-item">
+                <a class="nav-item__link" [routerLink]="contact.link">{{contact.text}}</a>
+            </div>
+        </ng-container>
+    </div>
+</nav>

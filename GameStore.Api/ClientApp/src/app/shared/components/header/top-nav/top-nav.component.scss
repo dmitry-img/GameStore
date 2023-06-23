@@ -1,0 +1,46 @@
+.top-nav{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px #E9E9E9 solid;
+    padding: 10px 0;
+
+    .nav-item{
+        &:after{
+            content: "|";
+            margin: 0 5px;
+        }
+
+        &:last-child{
+            &:after{
+                content: "";
+            }
+        }
+    }
+
+    .nav-item__link{
+        color: black;
+
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+
+.top-nav__items, .top-nav__contacts{
+    display: flex;
+}
+
+.top-nav__items{
+    font-weight: 700;
+}
+
+.top-nav__contacts{
+    font-weight: 500;
+
+    .nav-item{
+        opacity: 0.8;
+        &:after{
+            opacity: 0.8;
+        }
+    }
+}

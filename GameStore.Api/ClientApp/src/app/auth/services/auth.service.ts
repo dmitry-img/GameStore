@@ -74,7 +74,7 @@ export class AuthService {
         return localStorage.getItem('refreshToken');
     }
 
-    isAuthenticated$(): Observable<boolean> {
+    get isAuthenticated$(): Observable<boolean> {
         return this.isAuthenticatedSubject.asObservable();
     }
 

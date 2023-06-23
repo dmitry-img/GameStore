@@ -19,9 +19,14 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
-import {AuthModule} from "../auth/auth.module";
 import {HasRoleDirective} from "./directives/has-role.directive";
 import {ExceptRoleDirective} from "./directives/except-role.directive";
+import { TopNavComponent } from './components/header/top-nav/top-nav.component';
+import { MainNavComponent } from './components/header/main-nav/main-nav.component';
+import { SubNavComponent } from './components/header/sub-nav/sub-nav.component';
+import { LogoComponent } from './components/header/main-nav/logo/logo.component';
+import { AuthItemsComponent } from './components/header/main-nav/auth-items/auth-items.component';
+import { MainItemsComponent } from './components/header/main-nav/main-items/main-items.component';
 
 @NgModule({
     declarations: [
@@ -41,7 +46,13 @@ import {ExceptRoleDirective} from "./directives/except-role.directive";
         ConfirmationModalComponent,
         ErrorPageComponent,
         HasRoleDirective,
-        ExceptRoleDirective
+        ExceptRoleDirective,
+        TopNavComponent,
+        MainNavComponent,
+        SubNavComponent,
+        LogoComponent,
+        AuthItemsComponent,
+        MainItemsComponent,
     ],
     exports: [
         HeaderComponent,

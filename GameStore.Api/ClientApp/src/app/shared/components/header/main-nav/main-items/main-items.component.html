@@ -1,0 +1,8 @@
+<div class="main-nav__items">
+    <p class="main-nav__item main-nav__text">Games count: {{gamesCount}}</p>
+    <ng-container *ngFor="let item of mainItems">
+        <ng-container *appHasRole="item.roles">
+            <a class="main-nav__item main-nav__link" [routerLink]="item.link">{{item.text}}</a>
+        </ng-container>
+    </ng-container>
+</div>

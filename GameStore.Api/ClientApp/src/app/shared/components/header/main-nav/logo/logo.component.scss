@@ -1,0 +1,14 @@
+.main-nav__logo {
+    font-weight: 700;
+    font-size: 64px;
+    margin: 0;
+    background: linear-gradient(to bottom,#FDC77B, #FEB13E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    span{
+        background: linear-gradient(to bottom, #F49061, #F26522);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}

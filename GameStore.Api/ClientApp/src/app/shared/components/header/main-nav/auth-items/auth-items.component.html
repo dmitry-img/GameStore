@@ -1,0 +1,10 @@
+<div class="main-nav__auth-items">
+    <ng-container *ngFor="let item of authItems">
+        <a
+            *ngIf="item.isAuthenticated == isAuthenticated"
+            [routerLink]="item.link"
+            class="main-nav__link">
+            {{item.text}}
+        </a>
+    </ng-container>
+</div>
