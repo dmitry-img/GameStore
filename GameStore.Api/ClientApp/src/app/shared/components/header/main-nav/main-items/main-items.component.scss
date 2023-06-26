@@ -29,10 +29,10 @@
 .main-nav__link{
     text-decoration: none;
     margin:0;
+    transition: linear .1s;
 
     &:hover{
         background: #EDA63B;
-        transition: linear .1s;
         color: white;
     }
 }

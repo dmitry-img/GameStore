@@ -25,11 +25,19 @@ export class HeaderComponent implements OnInit {
         private publisherService: PublisherService) { }
 
     ngOnInit(): void {
-        this.publisherService.getCurrentPublisherCompanyName().subscribe((name: string) =>{
-            this.currentPublisherCompanyName = name;
-            this.getItems();
-        });
         this.isAuthenticated$ = this.authService.isAuthenticated$;
+
+        this.isAuthenticated$.subscribe(() => {
+            if(this.authService.decodeAccessToken()?.Role == 'Publisher'){
+                this.publisherService.getCurrentPublisherCompanyName().subscribe((name: string) =>{
+                    this.currentPublisherCompanyName = name;
+                    this.getItems();
+                });
+            } else {
+                this.getItems();
+            }
+        });
+
         this.getCount();
     }
 

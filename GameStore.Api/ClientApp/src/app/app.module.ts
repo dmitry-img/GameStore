@@ -15,6 +15,7 @@ import {GenresModule} from "./genres/genres.module";
 import {HttpErrorInterceptor} from "./core/interceptors/http-error.interceptor";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {LoaderInterceptor} from "./core/interceptors/loader.interceptor";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import {LoaderInterceptor} from "./core/interceptors/loader.interceptor";
         BrowserAnimationsModule,
         AuthModule,
         GenresModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        FontAwesomeModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },

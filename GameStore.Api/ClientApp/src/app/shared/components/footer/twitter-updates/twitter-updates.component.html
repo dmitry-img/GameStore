@@ -1,0 +1,16 @@
+<app-info-block
+    [title]="title | uppercase"
+    [buttonText]="buttonText | uppercase"
+    imageSrc="assets/twitter-bird.png"
+    imageAlt="Twitter bird"
+    contentBackgroundColor="#DFEDF1">
+    <div class="tweets">
+        <div *ngFor="let tweet of tweets" class="tweet">
+            <p class="tweet__title">
+                {{tweet.Title}} <a [href]="tweet.Link" class="tweet__link">{{tweet.Link}}</a>
+            </p>
+            <p class="tweet__post-date">{{tweet.PostDate}}</p>
+        </div>
+    </div>
+
+</app-info-block>

@@ -27,6 +27,12 @@ import { SubNavComponent } from './components/header/sub-nav/sub-nav.component';
 import { LogoComponent } from './components/header/main-nav/logo/logo.component';
 import { AuthItemsComponent } from './components/header/main-nav/auth-items/auth-items.component';
 import { MainItemsComponent } from './components/header/main-nav/main-items/main-items.component';
+import { MainFooterComponent } from './components/footer/main-footer/main-footer.component';
+import { GetInTouchComponent } from './components/footer/get-in-touch/get-in-touch.component';
+import { TwitterUpdatesComponent } from './components/footer/twitter-updates/twitter-updates.component';
+import { FromTheBlogComponent } from './components/footer/from-the-blog/from-the-blog.component';
+import { InfoBlockComponent } from './components/footer/info-block/info-block.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
     declarations: [
@@ -53,6 +59,11 @@ import { MainItemsComponent } from './components/header/main-nav/main-items/main
         LogoComponent,
         AuthItemsComponent,
         MainItemsComponent,
+        MainFooterComponent,
+        GetInTouchComponent,
+        TwitterUpdatesComponent,
+        FromTheBlogComponent,
+        InfoBlockComponent,
     ],
     exports: [
         HeaderComponent,
@@ -77,6 +88,7 @@ import { MainItemsComponent } from './components/header/main-nav/main-items/main
         ReactiveFormsModule,
         ModalModule.forRoot(),
         CollapseModule.forRoot(),
+        FontAwesomeModule
     ]
 })
 export class SharedModule {
