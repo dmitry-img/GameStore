@@ -1,4 +1,4 @@
-<div class="game-list-sidebar">
+<aside class="game-list-sidebar">
     <form [formGroup]="filterGameForm" (ngSubmit)="onSubmit()">
         <app-dropdown
             [control]="filterGameForm | formControl:'Pagination.PageSize'"
@@ -79,6 +79,6 @@
         ></app-dropdown>
         <button class="btn btn-primary mb-3" type="submit" [disabled]="!filterGameForm.valid">Filter</button>
     </form>
-</div>
+</aside>
 
 

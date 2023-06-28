@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {NavItem} from "../../../../models/NavItem";
 import {AuthItem} from "../../../../models/AuthItem";
+import {faCheck, IconDefinition} from "@fortawesome/free-solid-svg-icons";
+
 
 @Component({
   selector: 'app-auth-items',
@@ -10,4 +11,5 @@ import {AuthItem} from "../../../../models/AuthItem";
 export class AuthItemsComponent {
     @Input() isAuthenticated!: boolean;
     @Input() authItems!: AuthItem[]
+    checkIcon: IconDefinition = faCheck
 }

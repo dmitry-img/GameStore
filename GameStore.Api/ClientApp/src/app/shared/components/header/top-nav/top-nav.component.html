@@ -1,16 +1,23 @@
-<nav class="top-nav">
-    <div class="top-nav__items">
-        <ng-container *ngFor="let item of items">
-            <div class="nav-item">
-                <a class="nav-item__link" [routerLink]="item.link">{{item.text}}</a>
+<nav class="navbar navbar-expand-lg top-nav">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="top-nav__content collapse navbar-collapse" id="topNavbar">
+        <div class="d-flex justify-content-between w-100 mt-lg-0 mt-3">
+            <div class="top-nav__items d-lg-flex flex-lg-row flex-column">
+                <ng-container *ngFor="let item of items">
+                    <div class="nav-item top-nav__item">
+                        <a class="nav-link nav-item__link" [routerLink]="item.link">{{item.text}}</a>
+                    </div>
+                </ng-container>
             </div>
-        </ng-container>
-    </div>
-    <div class="top-nav__contacts">
-        <ng-container *ngFor="let contact of contacts">
-            <div class="nav-item">
-                <a class="nav-item__link" [routerLink]="contact.link">{{contact.text}}</a>
+            <div class="top-nav__contacts d-lg-flex flex-lg-row flex-column">
+                <ng-container *ngFor="let contact of contacts">
+                    <div class="nav-item top-nav__item">
+                        <a class="nav-link nav-item__link" [routerLink]="contact.link">{{contact.text}}</a>
+                    </div>
+                </ng-container>
             </div>
-        </ng-container>
+        </div>
     </div>
 </nav>

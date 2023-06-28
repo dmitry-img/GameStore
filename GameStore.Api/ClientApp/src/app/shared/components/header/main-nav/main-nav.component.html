@@ -1,5 +1,5 @@
-<nav class="main-nav">
-    <app-logo></app-logo>
-    <app-main-items [mainItems]="mainItems" [gamesCount]="gamesCount"></app-main-items>
-    <app-auth-items [authItems]="authItems" [isAuthenticated]="isAuthenticated"></app-auth-items>
+<nav class="main-nav d-flex justify-content-between align-items-center flex-column flex-md-row">
+    <app-logo class="main-nav__logo"></app-logo>
+    <app-main-items class="main-nav__main-items" [mainItems]="mainItems" [gamesCount]="gamesCount"></app-main-items>
+    <app-auth-items class="main-nav__auth-items" [authItems]="authItems" [isAuthenticated]="isAuthenticated"></app-auth-items>
 </nav>

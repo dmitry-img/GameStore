@@ -1,7 +1,7 @@
+@import "src/styles/variables";
+
 .main-footer{
     margin: 20px 0;
-    display: flex;
-    justify-content: space-between;
 }
 
 .main-footer__item{
@@ -21,5 +21,5 @@
 
 .main-footer__link{
     text-decoration: none;
-    color: #9d9da1;
+    color: $gray;
 }

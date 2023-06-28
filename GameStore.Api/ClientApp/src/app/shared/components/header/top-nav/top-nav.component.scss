@@ -1,37 +1,28 @@
+@import "src/styles/variables";
+
 .top-nav{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px #E9E9E9 solid;
+    border-bottom: 2px $light-gray solid;
     padding: 10px 0;
-
-    .nav-item{
-        &:after{
-            content: "|";
-            margin: 0 5px;
-        }
-
-        &:last-child{
-            &:after{
-                content: "";
-            }
-        }
-    }
-
-    .nav-item__link{
-        color: black;
-
-        &:hover{
-            text-decoration: underline;
-        }
-    }
-}
-
-.top-nav__items, .top-nav__contacts{
-    display: flex;
-}
-
-.top-nav__items{
     font-weight: 700;
+}
+
+.top-nav__item{
+    display: flex;
+
+    &:after{
+        content: "|";
+        margin: 0 5px;
+
+        @media (max-width: $size-large) {
+            content: none;
+        }
+    }
+
+    &:last-child{
+        &:after{
+            content: "";
+        }
+    }
 }
 
 .top-nav__contacts{

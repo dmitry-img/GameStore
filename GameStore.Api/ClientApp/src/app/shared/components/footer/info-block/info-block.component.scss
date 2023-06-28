@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .info-block {
     display: flex;
     flex-direction: column;
@@ -15,6 +17,7 @@
     font-size: 20px;
     margin: 0 0 0 85px;
     font-weight: bold;
+    color: black;
 }
 
 .info-block__img{
@@ -31,8 +34,8 @@
 }
 
 .info-block__action{
-    border: 1px #D39E4C solid;
-    background-color: #FCB03F;
+    border: 1px $moderate-orange solid;
+    background-color: $vibrant-orange;
     border-radius: 5px;
     color: white;
     padding: 0 25px;
@@ -40,7 +43,7 @@
     transition: linear .1s;
 
     &:hover{
-        color: #FCB03F;
+        color: $vibrant-orange;
         background-color: white;
     }
 }

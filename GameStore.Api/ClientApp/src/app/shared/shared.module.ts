@@ -33,6 +33,7 @@ import { TwitterUpdatesComponent } from './components/footer/twitter-updates/twi
 import { FromTheBlogComponent } from './components/footer/from-the-blog/from-the-blog.component';
 import { InfoBlockComponent } from './components/footer/info-block/info-block.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { AdvertisingSidebarComponent } from './components/advertising-sidebar/advertising-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         TwitterUpdatesComponent,
         FromTheBlogComponent,
         InfoBlockComponent,
+        AdvertisingSidebarComponent,
     ],
     exports: [
         HeaderComponent,
@@ -80,7 +82,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         CollapseComponent,
         PaginationNavComponent,
         HasRoleDirective,
-        ExceptRoleDirective
+        ExceptRoleDirective,
+        AdvertisingSidebarComponent
     ],
     imports: [
         CommonModule,

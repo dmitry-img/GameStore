@@ -1,13 +1,15 @@
+@import "src/styles/variables";
+
 .main-nav__logo {
     font-weight: 700;
     font-size: 64px;
     margin: 0;
-    background: linear-gradient(to bottom,#FDC77B, #FEB13E);
+    background: linear-gradient(to bottom, $light-yellow, $bright-yellow);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 
     span{
-        background: linear-gradient(to bottom, #F49061, #F26522);
+        background: linear-gradient(to bottom, $light-red, $strong-orange);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }

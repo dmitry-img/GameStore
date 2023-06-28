@@ -1,6 +1,8 @@
+@import "src/styles/variables";
+
 .sub-nav {
     border-radius: 10px;
-    background-color: #5375A9;
+    background-color: $medium-blue;
     padding: 20px;
     position: relative;
     z-index: 1;
@@ -13,7 +15,7 @@
     .sub-nav__title, .sub-nav__pretitle, .sub-nav__subtitle{
         font-weight: bold;
         text-transform: uppercase;
-        background: linear-gradient(to bottom,#FFF, #D9D9D9);
+        background: linear-gradient(to bottom, white, $light-gray);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }

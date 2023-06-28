@@ -4,6 +4,7 @@
             *ngIf="item.isAuthenticated == isAuthenticated"
             [routerLink]="item.link"
             class="main-nav__link">
+            <fa-icon [icon]="checkIcon"></fa-icon>
             {{item.text}}
         </a>
     </ng-container>
