@@ -1,0 +1,48 @@
+<app-info-block
+    [title]="title | uppercase"
+    [buttonText]="buttonText | uppercase"
+    imageSrc="assets/envelope.png"
+    imageAlt="Envelope"
+    contentBackgroundColor="#E9F0D7"
+    (submit)="onSubmit()">
+    <form [formGroup]="getInTouchForm" class="get-in-touch-form">
+        <app-input-field
+            [control]="getInTouchForm | formControl:'Name'"
+            labelText="Name"
+            class="get-in-touch-form__control"
+        ></app-input-field>
+        <app-validation-message
+            [control]="getInTouchForm | formControl:'Name'"
+            [errorMessages]="{
+                'required': 'Name is required!'
+            }"
+            class="get-in-touch-form__validation">
+        </app-validation-message>
+        <app-input-field
+            [control]="getInTouchForm | formControl:'Email'"
+            labelText="Email"
+            type="email"
+            class="get-in-touch-form__control"
+        ></app-input-field>
+        <app-validation-message
+            [control]="getInTouchForm | formControl:'Email'"
+            [errorMessages]="{
+                'required': 'Email is required!',
+                'email': 'Wrong format!'
+            }"
+            class="get-in-touch-form__validation">
+        </app-validation-message>
+        <app-text-area-field
+            [control]="getInTouchForm | formControl:'Message'"
+            labelText="Message"
+            class="get-in-touch-form__control"
+        ></app-text-area-field>
+        <app-validation-message
+            [control]="getInTouchForm | formControl:'Message'"
+            [errorMessages]="{
+                'required': 'Message is required!',
+            }"
+            class="get-in-touch-form__validation">
+        </app-validation-message>
+    </form>
+</app-info-block>

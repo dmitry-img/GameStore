@@ -1,7 +1,10 @@
-<ul>
-    <li *ngFor="let game of paginatedGames.Items">
-        <a [routerLink]="['/game', game.Key]">{{game.Name}}</a>
-    </li>
-</ul>
-
-
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let game of paginatedGames.Items">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">{{game.Name}}</h5>
+                <a [routerLink]="['/game', game.Key]" class="btn btn-primary">View Game</a>
+            </div>
+        </div>
+    </div>
+</div>

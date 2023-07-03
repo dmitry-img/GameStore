@@ -1,0 +1,21 @@
+@import "src/styles/variables";
+
+.main-nav {
+    position: relative;
+}
+
+.main-nav__auth-items{
+    @media (max-width: $size-medium) {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: $size-medium) {
+    .main-nav__auth-items {
+        order: 0;
+    }
+
+    .main-nav__main-items {
+        order: 1;
+    }
+}

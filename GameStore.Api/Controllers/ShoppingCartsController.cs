@@ -6,10 +6,12 @@ using GameStore.BLL.Interfaces;
 using GameStore.Shared;
 using GameStore.Shared.Infrastructure;
 
+using static GameStore.Shared.Infrastructure.Constants;
+
 namespace GameStore.Api.Controllers
 {
     [RoutePrefix("api/shopping-carts")]
-    [Authorize]
+    [Authorize(Roles = UserRoleName)]
     public class ShoppingCartsController : ApiController
     {
         private readonly IShoppingCartService _shoppingCartService;

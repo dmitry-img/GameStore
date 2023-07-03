@@ -1,0 +1,21 @@
+@import "src/styles/variables";
+
+.main-nav__auth-items {
+    display: flex;
+
+    .main-nav__link {
+        background: linear-gradient(to bottom, $medium-green, $dark-green);
+        font-weight: 600;
+        border-radius: 5px;
+        align-self: center;
+        margin-left: 10px;
+        color: white;
+        padding: 5px 20px;
+        text-decoration: none;
+
+        &:hover{
+            background: linear-gradient(to bottom, $dark-green, $medium-green);
+            transition: linear .1s;
+        }
+    }
+}

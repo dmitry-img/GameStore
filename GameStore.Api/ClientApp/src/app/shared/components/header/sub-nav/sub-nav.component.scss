@@ -1,0 +1,37 @@
+@import "src/styles/variables";
+
+.sub-nav {
+    border-radius: 10px;
+    background-color: $medium-blue;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 20px;
+
+    .sub-nav__pretitle{
+        margin: 50px 0;
+    }
+
+    .sub-nav__title, .sub-nav__pretitle, .sub-nav__subtitle{
+        font-weight: bold;
+        text-transform: uppercase;
+        background: linear-gradient(to bottom, white, $light-gray);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .sub-nav__subtitle{
+        span{
+            text-transform: lowercase;
+        }
+    }
+
+    .sub-nav__img{
+        position: absolute;
+        margin-right: 20px;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        transform: translateY(10%);
+    }
+}

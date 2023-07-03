@@ -1,0 +1,12 @@
+@import "src/styles/variables";
+
+.article{
+    border-bottom: 1px dashed $gray;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.article__link{
+    color: $bright-orange;
+    text-decoration: none;
+}

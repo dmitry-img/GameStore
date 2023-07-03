@@ -1,6 +1,8 @@
+@import "src/styles/variables";
+
 .payment-methods{
     padding: 20px;
-    background-color: #eee;
+    background-color: $light-gray;
     border-radius: 10px;
 }
 

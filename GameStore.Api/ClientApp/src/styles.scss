@@ -1,4 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+body{
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+*,
+*:before,
+*:after{
+    box-sizing: border-box;
+}
+
+.nav-item__link{
+    text-decoration: none;
+}
+
 .help-block {
     color: red;
 }
@@ -25,5 +42,3 @@ app-comment-list {
 
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
-
-

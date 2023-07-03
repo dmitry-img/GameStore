@@ -1,0 +1,22 @@
+@import "src/styles/variables";
+
+.tweet{
+    border-bottom: 1px dashed $gray;
+    margin-bottom: 10px;
+}
+
+.tweet__title{
+    color: $deep-sky-blue;
+    margin: 0;
+}
+
+.tweet__link{
+    color: $moderate-orange;
+    text-decoration: none;
+}
+
+.tweet__post-date{
+    color: $gray;
+    margin-bottom: 15px;
+    font-size: 14px;
+}

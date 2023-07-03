@@ -19,9 +19,21 @@ import {CollapseModule} from "ngx-bootstrap/collapse";
 import { PaginationNavComponent } from './components/pagination-nav/pagination-nav.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
-import {AuthModule} from "../auth/auth.module";
 import {HasRoleDirective} from "./directives/has-role.directive";
 import {ExceptRoleDirective} from "./directives/except-role.directive";
+import { TopNavComponent } from './components/header/top-nav/top-nav.component';
+import { MainNavComponent } from './components/header/main-nav/main-nav.component';
+import { SubNavComponent } from './components/header/sub-nav/sub-nav.component';
+import { LogoComponent } from './components/header/main-nav/logo/logo.component';
+import { AuthItemsComponent } from './components/header/main-nav/auth-items/auth-items.component';
+import { MainItemsComponent } from './components/header/main-nav/main-items/main-items.component';
+import { MainFooterComponent } from './components/footer/main-footer/main-footer.component';
+import { GetInTouchComponent } from './components/footer/get-in-touch/get-in-touch.component';
+import { TwitterUpdatesComponent } from './components/footer/twitter-updates/twitter-updates.component';
+import { FromTheBlogComponent } from './components/footer/from-the-blog/from-the-blog.component';
+import { InfoBlockComponent } from './components/footer/info-block/info-block.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { AdvertisingSidebarComponent } from './components/advertising-sidebar/advertising-sidebar.component';
 
 @NgModule({
     declarations: [
@@ -41,7 +53,19 @@ import {ExceptRoleDirective} from "./directives/except-role.directive";
         ConfirmationModalComponent,
         ErrorPageComponent,
         HasRoleDirective,
-        ExceptRoleDirective
+        ExceptRoleDirective,
+        TopNavComponent,
+        MainNavComponent,
+        SubNavComponent,
+        LogoComponent,
+        AuthItemsComponent,
+        MainItemsComponent,
+        MainFooterComponent,
+        GetInTouchComponent,
+        TwitterUpdatesComponent,
+        FromTheBlogComponent,
+        InfoBlockComponent,
+        AdvertisingSidebarComponent,
     ],
     exports: [
         HeaderComponent,
@@ -58,7 +82,8 @@ import {ExceptRoleDirective} from "./directives/except-role.directive";
         CollapseComponent,
         PaginationNavComponent,
         HasRoleDirective,
-        ExceptRoleDirective
+        ExceptRoleDirective,
+        AdvertisingSidebarComponent
     ],
     imports: [
         CommonModule,
@@ -66,6 +91,7 @@ import {ExceptRoleDirective} from "./directives/except-role.directive";
         ReactiveFormsModule,
         ModalModule.forRoot(),
         CollapseModule.forRoot(),
+        FontAwesomeModule
     ]
 })
 export class SharedModule {

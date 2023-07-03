@@ -1,0 +1,12 @@
+<app-info-block
+    [title]="title | uppercase"
+    [buttonText]="buttonText | uppercase"
+    imageSrc="assets/rss.png"
+    imageAlt="Twitter bird"
+    contentBackgroundColor="#F0EDE3">
+    <div class="articles">
+        <div *ngFor="let article of articles" class="article">
+            <a class="article__link" [href]="article.Link">{{article.Title}}</a>
+        </div>
+    </div>
+</app-info-block>

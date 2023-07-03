@@ -4,14 +4,16 @@
         [game]="game"
     />
     <ng-container *ngIf="game! && !game.IsDeleted && isAuthenticated">
-        <div *ngIf="!game.Discontinued; else discontinued">
-            <p>Units in stock: {{game.UnitsInStock}}</p>
-            <p>Price: {{game.Price}}</p>
-            <button class="btn btn-primary" type="button" (click)="onBuyGame()" [disabled]="isBuyButtonDisabled">Buy</button>
-            <button class="btn btn-primary" type="button" (click)="onDownloadGame()">Download</button>
-        </div>
+        <ng-container *appHasRole="['User']">
+            <div *ngIf="!game.Discontinued; else discontinued">
+                <p>Units in stock: {{game.UnitsInStock}}</p>
+                <p>Price: {{game.Price}}</p>
+                <button class="btn btn-primary" type="button" (click)="onBuyGame()" [disabled]="isBuyButtonDisabled">Buy</button>
+                <button class="btn btn-primary" type="button" (click)="onDownloadGame()">Download</button>
+            </div>
 
-        <ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>
+            <ng-template #discontinued><h3>Game is discontinued!</h3></ng-template>
+        </ng-container>
     </ng-container>
 
     <div class="comments">

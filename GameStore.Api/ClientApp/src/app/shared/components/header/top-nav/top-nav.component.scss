@@ -1,0 +1,37 @@
+@import "src/styles/variables";
+
+.top-nav{
+    border-bottom: 2px $light-gray solid;
+    padding: 10px 0;
+    font-weight: 700;
+}
+
+.top-nav__item{
+    display: flex;
+
+    &:after{
+        content: "|";
+        margin: 0 5px;
+
+        @media (max-width: $size-large) {
+            content: none;
+        }
+    }
+
+    &:last-child{
+        &:after{
+            content: "";
+        }
+    }
+}
+
+.top-nav__contacts{
+    font-weight: 500;
+
+    .nav-item{
+        opacity: 0.8;
+        &:after{
+            opacity: 0.8;
+        }
+    }
+}

@@ -1,8 +1,26 @@
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    width: 100%;
-    color: #eee;
+@import "src/styles/variables";
+
+.footer{
+    margin-top: 20px;
 }
+
+.info-blocks {
+    border-bottom: 1px dashed $gray;
+    border-top: 1px dashed $gray;
+    padding: 40px 0;
+}
+
+.info-blocks > * {
+    flex: 1;
+    margin-right: 10px;
+    color: $gray;
+
+    &:last-child{
+        margin-right: 0;
+    }
+
+    @media (max-width: $size-large) {
+        margin: 25px 0;
+    }
+}
+

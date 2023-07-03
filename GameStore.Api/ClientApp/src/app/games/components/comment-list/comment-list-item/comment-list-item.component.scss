@@ -1,13 +1,15 @@
+@import "src/styles/variables";
+
 .comment__parent {
     margin-bottom: 10px;
-    border-bottom: 1px solid #e4e4e4;
+    border-bottom: 1px solid $light-gray;
 }
 
 .comment__reply, .comment__quote {
     background-color: transparent;
     border: 0;
     padding: 0;
-    color: #0D6EFD;
+    color: $strong-blue;
 
 }
 

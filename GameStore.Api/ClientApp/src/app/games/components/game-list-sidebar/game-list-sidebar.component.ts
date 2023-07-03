@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {CheckboxListItem} from "../../../shared/models/CheckBoxListItem";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DateFilterOption} from "../../models/DateFilterOption";

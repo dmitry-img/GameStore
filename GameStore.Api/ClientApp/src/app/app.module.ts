@@ -13,6 +13,9 @@ import {GamesModule} from "./games/games.module";
 import {AuthModule} from "./auth/auth.module";
 import {GenresModule} from "./genres/genres.module";
 import {HttpErrorInterceptor} from "./core/interceptors/http-error.interceptor";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {LoaderInterceptor} from "./core/interceptors/loader.interceptor";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -29,10 +32,13 @@ import {HttpErrorInterceptor} from "./core/interceptors/http-error.interceptor";
         OrdersModule,
         BrowserAnimationsModule,
         AuthModule,
-        GenresModule
+        GenresModule,
+        NgxSpinnerModule,
+        FontAwesomeModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
     ],
     bootstrap: [AppComponent]
 })
